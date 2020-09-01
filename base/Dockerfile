@@ -9,3 +9,4 @@ RUN \
     apt-get -y clean
 
 RUN mkdir -p /opt/ffbuild/{lib,bin,include}
+ENV FFBUILD_PREFIX /opt/ffbuild
