@@ -46,3 +46,4 @@ mkdir -p artifacts
 BUILD_NAME="ffmpeg-$(git --git-dir=ffbuild/ffmpeg/.git describe)-${TARGET}-${VARIANT}"
 
 tar cJf artifacts/"${BUILD_NAME}.tar.xz" -C ffbuild/pkgroot .
+rm -rf ffbuild
