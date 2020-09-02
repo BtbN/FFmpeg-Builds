@@ -3,7 +3,7 @@
 X264_REPO="https://code.videolan.org/videolan/x264.git"
 X264_COMMIT="db0d417728460c647ed4a847222a535b00d3dbcb"
 
-ffbuild_relevant() {
+ffbuild_enabled() {
     [[ $VARIANT == gpl ]] || return -1
     return 0
 }
@@ -33,4 +33,16 @@ ffbuild_dockerbuild() {
 
     popd
     rm -rf x264
+}
+
+ffbuild_configure() {
+    echo --enable-libx264
+}
+
+ffbuild_cflags() {
+    return 0
+}
+
+ffbuild_ldflags() {
+    return 0
 }

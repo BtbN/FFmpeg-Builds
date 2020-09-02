@@ -7,6 +7,3 @@ RUN \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm pkg-config git curl wget cmake unzip subversion autoconf automake libtool clang && \
     apt-get -y clean
-
-RUN mkdir -p /opt/ffbuild/{lib,bin,include}
-ENV FFBUILD_PREFIX /opt/ffbuild
