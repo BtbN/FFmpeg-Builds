@@ -1,17 +1,7 @@
 #!/bin/bash
-set -e
-
+set -xe
 cd "$(dirname "$0")"
-
-if [[ $# -lt 1 || $# -gt 2 ]]; then
-    echo "Invalid Arguments"
-    exit -1
-fi
-
-TARGET="$1"
-VARIANT="${2:-gpl}"
-REPO="${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
-REPO="${REPO,,}"
+source util/vars.sh
 
 ./generate.sh "$TARGET" "$VARIANT"
 
