@@ -12,8 +12,8 @@ jobs:
       - name: Build and push base
         uses: docker/build-push-action@v1
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: BtbN
+          password: ${{ secrets.REG_TOKEN }}
           registry: docker.pkg.github.com
           repository: btbn/ffmpeg-build/builder
           tags: base
@@ -31,8 +31,8 @@ jobs:
       - name: Build and push target base
         uses: docker/build-push-action@v1
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: BtbN
+          password: ${{ secrets.REG_TOKEN }}
           registry: docker.pkg.github.com
           repository: btbn/ffmpeg-build/builder
           tags: base-${{ matrix.target }}
@@ -53,8 +53,8 @@ jobs:
       - name: Build and push target base
         uses: docker/build-push-action@v1
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: BtbN
+          password: ${{ secrets.REG_TOKEN }}
           registry: docker.pkg.github.com
           repository: btbn/ffmpeg-build/builder
           tags: ${{ matrix.target }}-${{ matrix.variant }}
