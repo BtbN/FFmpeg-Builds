@@ -49,6 +49,10 @@ ffbuild_configure() {
     echo --enable-libx264
 }
 
+ffbuild_configure() {
+    echo --disable-libx264
+}
+
 ffbuild_cflags() {
     return 0
 }
