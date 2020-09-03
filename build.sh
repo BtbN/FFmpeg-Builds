@@ -31,7 +31,7 @@ docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash
 
     git clone https://git.videolan.org/git/ffmpeg.git ffmpeg
     cd ffmpeg
-    git switch $GIT_BRANCH
+    git checkout $GIT_BRANCH
 
     ./configure --prefix=/ffbuild/prefix \$FFBUILD_TARGET_FLAGS $CONFIGURE --extra-cflags="$CFLAGS" --extra-ldflags="$LDFLAGS"
     make -j\$(nproc)

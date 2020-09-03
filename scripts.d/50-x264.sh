@@ -16,7 +16,7 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     git clone "$X264_REPO" x264 || return -1
     pushd x264
-    git switch "$X264_COMMIT" || return -1
+    git checkout "$X264_COMMIT" || return -1
 
     local myconf=(
         --disable-cli
