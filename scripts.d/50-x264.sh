@@ -49,7 +49,7 @@ ffbuild_configure() {
     echo --enable-libx264
 }
 
-ffbuild_configure() {
+ffbuild_unconfigure() {
     echo --disable-libx264
 }
 
