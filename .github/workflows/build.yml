@@ -1,0 +1,69 @@
+name: Build FFmpeg
+
+on: [push]
+
+jobs:
+  build_base:
+    name: Build base image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and push base
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          build_args: BUILDKIT_INLINE_CACHE=1
+          repository: btbn/ffmpeg-build/base
+          cache_froms: btbn/ffmpeg-build/base:latest
+          tags: latest
+          path: base
+          always_pull: true
+  build_target_bases:
+    name: Build target base images
+    needs: build_base
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [win64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and push target base
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          build_args: BUILDKIT_INLINE_CACHE=1
+          repository: btbn/ffmpeg-build/base-${{ matrix.target }}
+          cache_froms: btbn/ffmpeg-build/base-${{ matrix.target }}:latest
+          tags: latest
+          path: base-${{ matrix.target }}
+          always_pull: true
+  build_targets:
+    name: Build target images
+    needs: build_target_bases
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [win64]
+        variant: [gpl,lgpl]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Dockerfile
+        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Build and push target base
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          build_args: BUILDKIT_INLINE_CACHE=1
+          repository: btbn/ffmpeg-build/${{ matrix.target }}-${{ matrix.variant }}
+          cache_froms: btbn/ffmpeg-build/${{ matrix.target }}-${{ matrix.variant }}:latest
+          tags: latest
+          always_pull: true
