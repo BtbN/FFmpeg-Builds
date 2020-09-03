@@ -85,3 +85,19 @@ jobs:
         with:
           name: ffmpeg
           path: artifacts/*
+  publish_release:
+    name: Publish release
+    needs: build_ffmpeg
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ffmpeg
+          parth: artifacts
+      - name: Create release
+        run: hub release create $(for a in artifacts/*; do echo -a $a; done) -m "Auto-Build $(date +'%Y-%m-%d %H:%M')" "${GITHUB_REF##*/}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
