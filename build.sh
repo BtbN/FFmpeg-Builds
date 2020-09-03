@@ -38,15 +38,15 @@ docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash
     make install    
 EOF
 
-mkdir ffbuild/pkgroot
-package_variant ffbuild/prefix ffbuild/pkgroot
-
 mkdir -p artifacts
 ARTIFACTS_PATH="$PWD/artifacts"
-BUILD_NAME="ffmpeg-$(git --git-dir=ffbuild/ffmpeg/.git describe)-${TARGET}-${VARIANT}"
+BUILD_NAME="ffmpeg-$(./ffbuild/ffmpeg/ffbuild/version.sh ffbuild/ffmpeg)-${TARGET}-${VARIANT}"
+
+mkdir "ffbuild/pkgroot/$BUILD_NAME"
+package_variant ffbuild/prefix "ffbuild/pkgroot/$BUILD_NAME"
 
 cd ffbuild/pkgroot
-zip -9 -r "${ARTIFACTS_PATH}/${BUILD_NAME}.zip" ./*
+zip -9 -r "${ARTIFACTS_PATH}/${BUILD_NAME}.zip" "$BUILD_NAME"
 cd -
 
 rm -rf ffbuild
