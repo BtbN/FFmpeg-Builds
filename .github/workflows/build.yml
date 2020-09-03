@@ -16,11 +16,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
+          always_pull: true
           repository: btbn/ffmpeg-builder
           tags: base
           path: base
   build_target_bases:
-    name: Build target base images
+    name: Build target base image
     needs: build_base
     runs-on: ubuntu-latest
     strategy:
@@ -36,11 +37,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
+          always_pull: true
           repository: btbn/ffmpeg-builder
           tags: base-${{ matrix.target }}
           path: base-${{ matrix.target }}
   build_targets:
-    name: Build target images
+    name: Build target-variant image
     needs: build_target_bases
     runs-on: ubuntu-latest
     strategy:
@@ -59,5 +61,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
+          always_pull: true
           repository: btbn/ffmpeg-builder
           tags: ${{ matrix.target }}-${{ matrix.variant }}
