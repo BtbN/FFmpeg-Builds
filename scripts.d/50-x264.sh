@@ -10,24 +10,34 @@ ffbuild_enabled() {
 
 ffbuild_dockerstage() {
     to_df "ADD $SELF /root/x264.sh"
-    to_df "RUN bash -c 'source /root/x264.sh && ffbuild_dockerbuild'"
+    to_df "RUN bash -c 'source /root/x264.sh && ffbuild_dockerbuild && rm /root/x264.sh'"
 }
 
 ffbuild_dockerbuild() {
     git clone "$X264_REPO" x264 || return -1
     pushd x264
-    git checkout "$X264_COMMIT" || return -1
+    git switch "$X264_COMMIT" || return -1
 
-    if [[ $TARGET == win64 ]]; then
-        ./configure --disable-cli --enable-static --enable-pic \
-                    --disable-lavf --disable-swscale \
-                    --host=x86_64-w64-mingw32 --cross-prefix=x86_64-w64-mingw32- \
-                    --prefix="$FFPREFIX" || return -1
+    local myconf=(
+        --disable-cli
+        --enable-static
+        --enable-pic
+        --disable-lavf
+        --disable-swscale
+        --prefix="$FFBUILD_PREFIX"
+    )
+
+    if [[ $TARGET == win* ]]; then
+        myconf+=(
+            --host="$FFBUILD_TOOLCHAIN"
+            --cross-prefix="$FFBUILD_CROSS_PREFIX"
+        )
     else
         echo "Unknown target"
         return -1
     fi
 
+    ./configure "${myconf[@]}" || return -1
     make -j$(nproc) || return -1
     make install || return -1
 
