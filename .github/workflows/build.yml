@@ -20,7 +20,7 @@ jobs:
           cache_froms: btbn/ffmpeg-builder:base
           repository: btbn/ffmpeg-builder
           tags: base
-          path: base
+          path: images/base
   build_target_bases:
     name: Build target base image
     needs: build_base
@@ -42,7 +42,7 @@ jobs:
           cache_froms: btbn/ffmpeg-builder:base-${{ matrix.target }}
           repository: btbn/ffmpeg-builder
           tags: base-${{ matrix.target }}
-          path: base-${{ matrix.target }}
+          path: images/base-${{ matrix.target }}
   build_targets:
     name: Build target-variant image
     needs: build_target_bases
@@ -67,3 +67,11 @@ jobs:
           cache_froms: btbn/ffmpeg-builder:${{ matrix.target }}-${{ matrix.variant }}
           repository: btbn/ffmpeg-builder
           tags: ${{ matrix.target }}-${{ matrix.variant }}
+  build_ffmpeg:
+    name: Build ffmpeg
+    needs: build_targets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [win64]
+        variant: [gpl,lgpl]
