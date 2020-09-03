@@ -98,6 +98,10 @@ jobs:
           name: ffmpeg
           path: artifacts
       - name: Create release
-        run: hub release create $(for a in artifacts/*; do echo -a $a; done) -m "Auto-Build $(date +'%Y-%m-%d %H:%M')" "${GITHUB_REF##*/}"
+        run: |
+          set -xe
+          NAME="Auto-Build $(date +'%Y-%m-%d %H:%M')"
+          TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
+          hub release create $(for a in artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
