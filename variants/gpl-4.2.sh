@@ -1,4 +1,5 @@
-CONFIGURE="--enable-gpl --enable-version3"
-CFLAGS=""
-LDFLAGS=""
+FF_CONFIGURE="--enable-gpl --enable-version3"
+FF_CFLAGS="-static-libgcc -static-libstdc++"
+FF_CXXFLAGS="-static-libgcc -static-libstdc++"
+FF_LDFLAGS="-static-libgcc -static-libstdc++"
 GIT_BRANCH="release/4.2"

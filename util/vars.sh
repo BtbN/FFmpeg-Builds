@@ -26,6 +26,14 @@ ffbuild_uncflags() {
     return 0
 }
 
+ffbuild_cxxflags() {
+    return 0
+}
+
+ffbuild_uncxxflags() {
+    return 0
+}
+
 ffbuild_ldflags() {
     return 0
 }

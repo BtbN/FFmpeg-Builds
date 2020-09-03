@@ -19,14 +19,16 @@ source "variants/${VARIANT}.sh"
 source "variants/${TARGET}-${VARIANT}.sh"
 
 for script in scripts.d/*.sh; do
-    CONFIGURE+=" $(get_output $script configure)"
-    CFLAGS+=" $(get_output $script cflags)"
-    LDFLAGS+=" $(get_output $script ldflags)"
+    FF_CONFIGURE+=" $(get_output $script configure)"
+    FF_CFLAGS+=" $(get_output $script cflags)"
+    FF_CXXFLAGS+=" $(get_output $script cxxflags)"
+    FF_LDFLAGS+=" $(get_output $script ldflags)"
 done
 
-CONFIGURE="$(xargs <<< "$CONFIGURE")"
-CFLAGS="$(xargs <<< "$CFLAGS")"
-LDFLAGS="$(xargs <<< "$LDFLAGS")"
+FF_CONFIGURE="$(xargs <<< "$FF_CONFIGURE")"
+FF_CFLAGS="$(xargs <<< "$FF_CFLAGS")"
+FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
+FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
 
 rm -rf ffbuild
 mkdir ffbuild
@@ -40,7 +42,7 @@ docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash
     cd ffmpeg
     git checkout $GIT_BRANCH
 
-    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $CONFIGURE --extra-cflags="$CFLAGS" --extra-ldflags="$LDFLAGS"
+    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" --extra-ldflags="$FF_LDFLAGS"
     make -j\$(nproc)
     make install    
 EOF

@@ -12,7 +12,6 @@ to_df() {
 
 to_df "FROM $REPO:base-$TARGET"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO"
-to_df "ENV FFBUILD_PREFIX=/opt/ffbuild PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig"
 
 for script in scripts.d/*.sh; do
 (
