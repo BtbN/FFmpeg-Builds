@@ -5,4 +5,4 @@ source util/vars.sh
 
 ./generate.sh "$TARGET" "$VARIANT"
 
-exec docker build -t "$REPO/$TARGET-$VARIANT:latest" .
+exec docker build -t "$IMAGE" .

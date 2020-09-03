@@ -7,7 +7,5 @@ fi
 
 TARGET="$1"
 VARIANT="${2:-gpl}"
-REPO="docker.pkg.github.com/${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
-REPO="${REPO,,}"
-
-IMAGE="$REPO/$TARGET-$VARIANT:latest"
+REPO="${DOCKER_REPO:-btbn/ffmpeg-builder}"
+IMAGE="$REPO:$TARGET-$VARIANT"

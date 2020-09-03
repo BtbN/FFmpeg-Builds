@@ -9,13 +9,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Pull latest
+        run: docker pull btbn/ffmpeg-builder:base || true
       - name: Build and push base
         uses: docker/build-push-action@v1
         with:
-          username: BtbN
-          password: ${{ secrets.REG_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: btbn/ffmpeg-build/builder
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          repository: btbn/ffmpeg-builder
           tags: base
           path: base
   build_target_bases:
@@ -28,13 +29,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Pull latest
+        run: docker pull btbn/ffmpeg-builder:base-${{ matrix.target }} || true
       - name: Build and push target base
         uses: docker/build-push-action@v1
         with:
-          username: BtbN
-          password: ${{ secrets.REG_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: btbn/ffmpeg-build/builder
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          repository: btbn/ffmpeg-builder
           tags: base-${{ matrix.target }}
           path: base-${{ matrix.target }}
   build_targets:
@@ -50,11 +52,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate Dockerfile
         run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Pull latest
+        run: docker pull btbn/ffmpeg-builder:${{ matrix.target }}-${{ matrix.variant }} || true
       - name: Build and push target base
         uses: docker/build-push-action@v1
         with:
-          username: BtbN
-          password: ${{ secrets.REG_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: btbn/ffmpeg-build/builder
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          repository: btbn/ffmpeg-builder
           tags: ${{ matrix.target }}-${{ matrix.variant }}

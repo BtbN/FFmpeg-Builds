@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/btbn/ffmpeg-builds/builder:base
+FROM btbn/ffmpeg-builder:base
 
 ENV DEBIAN_FRONTEND noninteractive
 
