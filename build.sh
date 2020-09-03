@@ -7,8 +7,11 @@ get_output() {
     (
         SELF="$1"
         source $1
-        ffbuild_enabled || exit 0
-        ffbuild_$2 || exit 0
+        if ffbuild_enabled; then
+            ffbuild_$2 || exit 0
+        else
+            ffbuild_un$2 || exit 0
+        fi
     )
 }
 
