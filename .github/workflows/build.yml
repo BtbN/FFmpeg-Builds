@@ -15,12 +15,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          build_args: BUILDKIT_INLINE_CACHE=1
-          repository: btbn/ffmpeg-build/base
-          cache_froms: btbn/ffmpeg-build/base:latest
-          tags: latest
+          repository: btbn/ffmpeg-build/builder
+          tags: base
           path: base
-          always_pull: true
   build_target_bases:
     name: Build target base images
     needs: build_base
@@ -37,12 +34,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          build_args: BUILDKIT_INLINE_CACHE=1
-          repository: btbn/ffmpeg-build/base-${{ matrix.target }}
-          cache_froms: btbn/ffmpeg-build/base-${{ matrix.target }}:latest
-          tags: latest
+          repository: btbn/ffmpeg-build/builder
+          tags: base-${{ matrix.target }}
           path: base-${{ matrix.target }}
-          always_pull: true
   build_targets:
     name: Build target images
     needs: build_target_bases
@@ -62,8 +56,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          build_args: BUILDKIT_INLINE_CACHE=1
-          repository: btbn/ffmpeg-build/${{ matrix.target }}-${{ matrix.variant }}
-          cache_froms: btbn/ffmpeg-build/${{ matrix.target }}-${{ matrix.variant }}:latest
-          tags: latest
-          always_pull: true
+          repository: btbn/ffmpeg-build/builder
+          tags: ${{ matrix.target }}-${{ matrix.variant }}

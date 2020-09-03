@@ -10,7 +10,7 @@ to_df() {
     echo >> Dockerfile
 }
 
-to_df "FROM $REPO/base-$TARGET:latest"
+to_df "FROM $REPO/builder:base-$TARGET"
 to_df "ENV TARGET $TARGET"
 to_df "ENV VARIANT $VARIANT"
 to_df "ENV REPO $REPO"
