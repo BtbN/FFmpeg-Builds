@@ -17,6 +17,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
           always_pull: true
+          cache_froms: btbn/ffmpeg-builder:base
           repository: btbn/ffmpeg-builder
           tags: base
           path: base
@@ -38,6 +39,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
           always_pull: true
+          cache_froms: btbn/ffmpeg-builder:base-${{ matrix.target }}
           repository: btbn/ffmpeg-builder
           tags: base-${{ matrix.target }}
           path: base-${{ matrix.target }}
@@ -62,5 +64,6 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
           always_pull: true
+          cache_froms: btbn/ffmpeg-builder:${{ matrix.target }}-${{ matrix.variant }}
           repository: btbn/ffmpeg-builder
           tags: ${{ matrix.target }}-${{ matrix.variant }}
