@@ -96,7 +96,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ffmpeg
-          parth: artifacts
+          path: artifacts
       - name: Create release
         run: hub release create $(for a in artifacts/*; do echo -a $a; done) -m "Auto-Build $(date +'%Y-%m-%d %H:%M')" "${GITHUB_REF##*/}"
         env:
