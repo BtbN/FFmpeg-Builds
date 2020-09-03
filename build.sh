@@ -24,6 +24,10 @@ for script in scripts.d/*.sh; do
     LDFLAGS+=" $(get_output $script ldflags)"
 done
 
+CONFIGURE="$(xargs <<< "$CONFIGURE")"
+CFLAGS="$(xargs <<< "$CFLAGS")"
+LDFLAGS="$(xargs <<< "$LDFLAGS")"
+
 rm -rf ffbuild
 mkdir ffbuild
 
