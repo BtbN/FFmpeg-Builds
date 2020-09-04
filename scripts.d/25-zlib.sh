@@ -48,11 +48,3 @@ ffbuild_configure() {
 ffbuild_unconfigure() {
     echo --disable-zlib
 }
-
-ffbuild_cflags() {
-    return 0
-}
-
-ffbuild_ldflags() {
-    return 0
-}
