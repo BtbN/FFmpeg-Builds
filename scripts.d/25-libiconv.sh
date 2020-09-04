@@ -1,29 +1,30 @@
 #!/bin/bash
 
-VORBIS_REPO="https://github.com/xiph/vorbis.git"
-VORBIS_COMMIT="4a767c9ead99d36f7dee4d45cabb6636dd9e8a75"
+ICONV_SRC="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerstage() {
-    to_df "ADD $SELF /root/vorbis.sh"
-    to_df "RUN bash -c 'source /root/vorbis.sh && ffbuild_dockerbuild && rm /root/vorbis.sh'"
+    to_df "ADD $SELF /root/iconv.sh"
+    to_df "RUN bash -c 'source /root/iconv.sh && ffbuild_dockerbuild && rm /root/iconv.sh'"
 }
 
 ffbuild_dockerbuild() {
-    git clone "$VORBIS_REPO" vorbis || return -1
-    cd vorbis
-    git checkout "$VORBIS_COMMIT" || return -1
-
-    ./autogen.sh || return -1
+    mkdir iconv
+    cd iconv
+    wget -O iconv.tar.gz "$ICONV_SRC" || return -1
+    tar xaf iconv.tar.gz || return -1
+    rm iconv.tar.gz
+    cd libiconv*
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --enable-extra-encodings
         --disable-shared
         --enable-static
-        --disable-oggtest
+        --with-pic
     )
 
     if [[ $TARGET == win* ]]; then
@@ -39,14 +40,14 @@ ffbuild_dockerbuild() {
     make -j$(nproc) || return -1
     make install || return -1
 
-    cd ..
-    rm -rf vorbis
+    cd ../..
+    rm -rf iconv
 }
 
 ffbuild_configure() {
-    echo --enable-libvorbis
+    echo --enable-iconv
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libvorbis
+    echo --disable-iconv
 }
