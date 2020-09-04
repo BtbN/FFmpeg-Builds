@@ -44,6 +44,10 @@ docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash
     cd ffmpeg
     git checkout $GIT_BRANCH
 
+    export CFLAGS="\$CFLAGS -I\${FFBUILD_PREFIX}/include"
+    export CXXFLAGS="\$CXXFLAGS -I\${FFBUILD_PREFIX}/include"
+    export LDFLAGS="\$LDFLAGS -L\${FFBUILD_PREFIX}/lib"
+
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" --extra-ldflags="$FF_LDFLAGS"
     make -j\$(nproc)
     make install    
