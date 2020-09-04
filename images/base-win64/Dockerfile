@@ -7,6 +7,7 @@ RUN \
     apt-get -y clean && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libstdc++*.dll* && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libgcc_s* && \
+    rm /usr/*-w64-mingw32/lib/*.dll.a && \
     mkdir /opt/ffbuild
 
 ADD toolchain.cmake /toolchain.cmake
