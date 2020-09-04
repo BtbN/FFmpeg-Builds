@@ -52,3 +52,7 @@ ffbuild_configure() {
 ffbuild_unconfigure() {
     echo --disable-gmp
 }
+
+ffbuild_ldflags() {
+    echo -L"$FFBUILD_PREFIX"/lib
+}
