@@ -90,6 +90,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
+    if: github.event_name == 'schedule'
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
