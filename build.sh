@@ -18,7 +18,7 @@ get_output() {
 source "variants/${VARIANT}.sh"
 source "variants/${TARGET}-${VARIANT}.sh"
 
-export FFBUILD_PREFIX="$(docker run --rm btbn/ffmpeg-builder:win64-gpl bash -c 'echo $FFBUILD_PREFIX')"
+export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"
 
 for script in scripts.d/*.sh; do
     FF_CONFIGURE+=" $(get_output $script configure)"
