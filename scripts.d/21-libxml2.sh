@@ -12,8 +12,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir fc
-    cd fc
+    mkdir libxml2
+    cd libxml2
 
     wget "$LIBXML2_SRC" -O libxml2.tar.gz || return -1
     tar xaf libxml2.tar.gz || return -1
@@ -41,7 +41,7 @@ ffbuild_dockerbuild() {
     make install || return -1
 
     cd ../..
-    rm -rf fc
+    rm -rf libxml2
 }
 
 ffbuild_configure() {
