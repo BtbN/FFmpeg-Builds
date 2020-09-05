@@ -14,8 +14,9 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$X265_REPO" "$X265_COMMIT" x265
+    git clone "$X265_REPO" x265
     cd x265
+    git checkout "$X265_COMMIT"
 
     mkdir 8bit 10bit 12bit
 
