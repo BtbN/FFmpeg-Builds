@@ -8,8 +8,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "ADD $SELF /root/ogg.sh"
-    to_df "RUN bash -c 'source /root/ogg.sh && ffbuild_dockerbuild && rm /root/ogg.sh'"
+    to_df "ADD $SELF /stage.sh"
+    to_df "RUN run_stage"
 }
 
 ffbuild_dockerbuild() {
