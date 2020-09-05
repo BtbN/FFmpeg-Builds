@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$ASS_REPO" ass || return -1
+    git-mini-clone "$ASS_REPO" "$ASS_COMMIT" ass
     cd ass
-    git checkout "$ASS_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

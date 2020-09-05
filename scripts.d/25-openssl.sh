@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$OPENSSL_REPO" openssl || return -1
+    git-mini-clone "$OPENSSL_REPO" "$OPENSSL_COMMIT" openssl
     cd openssl
-    git checkout "$OPENSSL_COMMIT" || return -1
 
     local myconf=(
         threads

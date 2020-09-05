@@ -14,9 +14,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$AVISYNTH_REPO" avisynth || return -1
+    git-mini-clone "$AVISYNTH_REPO" "$AVISYNTH_COMMIT" avisynth
     cd avisynth
-    git checkout "$AVISYNTH_COMMIT" || return -1
 
     mkdir build && cd build
 

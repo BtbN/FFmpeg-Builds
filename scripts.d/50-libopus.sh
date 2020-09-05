@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$OPUS_REPO" opus || return -1
+    git-mini-clone "$OPUS_REPO" "$OPUS_COMMIT" opus
     cd opus
-    git checkout "$OPUS_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

@@ -9,3 +9,4 @@ RUN \
     apt-get -y clean
 
 ADD run_stage.sh /usr/bin/run_stage
+ADD git-mini-clone.sh /usr/bin/git-mini-clone

@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$DAV1D_REPO" dav1d || return -1
+    git-mini-clone "$DAV1D_REPO" "$DAV1D_COMMIT" dav1d
     cd dav1d
-    git checkout "$DAV1D_COMMIT" || return -1
 
     mkdir build && cd build
 

@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$HARFBUZZ_REPO" harfbuzz || return -1
+    git-mini-clone "$HARFBUZZ_REPO" "$HARFBUZZ_COMMIT" harfbuzz
     cd harfbuzz
-    git checkout "$HARFBUZZ_COMMIT" || return -1
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

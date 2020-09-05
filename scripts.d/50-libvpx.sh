@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$LIBVPX_REPO" libvpx || return -1
+    git-mini-clone "$LIBVPX_REPO" "$LIBVPX_COMMIT" libvpx
     cd libvpx
-    git checkout "$LIBVPX_COMMIT" || return -1
 
     local myconf=(
         --disable-shared

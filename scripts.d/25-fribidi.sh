@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$FRIBIDI_REPO" fribidi || return -1
+    git-mini-clone "$FRIBIDI_REPO" "$FRIBIDI_COMMIT" fribidi
     cd fribidi
-    git checkout "$FRIBIDI_COMMIT" || return -1
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$AMF_REPO" amf || return -1
+    git-mini-clone "$AMF_REPO" "$AMF_COMMIT" amf
     cd amf
-    git checkout "$AMF_COMMIT" || return -1
 
     mkdir -p "$FFBUILD_PREFIX"/include
     mv amf/public/include "$FFBUILD_PREFIX"/include/AMF || return -1

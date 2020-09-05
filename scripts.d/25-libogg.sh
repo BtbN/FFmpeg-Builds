@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$OGG_REPO" ogg || return -1
+    git-mini-clone "$OGG_REPO" "$OGG_COMMIT" ogg
     cd ogg
-    git checkout "$OGG_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

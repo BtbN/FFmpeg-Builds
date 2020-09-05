@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$THEORA_REPO" theora || return -1
+    git-mini-clone "$THEORA_REPO" "$THEORA_COMMIT" theora
     cd theora
-    git checkout "$THEORA_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

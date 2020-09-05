@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$ZIMG_REPO" zimg || return -1
+    git-mini-clone "$ZIMG_REPO" "$ZIMG_COMMIT" zimg
     cd zimg
-    git checkout "$ZIMG_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

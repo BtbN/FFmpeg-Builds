@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$VORBIS_REPO" vorbis || return -1
+    git-mini-clone "$VORBIS_REPO" "$VORBIS_COMMIT" vorbis
     cd vorbis
-    git checkout "$VORBIS_COMMIT" || return -1
 
     ./autogen.sh || return -1
 

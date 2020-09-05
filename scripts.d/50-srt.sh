@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$SRT_REPO" srt || return -1
+    git-mini-clone "$SRT_REPO" "$SRT_COMMIT" srt
     cd srt
-    git checkout "$SRT_COMMIT" || return -1
 
     mkdir build && cd build
 

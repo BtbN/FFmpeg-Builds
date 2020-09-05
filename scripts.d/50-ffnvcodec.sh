@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$FFNVCODEC_REPO" ffnvcodec || return -1
+    git-mini-clone "$FFNVCODEC_REPO" "$FFNVCODEC_COMMIT" ffnvcodec
     pushd ffnvcodec
-    git checkout "$FFNVCODEC_COMMIT" || return -1
 
     make PREFIX="$FFBUILD_PREFIX" install || return -1
 

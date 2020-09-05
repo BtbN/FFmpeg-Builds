@@ -13,9 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$MFX_REPO" mfx || return -1
+    git-mini-clone "$MFX_REPO" "$MFX_COMMIT" mfx
     cd mfx
-    git checkout "$MFX_COMMIT" || return -1
 
     autoreconf -i || return -1
 
