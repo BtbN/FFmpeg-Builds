@@ -22,6 +22,7 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         --disable-shared
         --enable-static
+        --disable-extra-programs
     )
 
     if [[ $TARGET == win* ]]; then

@@ -7,6 +7,7 @@ RUN \
     apt-get -y clean && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libstdc++*.dll* && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libgcc_s* && \
+    rm /usr/lib/gcc/*-w64-mingw32/*/*.dll.a && \
     rm /usr/*-w64-mingw32/lib/*.dll.a && \
     mkdir /opt/ffbuild
 
@@ -18,6 +19,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-w64-ming
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig \
-    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include" \
-    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include" \
-    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib"
+    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
+    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
+    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong"

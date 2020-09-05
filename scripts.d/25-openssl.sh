@@ -38,7 +38,7 @@ ffbuild_dockerbuild() {
 
     ./Configure "${myconf[@]}" || return -1
 
-    sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS} -O2|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile || return -1
+    sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile || return -1
 
     make -j$(nproc) || return -1
     make install_sw || return -1
