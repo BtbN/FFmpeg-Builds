@@ -18,6 +18,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-w64-ming
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig \
-    CFLAGS="-static-libgcc -static-libstdc++" \
-    CXXFLAGS="-static-libgcc -static-libstdc++" \
-    LDFLAGS="-static-libgcc -static-libstdc++"
+    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include" \
+    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include" \
+    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib"
