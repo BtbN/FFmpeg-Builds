@@ -2,6 +2,7 @@
 
 SRT_REPO="https://github.com/Haivision/srt.git"
 SRT_COMMIT="a3f28336a8f0c3c1fce7b2f46d017bcb59af1888"
+SRT_COMMIT_43="v1.4.0"
 
 ffbuild_enabled() {
     return 0
@@ -13,6 +14,7 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
+    [[ $VARIANT == *4.3* ]] && SRT_COMMIT="$SRT_COMMIT_43"
     git-mini-clone "$SRT_REPO" "$SRT_COMMIT" srt
     cd srt
 
