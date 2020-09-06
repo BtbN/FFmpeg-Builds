@@ -41,3 +41,11 @@ ffbuild_ldflags() {
 ffbuild_unldflags() {
     return 0
 }
+
+ffbuild_libs() {
+    return 0
+}
+
+ffbuild_unlibs() {
+    return 0
+}
