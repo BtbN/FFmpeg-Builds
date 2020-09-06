@@ -4,6 +4,7 @@ SVTAV1_REPO="https://github.com/OpenVisualCloud/SVT-AV1.git"
 SVTAV1_COMMIT="e9ffb5ee0bdf74c5bb3d258aaf59b6b7a912c8bc"
 
 ffbuild_enabled() {
+    [[ $VARIANT == *4.3* ]] && return -1
     return 0
 }
 
@@ -32,5 +33,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
+    [[ $VARIANT == *4.3* ]] && return 0
     echo --disable-libsvtav1
 }
