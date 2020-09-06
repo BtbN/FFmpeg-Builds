@@ -12,6 +12,7 @@ RUN \
     mkdir /opt/ffbuild
 
 ADD toolchain.cmake /toolchain.cmake
+ADD cross.meson /cross.meson
 
 ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-w64-mingw32- --arch=x86_64 --target-os=mingw32" \
     FFBUILD_TOOLCHAIN=x86_64-w64-mingw32 \
