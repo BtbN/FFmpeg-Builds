@@ -29,6 +29,7 @@ jobs:
     needs: build_base
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         target: [win64]
     steps:
@@ -51,6 +52,7 @@ jobs:
     needs: build_target_bases
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         target: [win64]
         variant: [gpl,lgpl,gpl-4.3,lgpl-4.3]
@@ -75,6 +77,7 @@ jobs:
     needs: build_targets
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         target: [win64]
         variant: [gpl,lgpl,gpl-4.3,lgpl-4.3]
