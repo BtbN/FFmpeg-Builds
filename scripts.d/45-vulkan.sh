@@ -1,7 +1,6 @@
 #!/bin/bash
 
-LUNARG_VERSION="1.2.148.1"
-LUNARG_SRC="https://sdk.lunarg.com/sdk/download/${LUNARG_VERSION}/windows/VulkanSDK-${LUNARG_VERSION}-Installer.exe"
+LOADER_REPO="https://github.com/BtbN/Vulkan-Loader.git"
 
 ffbuild_enabled() {
     [[ $VARIANT != *vulkan* ]] && return -1
@@ -16,32 +15,28 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir vulkan && cd vulkan
 
-    if [[ $TARGET == win64 ]]; then
-        wget --no-cookies -O vulkan.exe "$LUNARG_SRC"
-        7z x vulkan.exe Include/vulkan Lib/vulkan-1.lib
+    git-mini-clone "$LOADER_REPO" master loader
 
-        find . -type f -exec chmod 644 {} \;
-        find . -type d -exec chmod 755 {} \;
+    HEADERS_REPO="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep url | head -n1 | cut -d'"' -f4)"
+    HEADERS_COMMIT="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep commit | head -n1 | cut -d'"' -f4)"
 
-        mv Include/* "$FFBUILD_PREFIX"/include/.
-        mv Lib/* "$FFBUILD_PREFIX"/lib/.
-        
-        mkdir -p "$FFBUILD_PREFIX"/lib/pkgconfig
-        cat > "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc <<EOF
-prefix=$FFBUILD_PREFIX
-libdir=\${prefix}/lib
-includedir=\${prefix}/include
+    git-mini-clone "$HEADERS_REPO" "$HEADERS_COMMIT" headers
 
-Name: Vulkan-Loader
-Description: Vulkan Loader
-Version: $LUNARG_VERSION
-Libs: -L\${libdir} -lvulkan-1 -ladvapi32
-Cflags: -I\${includedir}
-EOF
-    else
-        echo "Target not supported"
-        return -1
-    fi
+    cd headers
+
+    mkdir build && cd build
+
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" ..
+    make -j$(nproc)
+    make install
+
+    cd ../../loader
+
+    mkdir build && cd build
+
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_TESTS=OFF ..
+    make -j$(nproc)
+    make install
 
     cd ..
     rm -rf vulkan
