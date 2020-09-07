@@ -4,7 +4,7 @@ WAVPACK_REPO="https://github.com/dbry/WavPack"
 WAVPACK_COMMIT="e4e8d191e8dd74cbdbeaef3232c16a7ef517e68d"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerstage() {
