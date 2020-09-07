@@ -2,6 +2,8 @@ name: Build FFmpeg
 
 on:
   push: []
+  repository_dispatch:
+    types: [build]
   schedule:
     - cron: '0 12 * * *'
 
@@ -93,7 +95,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: github.event_name == 'schedule'
+    if: github.event_name != 'push'
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
