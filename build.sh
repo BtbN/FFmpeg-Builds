@@ -15,7 +15,6 @@ get_output() {
     )
 }
 
-source "variants/${VARIANT}.sh"
 source "variants/${TARGET}-${VARIANT}.sh"
 
 export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"

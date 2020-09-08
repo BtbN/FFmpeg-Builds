@@ -1,2 +1,2 @@
 #!/bin/bash
-source "$(dirname "$BASH_SOURCE")/win64-gpl.sh"
+source "$(dirname "$BASH_SOURCE")"/win64-gpl.sh

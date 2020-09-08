@@ -1,5 +1,0 @@
-FF_CONFIGURE="--enable-gpl --enable-version3"
-FF_CFLAGS=""
-FF_CXXFLAGS=""
-FF_LDFLAGS=""
-GIT_BRANCH="master"
