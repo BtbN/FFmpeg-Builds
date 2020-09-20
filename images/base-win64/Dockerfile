@@ -1,4 +1,5 @@
-FROM btbn/ffmpeg-builder:base
+ARG GH_REPO=btbn/ffmpeg-builds
+FROM docker.pkg.github.com/$GH_REPO/base:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 

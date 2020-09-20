@@ -7,8 +7,12 @@ fi
 
 TARGET="$1"
 VARIANT="${2:-gpl}"
-REPO="${DOCKER_REPO:-btbn/ffmpeg-builder}"
-IMAGE="$REPO:$TARGET-$VARIANT"
+REPO="${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
+REPO="${REPO,,}"
+REGISTRY="docker.pkg.github.com"
+BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
+TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
+IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}:latest"
 
 ffbuild_configure() {
     return 0
