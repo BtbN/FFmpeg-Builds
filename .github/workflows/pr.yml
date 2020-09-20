@@ -1,0 +1,25 @@
+name: Test Full Build
+on: pull_request
+
+jobs:
+  build:
+    name: Build ffmpeg
+    needs: build_targets
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [win64]
+        variant: [gpl,lgpl,gpl-vulkan,lgpl-vulkan,gpl-4.3,lgpl-4.3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build Image
+        run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Build ffmpeg
+        run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ffmpeg
+          path: artifacts/*
