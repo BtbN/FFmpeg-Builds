@@ -41,7 +41,7 @@ docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash
     cd /ffbuild
     rm -rf ffmpeg prefix
 
-    git clone https://git.videolan.org/git/ffmpeg.git ffmpeg
+    git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg
     cd ffmpeg
     git checkout $GIT_BRANCH
 
