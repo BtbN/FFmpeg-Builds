@@ -20,14 +20,15 @@ jobs:
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
           password: ${{ github.token }}
+      - name: Image Name
+        id: imagename
+        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest"
       - name: Pull latest
-        run: docker pull docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest || true
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build base image
-        run: |
-          IMG="docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest"
-          docker build --pull --cache-from "$IMG" --tag "$IMG" images/base
+        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
       - name: Push base image
-        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest
+        run: docker push ${{ steps.imagename.outputs.name }}
   build_target_bases:
     name: Build target base image
     needs: build_base
@@ -45,14 +46,15 @@ jobs:
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
           password: ${{ github.token }}
+      - name: Image Name
+        id: imagename
+        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
       - name: Pull latest
-        run: docker pull docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest || true
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build target base image
-        run: |
-          IMG="docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
-          docker build --pull --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from "$IMG" --tag "$IMG" images/base-${{ matrix.target }}
+        run: docker build --pull --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
       - name: Push target base image
-        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest
+        run: docker push ${{ steps.imagename.outputs.name }}
   build_targets:
     name: Build target-variant image
     needs: build_target_bases
