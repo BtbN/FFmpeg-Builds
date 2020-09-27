@@ -1,6 +1,7 @@
 #!/bin/bash
 
 LOADER_REPO="https://github.com/BtbN/Vulkan-Loader.git"
+LOADER_COMMIT="71b69578649bbed2696a21f063c0e3c15d36ce36"
 
 ffbuild_enabled() {
     [[ $VARIANT != *vulkan* ]] && return -1
@@ -15,7 +16,7 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir vulkan && cd vulkan
 
-    git-mini-clone "$LOADER_REPO" master loader
+    git-mini-clone "$LOADER_REPO" "$LOADER_COMMIT" loader
 
     HEADERS_REPO="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep url | head -n1 | cut -d'"' -f4)"
     HEADERS_COMMIT="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep commit | head -n1 | cut -d'"' -f4)"

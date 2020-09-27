@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# https://sourceforge.net/p/soxr/code/ci/master/tree/
 SOXR_REPO="https://git.code.sf.net/p/soxr/code"
 SOXR_COMMIT="945b592b70470e29f917f4de89b4281fbbd540c0"
 

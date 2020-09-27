@@ -1,6 +1,7 @@
 #!/bin/bash
 
-LIBXML2_SRC="ftp://xmlsoft.org/libxml2/libxml2-2.9.10.tar.gz"
+LIBXML2_REPO="https://gitlab.gnome.org/GNOME/libxml2.git"
+LIBXML2_COMMIT="7929f05710134b9b243952019b6c14066cd3ac9e"
 
 ffbuild_enabled() {
     return 0
@@ -12,13 +13,8 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir libxml2
+    git-mini-clone "$LIBXML2_REPO" "$LIBXML2_COMMIT" libxml2
     cd libxml2
-
-    wget "$LIBXML2_SRC" -O libxml2.tar.gz || return -1
-    tar xaf libxml2.tar.gz || return -1
-    rm libxml2.tar.gz
-    cd libxml2* || return -1
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -40,7 +36,7 @@ ffbuild_dockerbuild() {
     make -j$(nproc) || return -1
     make install || return -1
 
-    cd ../..
+    cd ..
     rm -rf libxml2
 }
 

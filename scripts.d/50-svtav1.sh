@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SVTAV1_REPO="https://github.com/OpenVisualCloud/SVT-AV1.git"
-SVTAV1_COMMIT="e9ffb5ee0bdf74c5bb3d258aaf59b6b7a912c8bc"
+SVTAV1_COMMIT="0dc2297715861b78577b3790e361af74b6c4bfef"
 
 ffbuild_enabled() {
     [[ $VARIANT == *4.3* ]] && return -1
