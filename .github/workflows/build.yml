@@ -73,14 +73,17 @@ jobs:
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - name: Pull latest
-        run: docker pull docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest || true
-      - name: Build variant image
+      - name: Image Name
+        id: imagename
         run: |
           IMG="docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest"
-          docker build --pull --cache-from "$IMG" --tag "$IMG" .
+          echo "::set-output name=name::${IMG/ /-}"
+      - name: Pull latest
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
+      - name: Build variant image
+        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} .
       - name: Push variant image
-        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest
+        run: docker push ${{ steps.imagename.outputs.name }}
   build_ffmpeg:
     name: Build ffmpeg
     needs: build_targets
