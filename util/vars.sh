@@ -1,23 +1,39 @@
 #!/bin/bash
 
-if [[ $# -lt 1 || $# -gt 2 ]]; then
+if [[ $# -lt 2 ]]; then
     echo "Invalid Arguments"
     exit -1
 fi
 
 TARGET="$1"
-VARIANT="${2:-gpl}"
-REPO="${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
-REPO="${REPO,,}"
-REGISTRY="docker.pkg.github.com"
-BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
-TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
-IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}:latest"
+VARIANT="$2"
+shift 2
 
 if ! [[ -f "variants/${TARGET}-${VARIANT}.sh" ]]; then
     echo "Invalid target/variant"
     exit -1
 fi
+
+ADDINS=()
+ADDINS_STR=""
+while [[ "$#" -gt 0 ]]; do
+    if ! [[ -f "addins/${1}.sh" ]]; then
+        echo "Invalid addin: $1"
+        exit -1
+    fi
+
+    ADDINS+=( "$1" )
+    ADDINS_STR="${ADDINS_STR}${ADDINS_STR:+-}$1"
+
+    shift
+done
+
+REPO="${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
+REPO="${REPO,,}"
+REGISTRY="docker.pkg.github.com"
+BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
+TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
+IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"
 
 ffbuild_configure() {
     return 0
