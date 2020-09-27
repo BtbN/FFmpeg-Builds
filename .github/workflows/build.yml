@@ -8,6 +8,15 @@ on:
     - cron: '0 12 * * *'
 
 jobs:
+  purge_artifacts:
+    name: Purge old artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge old artifacts
+        uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ github.token }}
+          expire-in: 3days
   build_base:
     name: Build base image
     runs-on: ubuntu-latest
