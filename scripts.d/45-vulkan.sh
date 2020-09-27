@@ -4,7 +4,7 @@ LOADER_REPO="https://github.com/BtbN/Vulkan-Loader.git"
 LOADER_COMMIT="71b69578649bbed2696a21f063c0e3c15d36ce36"
 
 ffbuild_enabled() {
-    [[ $VARIANT != *vulkan* ]] && return -1
+    [[ $ADDINS_STR != *vulkan* ]] && return -1
     return 0
 }
 
