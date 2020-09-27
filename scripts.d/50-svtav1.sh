@@ -4,6 +4,7 @@ SVTAV1_REPO="https://github.com/OpenVisualCloud/SVT-AV1.git"
 SVTAV1_COMMIT="0dc2297715861b78577b3790e361af74b6c4bfef"
 
 ffbuild_enabled() {
+    [[ $TARGET == win32 ]] && return -1
     [[ $VARIANT == *4.3* ]] && return -1
     return 0
 }

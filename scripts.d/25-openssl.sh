@@ -26,10 +26,15 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win64 ]]; then
         myconf+=(
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             mingw64
+        )
+    elif [[ $TARGET == win32 ]]; then
+        myconf+=(
+            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
+            mingw
         )
     else
         echo "Unknown target"

@@ -14,6 +14,11 @@ BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
 TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}:latest"
 
+if ! [[ -f "variants/${TARGET}-${VARIANT}.sh" ]]; then
+    echo "Invalid target/variant"
+    exit -1
+fi
+
 ffbuild_configure() {
     return 0
 }

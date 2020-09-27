@@ -24,9 +24,9 @@ ffbuild_dockerbuild() {
         --default-library=static
     )
 
-    if [[ $TARGET == win64 ]]; then
+    if [[ $TARGET == win* ]]; then
         myconf+=(
-            --cross-file=../package/crossfiles/x86_64-w64-mingw32.meson
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"

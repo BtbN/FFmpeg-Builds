@@ -26,9 +26,14 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win64 ]]; then
         myconf+=(
             --target=x86_64-win64-gcc
+        )
+        export CROSS="$FFBUILD_CROSS_PREFIX"
+    elif [[ $TARGET == win32 ]]; then
+        myconf+=(
+            --target=x86-win32-gcc
         )
         export CROSS="$FFBUILD_CROSS_PREFIX"
     else
