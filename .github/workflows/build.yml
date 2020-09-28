@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Purge old artifacts
-        uses: kolpav/purge-artifacts-action@v1
+        uses: c-hive/gha-remove-artifacts@v1
         with:
-          token: ${{ github.token }}
-          expire-in: 3days
+          age: 0 days
+          skip-recent: 3
   build_base:
     name: Build base image
     runs-on: ubuntu-latest
