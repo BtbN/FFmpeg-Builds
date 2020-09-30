@@ -66,3 +66,7 @@ zip -9 -r "${ARTIFACTS_PATH}/${BUILD_NAME}.zip" "$BUILD_NAME"
 cd -
 
 rm -rf ffbuild
+
+if [[ -n "$GITHUB_ACTIONS" ]]; then
+    echo "::set-output name=build_name::${BUILD_NAME}"
+fi
