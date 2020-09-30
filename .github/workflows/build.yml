@@ -134,14 +134,20 @@ jobs:
           name: ffmpeg
           path: artifacts
       - name: Create release
+        id: create_release
         run: |
           set -xe
           NAME="Auto-Build $(date +'%Y-%m-%d %H:%M')"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          hub release create $(for a in artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          hub release create $(for a in artifacts/*.zip; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          echo "::set-output name=tag_name::${TAGNAME}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Update Wiki
+        run: ./util/update_wiki.sh artifacts ${{ steps.create_release.outputs.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Prune old releases
         run: ./util/prunetags.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
