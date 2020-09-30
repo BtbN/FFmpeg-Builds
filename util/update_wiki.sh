@@ -20,7 +20,8 @@ git clone "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITOR
 
 echo "# Latest Autobuilds" > "${WIKIPATH}/${WIKIFILE}"
 for f in "${INPUTS}"/*.txt; do
-    VARIANT="${f::-4}"
+    VARIANT="$(basename "${f::-4}")"
+    echo >> "${WIKIPATH}/${WIKIFILE}"
     echo "[${VARIANT}](https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAGNAME}/$(cat "${f}"))" >> "${WIKIPATH}/${WIKIFILE}"
 done
 
