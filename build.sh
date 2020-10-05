@@ -37,10 +37,17 @@ FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
 FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
 FF_LIBS="$(xargs <<< "$FF_LIBS")"
 
+TESTFILE="uidtestfile"
+rm -f "$TESTFILE"
+docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" /usr/bin/touch "/uidtestdir/$TESTFILE"
+DOCKERUID="$(stat -c "%u" "$TESTFILE")"
+rm -f "$TESTFILE"
+[[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
+
 rm -rf ffbuild
 mkdir ffbuild
 
-docker run --rm -i -u "$(id -u):$(id -g)" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash -s <<EOF
+docker run --rm -i "${UIDARGS[@]}" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash -s <<EOF
     set -xe
     cd /ffbuild
     rm -rf ffmpeg prefix
