@@ -9,7 +9,7 @@ Builds run daily at 12:00 UTC and are automatically released on success.
 ## Package List
 
 For a list of included dependencies check the scripts.d directory.
-Every file corrosponds to its respective package.
+Every file corresponds to its respective package.
 
 ## How to make a build
 
