@@ -27,6 +27,7 @@ ffbuild_dockerbuild() {
     local myconf=(
         --prefix="/usr/$FFBUILD_TOOLCHAIN"
         --host="$FFBUILD_TOOLCHAIN"
+        --with-default-win32-winnt="0x601"
         --enable-idl
     )
 
