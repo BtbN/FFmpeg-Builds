@@ -4,6 +4,7 @@ UAVS3D_REPO="https://github.com/uavs3/uavs3d.git"
 UAVS3D_COMMIT="fd4c1b4443043f4fe76e10223158e5a1260baf6d"
 
 ffbuild_enabled() {
+    [[ $ADDINS_STR == *4.3* ]] && return -1
     return 0
 }
 
@@ -33,5 +34,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
+    [[ $ADDINS_STR == *4.3* ]] && return 0
     echo --disable-libuavs3d
 }
