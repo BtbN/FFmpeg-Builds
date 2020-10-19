@@ -5,6 +5,7 @@ UAVS3D_COMMIT="fd4c1b4443043f4fe76e10223158e5a1260baf6d"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.3* ]] && return -1
+    [[ $TARGET == win32 ]] && return -1
     return 0
 }
 
