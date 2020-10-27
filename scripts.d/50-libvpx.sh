@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBVPX_REPO="https://chromium.googlesource.com/webm/libvpx"
-LIBVPX_COMMIT="aea631263d38e45a7f119d39ccc3dc065db01f08"
+LIBVPX_COMMIT="16154dae714c3e88bfa17c25d5d6ad8198fac63a"
 
 ffbuild_enabled() {
     return 0
@@ -23,6 +23,7 @@ ffbuild_dockerbuild() {
         --disable-examples
         --disable-tools
         --disable-docs
+        --enable-vp9-highbitdepth
         --prefix="$FFBUILD_PREFIX"
     )
 
