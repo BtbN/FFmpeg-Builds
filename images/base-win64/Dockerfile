@@ -4,7 +4,7 @@ FROM docker.pkg.github.com/$GH_REPO/base:latest
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN \
-    apt-get -y install mingw-w64 && \
+    apt-get -y install gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 gfortran-mingw-w64-x86-64 && \
     apt-get -y clean && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libstdc++*.dll* && \
     rm /usr/lib/gcc/*-w64-mingw32/*/libgcc_s* && \
