@@ -12,6 +12,8 @@ RUN \
     rm /usr/*-w64-mingw32/lib/*.dll.a && \
     mkdir /opt/ffbuild
 
+RUN rustup target add i686-pc-windows-gnu
+
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
