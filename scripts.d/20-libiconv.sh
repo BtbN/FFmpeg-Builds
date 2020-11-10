@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# https://ftp.gnu.org/gnu/libiconv/
 ICONV_SRC="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.16.tar.gz"
 
 ffbuild_enabled() {

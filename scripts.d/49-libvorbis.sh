@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VORBIS_REPO="https://github.com/xiph/vorbis.git"
-VORBIS_COMMIT="4a767c9ead99d36f7dee4d45cabb6636dd9e8a75"
+VORBIS_COMMIT="83a82dd9296400d811b78c06e9ca429e24dd1e5c"
 
 ffbuild_enabled() {
     return 0

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# https://sourceforge.net/projects/freetype/files/freetype2/
 FREETYPE_SRC="https://sourceforge.net/projects/freetype/files/freetype2/2.10.4/freetype-2.10.4.tar.xz/download"
 
 ffbuild_enabled() {

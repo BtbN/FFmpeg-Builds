@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VMAF_REPO="https://github.com/Netflix/vmaf.git"
-VMAF_COMMIT="d175a8901f369f515dc3a2bd3ac4f4e4ca0f67e1"
+VMAF_COMMIT="027b5825f92c8a6c960e75f468cc2efe8ac8fd57"
 
 ffbuild_enabled() {
     return 0
