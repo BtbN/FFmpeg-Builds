@@ -54,3 +54,7 @@ ffbuild_dockerbuild() {
     cd ../../..
     rm -rf mingw
 }
+
+ffbuild_configure() {
+    echo --disable-w32threads --enable-pthreads
+}
