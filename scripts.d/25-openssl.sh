@@ -1,7 +1,6 @@
 #!/bin/bash
 
-OPENSSL_REPO="https://github.com/openssl/openssl.git"
-OPENSSL_COMMIT="OpenSSL_1_1_1h"
+OPENSSL_SRC="https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.2.2.tar.gz"
 
 ffbuild_enabled() {
     return 0
@@ -13,40 +12,36 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$OPENSSL_REPO" "$OPENSSL_COMMIT" openssl
+    mkdir openssl
     cd openssl
+    wget "$OPENSSL_SRC" -O openssl.tar.gz || return -1
+    tar xaf openssl.tar.gz || return -1
+    rm openssl.tar.gz
+    cd libressl* || return -1
 
     local myconf=(
-        threads
-        zlib
-        no-shared
-        enable-camellia
-        enable-ec
-        enable-srp
         --prefix="$FFBUILD_PREFIX"
     )
 
     if [[ $TARGET == win64 ]]; then
         myconf+=(
-            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
-            mingw64
+            --host="$FFBUILD_TOOLCHAIN"
         )
     elif [[ $TARGET == win32 ]]; then
         myconf+=(
-            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
-            mingw
+            --host="$FFBUILD_TOOLCHAIN"
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    ./Configure "${myconf[@]}" || return -1
+    ./configure "${myconf[@]}" || return -1
 
     sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile || return -1
 
     make -j$(nproc) || return -1
-    make install_sw || return -1
+    make install || return -1
 
     cd ..
     rm -rf openssl
