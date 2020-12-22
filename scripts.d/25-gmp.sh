@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GMP_SRC="https://ftp.gnu.org/gnu/gmp/gmp-6.2.0.tar.xz"
+GMP_SRC="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz"
 
 ffbuild_enabled() {
     return 0

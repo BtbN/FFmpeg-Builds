@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AOM_REPO="https://aomedia.googlesource.com/aom"
-AOM_COMMIT="f49873dfc300bcaa5a40233a256a5a518364bf2a"
+AOM_COMMIT="4ce7d13e1416a076c8b6cca53a081bd74fc00b54"
 
 ffbuild_enabled() {
     return 0
@@ -18,7 +18,7 @@ ffbuild_dockerbuild() {
 
     mkdir cmbuild && cd cmbuild
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DCONFIG_TUNE_VMAF=1 .. || return -1
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DENABLE_EXAMPLES=NO -DENABLE_TESTS=NO -DENABLE_TOOLS=NO -DCONFIG_TUNE_VMAF=1 .. || return -1
     make -j$(nproc) || return -1
     make install || return -1
 

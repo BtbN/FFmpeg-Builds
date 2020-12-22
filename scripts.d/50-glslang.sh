@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GLSLANG_REPO="https://github.com/KhronosGroup/glslang.git"
-GLSLANG_COMMIT="74e8f05b9fc7229a7c42015889aba12c7f9554b1"
+GLSLANG_COMMIT="f426f652299d69bfb5a6eec9a433c6407a709ccd"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR != *vulkan* ]] && return -1

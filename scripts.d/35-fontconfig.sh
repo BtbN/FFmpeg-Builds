@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FONTCONFIG_SRC="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.xz"
+FONTCONFIG_SRC="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.93.tar.xz"
 
 ffbuild_enabled() {
     return 0
@@ -22,7 +22,9 @@ ffbuild_dockerbuild() {
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --disable-docs
         --enable-libxml2
+        --enable-iconv
         --disable-shared
         --enable-static
     )

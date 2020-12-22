@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SDL_SRC="https://libsdl.org/release/SDL2-2.0.12.tar.gz"
+SDL_SRC="https://libsdl.org/release/SDL2-2.0.14.tar.gz"
 
 ffbuild_enabled() {
     return 0
