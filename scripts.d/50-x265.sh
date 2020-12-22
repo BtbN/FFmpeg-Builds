@@ -20,30 +20,26 @@ ffbuild_dockerbuild() {
 
     if [[ $TARGET != *32 ]]; then
         mkdir 8bit 10bit 12bit
+        cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DHIGH_BIT_DEPTH=ON -DEXPORT_C_API=OFF -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -DMAIN12=ON -DENABLE_HDR10_PLUS=ON -S source -B 12bit &
+        cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DHIGH_BIT_DEPTH=ON -DEXPORT_C_API=OFF -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -DENABLE_HDR10_PLUS=ON -S source -B 10bit &
+        cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DEXTRA_LIB="x265_main10.a;x265_main12.a" -DEXTRA_LINK_FLAGS=-L. -DLINKED_10BIT=ON -DLINKED_12BIT=ON -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -S source -B 8bit &
+        wait
 
-        (
-            cd 12bit
-            cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DHIGH_BIT_DEPTH=ON -DEXPORT_C_API=OFF -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -DMAIN12=ON -DENABLE_HDR10_PLUS=ON ../source
-            make -j$(nproc)
-            cp libx265.a ../8bit/libx265_main12.a
-        ) &
+        cat >Makefile <<"EOF"
+all: 12bit/libx265.a 10bit/libx265.a 8bit/libx265.a
 
-        (
-            cd 10bit
-            cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DHIGH_BIT_DEPTH=ON -DEXPORT_C_API=OFF -DENABLE_SHARED=OFF -DENABLE_CLI=OFF -DENABLE_HDR10_PLUS=ON ../source
-            make -j$(nproc)
-            cp libx265.a ../8bit/libx265_main10.a
-        ) &
+%/libx265.a:
+	$(MAKE) -C $(subst /libx265.a,,$@)
+
+.PHONY: all
+EOF
+
+        make -j$(nproc)
 
         cd 8bit
-
-        (
-            cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DEXTRA_LIB="x265_main10.a;x265_main12.a" -DEXTRA_LINK_FLAGS=-L. -DLINKED_10BIT=ON -DLINKED_12BIT=ON -DENABLE_SHARED=OFF -DENABLE_CLI=OFF ../source
-            make -j$(nproc)
-            mv libx265.a libx265_main.a
-        ) &
-
-        wait
+        mv ../12bit/libx265.a ../8bit/libx265_main12.a
+        mv ../10bit/libx265.a ../8bit/libx265_main10.a
+        mv libx265.a libx265_main.a
 
         ${FFBUILD_CROSS_PREFIX}ar -M <<EOF
 CREATE libx265.a
@@ -60,7 +56,7 @@ EOF
         make -j$(nproc)
     fi
 
-    make install || return -1
+    make install
 
     cd ../..
     rm -rf x265
