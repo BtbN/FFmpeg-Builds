@@ -6,6 +6,11 @@ Static Windows Builds of ffmpeg master and latest release branch.
 
 Builds run daily at 12:00 UTC and are automatically released on success.
 
+### Release Retention Policy
+
+- The last build of each month is kept for two years.
+- The last 14 daily builds are kept.
+
 ## Package List
 
 For a list of included dependencies check the scripts.d directory.
