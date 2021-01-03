@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     name: Build ffmpeg
-    needs: build_targets
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
