@@ -3,9 +3,10 @@ name: Build FFmpeg
 on:
   push: []
   repository_dispatch:
-    types: [build]
-  schedule:
-    - cron: '0 12 * * *'
+    # types: [build]
+    types: [created]
+  # schedule:
+  #   - cron: '0 12 * * *'
 
 jobs:
   purge_artifacts:
