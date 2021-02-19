@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VMAF_REPO="https://github.com/Netflix/vmaf.git"
-VMAF_COMMIT="8fd3acb4d6fda78b12f6cbd37674d15971ba7f9f"
+VMAF_COMMIT="7138a0b8f9834ca33a7712c174cad68dc2b770f8"
 
 ffbuild_enabled() {
     return 0
@@ -41,13 +41,6 @@ ffbuild_dockerbuild() {
     ninja install
 
     sed -i 's/Libs.private:/Libs.private: -lstdc++/' "$FFBUILD_PREFIX"/lib/pkgconfig/libvmaf.pc
-
-    if [[ $TARGET == win* ]]; then
-        rm "$FFBUILD_PREFIX"/bin/libvmaf* "$FFBUILD_PREFIX"/lib/libvmaf.dll.a
-    else
-        echo "Unknown target"
-        return -1
-    fi
 
     cd ../..
     rm -rf vmaf
