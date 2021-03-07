@@ -1,0 +1,153 @@
+name: Build FFmpeg
+
+on:
+  push: []
+  repository_dispatch:
+    types: [build]
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  purge_artifacts:
+    name: Purge old artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: 0 days
+          skip-recent: 3
+  build_base:
+    name: Build base image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Image Name
+        id: imagename
+        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest"
+      - name: Pull latest
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
+      - name: Build base image
+        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
+      - name: Push base image
+        run: docker push ${{ steps.imagename.outputs.name }}
+  build_target_bases:
+    name: Build target base image
+    needs: build_base
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [win32]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Image Name
+        id: imagename
+        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
+      - name: Pull latest
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
+      - name: Build target base image
+        run: docker build --pull --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
+      - name: Push target base image
+        run: docker push ${{ steps.imagename.outputs.name }}
+  build_targets:
+    name: Build target-variant image
+    needs: build_target_bases
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [win32]
+        variant: [gpl,lgpl,gpl vulkan,lgpl vulkan,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared vulkan,lgpl-shared vulkan,gpl-shared 4.3,lgpl-shared 4.3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Dockerfile
+        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Image Name
+        id: imagename
+        run: |
+          IMG="docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest"
+          echo "::set-output name=name::${IMG/ /-}"
+      - name: Pull latest
+        run: docker pull ${{ steps.imagename.outputs.name }} || true
+      - name: Build variant image
+        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} .
+      - name: Push variant image
+        run: docker push ${{ steps.imagename.outputs.name }}
+  build_ffmpeg:
+    name: Build ffmpeg
+    needs: build_targets
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [win32]
+        variant: [gpl,lgpl,gpl vulkan,lgpl vulkan,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared vulkan,lgpl-shared vulkan,gpl-shared 4.3,lgpl-shared 4.3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to Docker
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build ffmpeg
+        run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ffmpeg
+          path: artifacts/*
+  publish_release:
+    name: Publish release
+    if: github.event_name != 'push'
+    needs: build_ffmpeg
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ffmpeg
+          path: artifacts
+      - name: Create release
+        id: create_release
+        run: |
+          set -xe
+          NAME="Auto-Build $(date +'%Y-%m-%d %H:%M')"
+          TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
+          hub release create $(for a in artifacts/*.zip; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          echo "::set-output name=tag_name::${TAGNAME}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Update Wiki
+        run: ./util/update_wiki.sh artifacts ${{ steps.create_release.outputs.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Prune old releases
+        run: ./util/prunetags.sh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
