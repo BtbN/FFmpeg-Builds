@@ -7,7 +7,7 @@
 
 Static 32 bit Windows Builds of ffmpeg master and latest release branch. This repository is forked and well maintained. For static 64 bit Windows FFmpeg builds, you can check [BtbN's repository](https://github.com/BtbN/FFmpeg-Builds). Go to Wiki tab or go to releases for downloads.
 
-**Note : Ignore the Build Failing badge, after some days or weeks it will be automatically fixed**
+** Note : Ignore the Build Failing badge, after some days or weeks it will be automatically fixed **
 
 ## Auto-Builds
 
