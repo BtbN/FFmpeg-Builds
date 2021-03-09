@@ -10,7 +10,7 @@ on:
 jobs:
   purge_artifacts:
     name: Purge old artifacts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Purge old artifacts
         uses: c-hive/gha-remove-artifacts@v1
@@ -19,7 +19,7 @@ jobs:
           skip-recent: 3
   build_base:
     name: Build base image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
   build_target_bases:
     name: Build target base image
     needs: build_base
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -67,7 +67,7 @@ jobs:
   build_targets:
     name: Build target-variant image
     needs: build_target_bases
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -98,7 +98,7 @@ jobs:
   build_ffmpeg:
     name: Build ffmpeg
     needs: build_targets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -123,7 +123,7 @@ jobs:
   publish_release:
     name: Publish release
     needs: build_ffmpeg
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
