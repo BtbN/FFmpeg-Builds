@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LV2_REPO="https://github.com/lv2/lv2.git"
-LV2_COMMIT="611759daacc377a2dba97723097338fceffd6ef8"
+SRATOM_REPO="https://github.com/lv2/sratom.git"
+SRATOM_COMMIT="c46452c83d442de137fa6470ba544e3ba142e923"
 
 ffbuild_enabled() {
     return 0
@@ -13,20 +13,22 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LV2_REPO" "$LV2_COMMIT" lv2
-    cd lv2
+    git-mini-clone "$SRATOM_REPO" "$SRATOM_COMMIT" sratom
+    cd sratom
     git submodule update --init --recursive --depth 1
 
     local mywaf=(
         --prefix="$FFBUILD_PREFIX"
-        --no-plugins
-        --no-coverage
+        --static
+        --no-shared
     )
 
     CC="${FFBUILD_CROSS_PREFIX}gcc" CXX="${FFBUILD_CROSS_PREFIX}g++" ./waf configure "${mywaf[@]}"
     ./waf -j$(nproc)
     ./waf install
 
+    sed -i 's/Cflags:/Cflags: -DSRATOM_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/sratom-0.pc
+
     cd ..
-    rm -rf lv2
+    rm -rf sratom
 }
