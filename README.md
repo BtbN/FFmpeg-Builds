@@ -1,13 +1,10 @@
 # FFmpeg Static Auto-Builds
 
 ![Build FFmpeg](https://github.com/sudo-nautilus/FFmpeg-Builds-Win32/actions/workflows/build.yml/badge.svg)
-[![HitCount](http://hits.dwyl.com/sudo-nautilus/FFmpeg-Builds-Win32.svg)](http://hits.dwyl.com/sudo-nautilus/FFmpeg-Builds-Win32)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/sudo-nautilus/FFmpeg-Builds-Win32.svg)](http://isitmaintained.com/project/sudo-nautilus/FFmpeg-Builds-Win32 "Percentage of issues still open")
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/sudo-nautilus/FFmpeg-Builds-Win32.svg)](http://isitmaintained.com/project/sudo-nautilus/FFmpeg-Builds-Win32 "Average time to resolve an issue")
 
 Static 32 bit Windows Builds of ffmpeg master and latest release branch. This repository is forked and well maintained. For static 64 bit Windows FFmpeg builds, you can check [BtbN's repository](https://github.com/BtbN/FFmpeg-Builds). Go to Wiki tab or go to releases for downloads.
-
-**Note** : **Ignore the Build Failing badge**. **After some days or weeks it will be automatically fixed**
 
 ## Auto-Builds
 
