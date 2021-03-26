@@ -13,8 +13,9 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$GME_REPO" "$GME_COMMIT" gme
+    git clone "$GME_REPO" gme
     cd gme
+    git checkout "$GME_COMMIT"
 
     mkdir build && cd build
 
