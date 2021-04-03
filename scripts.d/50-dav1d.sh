@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DAV1D_REPO="https://code.videolan.org/videolan/dav1d.git"
-DAV1D_COMMIT="be5200c4f072265add3f578f0b6f1a4ebc117000"
+DAV1D_COMMIT="6c6d25d355b78556d231b1a5633ded2ddb9e3774"
 
 ffbuild_enabled() {
     return 0
@@ -33,9 +33,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    meson "${myconf[@]}" .. || return -1
-    ninja -j$(nproc) || return -1
-    ninja install || return -1
+    meson "${myconf[@]}" ..
+    ninja -j$(nproc)
+    ninja install
 
     cd ../..
     rm -rf dav1d
