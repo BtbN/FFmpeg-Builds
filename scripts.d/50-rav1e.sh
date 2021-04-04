@@ -20,10 +20,9 @@ ffbuild_dockerbuild() {
     cargo cinstall \
         --target="$FFBUILD_RUST_TARGET" \
         --prefix="$FFBUILD_PREFIX" \
+        --library-type=staticlib \
         --crt-static \
         --release
-
-    rm "${FFBUILD_PREFIX}"/{lib/rav1e.dll.a,lib/rav1e.def,bin/rav1e.dll}
 
     cd ..
     rm -rf rav1e
