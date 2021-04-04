@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # https://breakfastquay.com/rubberband/
-RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.0.tar.bz2"
+RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.1.tar.bz2"
 
 ffbuild_enabled() {
     [[ $VARIANT == gpl* ]] || return -1
@@ -17,37 +17,38 @@ ffbuild_dockerbuild() {
     mkdir rubberband
     cd rubberband
 
-    wget "$RUBBERBAND_SRC" -O rubberband.tar.gz || return -1
-    tar xaf rubberband.tar.gz || return -1
+    wget "$RUBBERBAND_SRC" -O rubberband.tar.gz
+    tar xaf rubberband.tar.gz
     rm rubberband.tar.gz
-    cd rubberband* || return -1
+    cd rubberband*
+
+    # Fix broken cross compilation
+    sed -i 's/build_machine.system/host_machine.system/' meson.build
+
+    mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --disable-ladspa
-        --disable-vamp
-        --disable-programs
+        -Dno_shared=true
     )
 
     if [[ $TARGET == win* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
+    meson "${myconf[@]}" ..
+    ninja -j$(nproc)
+    ninja install
 
     # Fix static linking
     echo "Requires.private: fftw3 samplerate" >> "$FFBUILD_PREFIX"/lib/pkgconfig/rubberband.pc
 
-    cd ../..
+    cd ../../..
     rm -rf rubberband
 }
 

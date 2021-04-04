@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOADER_REPO="https://github.com/BtbN/Vulkan-Loader.git"
-LOADER_COMMIT="8697146b15fe9accbd38527687e2059eebbab495"
+LOADER_COMMIT="b42b70be453766f56b9ac21c11190b1b5fd74179"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR != *vulkan* ]] && return -1
