@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$LIBUDFREAD_REPO" "$LIBUDFREAD_COMMIT" libudfread
     cd libudfread
 
-    ./bootstrap || return -1
+    ./bootstrap
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -39,7 +39,4 @@ ffbuild_dockerbuild() {
     make install
 
     ln -s libudfread.pc "$FFBUILD_PREFIX"/lib/pkgconfig/udfread.pc
-
-    cd ..
-    rm -rf libudfread
 }

@@ -45,9 +45,6 @@ ffbuild_dockerbuild() {
 
     mkdir -p "$FFBUILD_PREFIX"/lib/pkgconfig
     mv OpenCL.pc "$FFBUILD_PREFIX"/lib/pkgconfig/OpenCL.pc
-
-    cd ../../..
-    rm -rf opencl
 }
 
 ffbuild_configure() {

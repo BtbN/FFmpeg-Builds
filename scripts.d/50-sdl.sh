@@ -15,12 +15,12 @@ ffbuild_dockerbuild() {
     mkdir sdl
     cd sdl
 
-    wget "$SDL_SRC" -O SDL.tar.gz || return -1
-    tar xaf SDL.tar.gz || return -1
+    wget "$SDL_SRC" -O SDL.tar.gz
+    tar xaf SDL.tar.gz
     rm SDL.tar.gz
-    cd SDL* || return -1
+    cd SDL*
 
-    ./autogen.sh || return -1
+    ./autogen.sh
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -37,12 +37,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf sdl
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

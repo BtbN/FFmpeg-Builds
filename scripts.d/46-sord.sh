@@ -29,7 +29,4 @@ ffbuild_dockerbuild() {
     ./waf install
 
     sed -i 's/Cflags:/Cflags: -DSORD_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/sord-0.pc
-
-    cd ..
-    rm -rf sord
 }

@@ -23,9 +23,6 @@ ffbuild_dockerbuild() {
         --library-type=staticlib \
         --crt-static \
         --release
-
-    cd ..
-    rm -rf rav1e
 }
 
 ffbuild_configure() {

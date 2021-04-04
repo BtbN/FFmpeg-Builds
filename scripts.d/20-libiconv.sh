@@ -15,8 +15,8 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir iconv
     cd iconv
-    wget -O iconv.tar.gz "$ICONV_SRC" || return -1
-    tar xaf iconv.tar.gz || return -1
+    wget -O iconv.tar.gz "$ICONV_SRC"
+    tar xaf iconv.tar.gz
     rm iconv.tar.gz
     cd libiconv*
 
@@ -37,12 +37,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf iconv
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

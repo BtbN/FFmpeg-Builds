@@ -31,9 +31,9 @@ ffbuild_dockerbuild() {
         --enable-idl
     )
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 
     cd ../mingw-w64-libraries/winpthreads
 
@@ -47,12 +47,9 @@ ffbuild_dockerbuild() {
         --enable-static
     )
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../../..
-    rm -rf mingw
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

@@ -47,9 +47,6 @@ ffbuild_dockerbuild() {
 
     # Fix static linking
     echo "Requires.private: fftw3 samplerate" >> "$FFBUILD_PREFIX"/lib/pkgconfig/rubberband.pc
-
-    cd ../../..
-    rm -rf rubberband
 }
 
 ffbuild_configure() {

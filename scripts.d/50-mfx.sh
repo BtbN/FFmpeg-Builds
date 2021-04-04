@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$MFX_REPO" "$MFX_COMMIT" mfx
     cd mfx
 
-    autoreconf -i || return -1
+    autoreconf -i
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -34,12 +34,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ..
-    rm -rf mfx
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

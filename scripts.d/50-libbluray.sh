@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$LIBBLURAY_REPO" "$LIBBLURAY_COMMIT" libbluray
     cd libbluray
 
-    ./bootstrap || return -1
+    ./bootstrap
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -44,9 +44,6 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
-
-    cd ..
-    rm -rf libbluray
 }
 
 ffbuild_configure() {

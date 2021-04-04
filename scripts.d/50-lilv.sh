@@ -31,9 +31,6 @@ ffbuild_dockerbuild() {
     ./waf install
 
     sed -i 's/Cflags:/Cflags: -DLILV_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/lilv-0.pc
-
-    cd ..
-    rm -rf lilv
 }
 
 ffbuild_configure() {

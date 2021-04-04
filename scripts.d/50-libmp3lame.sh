@@ -14,8 +14,8 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir lame
     cd lame
-    wget -O lame.tar.gz "$LAME_SRC" || return -1
-    tar xaf lame.tar.gz || return -1
+    wget -O lame.tar.gz "$LAME_SRC"
+    tar xaf lame.tar.gz
     rm lame.tar.gz
     cd lame*
 
@@ -38,12 +38,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf lame
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

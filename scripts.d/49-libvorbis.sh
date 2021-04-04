@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$VORBIS_REPO" "$VORBIS_COMMIT" vorbis
     cd vorbis
 
-    ./autogen.sh || return -1
+    ./autogen.sh
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -34,12 +34,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ..
-    rm -rf vorbis
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

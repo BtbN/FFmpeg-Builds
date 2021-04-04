@@ -14,8 +14,8 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir twolame
     cd twolame
-    wget -O twolame.tar.gz "$TWOLAME_SRC" || return -1
-    tar xaf twolame.tar.gz || return -1
+    wget -O twolame.tar.gz "$TWOLAME_SRC"
+    tar xaf twolame.tar.gz
     rm twolame.tar.gz
     cd twolame*
 
@@ -36,14 +36,11 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 
-    sed -i 's/Cflags:/Cflags: -DLIBTWOLAME_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/twolame.pc || return -1
-
-    cd ../..
-    rm -rf twolame
+    sed -i 's/Cflags:/Cflags: -DLIBTWOLAME_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/twolame.pc
 }
 
 ffbuild_configure() {
