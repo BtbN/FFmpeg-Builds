@@ -4,7 +4,6 @@ GLSLANG_REPO="https://github.com/KhronosGroup/glslang.git"
 GLSLANG_COMMIT="5878bcb17e43bf22cecaf6095900a33ff7f53445"
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR == *4.3* ]] && return -1
     return 0
 }
 
