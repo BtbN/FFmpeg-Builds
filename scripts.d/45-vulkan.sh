@@ -4,7 +4,6 @@ LOADER_REPO="https://github.com/KhronosGroup/Vulkan-Loader.git"
 LOADER_COMMIT="7ea01c139ffc7c33cd12bd258c1bc8bf530c6d2d"
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR != *vulkan* ]] && return -1
     return 0
 }
 
