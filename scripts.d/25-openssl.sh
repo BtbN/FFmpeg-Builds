@@ -41,13 +41,10 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./Configure "${myconf[@]}" || return -1
+    ./Configure "${myconf[@]}"
 
-    sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile || return -1
+    sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile
 
-    make -j$(nproc) || return -1
-    make install_sw || return -1
-
-    cd ..
-    rm -rf openssl
+    make -j$(nproc)
+    make install_sw
 }

@@ -15,7 +15,7 @@ ffbuild_dockerstage() {
 
 ffbuild_dockerbuild() {
     git-mini-clone "$X264_REPO" "$X264_COMMIT" x264
-    pushd x264
+    cd x264
 
     local myconf=(
         --disable-cli
@@ -36,12 +36,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    popd
-    rm -rf x264
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

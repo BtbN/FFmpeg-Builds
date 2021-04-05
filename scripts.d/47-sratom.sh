@@ -28,7 +28,4 @@ ffbuild_dockerbuild() {
     ./waf install
 
     sed -i 's/Cflags:/Cflags: -DSRATOM_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/sratom-0.pc
-
-    cd ..
-    rm -rf sratom
 }

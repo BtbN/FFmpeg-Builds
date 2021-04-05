@@ -43,9 +43,6 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
-
-    cd ../..
-    rm -rf opencore
 }
 
 ffbuild_configure() {

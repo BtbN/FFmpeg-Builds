@@ -15,12 +15,12 @@ ffbuild_dockerbuild() {
     mkdir gmp
     cd gmp
 
-    wget "$GMP_SRC" -O gmp.tar.xz || return -1
-    tar xaf gmp.tar.xz || return -1
+    wget "$GMP_SRC" -O gmp.tar.xz
+    tar xaf gmp.tar.xz
     rm gmp.tar.xz
-    cd gmp* || return -1
+    cd gmp*
 
-    autoreconf -i || return -1
+    autoreconf -i
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -37,12 +37,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf gmp
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

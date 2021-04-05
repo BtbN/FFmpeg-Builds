@@ -15,8 +15,8 @@ ffbuild_dockerstage() {
 ffbuild_dockerbuild() {
     mkdir xvid
     cd xvid
-    wget -O xvid.tar.gz "$XVID_SRC" || return -1
-    tar xaf xvid.tar.gz || return -1
+    wget -O xvid.tar.gz "$XVID_SRC"
+    tar xaf xvid.tar.gz
     rm xvid.tar.gz
     cd xvid*
 
@@ -35,15 +35,12 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 
     rm "$FFBUILD_PREFIX"/{bin/xvidcore.dll,lib/xvidcore.dll.a}
     mv "$FFBUILD_PREFIX"/lib/{,lib}xvidcore.a
-
-    cd ../../../..
-    rm -rf xvid
 }
 
 ffbuild_configure() {

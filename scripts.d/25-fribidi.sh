@@ -32,14 +32,11 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./autogen.sh "${myconf[@]}" || return -1
-    make || return -1
-    make install || return -1
+    ./autogen.sh "${myconf[@]}"
+    make
+    make install
 
-    sed -i 's/Cflags:/Cflags: -DFRIBIDI_LIB_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/fribidi.pc || return -1
-
-    cd ..
-    rm -rf fribidi
+    sed -i 's/Cflags:/Cflags: -DFRIBIDI_LIB_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/fribidi.pc
 }
 
 ffbuild_configure() {

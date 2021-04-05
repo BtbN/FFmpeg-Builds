@@ -33,12 +33,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./autogen.sh "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ..
-    rm -rf libxml2
+    ./autogen.sh "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

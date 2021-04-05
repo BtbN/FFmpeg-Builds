@@ -57,9 +57,6 @@ EOF
     fi
 
     make install
-
-    cd ../..
-    rm -rf x265
 }
 
 ffbuild_configure() {

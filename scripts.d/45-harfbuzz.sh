@@ -34,10 +34,7 @@ ffbuild_dockerbuild() {
 
     export LIBS="-lpthread"
 
-    ./autogen.sh "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ..
-    rm -rf harfbuzz
+    ./autogen.sh "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }

@@ -15,10 +15,10 @@ ffbuild_dockerbuild() {
     mkdir zlib
     cd zlib
 
-    wget "$ZLIB_SRC" -O zlib.tar.gz || return -1
-    tar xaf zlib.tar.gz || return -1
+    wget "$ZLIB_SRC" -O zlib.tar.gz
+    tar xaf zlib.tar.gz
     rm zlib.tar.gz
-    cd zlib* || return -1
+    cd zlib*
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -33,12 +33,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf zlib
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {

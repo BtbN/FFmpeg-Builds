@@ -15,10 +15,10 @@ ffbuild_dockerbuild() {
     mkdir fc
     cd fc
 
-    wget "$FONTCONFIG_SRC" -O fc.tar.gz || return -1
-    tar xaf fc.tar.gz || return -1
+    wget "$FONTCONFIG_SRC" -O fc.tar.gz
+    tar xaf fc.tar.gz
     rm fc.tar.gz
-    cd fontconfig* || return -1
+    cd fontconfig*
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -38,12 +38,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}" || return -1
-    make -j$(nproc) || return -1
-    make install || return -1
-
-    cd ../..
-    rm -rf fc
+    ./configure "${myconf[@]}"
+    make -j$(nproc)
+    make install
 }
 
 ffbuild_configure() {
