@@ -1,0 +1,153 @@
+From 62ff1c9f106a70257cff2fead1bdf1a3c3590239 Mon Sep 17 00:00:00 2001
+From: BtbN <btbn@btbn.de>
+Date: Sun, 4 Apr 2021 23:29:53 +0200
+Subject: [PATCH 4/4] Unlock building static loader on any OS
+
+Based in parts on https://github.com/shinchiro/mpv-winbuild-cmake/blob/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
+---
+ CMakeLists.txt              |  2 --
+ loader/CMakeLists.txt       | 23 ++++++++++++++++++++++-
+ loader/loader.c             |  2 +-
+ loader/loader.h             |  3 +++
+ loader/vk_loader_platform.h | 16 ++++++++++++++++
+ 5 files changed, 42 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a26e38408..1c3bab61f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -38,9 +38,7 @@ else()
+     option(BUILD_TESTS "Build Tests" OFF)
+ endif()
+ 
+-if(APPLE)
+     option(BUILD_STATIC_LOADER "Build a loader that can be statically linked" OFF)
+-endif()
+ 
+ if(BUILD_STATIC_LOADER)
+     message(WARNING "The BUILD_STATIC_LOADER option has been set. Note that this will only work on MacOS and is not supported "
+diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
+index b5f90393d..8fa4b01c5 100644
+--- a/loader/CMakeLists.txt
++++ b/loader/CMakeLists.txt
+@@ -217,6 +217,22 @@ if(WIN32)
+     target_compile_options(loader-opt PUBLIC ${MSVC_LOADER_COMPILE_OPTIONS})
+     target_include_directories(loader-opt PRIVATE "$<TARGET_PROPERTY:Vulkan::Headers,INTERFACE_INCLUDE_DIRECTORIES>")
+ 
++    if(BUILD_STATIC_LOADER)
++    add_library(vulkan
++                STATIC
++                $<TARGET_OBJECTS:loader-opt>
++                $<TARGET_OBJECTS:loader-norm>
++                $<TARGET_OBJECTS:loader-unknown-chain>
++                ${CMAKE_CURRENT_SOURCE_DIR}/vulkan-1.def
++                ${CMAKE_CURRENT_SOURCE_DIR}/loader.rc)
++    set_target_properties(vulkan
++                          PROPERTIES LINK_FLAGS_DEBUG
++                                     "/ignore:4098"
++                                     OUTPUT_NAME
++                                     vulkan-1
++                                     PREFIX
++                                     lib)
++    else()
+     add_library(vulkan
+                 SHARED
+                 $<TARGET_OBJECTS:loader-opt>
+@@ -231,6 +247,8 @@ if(WIN32)
+                                      vulkan-1
+                                      PREFIX
+                                      "")
++    set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS LOADER_DYNAMIC_LIB)
++    endif()
+     target_link_libraries(vulkan Vulkan::Headers)
+ 
+     if(ENABLE_WIN10_ONECORE AND MSVC)
+@@ -252,17 +270,19 @@ else()
+         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-typedef-redefinition")
+     endif()
+ 
+-    if(APPLE AND BUILD_STATIC_LOADER)
++    if(BUILD_STATIC_LOADER)
+         add_library(vulkan STATIC ${NORMAL_LOADER_SRCS} ${OPT_LOADER_SRCS})
+     else()
+         add_library(vulkan SHARED ${NORMAL_LOADER_SRCS} ${OPT_LOADER_SRCS})
+     endif()
+     add_dependencies(vulkan loader_asm_gen_files)
++    if (NOT BUILD_STATIC_LOADER)
+     set_target_properties(vulkan
+                           PROPERTIES SOVERSION
+                                      "1"
+                                      VERSION
+                                      "${VulkanHeaders_VERSION_MAJOR}.${VulkanHeaders_VERSION_MINOR}.${VulkanHeaders_VERSION_PATCH}")
++    endif()
+     target_link_libraries(vulkan ${CMAKE_DL_LIBS} m)
+     if (NOT ANDROID)
+         target_link_libraries(vulkan pthread)
+@@ -333,6 +353,7 @@ if(PKG_CONFIG_FOUND)
+     foreach(LIB ${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES} ${PLATFORM_LIBS})
+         set(PRIVATE_LIBS "${PRIVATE_LIBS} -l${LIB}")
+     endforeach()
++    set(PRIVATE_LIBS "${PRIVATE_LIBS} -lshlwapi -lcfgmgr32")
+     if(WIN32)
+         set(VULKAN_LIB_SUFFIX "-1")
+     endif ()
+diff --git a/loader/loader.c b/loader/loader.c
+index 20790c12c..582808e99 100644
+--- a/loader/loader.c
++++ b/loader/loader.c
+@@ -7887,7 +7887,7 @@ out:
+     return result;
+ }
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && defined(LOADER_DYNAMIC_LIB)
+ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {
+     switch (reason) {
+         case DLL_PROCESS_ATTACH:
+diff --git a/loader/loader.h b/loader/loader.h
+index 64ad08693..0ee906734 100644
+--- a/loader/loader.h
++++ b/loader/loader.h
+@@ -436,6 +436,9 @@ static inline void loader_init_dispatch(void *obj, const void *data) {
+ // Global variables used across files
+ extern struct loader_struct loader;
+ extern THREAD_LOCAL_DECL struct loader_instance *tls_instance;
++#if defined(_WIN32) && !defined(LOADER_DYNAMIC_LIB)
++extern LOADER_PLATFORM_THREAD_ONCE_DEFINITION(once_init);
++#endif
+ extern loader_platform_thread_mutex loader_lock;
+ extern loader_platform_thread_mutex loader_json_lock;
+ extern loader_platform_thread_mutex loader_preload_icd_lock;
+diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
+index 40c532a95..d55193766 100644
+--- a/loader/vk_loader_platform.h
++++ b/loader/vk_loader_platform.h
+@@ -397,9 +397,25 @@ typedef HANDLE loader_platform_thread;
+ // The once init functionality is not used when building a DLL on Windows. This is because there is no way to clean up the
+ // resources allocated by anything allocated by once init. This isn't a problem for static libraries, but it is for dynamic
+ // ones. When building a DLL, we use DllMain() instead to allow properly cleaning up resources.
++#if defined(LOADER_DYNAMIC_LIB)
+ #define LOADER_PLATFORM_THREAD_ONCE_DECLARATION(var)
+ #define LOADER_PLATFORM_THREAD_ONCE_DEFINITION(var)
+ #define LOADER_PLATFORM_THREAD_ONCE(ctl, func)
++#else
++#define LOADER_PLATFORM_THREAD_ONCE_DECLARATION(var) INIT_ONCE var = INIT_ONCE_STATIC_INIT;
++#define LOADER_PLATFORM_THREAD_ONCE_DEFINITION(var) INIT_ONCE var;
++#define LOADER_PLATFORM_THREAD_ONCE(ctl, func) loader_platform_thread_once_fn(ctl, func)
++static BOOL CALLBACK InitFuncWrapper(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *Context) {
++    void (*func)(void) = (void (*)(void))Parameter;
++    func();
++    return TRUE;
++}
++static void loader_platform_thread_once_fn(void *ctl, void (*func)(void)) {
++    assert(func != NULL);
++    assert(ctl != NULL);
++    InitOnceExecuteOnce((PINIT_ONCE)ctl, InitFuncWrapper, (void *)func, NULL);
++}
++#endif
+ 
+ // Thread IDs:
+ typedef DWORD loader_platform_thread_id;
+-- 
+2.25.1
+

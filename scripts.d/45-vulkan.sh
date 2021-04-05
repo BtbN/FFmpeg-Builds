@@ -1,22 +1,26 @@
 #!/bin/bash
 
-LOADER_REPO="https://github.com/BtbN/Vulkan-Loader.git"
-LOADER_COMMIT="62ff1c9f106a70257cff2fead1bdf1a3c3590239"
+LOADER_REPO="https://github.com/KhronosGroup/Vulkan-Loader.git"
+LOADER_COMMIT="7ea01c139ffc7c33cd12bd258c1bc8bf530c6d2d"
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR != *vulkan* ]] && return -1
     return 0
 }
 
 ffbuild_dockerstage() {
     to_df "ADD $SELF /stage.sh"
+    to_df "ADD patches/vulkan /stage/patches"
     to_df "RUN run_stage"
 }
 
 ffbuild_dockerbuild() {
-    mkdir vulkan && cd vulkan
+    git clone "$LOADER_REPO" loader
+    git -C loader checkout "$LOADER_COMMIT"
 
-    git-mini-clone "$LOADER_REPO" "$LOADER_COMMIT" loader
+    for patch in patches/*.patch; do
+        echo "Applying $patch"
+        git -C loader am -3 < "$patch"
+    done
 
     HEADERS_REPO="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep url | head -n1 | cut -d'"' -f4)"
     HEADERS_COMMIT="$(grep -A10 'name.*:.*Vulkan-Headers' loader/scripts/known_good.json | grep commit | head -n1 | cut -d'"' -f4)"
