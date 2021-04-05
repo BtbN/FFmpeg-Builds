@@ -29,12 +29,12 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base:latest"
+        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base:latest"
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build base image
@@ -55,12 +55,12 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::docker.pkg.github.com/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
+        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build target base image
@@ -84,13 +84,13 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
         run: |
-          IMG="docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest"
+          IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest"
           echo "::set-output name=name::${IMG/ /-}"
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
@@ -113,7 +113,7 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Build ffmpeg

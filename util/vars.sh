@@ -30,7 +30,7 @@ done
 
 REPO="${GITHUB_REPOSITORY:-btbn/ffmpeg-builds}"
 REPO="${REPO,,}"
-REGISTRY="docker.pkg.github.com"
+REGISTRY="ghcr.io"
 BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
 TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"

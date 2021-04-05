@@ -10,7 +10,7 @@ to_df() {
     echo >> Dockerfile
 }
 
-to_df "FROM docker.pkg.github.com/${REPO}/base-${TARGET}:latest"
+to_df "FROM ${REGISTRY}/${REPO}/base-${TARGET}:latest"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
 
 for script in scripts.d/*.sh; do
