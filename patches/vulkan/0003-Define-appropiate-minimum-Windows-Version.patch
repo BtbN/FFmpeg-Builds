@@ -1,0 +1,28 @@
+From b42b70be453766f56b9ac21c11190b1b5fd74179 Mon Sep 17 00:00:00 2001
+From: BtbN <btbn@btbn.de>
+Date: Mon, 7 Sep 2020 20:33:23 +0200
+Subject: [PATCH 3/4] Define appropiate minimum Windows-Version
+
+---
+ loader/vk_loader_platform.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
+index abf078c28..40c532a95 100644
+--- a/loader/vk_loader_platform.h
++++ b/loader/vk_loader_platform.h
+@@ -24,6 +24,11 @@
+ #pragma once
+ 
+ #if defined(_WIN32)
++
++#define WINVER 0x0601
++#define _WIN32_WINNT 0x0601
++#define STRSAFE_NO_DEPRECATE 1
++
+ // WinSock2.h must be included *BEFORE* windows.h
+ #include <winsock2.h>
+ #endif  // _WIN32
+-- 
+2.25.1
+

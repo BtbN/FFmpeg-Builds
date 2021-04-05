@@ -1,6 +1,6 @@
 #!/bin/bash
 set -xe
-mkdir /stage
+mkdir -p /stage
 cd /stage
 source /stage.sh
 ffbuild_dockerbuild
