@@ -38,7 +38,7 @@ jobs:
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build base image
-        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
+        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
       - name: Push base image
         run: docker push ${{ steps.imagename.outputs.name }}
   build_target_bases:
@@ -64,7 +64,7 @@ jobs:
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build target base image
-        run: docker build --pull --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
+        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
       - name: Push target base image
         run: docker push ${{ steps.imagename.outputs.name }}
   build_targets:
@@ -95,7 +95,7 @@ jobs:
       - name: Pull latest
         run: docker pull ${{ steps.imagename.outputs.name }} || true
       - name: Build variant image
-        run: docker build --pull --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} .
+        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} .
       - name: Push variant image
         run: docker push ${{ steps.imagename.outputs.name }}
   build_ffmpeg:
