@@ -8,16 +8,14 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "ADD patches/vulkan /stage/patches"
-    to_df "RUN run_stage"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/vulkan,dst=/patches run_stage /stage.sh"
 }
 
 ffbuild_dockerbuild() {
     git clone "$LOADER_REPO" loader
     git -C loader checkout "$LOADER_COMMIT"
 
-    for patch in patches/*.patch; do
+    for patch in /patches/*.patch; do
         echo "Applying $patch"
         git -C loader am -3 < "$patch"
     done

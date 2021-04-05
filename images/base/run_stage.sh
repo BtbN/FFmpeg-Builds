@@ -1,7 +1,7 @@
 #!/bin/bash
 set -xe
 mkdir -p /stage
+source "$1"
 cd /stage
-source /stage.sh
 ffbuild_dockerbuild
-rm -rf /stage /stage.sh "$FFBUILD_PREFIX"/bin
+rm -rf /stage "$FFBUILD_PREFIX"/bin

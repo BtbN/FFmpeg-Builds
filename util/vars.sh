@@ -35,6 +35,10 @@ BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
 TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"
 
+ffbuild_dockerstage() {
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh"
+}
+
 ffbuild_configure() {
     return 0
 }
