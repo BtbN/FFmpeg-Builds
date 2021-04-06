@@ -14,6 +14,8 @@ Builds run daily at 12:00 UTC and are automatically released on success.
 
 - The last build of each month is kept for two years.
 - The last 14 daily builds are kept.
+- This is currently disabled.
+- Will be enabled soon
 
 ## Package List
 
