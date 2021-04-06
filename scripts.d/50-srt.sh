@@ -7,11 +7,6 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "RUN run_stage"
-}
-
 ffbuild_dockerbuild() {
     git-mini-clone "$SRT_REPO" "$SRT_COMMIT" srt
     cd srt

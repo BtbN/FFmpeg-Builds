@@ -1,28 +1,22 @@
 #!/bin/bash
 
-VORBIS_REPO="https://github.com/xiph/vorbis.git"
-VORBIS_COMMIT="4e1155cc77a2c672f3dd18f9a32dbf1404693289"
+LIBXML2_REPO="https://gitlab.gnome.org/GNOME/libxml2.git"
+LIBXML2_COMMIT="fb08d9fe837ab64934e6ddc66d442e599c805ca4"
 
 ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "RUN run_stage"
-}
-
 ffbuild_dockerbuild() {
-    git-mini-clone "$VORBIS_REPO" "$VORBIS_COMMIT" vorbis
-    cd vorbis
-
-    ./autogen.sh
+    git-mini-clone "$LIBXML2_REPO" "$LIBXML2_COMMIT" libxml2
+    cd libxml2
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --without-python
+        --disable-maintainer-mode
         --disable-shared
         --enable-static
-        --disable-oggtest
     )
 
     if [[ $TARGET == win* ]]; then
@@ -34,15 +28,15 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}"
+    ./autogen.sh "${myconf[@]}"
     make -j$(nproc)
     make install
 }
 
 ffbuild_configure() {
-    echo --enable-libvorbis
+    echo --enable-libxml2
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libvorbis
+    echo --disable-libxml2
 }

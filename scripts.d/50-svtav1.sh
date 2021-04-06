@@ -9,11 +9,6 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "RUN run_stage"
-}
-
 ffbuild_dockerbuild() {
     git clone "$SVTAV1_REPO" svtav1
     cd svtav1

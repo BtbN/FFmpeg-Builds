@@ -7,11 +7,6 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "RUN run_stage"
-}
-
 ffbuild_dockerbuild() {
     git-mini-clone "$DAV1D_REPO" "$DAV1D_COMMIT" dav1d
     cd dav1d

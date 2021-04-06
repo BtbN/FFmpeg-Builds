@@ -1,25 +1,19 @@
 #!/bin/bash
 
-SORD_REPO="https://github.com/drobilla/sord.git"
-SORD_COMMIT="d2efdb2d026216449599350b55c2c85c0d3efb89"
+SRATOM_REPO="https://github.com/lv2/sratom.git"
+SRATOM_COMMIT="c46452c83d442de137fa6470ba544e3ba142e923"
 
 ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerstage() {
-    to_df "ADD $SELF /stage.sh"
-    to_df "RUN run_stage"
-}
-
 ffbuild_dockerbuild() {
-    git-mini-clone "$SORD_REPO" "$SORD_COMMIT" sord
-    cd sord
+    git-mini-clone "$SRATOM_REPO" "$SRATOM_COMMIT" sratom
+    cd sratom
     git submodule update --init --recursive --depth 1
 
     local mywaf=(
         --prefix="$FFBUILD_PREFIX"
-        --no-utils
         --static
         --no-shared
     )
@@ -28,5 +22,5 @@ ffbuild_dockerbuild() {
     ./waf -j$(nproc)
     ./waf install
 
-    sed -i 's/Cflags:/Cflags: -DSORD_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/sord-0.pc
+    sed -i 's/Cflags:/Cflags: -DSRATOM_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/sratom-0.pc
 }

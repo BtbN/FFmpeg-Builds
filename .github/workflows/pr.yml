@@ -4,6 +4,9 @@ on:
     branches:
       - master
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   build:
     name: Build ffmpeg
