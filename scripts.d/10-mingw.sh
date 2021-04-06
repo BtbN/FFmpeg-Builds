@@ -9,11 +9,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerlayer() {
-    to_df "COPY --from=${SELFLAYER} /usr/\$FFBUILD_TOOLCHAIN/. /usr/\$FFBUILD_TOOLCHAIN"
+    to_df "COPY --from=${SELFLAYER} /opt/mingw/. /"
+    to_df "COPY --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 
 ffbuild_dockerfinal() {
-    to_df "COPY --from=${PREVLAYER} /usr/\$FFBUILD_TOOLCHAIN/. /usr/\$FFBUILD_TOOLCHAIN"
+    to_df "COPY --from=${PREVLAYER} /opt/mingw/. /"
 }
 
 ffbuild_dockerbuild() {
@@ -36,7 +37,7 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="/opt/mingw"
 
     cd ../mingw-w64-libraries/winpthreads
 
@@ -52,7 +53,7 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="/opt/mingw"
 }
 
 ffbuild_configure() {
