@@ -8,6 +8,14 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerlayer() {
+    to_df "COPY --from=${SELFLAYER} /usr/\$FFBUILD_TOOLCHAIN/. /usr/\$FFBUILD_TOOLCHAIN"
+}
+
+ffbuild_dockerfinal() {
+    to_df "COPY --from=${PREVLAYER} /usr/\$FFBUILD_TOOLCHAIN/. /usr/\$FFBUILD_TOOLCHAIN"
+}
+
 ffbuild_dockerbuild() {
     git-mini-clone "$MINGW_REPO" "$MINGW_COMMIT" mingw
     cd mingw/mingw-w64-headers

@@ -39,6 +39,14 @@ ffbuild_dockerstage() {
     to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh"
 }
 
+ffbuild_dockerlayer() {
+    to_df "COPY --from=${SELFLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
+}
+
+ffbuild_dockerfinal() {
+    to_df "COPY --from=${PREVLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
+}
+
 ffbuild_configure() {
     return 0
 }
