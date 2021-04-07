@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl vulkan,lgpl vulkan,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared vulkan,lgpl-shared vulkan,gpl-shared 4.3,lgpl-shared 4.3]
+        variant: [gpl,lgpl,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared 4.3,lgpl-shared 4.3]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -106,7 +106,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl vulkan,lgpl vulkan,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared vulkan,lgpl-shared vulkan,gpl-shared 4.3,lgpl-shared 4.3]
+        variant: [gpl,lgpl,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared 4.3,lgpl-shared 4.3]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
