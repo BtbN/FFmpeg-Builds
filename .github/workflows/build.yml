@@ -71,7 +71,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared 4.3,lgpl-shared 4.3]
+        variant: [gpl,lgpl,gpl 4.4,lgpl 4.4,gpl-shared,lgpl-shared,gpl-shared 4.4,lgpl-shared 4.4]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -100,7 +100,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl 4.3,lgpl 4.3,gpl-shared,lgpl-shared,gpl-shared 4.3,lgpl-shared 4.3]
+        variant: [gpl,lgpl,gpl 4.4,lgpl 4.4,gpl-shared,lgpl-shared,gpl-shared 4.4,lgpl-shared 4.4]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
