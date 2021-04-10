@@ -25,6 +25,5 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $VARIANT == *4.2* ]] && return 0
     echo --disable-librav1e
 }

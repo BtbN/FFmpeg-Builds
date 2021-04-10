@@ -46,5 +46,5 @@ The two available targets are `win64` and `win32`.
 Available in `gpl`, `lgpl`, `gpl-shared` and `lgpl-shared` variants.
 
 All of those can be optionally combined with any combination of addins.
-Currently that's `4.3`, to build from the 4.3 release branch instead of master.
+Currently that's `4.4`, to build from the 4.4 release branch instead of master.
 `debug` to not strip debug symbols from the binaries. This increases the output size by about 250MB.
