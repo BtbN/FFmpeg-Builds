@@ -75,6 +75,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install buildx
+        uses: docker/setup-buildx-action@v1
       - name: Generate Dockerfile
         run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Login to Docker
@@ -86,12 +88,18 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}:latest"
-          echo "::set-output name=name::${IMG/ /-}"
+          IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
+          echo "::set-output name=name::${IMG/ /-}:latest"
+          echo "::set-output name=cache_name::${IMG/ /-}:cache"
       - name: Build variant image
-        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} .
-      - name: Push variant image
-        run: docker push ${{ steps.imagename.outputs.name }}
+        run: |
+          docker buildx build \
+            --pull \
+            --tag ${{ steps.imagename.outputs.name }} \
+            --cache-to=type=registry,mode=max,ref=${{ steps.imagename.outputs.cache_name }} \
+            --cache-from=type=registry,ref=${{ steps.imagename.outputs.cache_name }} \
+            --output=type=image,push=true,name=${{ steps.imagename.outputs.name }} \
+            .
   build_ffmpeg:
     name: Build ffmpeg
     needs: build_targets
