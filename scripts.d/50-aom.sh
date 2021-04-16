@@ -7,9 +7,18 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerstage() {
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/aom,dst=/patches run_stage /stage.sh"
+}
+
 ffbuild_dockerbuild() {
     git-mini-clone "$AOM_REPO" "$AOM_COMMIT" aom
     cd aom
+
+    for patch in /patches/*.patch; do
+        echo "Applying $patch"
+        git am < "$patch"
+    done
 
     mkdir cmbuild && cd cmbuild
 
