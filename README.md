@@ -1,6 +1,6 @@
-# FFmpeg Static Auto-Builds
+# FFmpeg Auto-Builds
 
-Static Windows Builds of ffmpeg master and latest release branch.
+Static and shared Windows builds of FFmpeg, from the "master and "release/*" branches.
 
 ## Auto-Builds
 
