@@ -11,6 +11,9 @@ ffbuild_dockerbuild() {
     git-mini-clone "$VMAF_REPO" "$VMAF_COMMIT" vmaf
     cd vmaf
 
+    # Kill build of unused and broken tools
+    echo > libvmaf/tools/meson.build
+
     mkdir build && cd build
 
     local myconf=(
