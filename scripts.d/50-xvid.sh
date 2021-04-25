@@ -17,6 +17,14 @@ ffbuild_dockerbuild() {
 
     cd build/generic
 
+    # The original code fails on a two-digit major...
+    sed -i\
+        -e 's/GCC_MAJOR=.*/GCC_MAJOR=10/' \
+        -e 's/GCC_MINOR=.*/GCC_MINOR=0/' \
+        configure.in
+
+    ./bootstrap.sh
+
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
     )
