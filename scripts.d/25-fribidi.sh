@@ -11,25 +11,29 @@ ffbuild_dockerbuild() {
     git-mini-clone "$FRIBIDI_REPO" "$FRIBIDI_COMMIT" fribidi
     cd fribidi
 
+    mkdir build && cd build
+
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
+        --buildtype=release
+        --default-library=static
+        -Dbin=false
+        -Ddocs=false
+        -Dtests=false
     )
 
     if [[ $TARGET == win* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    ./autogen.sh "${myconf[@]}"
-    make
-    make install
+    meson "${myconf[@]}" ..
+    ninja -j$(nproc)
+    ninja install
 
     sed -i 's/Cflags:/Cflags: -DFRIBIDI_LIB_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/fribidi.pc
 }
