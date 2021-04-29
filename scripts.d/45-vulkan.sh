@@ -40,6 +40,8 @@ ffbuild_dockerbuild() {
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_TESTS=OFF -DBUILD_STATIC_LOADER=ON ..
     make -j$(nproc)
     make install
+
+    ln -s libvulkan-1.a /opt/ffbuild/lib/libvulkan.a
 }
 
 ffbuild_configure() {
