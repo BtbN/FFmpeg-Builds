@@ -2,8 +2,9 @@
 
 Static Windows Builds of ffmpeg master and latest release branch.
 
-EXPERIMENTAL Linux-Builds. Do not expect everything to work on them, specially anything that involved loading dynamic libs at runtime.
-Shared Linux builds come without the programs (hopefully just for now), since they won't run without musl.
+EXPERIMENTAL Linux-Builds. Do not expect everything to work on them, specially anything that involves loading dynamic libs at runtime.
+Shared Linux builds need musl installed to run the programs. YMMV when trying to use the libraries.
+Please report any issues you encounter with those builds!
 
 ## Auto-Builds
 

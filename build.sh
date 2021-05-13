@@ -57,8 +57,8 @@ docker run --rm -i "${UIDARGS[@]}" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash -s <<E
     cd ffmpeg
     git checkout $GIT_BRANCH
 
-    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" --extra-ldflags="$FF_LDFLAGS" --extra-libs="$FF_LIBS"
-    make -j\$(nproc)
+    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags='$FF_CFLAGS' --extra-cxxflags='$FF_CXXFLAGS' --extra-ldflags='$FF_LDFLAGS' --extra-libs='$FF_LIBS'
+    make -j\$(nproc) V=1
     make install install-doc
 EOF
 
