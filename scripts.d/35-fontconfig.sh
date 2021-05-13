@@ -28,7 +28,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi
@@ -36,6 +36,8 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
+
+    sed -i 's/Libs.private:/Libs.private: -lintl/' "$FFBUILD_PREFIX"/lib/pkgconfig/fontconfig.pc
 }
 
 ffbuild_configure() {

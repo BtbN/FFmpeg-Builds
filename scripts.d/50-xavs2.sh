@@ -33,7 +33,7 @@ ffbuild_dockerbuild() {
             --host="$FFBUILD_TOOLCHAIN"
             --cross-prefix="$FFBUILD_CROSS_PREFIX"
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi

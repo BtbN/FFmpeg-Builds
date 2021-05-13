@@ -31,6 +31,10 @@ ffbuild_dockerbuild() {
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             mingw
         )
+    elif [[ $TARGET == linux64 ]]; then
+        myconf+=(
+            linux-x86_64
+        )
     else
         echo "Unknown target"
         return -1

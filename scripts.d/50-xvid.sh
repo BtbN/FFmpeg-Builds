@@ -33,7 +33,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi
@@ -42,8 +42,12 @@ ffbuild_dockerbuild() {
     make -j$(nproc)
     make install
 
-    rm "$FFBUILD_PREFIX"/{bin/xvidcore.dll,lib/xvidcore.dll.a}
-    mv "$FFBUILD_PREFIX"/lib/{,lib}xvidcore.a
+    if [[ $TARGET == win* ]]; then
+        rm "$FFBUILD_PREFIX"/{bin/xvidcore.dll,lib/xvidcore.dll.a}
+        mv "$FFBUILD_PREFIX"/lib/{,lib}xvidcore.a
+    elif [[ $TARGET == linux* ]]; then
+        rm "$FFBUILD_PREFIX"/lib/libxvidcore.so*
+    fi
 }
 
 ffbuild_configure() {

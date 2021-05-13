@@ -7,9 +7,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir gmp
-    cd gmp
-
     wget "$GMP_SRC" -O gmp.tar.xz
     tar xaf gmp.tar.xz
     rm gmp.tar.xz
@@ -27,7 +24,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi
