@@ -12,6 +12,9 @@ RUN \
     git config --global user.name "Builder" && \
     mkdir /opt/ffbuild
 
+# Work around cmake issue
+RUN curl https://gitlab.kitware.com/DerDakon/cmake/-/raw/e591769f711ee5172437472773ed02ab1fe35408/Modules/CMakeParseImplicitIncludeInfo.cmake > /usr/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake
+
 ADD run_stage.sh /usr/bin/run_stage
 ADD git-mini-clone.sh /usr/bin/git-mini-clone
 ADD check-wget.sh /usr/bin/check-wget
