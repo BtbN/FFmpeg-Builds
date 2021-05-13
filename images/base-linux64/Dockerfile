@@ -1,34 +1,32 @@
-FROM alpine:edge
+ARG GH_REPO=btbn/ffmpeg-builds
+FROM ghcr.io/$GH_REPO/base:latest
 
-ENV CARGO_HOME="/opt/cargo" PATH="/opt/cargo/bin:${PATH}"
+ENV PATH="/opt/ct-ng/bin:${PATH}"
+RUN --mount=src=ct-ng-config,dst=/.config \
+    git clone https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
+    ./bootstrap && \
+    ./configure --enable-local && \
+    make -j$(nproc) && \
+    cp /.config .config && \
+    ./ct-ng build && \
+    cd / && \
+    rm -rf ct-ng
+
+# Prepare "cross" environment to heavily favour static builds
 RUN \
-    echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    apk add --no-cache \
-        yasm nasm diffutils xxd pkgconf git ca-certificates curl wget unzip subversion autoconf automake libtool perl make cmake clang texinfo gperf gettext gettext-dev gettext-static itstool ragel musl-dev libc6-compat openssl-dev zlib-dev bzip2-static gtk-doc gobject-introspection gawk meson samurai p7zip python3 \
-        binutils gcc g++ gfortran \
-        rust cargo cargo-c@testing && \
-    ln -s python3 /usr/bin/python && \
-    git config --global user.email "builder@localhost" && \
-    git config --global user.name "Builder" && \
-    mkdir /opt/ffbuild
-
-# Work around cmake issue
-RUN curl https://gitlab.kitware.com/DerDakon/cmake/-/raw/e591769f711ee5172437472773ed02ab1fe35408/Modules/CMakeParseImplicitIncludeInfo.cmake > /usr/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake
-
-ADD run_stage.sh /usr/bin/run_stage
-ADD git-mini-clone.sh /usr/bin/git-mini-clone
-ADD check-wget.sh /usr/bin/check-wget
+    find /opt/ct-ng -type l -and -name '*.so' -and -not -ipath '*plugin*' -and -not -name 'libdl.*' -and -not -name 'libc.*' -and -not -name 'libm.*' -delete && \
+    find /opt/ct-ng -name 'libdl.a' -or -name 'libc.a' -or -name 'libm.a' -delete
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
-ENV FFBUILD_TARGET_FLAGS="" \
-    FFBUILD_TOOLCHAIN=x86_64-alpine-linux-musl \
-    FFBUILD_CROSS_PREFIX="" \
-    FFBUILD_RUST_TARGET="" \
+ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-ffbuild-linux-gnu- --arch=x86_64 --target-os=linux" \
+    FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu \
+    FFBUILD_CROSS_PREFIX="x86_64-ffbuild-linux-gnu-" \
+    FFBUILD_RUST_TARGET="x86_64-unknown-linux-gnu" \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig \
-    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
-    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
-    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong"
+    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong -pthread" \
+    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong -pthread" \
+    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong -pie -fPIE -pthread -lm"

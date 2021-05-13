@@ -1,12 +1,9 @@
 [binaries]
-c = 'x86_64-alpine-linux-musl-gcc'
-cpp = x86_64-alpine-linux-musl-g++'
-ar = 'ar'
-strip = 'strip'
-
-[properties]
-c_link_args = ['-static-libgcc', '-L/opt/ffbuild/lib', '-O2', '-pipe', '-fstack-protector-strong']
-cpp_link_args = ['-static-libgcc', '-static-libstdc++', '-L/opt/ffbuild/lib', '-O2', '-pipe', '-fstack-protector-strong']
+c = 'x86_64-ffbuild-linux-gnu-gcc'
+cpp = 'x86_64-ffbuild-linux-gnu-g++'
+ld = 'x86_64-ffbuild-linux-gnu-ld'
+ar = 'x86_64-ffbuild-linux-gnu-ar'
+strip = 'x86_64-ffbuild-linux-gnu-strip'
 
 [host_machine]
 system = 'linux'
