@@ -2,6 +2,9 @@
 
 Static Windows Builds of ffmpeg master and latest release branch.
 
+EXPERIMENTAL Linux-Builds. Do not expect everything to work on them, specially anything that involved loading dynamic libs at runtime.
+Shared Linux builds come without the programs (hopefully just for now), since they won't run without musl.
+
 ## Auto-Builds
 
 Builds run daily at 12:00 UTC and are automatically released on success.
