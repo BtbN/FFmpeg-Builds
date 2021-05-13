@@ -8,8 +8,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir iconv
-    cd iconv
     wget -O iconv.tar.gz "$ICONV_SRC"
     tar xaf iconv.tar.gz
     rm iconv.tar.gz
@@ -27,7 +25,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi

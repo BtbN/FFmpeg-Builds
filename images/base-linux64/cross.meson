@@ -1,0 +1,15 @@
+[binaries]
+c = 'x86_64-alpine-linux-musl-gcc'
+cpp = x86_64-alpine-linux-musl-g++'
+ar = 'ar'
+strip = 'strip'
+
+[properties]
+c_link_args = ['-static-libgcc', '-L/opt/ffbuild/lib', '-O2', '-pipe', '-fstack-protector-strong']
+cpp_link_args = ['-static-libgcc', '-static-libstdc++', '-L/opt/ffbuild/lib', '-O2', '-pipe', '-fstack-protector-strong']
+
+[host_machine]
+system = 'linux'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'

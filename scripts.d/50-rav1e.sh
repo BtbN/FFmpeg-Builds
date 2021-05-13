@@ -12,12 +12,20 @@ ffbuild_dockerbuild() {
     git-mini-clone "$RAV1E_REPO" "$RAV1E_COMMIT" rav1e
     cd rav1e
 
-    cargo cinstall \
-        --target="$FFBUILD_RUST_TARGET" \
+    local myconf=(
         --prefix="$FFBUILD_PREFIX" \
         --library-type=staticlib \
         --crt-static \
         --release
+    )
+
+    if [[ -n "$FFBUILD_RUST_TARGET" ]]; then
+        myconf+=(
+            --target="$FFBUILD_RUST_TARGET"
+        )
+    fi
+
+    cargo cinstall "${myconf[@]}"
 }
 
 ffbuild_configure() {

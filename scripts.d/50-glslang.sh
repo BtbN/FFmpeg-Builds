@@ -4,6 +4,9 @@ GLSLANG_REPO="https://github.com/KhronosGroup/glslang.git"
 GLSLANG_COMMIT="5878bcb17e43bf22cecaf6095900a33ff7f53445"
 
 ffbuild_enabled() {
+    # Pointless without Vulkan
+    [[ $TARGET == linux* ]] && return -1
+
     return 0
 }
 

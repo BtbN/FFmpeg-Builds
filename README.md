@@ -6,6 +6,9 @@
 
 Static 32 bit Windows Builds of ffmpeg master and latest release branch. This repository is forked and well maintained. For static 64 bit Windows FFmpeg builds, you can check [BtbN's repository](https://github.com/BtbN/FFmpeg-Builds). Go to Wiki tab or go to releases for downloads.
 
+EXPERIMENTAL Linux-Builds. Do not expect everything to work on them, specially anything that involved loading dynamic libs at runtime.
+Shared Linux builds come without the programs (hopefully just for now), since they won't run without musl.
+
 ## Auto-Builds
 
 Builds run daily at 12:00 UTC and are automatically released on success.

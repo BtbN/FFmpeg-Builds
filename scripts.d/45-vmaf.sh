@@ -31,7 +31,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --cross-file=/cross.meson
         )
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi

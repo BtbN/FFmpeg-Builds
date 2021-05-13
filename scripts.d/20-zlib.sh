@@ -23,7 +23,7 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == win* ]]; then
         export CC="${FFBUILD_CROSS_PREFIX}gcc"
         export AR="${FFBUILD_CROSS_PREFIX}ar"
-    else
+    elif [[ $TARGET != linux* ]]; then
         echo "Unknown target"
         return -1
     fi
