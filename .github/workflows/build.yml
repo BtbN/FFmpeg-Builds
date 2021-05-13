@@ -144,7 +144,7 @@ jobs:
           set -xe
           NAME="Auto-Build $(date +'%Y-%m-%d %H:%M')"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          hub release create $(for a in artifacts/*.zip; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          hub release create $(for a in artifacts/*.{zip,tar.xz}; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
           echo "::set-output name=tag_name::${TAGNAME}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
