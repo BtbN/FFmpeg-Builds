@@ -25,6 +25,7 @@ ffbuild_dockerbuild() {
         --disable-ffms
         --disable-gpac
         --disable-lsmash
+        --extra-asflags="-w-macro-params-legacy"
         --prefix="$FFBUILD_PREFIX"
     )
 
