@@ -12,6 +12,9 @@ RUN \
     git config --global user.name "Builder" && \
     mkdir /opt/ffbuild
 
+# Work around cmake bug
+RUN sed -i 's/.*__SUNPRO_C.*/ FALSE )/' /usr/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake
+
 ADD run_stage.sh /usr/bin/run_stage
 ADD git-mini-clone.sh /usr/bin/git-mini-clone
 ADD check-wget.sh /usr/bin/check-wget
