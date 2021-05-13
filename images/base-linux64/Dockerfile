@@ -4,7 +4,7 @@ ENV CARGO_HOME="/opt/cargo" PATH="/opt/cargo/bin:${PATH}"
 RUN \
     echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --no-cache \
-        yasm nasm diffutils xxd pkgconf git ca-certificates curl wget unzip subversion autoconf automake libtool perl make cmake clang texinfo gperf gettext gettext-dev gettext-static itstool ragel musl-dev openssl-dev zlib-dev bzip2-static gtk-doc gobject-introspection gawk meson samurai p7zip python3 \
+        yasm nasm diffutils xxd pkgconf git ca-certificates curl wget unzip subversion autoconf automake libtool perl make cmake clang texinfo gperf gettext gettext-dev gettext-static itstool ragel musl-dev libc6-compat openssl-dev zlib-dev bzip2-static gtk-doc gobject-introspection gawk meson samurai p7zip python3 \
         binutils gcc g++ gfortran \
         rust cargo cargo-c@testing && \
     ln -s python3 /usr/bin/python && \
