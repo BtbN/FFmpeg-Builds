@@ -37,7 +37,9 @@ ffbuild_dockerbuild() {
     make -j$(nproc)
     make install
 
-    sed -i 's/Libs.private:/Libs.private: -lintl/' "$FFBUILD_PREFIX"/lib/pkgconfig/fontconfig.pc
+    if [[ $TARGET == linux* ]]; then
+        sed -i 's/Libs.private:/Libs.private: -lintl/' "$FFBUILD_PREFIX"/lib/pkgconfig/fontconfig.pc
+    fi
 }
 
 ffbuild_configure() {
