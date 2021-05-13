@@ -2,12 +2,12 @@ FROM alpine:edge
 
 ENV CARGO_HOME="/opt/cargo" PATH="/opt/cargo/bin:${PATH}"
 RUN \
+    echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --no-cache \
         yasm nasm diffutils xxd pkgconf git ca-certificates curl wget unzip subversion autoconf automake libtool perl make cmake clang texinfo gperf gettext gettext-dev gettext-static itstool ragel musl-dev openssl-dev zlib-dev bzip2-static gtk-doc gobject-introspection gawk meson samurai p7zip python3 \
         binutils gcc g++ gfortran \
-        rust cargo && \
+        rust cargo cargo-c@testing && \
     ln -s python3 /usr/bin/python && \
-    cargo install cargo-c && rm -rf "${CARGO_HOME}"/{registry,git} && \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
     mkdir /opt/ffbuild
