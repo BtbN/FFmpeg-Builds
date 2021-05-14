@@ -24,11 +24,11 @@ ffbuild_dockerbuild() {
         --enable-static
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    elif [[ $TARGET != linux* ]]; then
+    else
         echo "Unknown target"
         return -1
     fi
@@ -36,10 +36,6 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
-
-    if [[ $TARGET == linux* ]]; then
-        sed -i 's/Libs.private:/Libs.private: -lintl/' "$FFBUILD_PREFIX"/lib/pkgconfig/fontconfig.pc
-    fi
 }
 
 ffbuild_configure() {

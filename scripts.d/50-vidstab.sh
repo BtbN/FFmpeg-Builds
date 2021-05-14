@@ -15,15 +15,13 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    if [[ $VARIANT == *shared* && $TARGET == linux* ]]; then
-       USE_OMP="OFF"
-    else
-       USE_OMP="ON"
-    fi
-
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DUSE_OMP="$USE_OMP" ..
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DUSE_OMP=ON ..
     make -j$(nproc)
     make install
+
+    if [[ $TARGET == linux* ]]; then
+        echo "Libs.private: -ldl" >> "$FFBUILD_PREFIX"/lib/pkgconfig/vidstab.pc
+    fi
 }
 
 ffbuild_configure() {

@@ -21,12 +21,12 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
             --cross-prefix="$FFBUILD_CROSS_PREFIX"
         )
-    elif [[ $TARGET != linux* ]]; then
+    else
         echo "Unknown target"
         return -1
     fi

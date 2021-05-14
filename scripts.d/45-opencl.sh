@@ -35,8 +35,13 @@ ffbuild_dockerbuild() {
     echo "Description: OpenCL ICD Loader" >> OpenCL.pc
     echo "Version: 9999" >> OpenCL.pc
     echo "Libs: -L\${libdir} -lOpenCL" >> OpenCL.pc
-    echo "Libs.private: -lole32 -lshlwapi -lcfgmgr32" >> OpenCL.pc
     echo "Cflags: -I\${includedir}" >> OpenCL.pc
+
+    if [[ $TARGET == linux* ]]; then
+        echo "Libs.private: -ldl" >> OpenCL.pc
+    elif [[ $TARGET == win* ]]; then
+        echo "Libs.private: -lole32 -lshlwapi -lcfgmgr32" >> OpenCL.pc
+    fi
 
     mkdir -p "$FFBUILD_PREFIX"/lib/pkgconfig
     mv OpenCL.pc "$FFBUILD_PREFIX"/lib/pkgconfig/OpenCL.pc

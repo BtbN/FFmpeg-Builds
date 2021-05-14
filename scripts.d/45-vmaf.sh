@@ -27,11 +27,11 @@ ffbuild_dockerbuild() {
         -Denable_float=true
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
             --cross-file=/cross.meson
         )
-    elif [[ $TARGET != linux* ]]; then
+    else
         echo "Unknown target"
         return -1
     fi

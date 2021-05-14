@@ -24,11 +24,11 @@ ffbuild_dockerbuild() {
         --disable-frontend
     )
 
-    if [[ $TARGET == win* ]]; then
+    if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
-    elif [[ $TARGET != linux* ]]; then
+    else
         echo "Unknown target"
         return -1
     fi
