@@ -71,6 +71,14 @@ ffbuild_uncxxflags() {
     return 0
 }
 
+ffbuild_ldexeflags() {
+    return 0
+}
+
+ffbuild_unldexeflags() {
+    return 0
+}
+
 ffbuild_ldflags() {
     return 0
 }

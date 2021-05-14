@@ -20,9 +20,12 @@ ffbuild_dockerbuild() {
     return 0
 }
 
-ffbuild_configure() {
+ffbuild_ldexeflags() {
+    echo '-pie'
+
     if [[ $VARIANT == *shared* ]]; then
         # Can't escape escape hell
-        echo --extra-ldexeflags=\'-Wl,-rpath='\\\\\\\$\\\$ORIGIN'\\ -Wl,-rpath='\\\\\\\$\\\$ORIGIN/../lib'\'
+        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN'
+        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN/../lib'
     fi
 }

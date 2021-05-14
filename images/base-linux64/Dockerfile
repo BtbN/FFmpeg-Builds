@@ -20,13 +20,11 @@ RUN \
         -and -not -name 'libdl.*' \
         -and -not -name 'libc.*' \
         -and -not -name 'libm.*' \
-        -and -not -name 'libgomp.*' \
         -delete && \
     find /opt/ct-ng \
         -name 'libdl.a' \
         -or -name 'libc.a' \
         -or -name 'libm.a' \
-        -or -name 'libgomp.a' \
         -delete
 
 ADD toolchain.cmake /toolchain.cmake

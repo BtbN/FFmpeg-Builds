@@ -29,6 +29,7 @@ for script in scripts.d/**/*.sh; do
     FF_CFLAGS+=" $(get_output $script cflags)"
     FF_CXXFLAGS+=" $(get_output $script cxxflags)"
     FF_LDFLAGS+=" $(get_output $script ldflags)"
+    FF_LDEXEFLAGS+=" $(get_output $script ldexeflags)"
     FF_LIBS+=" $(get_output $script libs)"
 done
 
@@ -36,6 +37,7 @@ FF_CONFIGURE="$(xargs <<< "$FF_CONFIGURE")"
 FF_CFLAGS="$(xargs <<< "$FF_CFLAGS")"
 FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
 FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
+FF_LDEXEFLAGS="$(xargs <<< "$FF_LDEXEFLAGS")"
 FF_LIBS="$(xargs <<< "$FF_LIBS")"
 
 TESTFILE="uidtestfile"
@@ -57,7 +59,7 @@ docker run --rm -i "${UIDARGS[@]}" -v $PWD/ffbuild:/ffbuild "$IMAGE" bash -s <<E
     cd ffmpeg
     git checkout $GIT_BRANCH
 
-    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags='$FF_CFLAGS' --extra-cxxflags='$FF_CXXFLAGS' --extra-ldflags='$FF_LDFLAGS' --extra-libs='$FF_LIBS'
+    ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE --extra-cflags='$FF_CFLAGS' --extra-cxxflags='$FF_CXXFLAGS' --extra-ldflags='$FF_LDFLAGS' --extra-ldexeflags='$FF_LDEXEFLAGS' --extra-libs='$FF_LIBS'
     make -j\$(nproc) V=1
     make install install-doc
 EOF
