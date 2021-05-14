@@ -14,8 +14,20 @@ RUN --mount=src=ct-ng-config,dst=/.config \
 
 # Prepare "cross" environment to heavily favour static builds
 RUN \
-    find /opt/ct-ng -type l -and -name '*.so' -and -not -ipath '*plugin*' -and -not -name 'libdl.*' -and -not -name 'libc.*' -and -not -name 'libm.*' -delete && \
-    find /opt/ct-ng -name 'libdl.a' -or -name 'libc.a' -or -name 'libm.a' -delete
+    find /opt/ct-ng -type l \
+        -and -name '*.so' \
+        -and -not -ipath '*plugin*' \
+        -and -not -name 'libdl.*' \
+        -and -not -name 'libc.*' \
+        -and -not -name 'libm.*' \
+        -and -not -name 'libgomp.*' \
+        -delete && \
+    find /opt/ct-ng \
+        -name 'libdl.a' \
+        -or -name 'libc.a' \
+        -or -name 'libm.a' \
+        -or -name 'libgomp.a' \
+        -delete
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
