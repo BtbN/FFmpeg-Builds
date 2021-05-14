@@ -29,6 +29,10 @@ ffbuild_unconfigure() {
     echo --disable-libsoxr
 }
 
+ffbuild_ldflags() {
+    echo -pthread
+}
+
 ffbuild_libs() {
     echo -lgomp
 }
