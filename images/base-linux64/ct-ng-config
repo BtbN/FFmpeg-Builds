@@ -523,7 +523,7 @@ CT_GLIBC_HAS_LIBIDN_ADDON=y
 # CT_GLIBC_USE_LIBIDN_ADDON is not set
 CT_GLIBC_NO_SPARC_V8=y
 CT_GLIBC_HAS_OBSOLETE_RPC=y
-CT_GLIBC_EXTRA_CONFIG_ARRAY=""
+CT_GLIBC_EXTRA_CONFIG_ARRAY="--with-pic --enable-static-pie"
 CT_GLIBC_CONFIGPARMS=""
 CT_GLIBC_EXTRA_CFLAGS=""
 CT_GLIBC_ENABLE_OBSOLETE_RPC=y
@@ -617,8 +617,8 @@ CT_GCC_4_8_or_later=y
 CT_CC_GCC_ENABLE_PLUGINS=y
 CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
-CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY="--enable-default-pie --enable-default-ssp"
-CT_CC_GCC_EXTRA_CONFIG_ARRAY="--enable-default-pie --enable-default-ssp"
+CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY="--enable-host-shared --enable-default-pie --enable-default-ssp"
+CT_CC_GCC_EXTRA_CONFIG_ARRAY="--enable-host-shared --enable-default-pie --enable-default-ssp"
 CT_CC_GCC_STATIC_LIBSTDCXX=y
 # CT_CC_GCC_SYSTEM_ZLIB is not set
 CT_CC_GCC_CONFIG_TLS=m
