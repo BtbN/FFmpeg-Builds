@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - '**.md'
 
 env:
   DOCKER_BUILDKIT: 1
