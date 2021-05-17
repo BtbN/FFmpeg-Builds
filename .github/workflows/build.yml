@@ -6,6 +6,8 @@ on:
     types: [build]
   schedule:
     - cron: '0 12 * * *'
+  paths-ignore:  
+    - '**.md'
 
 env:
   DOCKER_BUILDKIT: 1
