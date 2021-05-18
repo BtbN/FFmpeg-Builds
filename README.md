@@ -40,15 +40,15 @@ On success, the resulting zip file will be in the `artifacts` subdir.
 ### Targets, Variants and Addins
 
 Available targets:
-* win64 (x86_64 Windows)
-* win32 (x86 Windows)
-* linux64 (x86_64 Linux, glibc>=2.23, linux>=4.4)
+* `win64` (x86_64 Windows)
+* `win32` (x86 Windows)
+* `linux64` (x86_64 Linux, glibc>=2.23, linux>=4.4)
 
 Available:
-* `gpl`
-* `lgpl`
-* `gpl-shared`
-* `lgpl-shared`
+* `gpl` Includes all dependencies, even those that require full GPL instead of just LGPL.
+* `lgpl` Lacking libraries that are GPL-only. Most prominently libx264 and libx265.
+* `gpl-shared` Same as gpl, but comes with the libav* family of shared libs instead of pure static executables.
+* `lgpl-shared` Same again, but with the lgpl set of dependencies.
 
 All of those can be optionally combined with any combination of addins.
 * `4.4` to build from the 4.4 release branch instead of master.
