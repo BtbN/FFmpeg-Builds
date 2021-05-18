@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
       - '**.md'
+      - 'LICENSE'
   repository_dispatch:
     types: [build]
   schedule:
