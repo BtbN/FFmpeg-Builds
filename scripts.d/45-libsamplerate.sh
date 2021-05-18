@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBSR_REPO="https://github.com/libsndfile/libsamplerate.git"
-LIBSR_COMMIT="0278ebe9c3da2dfb960cfc62aea192c3cff06866"
+LIBSR_COMMIT="70423ce8c77b8cb32c5ee18dd30e866ebafd22f3"
 
 ffbuild_enabled() {
     # Dependency of GPL-Only librubberband
