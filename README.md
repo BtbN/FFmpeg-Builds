@@ -1,5 +1,9 @@
 # FFmpeg Static Auto-Builds
+<div align=center>
 
+![windows autobuild architecture](https://img.shields.io/badge/Architecture-Windows%20x86__64-blue?logo=windows&style=for-the-badge) ![linux autobuild architecture](https://img.shields.io/badge/Architecture-Linux%20x86__64-blue?logo=linux&style=for-the-badge) ![GitHub all releases](https://img.shields.io/github/downloads/BtbN/FFmpeg-Builds/total?style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/BtbN/FFmpeg-Builds?style=for-the-badge&color=ff0066) ![GitHub issues](https://img.shields.io/github/issues/BtbN/FFmpeg-Builds?style=for-the-badge&color=red) ![closed issues](https://img.shields.io/github/issues-closed/BtbN/FFmpeg-Builds?style=for-the-badge)
+
+</div>
 Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest release branch.
 
 Windows builds are targetting Windows 7 and newer.
