@@ -37,8 +37,6 @@ ffbuild_dockerbuild() {
     unset LDFLAGS
     unset PKG_CONFIG_LIBDIR
 
-    autoreconf -i
-
     local myconf=(
         --prefix="/usr/$FFBUILD_TOOLCHAIN"
         --host="$FFBUILD_TOOLCHAIN"
@@ -51,8 +49,6 @@ ffbuild_dockerbuild() {
     make install DESTDIR="/opt/mingw"
 
     cd ../mingw-w64-libraries/winpthreads
-
-    autoreconf -i
 
     local myconf=(
         --prefix="/usr/$FFBUILD_TOOLCHAIN"
