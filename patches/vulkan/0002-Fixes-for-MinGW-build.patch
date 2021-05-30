@@ -1,4 +1,4 @@
-From 1733181194d4f356e599a748c6d8c5009541604f Mon Sep 17 00:00:00 2001
+From 4b2019bf934227e526f72df5b045b3bbfb646b63 Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:07:39 +0200
 Subject: [PATCH 2/4] Fixes for MinGW build
@@ -11,10 +11,10 @@ Adapted from https://github.com/msys2/MINGW-packages/blob/348f1d46d9d273a2cc928d
  3 files changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index 04faf23cc..b5f90393d 100644
+index 219b99bd5..ab0a49c55 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -67,6 +67,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+@@ -71,6 +71,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
  
  if(WIN32)
      # Use static MSVCRT libraries
@@ -22,7 +22,7 @@ index 04faf23cc..b5f90393d 100644
      foreach(configuration
              in
              CMAKE_C_FLAGS_DEBUG
-@@ -85,6 +86,7 @@ if(WIN32)
+@@ -89,6 +90,7 @@ if(WIN32)
                             "${${configuration}}")
          endif()
      endforeach()
@@ -30,7 +30,7 @@ index 04faf23cc..b5f90393d 100644
  
      if(ENABLE_WIN10_ONECORE)
          # Note: When linking your app or driver to OneCore.lib, be sure to remove any links to non-umbrella libs (such as
-@@ -231,7 +233,7 @@ if(WIN32)
+@@ -238,7 +240,7 @@ if(WIN32)
                                       "")
      target_link_libraries(vulkan Vulkan::Headers)
  
@@ -39,7 +39,7 @@ index 04faf23cc..b5f90393d 100644
          target_link_libraries(vulkan OneCoreUAP.lib LIBCMT.LIB LIBCMTD.LIB LIBVCRUNTIME.LIB LIBUCRT.LIB)
          set_target_properties(vulkan PROPERTIES LINK_FLAGS "/NODEFAULTLIB")
      else()
-@@ -318,11 +320,11 @@ else()
+@@ -326,11 +328,11 @@ else()
          )
  # cmake-format: on
      endif()
@@ -53,7 +53,7 @@ index 04faf23cc..b5f90393d 100644
  # Generate pkg-config file.
  include(FindPkgConfig QUIET)
 diff --git a/loader/loader.h b/loader/loader.h
-index ea0c976b5..64ad08693 100644
+index 2182f187c..d0570cb97 100644
 --- a/loader/loader.h
 +++ b/loader/loader.h
 @@ -38,7 +38,9 @@
