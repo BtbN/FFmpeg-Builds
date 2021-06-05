@@ -48,3 +48,13 @@ ffbuild_dockerbuild() {
     make -j$(nproc)
     make install_sw
 }
+
+ffbuild_configure() {
+    [[ $TARGET == win* ]] && return
+    echo --enable-openssl
+}
+
+ffbuild_unconfigure() {
+    [[ $TARGET == win* ]] && return
+    echo --disable-openssl
+}
