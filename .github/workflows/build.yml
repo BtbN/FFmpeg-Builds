@@ -14,15 +14,6 @@ env:
   DOCKER_BUILDKIT: 1
 
 jobs:
-  purge_artifacts:
-    name: Purge old artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - name: Purge old artifacts
-        uses: c-hive/gha-remove-artifacts@v1
-        with:
-          age: 0 days
-          skip-recent: 3
   build_base:
     name: Build base image
     runs-on: ubuntu-latest
