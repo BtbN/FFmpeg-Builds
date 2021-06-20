@@ -4,7 +4,7 @@ X264_REPO="https://github.com/mirror/x264.git"
 X264_COMMIT="b684ebe04a6f80f8207a57940a1fa00e25274f81"
 
 ffbuild_enabled() {
-    [[ $VARIANT == gpl* ]] || return -1
+    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 

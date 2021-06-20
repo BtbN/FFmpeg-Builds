@@ -5,7 +5,7 @@ LIBSR_COMMIT="eda3c5e3d878314a944ade93bdb073ab20d5bab6"
 
 ffbuild_enabled() {
     # Dependency of GPL-Only librubberband
-    [[ $VARIANT == gpl* ]] || return -1
+    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 

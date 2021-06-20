@@ -4,7 +4,7 @@
 RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.1.tar.bz2"
 
 ffbuild_enabled() {
-    [[ $VARIANT == gpl* ]] || return -1
+    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 

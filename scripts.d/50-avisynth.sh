@@ -4,7 +4,7 @@ AVISYNTH_REPO="https://github.com/AviSynth/AviSynthPlus.git"
 AVISYNTH_COMMIT="e18e487c8374f645330ef30c0a613601fe22f9d4"
 
 ffbuild_enabled() {
-    [[ $VARIANT == gpl* ]] || return -1
+    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 

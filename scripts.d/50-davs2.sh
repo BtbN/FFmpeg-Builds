@@ -4,7 +4,7 @@ DAVS2_REPO="https://github.com/pkuvcl/davs2.git"
 DAVS2_COMMIT="b06d7585620f4e90a6d19a2926bb4e59793b8942"
 
 ffbuild_enabled() {
-    [[ $VARIANT == gpl* ]] || return -1
+    [[ $VARIANT == lgpl* ]] && return -1
     [[ $TARGET == win32 ]] && return -1
     return 0
 }
