@@ -1,45 +1,20 @@
-From 4b2019bf934227e526f72df5b045b3bbfb646b63 Mon Sep 17 00:00:00 2001
+From d3a86d11426c8d148a554f67654fb0a048d0c98d Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:07:39 +0200
 Subject: [PATCH 2/4] Fixes for MinGW build
 
 Adapted from https://github.com/msys2/MINGW-packages/blob/348f1d46d9d273a2cc928deadf9d9114f7a69c2f/mingw-w64-vulkan-loader/002-proper-def-files-for-32bit.patch
 ---
- loader/CMakeLists.txt          | 6 ++++--
+ loader/CMakeLists.txt          | 2 +-
  loader/loader.h                | 4 +++-
  tests/layers/vk_format_utils.h | 4 +++-
- 3 files changed, 10 insertions(+), 4 deletions(-)
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index 219b99bd5..ab0a49c55 100644
+index 4e6c14ff8..ca768223f 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -71,6 +71,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
- 
- if(WIN32)
-     # Use static MSVCRT libraries
-+    if(MSVC)
-     foreach(configuration
-             in
-             CMAKE_C_FLAGS_DEBUG
-@@ -89,6 +90,7 @@ if(WIN32)
-                            "${${configuration}}")
-         endif()
-     endforeach()
-+    endif()
- 
-     if(ENABLE_WIN10_ONECORE)
-         # Note: When linking your app or driver to OneCore.lib, be sure to remove any links to non-umbrella libs (such as
-@@ -238,7 +240,7 @@ if(WIN32)
-                                      "")
-     target_link_libraries(vulkan Vulkan::Headers)
- 
--    if(ENABLE_WIN10_ONECORE)
-+    if(ENABLE_WIN10_ONECORE AND MSVC)
-         target_link_libraries(vulkan OneCoreUAP.lib LIBCMT.LIB LIBCMTD.LIB LIBVCRUNTIME.LIB LIBUCRT.LIB)
-         set_target_properties(vulkan PROPERTIES LINK_FLAGS "/NODEFAULTLIB")
-     else()
-@@ -326,11 +328,11 @@ else()
+@@ -329,11 +329,11 @@ else()
          )
  # cmake-format: on
      endif()

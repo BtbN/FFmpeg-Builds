@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OGG_REPO="https://github.com/xiph/ogg.git"
-OGG_COMMIT="369657ca2eb36131cbd53359b4d365e2b48054de"
+OGG_COMMIT="3069cc2bb44160982cdb21b2b8f0660c76b17572"
 
 ffbuild_enabled() {
     return 0

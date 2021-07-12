@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MFX_REPO="https://github.com/lu-zero/mfx_dispatch.git"
-MFX_COMMIT="2cd279f1e8a277c843025c8713c6ed3b4c42b032"
+MFX_COMMIT="0349e3bc5bcdb268e94a334bf8a2bdeb6a369840"
 
 ffbuild_enabled() {
     return 0

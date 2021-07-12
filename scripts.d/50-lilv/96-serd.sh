@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SERD_REPO="https://github.com/drobilla/serd.git"
-SERD_COMMIT="10c6dcff8d28ca2a05d2ebcfa9bb47e24e5a9d64"
+SERD_COMMIT="c05fdaa19be53ef618435d3629122a4ebdc7cb63"
 
 ffbuild_enabled() {
     return 0

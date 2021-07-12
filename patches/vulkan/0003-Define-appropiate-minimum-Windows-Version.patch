@@ -1,4 +1,4 @@
-From fb3cd101efc847efaa95dc0cccfa64f9cd37e7e0 Mon Sep 17 00:00:00 2001
+From 9e735ac1e3d15cc75185c988e954979c83521881 Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:33:23 +0200
 Subject: [PATCH 3/4] Define appropiate minimum Windows-Version

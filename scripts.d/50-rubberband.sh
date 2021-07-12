@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # https://breakfastquay.com/rubberband/
-RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.1.tar.bz2"
+RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.2.tar.bz2"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
