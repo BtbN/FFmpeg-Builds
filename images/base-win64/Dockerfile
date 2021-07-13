@@ -23,6 +23,7 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-w64-ming
     FFBUILD_RUST_TARGET=x86_64-pc-windows-gnu \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
+    PKG_CONFIG=pkg-config \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig \
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
