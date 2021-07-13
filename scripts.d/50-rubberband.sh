@@ -17,9 +17,6 @@ ffbuild_dockerbuild() {
     rm rubberband.tar.gz
     cd rubberband*
 
-    # Fix broken cross compilation
-    sed -i 's/build_machine.system/host_machine.system/' meson.build
-
     mkdir build && cd build
 
     local myconf=(
