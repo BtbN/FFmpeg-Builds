@@ -30,6 +30,7 @@ ffbuild_dockerbuild() {
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
             --with-drivers-path="/usr/lib/x86_64-linux-gnu/dri"
+            --sysconfdir="/etc"
         )
     else
         echo "Unknown target"
