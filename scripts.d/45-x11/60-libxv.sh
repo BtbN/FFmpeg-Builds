@@ -38,8 +38,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    # Needs a patch to FFmpeg to fix static linking first
-    echo #--enable-xlib
+    echo --enable-xlib
 }
 
 ffbuild_unconfigure() {
