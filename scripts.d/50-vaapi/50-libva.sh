@@ -21,7 +21,7 @@ ffbuild_dockerbuild() {
         --with-pic
         --disable-docs
         --enable-drm
-        --disable-x11
+        --enable-x11
         --disable-glx
         --disable-wayland
     )
