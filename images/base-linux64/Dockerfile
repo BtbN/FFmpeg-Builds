@@ -41,5 +41,5 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-ffbuild-
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -fPIC -DPIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong -pthread" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -fPIC -DPIC -D_FORTIFY_SOURCE=2 -fstack-protector-strong -pthread" \
     LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong -Wl,-z,relro,-z,now -pthread -lm" \
-    STAGE_CFLAGS="-fvisibility=hidden" \
-    STAGE_CXXFLAGS="-fvisibility=hidden"
+    STAGE_CFLAGS="-fvisibility=hidden -fno-semantic-interposition" \
+    STAGE_CXXFLAGS="-fvisibility=hidden -fno-semantic-interposition"

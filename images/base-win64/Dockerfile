@@ -28,4 +28,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-w64-ming
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong" \
-    DLLTOOL="x86_64-w64-mingw32-dlltool"
+    DLLTOOL="x86_64-w64-mingw32-dlltool" \
+    STAGE_CFLAGS="-fno-semantic-interposition" \
+    STAGE_CXXFLAGS="-fno-semantic-interposition"
