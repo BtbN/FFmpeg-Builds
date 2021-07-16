@@ -39,4 +39,6 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
+
+    echo "Libs.private: -ldl" >> "$FFBUILD_PREFIX"/lib/pkgconfig/x11.pc
 }
