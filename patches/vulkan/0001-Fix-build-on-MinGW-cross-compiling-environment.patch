@@ -1,4 +1,4 @@
-From 3144d063916caf6271d5af2b5edb58b95b49ef3f Mon Sep 17 00:00:00 2001
+From 4037e82a4a6e46bd1133755683ad62f32e5af76e Mon Sep 17 00:00:00 2001
 From: Syoyo Fujita <syoyo@lighttransport.com>
 Date: Thu, 28 May 2020 21:38:16 +0900
 Subject: [PATCH 1/4] Fix build on MinGW cross compiling environment.
@@ -10,7 +10,7 @@ Subject: [PATCH 1/4] Fix build on MinGW cross compiling environment.
  3 files changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index d56f948cf..4e6c14ff8 100644
+index 4f54c3298..50cced309 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
 @@ -160,7 +160,7 @@ if(WIN32)
@@ -32,12 +32,12 @@ index d56f948cf..4e6c14ff8 100644
  elseif(APPLE)
      # For MacOS, use the C code and force the compiler's tail-call optimization instead of using assembly code.
 diff --git a/loader/loader.c b/loader/loader.c
-index 7776ff5f4..dc26a9c4f 100644
+index 6db4e9245..d76f7dbe7 100644
 --- a/loader/loader.c
 +++ b/loader/loader.c
 @@ -83,6 +83,19 @@
  
- typedef HRESULT (APIENTRY *PFN_CreateDXGIFactory1)(REFIID riid, void **ppFactory);
+ typedef HRESULT(APIENTRY *PFN_CreateDXGIFactory1)(REFIID riid, void **ppFactory);
  static PFN_CreateDXGIFactory1 fpCreateDXGIFactory1;
 +
 +#if defined(__MINGW32__)
@@ -56,7 +56,7 @@ index 7776ff5f4..dc26a9c4f 100644
  
  // This is a CMake generated file with #defines for any functions/includes
 diff --git a/loader/loader.rc b/loader/loader.rc
-index 18eb5e6c1..2a9988d00 100755
+index a29c507de..6ed444bfe 100755
 --- a/loader/loader.rc
 +++ b/loader/loader.rc
 @@ -43,7 +43,11 @@

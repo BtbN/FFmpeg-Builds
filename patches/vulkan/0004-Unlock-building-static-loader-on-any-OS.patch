@@ -1,4 +1,4 @@
-From 6e1f9e7ce670b295bf5d24564b1ec0a179a0ee34 Mon Sep 17 00:00:00 2001
+From b6b9abf90b6f71abf9d5405745748dd991099247 Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Sun, 4 Apr 2021 23:29:53 +0200
 Subject: [PATCH 4/4] Unlock building static loader on any OS
@@ -27,7 +27,7 @@ index bd01fa016..91e5652f3 100644
  if(BUILD_STATIC_LOADER)
      message(WARNING "The BUILD_STATIC_LOADER option has been set. Note that this will only work on MacOS and is not supported "
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index ca768223f..f37b18908 100644
+index d35d37220..cf6c57b5e 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
 @@ -224,6 +224,22 @@ if(WIN32)
@@ -62,7 +62,7 @@ index ca768223f..f37b18908 100644
  
      target_link_libraries(vulkan Vulkan::Headers)
  
-@@ -260,17 +278,19 @@ else()
+@@ -260,14 +278,16 @@ else()
          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-typedef-redefinition")
      endif()
  
@@ -74,16 +74,13 @@ index ca768223f..f37b18908 100644
      endif()
      add_dependencies(vulkan loader_asm_gen_files)
 +    if (NOT BUILD_STATIC_LOADER)
-     set_target_properties(vulkan
-                           PROPERTIES SOVERSION
-                                      "1"
-                                      VERSION
-                                      "${VulkanHeaders_VERSION_MAJOR}.${VulkanHeaders_VERSION_MINOR}.${VulkanHeaders_VERSION_PATCH}")
+     # set version based on VK_HEADER_VERSION used to generate the code
+     include(generated/loader_generated_header_version.cmake)
 +    endif()
      target_link_libraries(vulkan ${CMAKE_DL_LIBS} m)
      if (NOT ANDROID)
          target_link_libraries(vulkan pthread)
-@@ -342,6 +362,7 @@ if(PKG_CONFIG_FOUND)
+@@ -339,6 +359,7 @@ if(PKG_CONFIG_FOUND)
      foreach(LIB ${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES} ${PLATFORM_LIBS})
          set(PRIVATE_LIBS "${PRIVATE_LIBS} -l${LIB}")
      endforeach()
@@ -92,10 +89,10 @@ index ca768223f..f37b18908 100644
          set(VULKAN_LIB_SUFFIX "-1")
      endif ()
 diff --git a/loader/loader.c b/loader/loader.c
-index dc26a9c4f..4bafed2ed 100644
+index d76f7dbe7..73e93fff1 100644
 --- a/loader/loader.c
 +++ b/loader/loader.c
-@@ -7914,7 +7914,7 @@ out:
+@@ -7889,7 +7889,7 @@ out:
      return result;
  }
  
@@ -105,10 +102,10 @@ index dc26a9c4f..4bafed2ed 100644
      switch (reason) {
          case DLL_PROCESS_ATTACH:
 diff --git a/loader/loader.h b/loader/loader.h
-index d0570cb97..a3bfdc53a 100644
+index fc26fcde6..43fa875e5 100644
 --- a/loader/loader.h
 +++ b/loader/loader.h
-@@ -439,6 +439,9 @@ static inline void loader_init_dispatch(void *obj, const void *data) {
+@@ -449,6 +449,9 @@ static inline void loader_init_dispatch(void *obj, const void *data) {
  // Global variables used across files
  extern struct loader_struct loader;
  extern THREAD_LOCAL_DECL struct loader_instance *tls_instance;
@@ -119,7 +116,7 @@ index d0570cb97..a3bfdc53a 100644
  extern loader_platform_thread_mutex loader_json_lock;
  extern loader_platform_thread_mutex loader_preload_icd_lock;
 diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
-index badcbc816..38900b913 100644
+index c1e47e4c3..2cc1d2e7c 100644
 --- a/loader/vk_loader_platform.h
 +++ b/loader/vk_loader_platform.h
 @@ -421,9 +421,25 @@ typedef HANDLE loader_platform_thread;

@@ -1,4 +1,4 @@
-From d3a86d11426c8d148a554f67654fb0a048d0c98d Mon Sep 17 00:00:00 2001
+From f712c42a36bf39592abb2c7f8d2d891287f14c3f Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:07:39 +0200
 Subject: [PATCH 2/4] Fixes for MinGW build
@@ -11,10 +11,10 @@ Adapted from https://github.com/msys2/MINGW-packages/blob/348f1d46d9d273a2cc928d
  3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index 4e6c14ff8..ca768223f 100644
+index 50cced309..d35d37220 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -329,11 +329,11 @@ else()
+@@ -326,11 +326,11 @@ else()
          )
  # cmake-format: on
      endif()
@@ -28,7 +28,7 @@ index 4e6c14ff8..ca768223f 100644
  # Generate pkg-config file.
  include(FindPkgConfig QUIET)
 diff --git a/loader/loader.h b/loader/loader.h
-index 2182f187c..d0570cb97 100644
+index 6cc0f8388..fc26fcde6 100644
 --- a/loader/loader.h
 +++ b/loader/loader.h
 @@ -38,7 +38,9 @@

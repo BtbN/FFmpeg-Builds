@@ -1,4 +1,4 @@
-From 9e735ac1e3d15cc75185c988e954979c83521881 Mon Sep 17 00:00:00 2001
+From 9ed35d2d8395553d90e65867946c4df9c7bfaf63 Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:33:23 +0200
 Subject: [PATCH 3/4] Define appropiate minimum Windows-Version
@@ -8,7 +8,7 @@ Subject: [PATCH 3/4] Define appropiate minimum Windows-Version
  1 file changed, 5 insertions(+)
 
 diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
-index 437b3c320..badcbc816 100644
+index d9381c239..c1e47e4c3 100644
 --- a/loader/vk_loader_platform.h
 +++ b/loader/vk_loader_platform.h
 @@ -24,6 +24,11 @@
