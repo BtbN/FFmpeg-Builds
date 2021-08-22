@@ -2,7 +2,7 @@
 
 MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
 # HEAD of development_2.x
-MBEDTLS_COMMIT="8de3633c658dbbdfe70b6f13149e975c2c6bf88f"
+MBEDTLS_COMMIT="5c385aca19bc88d36d197cc94c799313ca793d07"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] && return -1

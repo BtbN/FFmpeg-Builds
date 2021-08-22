@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOADER_REPO="https://github.com/KhronosGroup/Vulkan-Loader.git"
-LOADER_COMMIT="8daad81803f5ed9b36a172c299140dde7a8c4494"
+LOADER_COMMIT="90fd66f60fa7de10c91030f8c88b2a5c7c377784"
 
 ffbuild_enabled() {
     # The various graphics systems(xcb, xlib, wayland, ...) need figured out first

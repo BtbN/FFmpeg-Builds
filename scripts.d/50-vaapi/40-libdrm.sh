@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBDRM_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
-LIBDRM_COMMIT="9cef5dee3cd817728c83aeb3c2010c1954e4c402"
+LIBDRM_COMMIT="1a4c0ec9aea13211997f982715fe5ffcf19dd067"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1

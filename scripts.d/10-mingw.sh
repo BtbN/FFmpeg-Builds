@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MINGW_REPO="https://github.com/mirror/mingw-w64.git"
-MINGW_COMMIT="7fb7c9f6e401e2bc4393e61a27a68ebccffa1195"
+MINGW_COMMIT="6b62cf66832bd158c67662cd5566413baf35f20e"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
@@ -25,10 +25,10 @@ ffbuild_dockerbuild() {
     git-mini-clone "$MINGW_REPO" "$MINGW_COMMIT" mingw
     cd mingw
 
-    for patch in /patches/*.patch; do
-        echo "Applying $patch"
-        git am < "$patch"
-    done
+#    for patch in /patches/*.patch; do
+#        echo "Applying $patch"
+#        git am < "$patch"
+#    done
 
     cd mingw-w64-headers
 
