@@ -14,6 +14,8 @@ if ! [[ -f "variants/${TARGET}-${VARIANT}.sh" ]]; then
     exit -1
 fi
 
+LICENSE_FILE="COPYING.LGPLv2.1"
+
 ADDINS=()
 ADDINS_STR=""
 while [[ "$#" -gt 0 ]]; do
