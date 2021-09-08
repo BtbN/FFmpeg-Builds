@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 git fetch --tags
 TAGS=( $(git tag -l "autobuild-*" | sort -r) )
