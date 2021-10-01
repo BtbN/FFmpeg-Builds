@@ -714,8 +714,8 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_LOCAL_BUNDLED is not set
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
-# CT_ISL_V_0_24 is not set
-CT_ISL_V_0_22=y
+CT_ISL_V_0_24=y
+# CT_ISL_V_0_22 is not set
 # CT_ISL_V_0_21 is not set
 # CT_ISL_V_0_20 is not set
 # CT_ISL_V_0_19 is not set
@@ -723,8 +723,8 @@ CT_ISL_V_0_22=y
 # CT_ISL_V_0_17 is not set
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
-CT_ISL_VERSION="0.22"
-CT_ISL_MIRRORS="http://isl.gforge.inria.fr"
+CT_ISL_VERSION="0.24"
+CT_ISL_MIRRORS="https://ftp.halifax.rwth-aachen.de/gentoo/distfiles"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
