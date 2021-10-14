@@ -30,7 +30,9 @@ jobs:
         id: imagename
         run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base:latest"
       - name: Build base image
-        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
+        run: |
+          T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+          docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base
       - name: Push base image
         run: docker push ${{ steps.imagename.outputs.name }}
   build_target_bases:
@@ -54,7 +56,9 @@ jobs:
         id: imagename
         run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
       - name: Build target base image
-        run: docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
+        run: |
+          T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+          docker build --pull --build-arg BUILDKIT_INLINE_CACHE=1 --build-arg GH_REPO=${GITHUB_REPOSITORY,,} --cache-from ${{ steps.imagename.outputs.name }} --tag ${{ steps.imagename.outputs.name }} images/base-${{ matrix.target }}
       - name: Push target base image
         run: docker push ${{ steps.imagename.outputs.name }}
   build_targets:
@@ -87,6 +91,7 @@ jobs:
           echo "::set-output name=cache_name::${IMG/ /-}:cache"
       - name: Build variant image
         run: |
+          T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
           docker buildx build \
             --pull \
             --tag ${{ steps.imagename.outputs.name }} \
@@ -113,7 +118,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Build ffmpeg
-        run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+        run: |
+          T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+          ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
