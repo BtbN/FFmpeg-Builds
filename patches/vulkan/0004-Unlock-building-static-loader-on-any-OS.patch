@@ -1,4 +1,4 @@
-From b6b9abf90b6f71abf9d5405745748dd991099247 Mon Sep 17 00:00:00 2001
+From 73d8fb89c6897648ef9e0340793cb2487695488f Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Sun, 4 Apr 2021 23:29:53 +0200
 Subject: [PATCH 4/4] Unlock building static loader on any OS
@@ -7,16 +7,16 @@ Based in parts on https://github.com/shinchiro/mpv-winbuild-cmake/blob/master/pa
 ---
  CMakeLists.txt              |  2 --
  loader/CMakeLists.txt       | 23 ++++++++++++++++++++++-
- loader/loader.c             |  2 +-
  loader/loader.h             |  3 +++
+ loader/loader_windows.c     |  2 ++
  loader/vk_loader_platform.h | 16 ++++++++++++++++
- 5 files changed, 42 insertions(+), 4 deletions(-)
+ 5 files changed, 43 insertions(+), 3 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bd01fa016..91e5652f3 100644
+index 703bcb1ba..43a25d8aa 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -40,9 +40,7 @@ if(BUILD_TESTS)
+@@ -95,9 +95,7 @@ if(BUILD_TESTS)
      enable_testing()
  endif()
  
@@ -24,13 +24,13 @@ index bd01fa016..91e5652f3 100644
      option(BUILD_STATIC_LOADER "Build a loader that can be statically linked" OFF)
 -endif()
  
- if(BUILD_STATIC_LOADER)
-     message(WARNING "The BUILD_STATIC_LOADER option has been set. Note that this will only work on MacOS and is not supported "
+ if(WIN32)
+     # Optional: Allow specify the exact version used in the loader dll
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index d35d37220..cf6c57b5e 100644
+index b5bc0a98a..f74079954 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -224,6 +224,22 @@ if(WIN32)
+@@ -251,6 +251,22 @@ if(WIN32)
      target_compile_options(loader-opt PUBLIC ${MSVC_LOADER_COMPILE_OPTIONS})
      target_include_directories(loader-opt PRIVATE "$<TARGET_PROPERTY:Vulkan::Headers,INTERFACE_INCLUDE_DIRECTORIES>")
  
@@ -53,7 +53,7 @@ index d35d37220..cf6c57b5e 100644
      add_library(vulkan
                  SHARED
                  $<TARGET_OBJECTS:loader-opt>
-@@ -238,6 +254,8 @@ if(WIN32)
+@@ -269,6 +285,8 @@ if(WIN32)
      set_target_properties(vulkan
                            PROPERTIES
                            OUTPUT_NAME vulkan-1)
@@ -62,7 +62,7 @@ index d35d37220..cf6c57b5e 100644
  
      target_link_libraries(vulkan Vulkan::Headers)
  
-@@ -260,14 +278,16 @@ else()
+@@ -291,16 +309,18 @@ else()
          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-typedef-redefinition")
      endif()
  
@@ -74,52 +74,61 @@ index d35d37220..cf6c57b5e 100644
      endif()
      add_dependencies(vulkan loader_asm_gen_files)
 +    if (NOT BUILD_STATIC_LOADER)
-     # set version based on VK_HEADER_VERSION used to generate the code
-     include(generated/loader_generated_header_version.cmake)
+     # set version based on LOADER_GENERATED_HEADER_VERSION used to generate the code
+     set_target_properties(vulkan
+                           PROPERTIES SOVERSION "1"
+                           VERSION ${LOADER_GENERATED_HEADER_VERSION})
 +    endif()
      target_link_libraries(vulkan ${CMAKE_DL_LIBS} m)
      if (NOT ANDROID)
          target_link_libraries(vulkan pthread)
-@@ -339,6 +359,7 @@ if(PKG_CONFIG_FOUND)
+@@ -377,6 +397,7 @@ if(PKG_CONFIG_FOUND)
      foreach(LIB ${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES} ${PLATFORM_LIBS})
          set(PRIVATE_LIBS "${PRIVATE_LIBS} -l${LIB}")
      endforeach()
 +    set(PRIVATE_LIBS "${PRIVATE_LIBS} -lshlwapi -lcfgmgr32")
      if(WIN32)
          set(VULKAN_LIB_SUFFIX "-1")
-     endif ()
-diff --git a/loader/loader.c b/loader/loader.c
-index d76f7dbe7..73e93fff1 100644
---- a/loader/loader.c
-+++ b/loader/loader.c
-@@ -7889,7 +7889,7 @@ out:
-     return result;
- }
- 
--#if defined(_WIN32)
-+#if defined(_WIN32) && defined(LOADER_DYNAMIC_LIB)
- BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {
-     switch (reason) {
-         case DLL_PROCESS_ATTACH:
+         # Set libdir path as in cmake's FindVulkan.cmake
 diff --git a/loader/loader.h b/loader/loader.h
-index fc26fcde6..43fa875e5 100644
+index cfebfba67..62dcaeb81 100644
 --- a/loader/loader.h
 +++ b/loader/loader.h
-@@ -449,6 +449,9 @@ static inline void loader_init_dispatch(void *obj, const void *data) {
+@@ -66,6 +66,9 @@ static inline void loader_init_dispatch(void *obj, const void *data) {
+ 
  // Global variables used across files
  extern struct loader_struct loader;
- extern THREAD_LOCAL_DECL struct loader_instance *tls_instance;
 +#if defined(_WIN32) && !defined(LOADER_DYNAMIC_LIB)
 +extern LOADER_PLATFORM_THREAD_ONCE_DEFINITION(once_init);
 +#endif
  extern loader_platform_thread_mutex loader_lock;
  extern loader_platform_thread_mutex loader_json_lock;
  extern loader_platform_thread_mutex loader_preload_icd_lock;
+diff --git a/loader/loader_windows.c b/loader/loader_windows.c
+index e1579bf3a..8a7daef04 100644
+--- a/loader/loader_windows.c
++++ b/loader/loader_windows.c
+@@ -98,6 +98,7 @@ void windows_initialization(void) {
+ #endif
+ }
+ 
++#if defined(LOADER_DYNAMIC_LIB)
+ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {
+     switch (reason) {
+         case DLL_PROCESS_ATTACH:
+@@ -114,6 +115,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {
+     }
+     return TRUE;
+ }
++#endif
+ 
+ bool windows_add_json_entry(const struct loader_instance *inst,
+                             char **reg_data,    // list of JSON files
 diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
-index c1e47e4c3..2cc1d2e7c 100644
+index d956e803a..fab7b44f5 100644
 --- a/loader/vk_loader_platform.h
 +++ b/loader/vk_loader_platform.h
-@@ -421,9 +421,25 @@ typedef HANDLE loader_platform_thread;
+@@ -456,9 +456,25 @@ typedef HANDLE loader_platform_thread;
  // The once init functionality is not used when building a DLL on Windows. This is because there is no way to clean up the
  // resources allocated by anything allocated by once init. This isn't a problem for static libraries, but it is for dynamic
  // ones. When building a DLL, we use DllMain() instead to allow properly cleaning up resources.

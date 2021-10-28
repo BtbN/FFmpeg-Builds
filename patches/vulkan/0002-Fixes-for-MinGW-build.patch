@@ -1,20 +1,20 @@
-From f712c42a36bf39592abb2c7f8d2d891287f14c3f Mon Sep 17 00:00:00 2001
+From 8f83fc25f149a53566e0367d185c2a10d2b5b50e Mon Sep 17 00:00:00 2001
 From: BtbN <btbn@btbn.de>
 Date: Mon, 7 Sep 2020 20:07:39 +0200
 Subject: [PATCH 2/4] Fixes for MinGW build
 
 Adapted from https://github.com/msys2/MINGW-packages/blob/348f1d46d9d273a2cc928deadf9d9114f7a69c2f/mingw-w64-vulkan-loader/002-proper-def-files-for-32bit.patch
 ---
- loader/CMakeLists.txt          | 2 +-
- loader/loader.h                | 4 +++-
- tests/layers/vk_format_utils.h | 4 +++-
+ loader/CMakeLists.txt                  | 2 +-
+ loader/vk_loader_platform.h            | 4 +++-
+ tests/framework/layer/wrap_objects.cpp | 4 +++-
  3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index 50cced309..d35d37220 100644
+index 6e7971845..b5bc0a98a 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -326,11 +326,11 @@ else()
+@@ -364,11 +364,11 @@ else()
          )
  # cmake-format: on
      endif()
@@ -27,11 +27,11 @@ index 50cced309..d35d37220 100644
  
  # Generate pkg-config file.
  include(FindPkgConfig QUIET)
-diff --git a/loader/loader.h b/loader/loader.h
-index 6cc0f8388..fc26fcde6 100644
---- a/loader/loader.h
-+++ b/loader/loader.h
-@@ -38,7 +38,9 @@
+diff --git a/loader/vk_loader_platform.h b/loader/vk_loader_platform.h
+index ecb8e1006..2e138aeaa 100644
+--- a/loader/vk_loader_platform.h
++++ b/loader/vk_loader_platform.h
+@@ -76,7 +76,9 @@
  #include "vk_layer_dispatch_table.h"
  #include "vk_loader_extensions.h"
  
@@ -42,12 +42,12 @@ index 6cc0f8388..fc26fcde6 100644
  #define LOADER_EXPORT __attribute__((visibility("default")))
  #elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)
  #define LOADER_EXPORT __attribute__((visibility("default")))
-diff --git a/tests/layers/vk_format_utils.h b/tests/layers/vk_format_utils.h
-index e76f9ec2f..ef06e12af 100644
---- a/tests/layers/vk_format_utils.h
-+++ b/tests/layers/vk_format_utils.h
-@@ -25,7 +25,9 @@
- #include "vulkan/vulkan.h"
+diff --git a/tests/framework/layer/wrap_objects.cpp b/tests/framework/layer/wrap_objects.cpp
+index 8f617a6d3..e7b1996f6 100644
+--- a/tests/framework/layer/wrap_objects.cpp
++++ b/tests/framework/layer/wrap_objects.cpp
+@@ -29,7 +29,9 @@
+ #include "loader/vk_loader_layer.h"
  
  #if !defined(VK_LAYER_EXPORT)
 -#if defined(__GNUC__) && __GNUC__ >= 4

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# https://breakfastquay.com/rubberband/
-RUBBERBAND_SRC="https://breakfastquay.com/files/releases/rubberband-1.9.2.tar.bz2"
+RUBBERBAND_REPO="https://github.com/breakfastquay/rubberband.git"
+RUBBERBAND_COMMIT="b3c920a35ed1ea4da37ddd62a12d3a81278097d1"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -9,13 +9,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir rubberband
+    git-mini-clone "$RUBBERBAND_REPO" "$RUBBERBAND_COMMIT" rubberband
     cd rubberband
-
-    wget "$RUBBERBAND_SRC" -O rubberband.tar.gz
-    tar xaf rubberband.tar.gz
-    rm rubberband.tar.gz
-    cd rubberband*
 
     mkdir build && cd build
 
