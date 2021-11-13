@@ -75,6 +75,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Install buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          config: .github/buildkit.toml
       - name: Generate Dockerfile
         run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Login to Docker

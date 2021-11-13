@@ -22,6 +22,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          config: .github/buildkit.toml
       - name: Build Image
         run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Build ffmpeg
