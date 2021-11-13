@@ -33,8 +33,11 @@ ffbuild_dockerbuild() {
     ninja -j$(nproc)
     ninja install
 
-    rm "$FFBUILD_PREFIX"/lib/libopenh264.dll.a
-    rm "$FFBUILD_PREFIX"/bin/libopenh264*.dll
+    if [[ $TARGET == win* ]]; then
+        rm "$FFBUILD_PREFIX"/{lib,bin}/libopenh264*.dll*
+    else
+        rm "$FFBUILD_PREFIX"/lib/libopenh264*.so*
+    fi
 }
 
 ffbuild_configure() {
