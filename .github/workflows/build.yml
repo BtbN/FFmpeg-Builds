@@ -32,7 +32,7 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base:latest"
+        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base"
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -41,9 +41,9 @@ jobs:
           context: images/base
           pull: true
           push: true
-          tags: ${{ steps.imagename.outputs.name }}
-          cache-to: type=gha,mode=max
-          cache-from: type=gha
+          tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_target_bases:
     name: Build target base image
     needs: build_base
@@ -67,7 +67,7 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}:latest"
+        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -76,9 +76,9 @@ jobs:
           context: images/base-${{ matrix.target }}
           pull: true
           push: true
-          tags: ${{ steps.imagename.outputs.name }}
-          cache-to: type=gha,mode=max
-          cache-from: type=gha
+          tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_targets:
     name: Build target-variant image
     needs: build_target_bases
@@ -107,7 +107,7 @@ jobs:
         id: imagename
         run: |
           IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "::set-output name=name::${IMG/ /-}:latest"
+          echo "::set-output name=name::${IMG/ /-}"
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -116,9 +116,9 @@ jobs:
           context: .
           pull: true
           push: true
-          tags: ${{ steps.imagename.outputs.name }}
-          cache-to: type=gha,mode=max
-          cache-from: type=gha
+          tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_ffmpeg:
     name: Build ffmpeg
     needs: build_targets
