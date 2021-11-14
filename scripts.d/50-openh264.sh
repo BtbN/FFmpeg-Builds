@@ -11,33 +11,37 @@ ffbuild_dockerbuild() {
     git-mini-clone "$OPENH264_REPO" "$OPENH264_COMMIT" openh264
     cd openh264
 
-    mkdir bdir && cd bdir
-
     local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --buildtype=release
-        --default-library=static
-        -Dtests=disabled
+        PREFIX="$FFBUILD_PREFIX"
+        BUILDTYPE=Release
+        DEBUGSYMBOLS=False
+        LIBDIR_NAME=lib
+        CC="$FFBUILD_CROSS_PREFIX"gcc
+        CXX="$FFBUILD_CROSS_PREFIX"g++
+        AR="$FFBUILD_CROSS_PREFIX"ar
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
+    if [[ $TARGET == win32 ]]; then
         myconf+=(
-            --cross-file=/cross.meson
+            OS=mingw_nt
+            ARCH=i686
+        )
+    elif [[ $TARGET == win64 ]]; then
+        myconf+=(
+            OS=mingw_nt
+            ARCH=x86_64
+        )
+    elif [[ $TARGET == linux64 ]]; then
+        myconf+=(
+            OS=linux
+            ARCH=x86_64
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    meson "${myconf[@]}" ..
-    ninja -j$(nproc)
-    ninja install
-
-    if [[ $TARGET == win* ]]; then
-        rm "$FFBUILD_PREFIX"/{lib,bin}/libopenh264*.dll*
-    else
-        rm "$FFBUILD_PREFIX"/lib/libopenh264*.so*
-    fi
+    make -j$(nproc) "${myconf[@]}" install-static
 }
 
 ffbuild_configure() {
