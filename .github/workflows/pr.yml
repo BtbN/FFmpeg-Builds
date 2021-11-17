@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'LICENSE'
+  workflow_dispatch:
 
 env:
   DOCKER_BUILDKIT: 1
