@@ -7,8 +7,6 @@ on:
       - 'LICENSE'
   repository_dispatch:
     types: [build]
-  schedule:
-    - cron: '0 12 * * *'
 
 env:
   DOCKER_BUILDKIT: 1
