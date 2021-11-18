@@ -2,10 +2,9 @@
 
 MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
 # HEAD of development_2.x
-MBEDTLS_COMMIT="d599dc7f1bd26889d85092b9774cdef37e62e3c0"
+MBEDTLS_COMMIT="1d7f7a7c6e625e48a4996bc751c39fb16a8be868"
 
 ffbuild_enabled() {
-    [[ $TARGET == win* ]] && return -1
     return 0
 }
 
@@ -24,5 +23,6 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
+    [[ $TARGET == win* ]] && return -1
     echo --enable-mbedtls
 }
