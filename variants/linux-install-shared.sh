@@ -10,6 +10,14 @@ package_variant() {
     mkdir -p "$OUT"/lib
     cp -a "$IN"/lib/*.so* "$OUT"/lib
 
+    mkdir -p "$OUT"/lib/pkgconfig
+    cp -a "$IN"/lib/pkgconfig/*.pc "$OUT"/lib/pkgconfig
+    sed -i \
+        -e 's|^prefix=.*|prefix=${pcfiledir}/../..|' \
+        -e 's|/ffbuild/prefix|${prefix}|' \
+        -e '/Libs.private:/d' \
+        "$OUT"/lib/pkgconfig/*.pc
+
     mkdir -p "$OUT"/include
     cp -r "$IN"/include/* "$OUT"/include
 
