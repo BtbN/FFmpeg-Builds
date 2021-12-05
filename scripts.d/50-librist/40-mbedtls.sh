@@ -2,7 +2,7 @@
 
 MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
 # HEAD of development_2.x
-MBEDTLS_COMMIT="1d7f7a7c6e625e48a4996bc751c39fb16a8be868"
+MBEDTLS_COMMIT="1e313165f307df6ffc57ea52363eabcf148f494d"
 
 ffbuild_enabled() {
     return 0

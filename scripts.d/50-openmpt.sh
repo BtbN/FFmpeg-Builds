@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPENMPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
-OPENMPT_REV="16112"
+OPENMPT_REV="16134"
 
 ffbuild_enabled() {
     return 0
