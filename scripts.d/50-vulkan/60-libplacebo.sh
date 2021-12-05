@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PLACEBO_REPO="https://code.videolan.org/videolan/libplacebo.git"
-PLACEBO_COMMIT="72cd260ad7d5aa564ff5e68caf16ec2633f3460e"
+PLACEBO_COMMIT="5e8fdf2316c2d5531531a07c782410c860faaf18"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -21,7 +21,8 @@ ffbuild_dockerbuild() {
         -Dvulkan=enabled
         -Dvulkan-link=false
         -Dvulkan-registry="$FFBUILD_PREFIX"/share/vulkan/registry/vk.xml
-        -Dglslang=enabled
+        -Dshaderc=enabled
+        -Dglslang=disabled
         -Ddemos=false
         -Dtests=false
         -Dbench=false
