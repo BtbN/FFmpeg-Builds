@@ -1,9 +1,8 @@
 ARG GH_REPO=btbn/ffmpeg-builds
 FROM ghcr.io/$GH_REPO/base:latest
 
-ENV PATH="/opt/ct-ng/bin:${PATH}"
 RUN --mount=src=ct-ng-config,dst=/.config \
-    git clone https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
+    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
     ./bootstrap && \
     ./configure --enable-local && \
     make -j$(nproc) && \
@@ -25,12 +24,14 @@ RUN \
         -name 'libdl.a' \
         -or -name 'libc.a' \
         -or -name 'libm.a' \
-        -delete
+        -delete && \
+    mkdir /opt/ffbuild
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
-ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-ffbuild-linux-gnu- --arch=x86_64 --target-os=linux" \
+ENV PATH="/opt/ct-ng/bin:${PATH}" \
+    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-ffbuild-linux-gnu- --arch=x86_64 --target-os=linux" \
     FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu \
     FFBUILD_CROSS_PREFIX="x86_64-ffbuild-linux-gnu-" \
     FFBUILD_RUST_TARGET="x86_64-unknown-linux-gnu" \

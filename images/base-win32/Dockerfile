@@ -1,15 +1,22 @@
 ARG GH_REPO=btbn/ffmpeg-builds
 FROM ghcr.io/$GH_REPO/base:latest
 
-ENV DEBIAN_FRONTEND noninteractive
+RUN --mount=src=ct-ng-config,dst=/.config \
+    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
+    ./bootstrap && \
+    ./configure --enable-local && \
+    make -j$(nproc) && \
+    cp /.config .config && \
+    ./ct-ng build && \
+    cd / && \
+    rm -rf ct-ng
 
+# Prepare "cross" environment to heavily favour static builds
 RUN \
-    apt-get -y install binutils-mingw-w64-i686 gcc-mingw-w64-i686 g++-mingw-w64-i686 gfortran-mingw-w64-i686 && \
-    apt-get -y clean && \
-    rm /usr/lib/gcc/*-w64-mingw32/*/libstdc++*.dll* && \
-    rm /usr/lib/gcc/*-w64-mingw32/*/libgcc_s* && \
-    rm /usr/lib/gcc/*-w64-mingw32/*/*.dll.a && \
-    rm /usr/*-w64-mingw32/lib/*.dll.a && \
+    find /opt/ct-ng \
+        -name "*.dll" \
+        -or -name "*.dll.a" \
+        -delete && \
     mkdir /opt/ffbuild
 
 RUN rustup target add i686-pc-windows-gnu
@@ -17,7 +24,8 @@ RUN rustup target add i686-pc-windows-gnu
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
-ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=i686-w64-mingw32- --arch=i686 --target-os=mingw32" \
+ENV PATH="/opt/ct-ng/bin:${PATH}" \
+    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=i686-w64-mingw32- --arch=i686 --target-os=mingw32" \
     FFBUILD_TOOLCHAIN=i686-w64-mingw32 \
     FFBUILD_CROSS_PREFIX=i686-w64-mingw32- \
     FFBUILD_RUST_TARGET=i686-pc-windows-gnu \
