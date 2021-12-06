@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.24.0.479_aa52493 Configuration
+# crosstool-NG 1.24.0.498_5075e1f Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -8,6 +8,7 @@ CT_CONFIGURE_has_wget=y
 CT_CONFIGURE_has_curl=y
 CT_CONFIGURE_has_meson=y
 CT_CONFIGURE_has_ninja=y
+CT_CONFIGURE_has_rsync=y
 CT_CONFIGURE_has_make_3_81_or_newer=y
 CT_CONFIGURE_has_make_4_0_or_newer=y
 CT_CONFIGURE_has_libtool_2_4_or_newer=y
@@ -26,7 +27,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.24.0.479_aa52493"
+CT_VERSION="1.24.0.498_5075e1f"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="3"
 CT_CONFIG_VERSION_CURRENT="3"
@@ -263,6 +264,7 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_5_15 is not set
 # CT_LINUX_V_5_14 is not set
 # CT_LINUX_V_5_13 is not set
 # CT_LINUX_V_5_12 is not set
@@ -299,18 +301,21 @@ CT_LINUX_V_4_4=y
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
 # CT_LINUX_V_2_6_32 is not set
-CT_LINUX_VERSION="4.4.283"
+CT_LINUX_VERSION="4.4.292"
 CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
+CT_LINUX_5_3_or_older=y
+CT_LINUX_older_than_5_3=y
 CT_LINUX_4_8_or_older=y
 CT_LINUX_older_than_4_8=y
 CT_LINUX_later_than_3_7=y
 CT_LINUX_3_7_or_later=y
 CT_LINUX_later_than_3_2=y
 CT_LINUX_3_2_or_later=y
+CT_KERNEL_DEP_RSYNC=y
 CT_KERNEL_LINUX_VERBOSITY_0=y
 # CT_KERNEL_LINUX_VERBOSITY_1 is not set
 # CT_KERNEL_LINUX_VERBOSITY_2 is not set
@@ -492,7 +497,7 @@ CT_GLIBC_FORCE_UNWIND=y
 # CT_GLIBC_KERNEL_VERSION_NONE is not set
 CT_GLIBC_KERNEL_VERSION_AS_HEADERS=y
 # CT_GLIBC_KERNEL_VERSION_CHOSEN is not set
-CT_GLIBC_MIN_KERNEL="4.4.283"
+CT_GLIBC_MIN_KERNEL="4.4.292"
 CT_GLIBC_ENABLE_COMMON_FLAG=y
 CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC"
 CT_LIBC_SUPPORT_THREADS_ANY=y
@@ -665,9 +670,10 @@ CT_GETTEXT_PATCH_GLOBAL=y
 # CT_GETTEXT_PATCH_LOCAL_BUNDLED is not set
 # CT_GETTEXT_PATCH_NONE is not set
 CT_GETTEXT_PATCH_ORDER="global"
-CT_GETTEXT_V_0_20_1=y
+CT_GETTEXT_V_0_21=y
+# CT_GETTEXT_V_0_20_1 is not set
 # CT_GETTEXT_V_0_19_8_1 is not set
-CT_GETTEXT_VERSION="0.20.1"
+CT_GETTEXT_VERSION="0.21"
 CT_GETTEXT_MIRRORS="$(CT_Mirrors GNU gettext)"
 CT_GETTEXT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -724,7 +730,7 @@ CT_ISL_V_0_24=y
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
 CT_ISL_VERSION="0.24"
-CT_ISL_MIRRORS="https://ftp.halifax.rwth-aachen.de/gentoo/distfiles"
+CT_ISL_MIRRORS="https://libisl.sourceforge.io"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
