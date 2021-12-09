@@ -36,6 +36,12 @@ ffbuild_dockerbuild() {
         sed -ri -e 's/ \-l\/.+?\.a//g' \
             "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
         echo 'Requires: xxf86vm xscrnsaver xrandr xfixes xi xinerama xcursor' >> "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
+    elif [[ $TARGET == win* ]]; then
+        sed -ri -e 's/\-Wl,\-\-no\-undefined.*//' \
+            -e 's/ \-mwindows//g' \
+            -e 's/ \-lSDL2main//g' \
+            -e 's/ \-Dmain=SDL_main//g' \
+            "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
     fi
 }
 
