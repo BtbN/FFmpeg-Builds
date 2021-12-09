@@ -13,12 +13,21 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DSDL_SHARED=OFF -DSDL_STATIC=ON -DSDL_STATIC_PIC=ON -DSDL_X11_SHARED=OFF \
-        -DHAVE_XGENERICEVENT=TRUE -DSDL_VIDEO_DRIVER_X11_HAS_XKBKEYCODETOKEYSYM=1 \
-        ..
+    local mycmake=(
+        -DSDL_SHARED=OFF
+        -DSDL_STATIC=ON
+        -DSDL_STATIC_PIC=ON
+    )
 
-    exit 1
+    if [[ $TARGET == linux* ]]; then
+        mycmake+=(
+            -DSDL_X11_SHARED=OFF
+            -DHAVE_XGENERICEVENT=TRUE
+            -DSDL_VIDEO_DRIVER_X11_HAS_XKBKEYCODETOKEYSYM=1
+        )
+    fi
+
+    cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" "${mycmake[@]}" ..
 
     ninja -j$(nproc)
     ninja install
