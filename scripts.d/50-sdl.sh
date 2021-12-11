@@ -26,11 +26,6 @@ ffbuild_dockerbuild() {
             -DSDL_X11_SHARED=OFF
             -DHAVE_XGENERICEVENT=TRUE
             -DSDL_VIDEO_DRIVER_X11_HAS_XKBKEYCODETOKEYSYM=1
-
-            -DSDL_ALSA=ON
-            -DSDL_ALSA_SHARED=OFF
-            -DHAVE_ASOUNDLIB_H=TRUE
-            -DHAVE_LIBASOUND=TRUE
         )
     fi
 
@@ -42,9 +37,8 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == linux* ]]; then
         sed -ri -e 's/\-Wl,\-\-no\-undefined.*//' \
             -e 's/ \-l\/.+?\.a//g' \
-            -e 's/ \-lasound//g' \
             "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
-        echo 'Requires: alsa xxf86vm xscrnsaver xrandr xfixes xi xinerama xcursor' >> "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
+        echo 'Requires: xxf86vm xscrnsaver xrandr xfixes xi xinerama xcursor' >> "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
     elif [[ $TARGET == win* ]]; then
         sed -ri -e 's/\-Wl,\-\-no\-undefined.*//' \
             -e 's/ \-mwindows//g' \
