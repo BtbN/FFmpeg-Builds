@@ -36,11 +36,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export LDFLAGS="$LDFLAGS -lxcb -lXau"
-
     meson "${myconf[@]}" ..
     ninja -j"$(nproc)"
     ninja install
-
-    rm "$FFBUILD_PREFIX"/lib/lib*.so*
 }
