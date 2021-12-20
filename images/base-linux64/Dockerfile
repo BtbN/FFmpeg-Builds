@@ -19,11 +19,17 @@ RUN \
         -and -not -name 'libdl.*' \
         -and -not -name 'libc.*' \
         -and -not -name 'libm.*' \
+        -and -not -name 'libmvec.*' \
+        -and -not -name 'librt.*' \
+        -and -not -name 'libpthread.*' \
         -delete && \
     find /opt/ct-ng \
         -name 'libdl.a' \
         -or -name 'libc.a' \
         -or -name 'libm.a' \
+        -or -name 'libmvec.a' \
+        -or -name 'librt.a' \
+        -or -name 'libpthread.a' \
         -delete && \
     mkdir /opt/ffbuild
 
