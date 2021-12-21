@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXau.so.6,libXau.a}
+    rm "$FFBUILD_PREFIX"/lib/libXau{.so*,.la}
 }

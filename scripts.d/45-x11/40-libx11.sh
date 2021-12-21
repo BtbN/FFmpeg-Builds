@@ -47,4 +47,5 @@ ffbuild_dockerbuild() {
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libX11-xcb.so.1,libX11-xcb.a}
     gen-implib "$FFBUILD_PREFIX"/lib/{libX11.so.6,libX11.a}
+    rm "$FFBUILD_PREFIX"/lib/libX11{,-xcb}{.so*,.la}
 }

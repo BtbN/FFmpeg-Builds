@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXi.so.6,libXi.a}
+    rm "$FFBUILD_PREFIX"/lib/libXi{.so*,.la}
 }

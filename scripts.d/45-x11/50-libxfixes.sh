@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXfixes.so.3,libXfixes.a}
+    rm "$FFBUILD_PREFIX"/lib/libXfixes{.so*,.la}
 }

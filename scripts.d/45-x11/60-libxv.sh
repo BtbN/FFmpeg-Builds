@@ -40,6 +40,7 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXv.so.1,libXv.a}
+    rm "$FFBUILD_PREFIX"/lib/libXv{.so*,.la}
 }
 
 ffbuild_configure() {

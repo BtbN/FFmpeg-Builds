@@ -42,4 +42,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXext.so.6,libXext.a}
+    rm "$FFBUILD_PREFIX"/lib/libXext{.so*,.la}
 }

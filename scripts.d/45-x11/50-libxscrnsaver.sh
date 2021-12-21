@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXss.so.1,libXss.a}
+    rm "$FFBUILD_PREFIX"/lib/libXss{.so*,.la}
 }

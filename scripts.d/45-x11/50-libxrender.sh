@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXrender.so.1,libXrender.a}
+    rm "$FFBUILD_PREFIX"/lib/libXrender{.so*,.la}
 }

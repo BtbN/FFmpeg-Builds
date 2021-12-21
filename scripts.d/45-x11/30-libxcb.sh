@@ -40,6 +40,7 @@ ffbuild_dockerbuild() {
 
     for LIBNAME in "$FFBUILD_PREFIX"/lib/libxcb*.so.?; do
         gen-implib "$LIBNAME" "${LIBNAME%%.*}.a"
+        rm "${LIBNAME%%.*}"{.so*,.la}
     done
 }
 

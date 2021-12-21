@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXxf86vm.so.1,libXxf86vm.a}
+    rm "$FFBUILD_PREFIX"/lib/libXxf86vm{.so*,.la}
 }

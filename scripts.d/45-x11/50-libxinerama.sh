@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXinerama.so.1,libXinerama.a}
+    rm "$FFBUILD_PREFIX"/lib/libXinerama{.so*,.la}
 }

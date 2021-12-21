@@ -33,7 +33,8 @@ RUN \
         -delete && \
     mkdir /opt/ffbuild
 
-RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib
+RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib && \
+    sed -i '/^.*\.globl.*/a \ \ .hidden $sym' /opt/implib/arch/*/trampoline.S.tpl
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson

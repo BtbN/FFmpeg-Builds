@@ -38,4 +38,5 @@ ffbuild_dockerbuild() {
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXrandr.so.2,libXrandr.a}
+    rm "$FFBUILD_PREFIX"/lib/libXrandr{.so*,.la}
 }

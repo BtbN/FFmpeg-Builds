@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        -Ddefault_library=static
+        -Ddefault_library=shared
         -Dlibkms=false
         -Dudev=false
         -Dcairo-tests=false
@@ -40,9 +40,17 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CFLAGS="$RAW_CFLAGS"
+    export LDFLAFS="$RAW_LDFLAGS"
+
     meson "${myconf[@]}" ..
     ninja -j$(nproc)
     ninja install
+
+    gen-implib "$FFBUILD_PREFIX"/lib/{libdrm.so.2,libdrm.a}
+    rm "$FFBUILD_PREFIX"/lib/libdrm*.so*
+
+    echo "Libs: -ldl" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libdrm.pc
 }
 
 ffbuild_configure() {

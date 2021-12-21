@@ -34,8 +34,9 @@ ffbuild_dockerbuild() {
     export LDFLAFS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"
-    make -j$(nproc) VERBOSE=1
+    make -j$(nproc)
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libXcursor.so.1,libXcursor.a}
+    rm "$FFBUILD_PREFIX"/lib/libXcursor{.so*,.la}
 }
