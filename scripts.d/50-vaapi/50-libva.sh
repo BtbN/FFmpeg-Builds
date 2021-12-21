@@ -41,7 +41,7 @@ ffbuild_dockerbuild() {
     export LDFLAFS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"
-    make -j$(nproc) VERBOSE=1
+    make -j$(nproc)
     make install
 
     gen-implib "$FFBUILD_PREFIX"/lib/{libva.so.2,libva.a}
