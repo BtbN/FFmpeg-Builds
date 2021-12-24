@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PULSEAUDIO_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
-PULSEAUDIO_COMMIT="c95ba1f07f8f4cf219920693488c77b9a60e3348"
+PULSEAUDIO_COMMIT="5b000acb1a3677c71dcccf7ecd6d76c89bb3a7a0"
 
 ffbuild_enabled() {
     [[ $TARGET == linux* ]] || return 1
@@ -19,14 +19,13 @@ ffbuild_dockerbuild() {
     echo > src/pulsecore/sndfile-util.h
     sed -ri -e 's/(sndfile_dep = .*)\)/\1, required : false)/' meson.build
     sed -ri -e 's/shared_library/static_library/g' src/meson.build src/pulse/meson.build
-    sed -ri -e '/const (pretty_|)table/i static' src/pulse/channelmap.c
 
     mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
-        --default-library=shared
+        --default-library=static
         -Ddaemon=false
         -Dclient=true
         -Ddoxygen=false
