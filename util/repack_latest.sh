@@ -31,7 +31,15 @@ while [[ $# -gt 0 ]]; do
     cd repack_dir
 
     INAME="$(echo ffmpeg-*)"
-    ONAME="ffmpeg-latest-$(cut -d- -f5- <<<"$INAME")"
+    TAGNAME="$(cut -d- -f2 <<<"$INAME")"
+
+    if [[ $TAGNAME == N ]]; then
+        TAGNAME="master"
+    elif [[ $TAGNAME == n* ]]; then
+        TAGNAME="$(sed -re 's/([0-9]+\.[0-9]+).*/\1/' <<<"$TAGNAME")"
+    fi
+
+    ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f5- <<<"$INAME")"
     mv "$INAME" "$ONAME"
 
     if [[ $INPUT == *.zip ]]; then
