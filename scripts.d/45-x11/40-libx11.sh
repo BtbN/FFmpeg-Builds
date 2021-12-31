@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBX11_REPO="https://gitlab.freedesktop.org/xorg/lib/libx11.git"
-LIBX11_COMMIT="934417b1e89fe715b9cf6c0d62a3867fa1f5bccb"
+LIBX11_COMMIT="4c96f3567a8d045ee57b886fddc9618b71282530"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
