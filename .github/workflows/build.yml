@@ -159,7 +159,7 @@ jobs:
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          hub release create $(for a in artifacts/*.{zip,tar.xz}; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
+          hub release create $(for a in artifacts/*.zip; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
           echo "::set-output name=tag_name::${TAGNAME}"
           echo "::set-output name=rel_date::${RELDATE}"
         env:
@@ -168,7 +168,7 @@ jobs:
         run: |
           set -xe
           mkdir latest_artifacts
-          ./util/repack_latest.sh latest_artifacts artifacts/*.{zip,tar.xz}
+          ./util/repack_latest.sh latest_artifacts artifacts/*.zip
           NAME="Latest Auto-Build (${{ steps.create_release.outputs.rel_date }})"
           TAGNAME="latest"
           hub release delete "$TAGNAME" || true
