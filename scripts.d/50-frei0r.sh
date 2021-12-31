@@ -6,7 +6,7 @@ FREI0R_COMMIT="00f8aa085a1da0c0160f54e3eaf6b32a9db75a51"
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
     [[ $ADDINS_STR == *4.4* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

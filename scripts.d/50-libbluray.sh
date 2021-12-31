@@ -4,7 +4,7 @@ LIBBLURAY_REPO="https://code.videolan.org/videolan/libbluray.git"
 LIBBLURAY_COMMIT="060d8f055f2ed1b4752340be5d16403bad5ccdc0"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

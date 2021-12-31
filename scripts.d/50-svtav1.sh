@@ -5,7 +5,7 @@ SVTAV1_COMMIT="3758f57f756fa2f6721460ed7b2db2ac8a5f44e0"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

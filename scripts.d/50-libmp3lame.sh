@@ -3,7 +3,7 @@
 LAME_SRC="https://sourceforge.net/projects/lame/files/lame/3.100/lame-3.100.tar.gz/download"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

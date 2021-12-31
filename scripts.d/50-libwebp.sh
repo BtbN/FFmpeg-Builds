@@ -4,7 +4,7 @@ WEBP_REPO="https://chromium.googlesource.com/webm/libwebp"
 WEBP_COMMIT="b6f756e82b1325f6d29725c3b0a6b90e16f042bd"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

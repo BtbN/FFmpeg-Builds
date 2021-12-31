@@ -5,7 +5,7 @@ RAV1E_COMMIT="37c13ebbe198316db221869f025546f6f633d381"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -4,7 +4,7 @@ OPUS_REPO="https://github.com/xiph/opus.git"
 OPUS_COMMIT="a8e6a77c5fe0c37aa6788f939f24f8cd22ae2652"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -5,7 +5,7 @@ AVISYNTH_COMMIT="d1b0c47bf4a9a488c6c144601bc481761a04dc74"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

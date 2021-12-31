@@ -4,7 +4,7 @@ DAV1D_REPO="https://code.videolan.org/videolan/dav1d.git"
 DAV1D_COMMIT="7b99b0e17fbd86f0847684798b182f9122545580"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

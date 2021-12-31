@@ -4,7 +4,7 @@ THEORA_REPO="https://github.com/xiph/theora.git"
 THEORA_COMMIT="7180717276af1ebc7da15c83162d6c5d6203aabf"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
