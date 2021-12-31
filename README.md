@@ -1,5 +1,7 @@
 # FFmpeg Static Auto-Builds
 
+**Fork from [BtbN](https://github.com/BtbN/FFmpeg-Builds) with changes to get a smaller binary for [ImageSieve](https://github.com/Futsch1/image-sieve)**
+
 Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest release branch.
 
 Windows builds are targetting Windows 7 and newer.
