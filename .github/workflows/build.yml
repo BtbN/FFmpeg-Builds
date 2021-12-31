@@ -1,14 +1,7 @@
 name: Build FFmpeg
 
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
-  repository_dispatch:
-    types: [build]
-  schedule:
-    - cron: '0 12 * * *'
+  workflow_dispatch:
 
 env:
   DOCKER_BUILDKIT: 1
