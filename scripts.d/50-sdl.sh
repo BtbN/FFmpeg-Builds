@@ -4,7 +4,7 @@ SDL_REPO="https://github.com/libsdl-org/SDL.git"
 SDL_COMMIT="615f7b4453864d9475e8b20faa78ec67be357f1e"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

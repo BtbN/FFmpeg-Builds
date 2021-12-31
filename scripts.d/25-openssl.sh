@@ -4,7 +4,7 @@ OPENSSL_REPO="https://github.com/openssl/openssl.git"
 OPENSSL_COMMIT="OpenSSL_1_1_1l"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

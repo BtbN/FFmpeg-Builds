@@ -4,7 +4,7 @@ LIBVPX_REPO="https://chromium.googlesource.com/webm/libvpx"
 LIBVPX_COMMIT="13f984c2162d8392d3fd0ffb8666ee518f60665a"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

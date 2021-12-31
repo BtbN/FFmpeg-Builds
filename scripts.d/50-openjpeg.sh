@@ -4,7 +4,7 @@ OPENJPEG_REPO="https://github.com/uclouvain/openjpeg.git"
 OPENJPEG_COMMIT="22eb737d5d5d25947cec28cf23bcb0b4a5a682a3"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

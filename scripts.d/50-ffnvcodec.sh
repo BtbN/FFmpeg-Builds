@@ -4,7 +4,7 @@ FFNVCODEC_REPO="https://github.com/FFmpeg/nv-codec-headers.git"
 FFNVCODEC_COMMIT="e81e2ba5e8f365d47d91c8c8688769f62614b644"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

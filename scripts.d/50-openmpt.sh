@@ -4,7 +4,7 @@ OPENMPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
 OPENMPT_REV="16134"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

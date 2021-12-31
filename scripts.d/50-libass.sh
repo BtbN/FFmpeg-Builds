@@ -4,7 +4,7 @@ ASS_REPO="https://github.com/libass/libass.git"
 ASS_COMMIT="f8c71aba5d14afcd6759507bad8a25037fb854b1"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

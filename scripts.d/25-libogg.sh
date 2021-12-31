@@ -4,7 +4,7 @@ OGG_REPO="https://github.com/xiph/ogg.git"
 OGG_COMMIT="3069cc2bb44160982cdb21b2b8f0660c76b17572"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
