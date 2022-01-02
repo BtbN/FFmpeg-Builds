@@ -5,7 +5,7 @@ PLACEBO_COMMIT="5e8fdf2316c2d5531531a07c782410c860faaf18"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -5,7 +5,7 @@ MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
 MBEDTLS_COMMIT="1e313165f307df6ffc57ea52363eabcf148f494d"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

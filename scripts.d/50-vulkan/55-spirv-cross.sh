@@ -5,7 +5,7 @@ SPIRV_CROSS_COMMIT="e9cc6403341baf0edd430a4027b074d0a06b782f"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

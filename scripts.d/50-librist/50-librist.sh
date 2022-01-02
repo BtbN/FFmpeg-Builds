@@ -4,7 +4,7 @@ LIBRIST_REPO="https://code.videolan.org/rist/librist.git"
 LIBRIST_COMMIT="0b1aaf995c4cad83d562ec7887180cc6ee132c84"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

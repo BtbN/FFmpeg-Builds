@@ -4,7 +4,7 @@ LILV_REPO="https://github.com/lv2/lilv.git"
 LILV_COMMIT="71a2ff5170caaa052814cce19b3de927d10d0e24"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

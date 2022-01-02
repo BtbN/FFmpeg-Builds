@@ -5,7 +5,7 @@ SHADERC_COMMIT="657c5ed2ba1714c0430895a274a94d6f2aeeab85"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

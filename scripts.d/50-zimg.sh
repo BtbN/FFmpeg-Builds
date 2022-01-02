@@ -4,7 +4,7 @@ ZIMG_REPO="https://github.com/sekrit-twc/zimg.git"
 ZIMG_COMMIT="d2495cab859570112102ef40269a900b81009667"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

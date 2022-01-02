@@ -4,7 +4,7 @@ SERD_REPO="https://github.com/drobilla/serd.git"
 SERD_COMMIT="c05fdaa19be53ef618435d3629122a4ebdc7cb63"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
