@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXINERAMA_REPO="https://gitlab.freedesktop.org/xorg/lib/libxinerama.git"
+LIBXINERAMA_REPO="https://cgit.freedesktop.org/xorg/lib/libxinerama.git"
 LIBXINERAMA_COMMIT="c5187f076d16601c15c59c5a2f05c0513d9f042b"
 
 ffbuild_enabled() {

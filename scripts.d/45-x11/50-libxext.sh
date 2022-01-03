@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXEXT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxext.git"
+LIBXEXT_REPO="https://cgit.freedesktop.org/xorg/lib/libxext.git"
 LIBXEXT_COMMIT="47904063048fa6ef6e8e16219ddef4d14d5d9a4b"
 
 ffbuild_enabled() {

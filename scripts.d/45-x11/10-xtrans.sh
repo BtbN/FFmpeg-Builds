@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXTRANS_REPO="https://gitlab.freedesktop.org/xorg/lib/libxtrans.git"
+LIBXTRANS_REPO="https://cgit.freedesktop.org/xorg/lib/libxtrans.git"
 LIBXTRANS_COMMIT="3b5df889f58a99980a35a7b4a18eb4e7d2abeac4"
 
 ffbuild_enabled() {

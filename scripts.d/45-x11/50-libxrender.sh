@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXRENDER_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrender.git"
+LIBXRENDER_REPO="https://cgit.freedesktop.org/xorg/lib/libxrender.git"
 LIBXRENDER_COMMIT="bce0618839fc33f44edd8b5498b8e33d167806ff"
 
 ffbuild_enabled() {

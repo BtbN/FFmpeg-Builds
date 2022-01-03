@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PULSEAUDIO_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
+PULSEAUDIO_REPO="https://cgit.freedesktop.org/pulseaudio/pulseaudio.git"
 PULSEAUDIO_COMMIT="bc3a07dd4f4cd62166c214085cced42d5a2ae2a8"
 
 ffbuild_enabled() {

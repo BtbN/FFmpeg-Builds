@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXXF86VM_REPO="https://gitlab.freedesktop.org/xorg/lib/libxxf86vm.git"
+LIBXXF86VM_REPO="https://cgit.freedesktop.org/xorg/lib/libxxf86vm.git"
 LIBXXF86VM_COMMIT="7f43cd2a905e7b93b83c9ce81dabb768f6fa2bc7"
 
 ffbuild_enabled() {

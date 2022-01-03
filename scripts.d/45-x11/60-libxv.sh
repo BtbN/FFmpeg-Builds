@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXV_REPO="https://gitlab.freedesktop.org/xorg/lib/libxv.git"
+LIBXV_REPO="https://cgit.freedesktop.org/xorg/lib/libxv.git"
 LIBXV_COMMIT="03a6f599d060591a9a7cd8558bd2143a1c7c70d7"
 
 ffbuild_enabled() {

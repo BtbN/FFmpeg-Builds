@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXI_REPO="https://gitlab.freedesktop.org/xorg/lib/libxi.git"
+LIBXI_REPO="https://cgit.freedesktop.org/xorg/lib/libxi.git"
 LIBXI_COMMIT="f24d7f43ab4d97203e60677a3d42e11dbc80c8b4"
 
 ffbuild_enabled() {

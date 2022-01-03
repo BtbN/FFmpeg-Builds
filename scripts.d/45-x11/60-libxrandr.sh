@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXRANDR_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrandr.git"
+LIBXRANDR_REPO="https://cgit.freedesktop.org/xorg/lib/libxrandr.git"
 LIBXRANDR_COMMIT="55dcda4518eda8ae03ef25ea29d3c994ad71eb0a"
 
 ffbuild_enabled() {

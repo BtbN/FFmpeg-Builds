@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXFIXES_REPO="https://gitlab.freedesktop.org/xorg/lib/libxfixes.git"
+LIBXFIXES_REPO="https://cgit.freedesktop.org/xorg/lib/libxfixes.git"
 LIBXFIXES_COMMIT="6fe3bd64dd82f704ed91478acb4c99ab5c00be16"
 
 ffbuild_enabled() {
