@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBPCIACCESS_REPO="https://cgit.freedesktop.org/xorg/lib/libpciaccess.git"
+LIBPCIACCESS_REPO="https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git"
 LIBPCIACCESS_COMMIT="9c01fdd7c02d8b9b5003e659ebca0b3643bd47c4"
 
 ffbuild_enabled() {

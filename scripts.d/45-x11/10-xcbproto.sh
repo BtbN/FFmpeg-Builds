@@ -1,6 +1,6 @@
 #!/bin/bash
 
-XCBPROTO_REPO="https://cgit.freedesktop.org/xorg/proto/xcbproto.git"
+XCBPROTO_REPO="https://gitlab.freedesktop.org/xorg/proto/xcbproto.git"
 XCBPROTO_COMMIT="70ca65fa35c3760661b090bc4b2601daa7a099b8"
 
 ffbuild_enabled() {

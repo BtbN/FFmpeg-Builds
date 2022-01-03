@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXSCRNSAVER_REPO="https://cgit.freedesktop.org/xorg/lib/libxscrnsaver.git"
+LIBXSCRNSAVER_REPO="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
 LIBXSCRNSAVER_COMMIT="aa9fd5061d0a8832480ad0c1acc9d2e864e807f4"
 
 ffbuild_enabled() {

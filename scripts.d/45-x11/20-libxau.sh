@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXAU_REPO="https://cgit.freedesktop.org/xorg/lib/libxau.git"
+LIBXAU_REPO="https://gitlab.freedesktop.org/xorg/lib/libxau.git"
 LIBXAU_COMMIT="d9443b2c57b512cfb250b35707378654d86c7dea"
 
 ffbuild_enabled() {

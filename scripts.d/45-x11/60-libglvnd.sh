@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GLVND_REPO="https://cgit.freedesktop.org/glvnd/libglvnd.git"
+GLVND_REPO="https://gitlab.freedesktop.org/glvnd/libglvnd.git"
 GLVND_COMMIT="8f3c5b17a21e2222ab3e5fd38870b915815aca49"
 
 ffbuild_enabled() {

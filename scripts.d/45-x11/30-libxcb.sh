@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIBXCB_REPO="https://cgit.freedesktop.org/xorg/lib/libxcb.git"
+LIBXCB_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcb.git"
 LIBXCB_COMMIT="43fbf03e549bf6da8d1d8522e0ceddc4d49c37c6"
 
 ffbuild_enabled() {
