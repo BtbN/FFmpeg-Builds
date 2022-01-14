@@ -39,7 +39,12 @@ while [[ $# -gt 0 ]]; do
         TAGNAME="$(sed -re 's/([0-9]+\.[0-9]+).*/\1/' <<<"$TAGNAME")"
     fi
 
-    ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f5- <<<"$INAME")"
+    if [[ $INAME == *-*-*-*-*-* ]]; then
+        ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f5- <<<"$INAME")"
+    else
+        ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f3- <<<"$INAME")"
+    fi
+
     mv "$INAME" "$ONAME"
 
     if [[ $INPUT == *.zip ]]; then
