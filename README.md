@@ -14,8 +14,8 @@ Builds run daily at 12:00 UTC (or GitHubs idea of that time) and are automatical
 
 ### Release Retention Policy
 
-- The last build of each month is kept for two years.
-- The last 14 daily builds are kept.
+- The last "autobuild-\*" tag of each month is kept for two years.
+- The last 14 daily "autobuild-\*" tags are kept.
 
 ## Package List
 
