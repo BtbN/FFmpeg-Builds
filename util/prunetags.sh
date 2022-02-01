@@ -4,7 +4,7 @@ git fetch --tags
 TAGS=( $(git tag -l "autobuild-*" | sort -r) )
 
 KEEP_LATEST=14
-KEEP_MONTHLY=12
+KEEP_MONTHLY=24
 
 LATEST_TAGS=()
 MONTHLY_TAGS=()
