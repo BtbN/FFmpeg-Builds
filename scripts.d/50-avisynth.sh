@@ -18,13 +18,12 @@ ffbuild_dockerbuild() {
     make -j$(nproc)
     make install
 
-    cd ..
-
-    cmake -DSRC="${PWD}/avs_core/core/version.h.in" \
-          -DDST="${FFBUILD_PREFIX}/include/avisynth/avs/version.h" \
-          -DGIT="$(which git)" \
-          -DREPO="${PWD}" \
-          -P "${PWD}/avs_core/Version.cmake"
+    cat <<EOF >"${FFBUILD_PREFIX}/include/avisynth/avs/version.h"
+#pragma once
+#define AVS_MAJOR_VER 3
+#define AVS_MINOR_VER 7
+#define AVS_BUGFIX_VER 1
+EOF
 }
 
 ffbuild_configure() {
