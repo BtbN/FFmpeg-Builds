@@ -17,6 +17,14 @@ ffbuild_dockerbuild() {
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DHEADERS_ONLY=ON ..
     make -j$(nproc)
     make install
+
+    cd ..
+
+    cmake -DSRC="${PWD}/avs_core/core/version.h.in" \
+          -DDST="${FFBUILD_PREFIX}/include/avisynth/avs/version.h" \
+          -DGIT="$(which git)" \
+          -DREPO="${PWD}" \
+          -P "${PWD}/avs_core/Version.cmake"
 }
 
 ffbuild_configure() {
