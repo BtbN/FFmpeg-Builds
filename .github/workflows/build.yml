@@ -5,8 +5,13 @@ on:
     paths-ignore:
       - '**.md'
       - 'LICENSE'
-  repository_dispatch:
-    types: [build]
+  workflow_dispatch:
+    inputs:
+      doRelease:
+        description: 'Publish new release'
+        type: boolean
+        default: false
+        required: false
   schedule:
     - cron: '0 12 * * *'
 
@@ -148,7 +153,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: github.event_name != 'push'
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
