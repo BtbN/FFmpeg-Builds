@@ -1,7 +1,7 @@
 #!/bin/bash
 
 XORGMACROS_REPO="https://gitlab.freedesktop.org/xorg/util/macros.git"
-XORGMACROS_COMMIT="b8766308d2f78bc572abe5198007cf7aeec9b761"
+XORGMACROS_COMMIT="0326ba3c4caa34116c0e7e4af98661858cf25d1c"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1

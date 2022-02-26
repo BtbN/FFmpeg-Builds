@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBPCIACCESS_REPO="https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git"
-LIBPCIACCESS_COMMIT="9c01fdd7c02d8b9b5003e659ebca0b3643bd47c4"
+LIBPCIACCESS_COMMIT="4ef1660667425c0f171949aacae9d07b10a40d7f"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
