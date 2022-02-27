@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        -Dno_shared=true
+        -Ddefault_library=static
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
