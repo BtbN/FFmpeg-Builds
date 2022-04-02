@@ -177,7 +177,3 @@ jobs:
           hub release create $(for a in latest_artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: Prune old releases
-        run: ./util/prunetags.sh
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
