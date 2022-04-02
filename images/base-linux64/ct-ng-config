@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.24.0.498_5075e1f Configuration
+# crosstool-NG 1.24.0.533_681aaef Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -27,11 +27,11 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.24.0.498_5075e1f"
+CT_VERSION="1.24.0.533_681aaef"
 CT_VCHECK=""
-CT_CONFIG_VERSION_ENV="3"
-CT_CONFIG_VERSION_CURRENT="3"
-CT_CONFIG_VERSION="3"
+CT_CONFIG_VERSION_ENV="4"
+CT_CONFIG_VERSION_CURRENT="4"
+CT_CONFIG_VERSION="4"
 CT_MODULES=y
 
 #
@@ -307,6 +307,8 @@ CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
+CT_LINUX_5_12_or_older=y
+CT_LINUX_older_than_5_12=y
 CT_LINUX_5_3_or_older=y
 CT_LINUX_older_than_5_3=y
 CT_LINUX_4_8_or_older=y
@@ -358,7 +360,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_37=y
+CT_BINUTILS_V_2_38=y
+# CT_BINUTILS_V_2_37 is not set
 # CT_BINUTILS_V_2_36 is not set
 # CT_BINUTILS_V_2_35 is not set
 # CT_BINUTILS_V_2_34 is not set
@@ -370,7 +373,7 @@ CT_BINUTILS_V_2_37=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.37"
+CT_BINUTILS_VERSION="2.38"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -395,6 +398,7 @@ CT_BINUTILS_LINKERS_LIST="ld"
 CT_BINUTILS_LINKER_DEFAULT="bfd"
 CT_BINUTILS_PLUGINS=y
 CT_BINUTILS_RELRO=m
+CT_BINUTILS_DETERMINISTIC_ARCHIVES=y
 CT_BINUTILS_EXTRA_CONFIG_ARRAY=""
 # CT_BINUTILS_FOR_TARGET is not set
 CT_ALL_BINUTILS_CHOICES="BINUTILS"
@@ -406,7 +410,7 @@ CT_ALL_BINUTILS_CHOICES="BINUTILS"
 # CT_LIBC_BIONIC is not set
 CT_LIBC_GLIBC=y
 # CT_LIBC_MUSL is not set
-# CT_LIBC_UCLIBC is not set
+# CT_LIBC_UCLIBC_NG is not set
 CT_LIBC="glibc"
 CT_LIBC_CHOICE_KSYM="GLIBC"
 CT_THREADS="nptl"
@@ -431,6 +435,7 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
+# CT_GLIBC_V_2_35 is not set
 # CT_GLIBC_V_2_34 is not set
 # CT_GLIBC_V_2_33 is not set
 # CT_GLIBC_V_2_32 is not set
@@ -499,7 +504,7 @@ CT_GLIBC_KERNEL_VERSION_AS_HEADERS=y
 # CT_GLIBC_KERNEL_VERSION_CHOSEN is not set
 CT_GLIBC_MIN_KERNEL="4.4.292"
 CT_GLIBC_ENABLE_COMMON_FLAG=y
-CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC"
+CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC_NG"
 CT_LIBC_SUPPORT_THREADS_ANY=y
 CT_LIBC_SUPPORT_THREADS_NATIVE=y
 
@@ -514,9 +519,7 @@ CT_LIBC_XLDD=y
 #
 # C compiler
 #
-CT_CC_CORE_PASSES_NEEDED=y
-CT_CC_CORE_PASS_1_NEEDED=y
-CT_CC_CORE_PASS_2_NEEDED=y
+CT_CC_CORE_NEEDED=y
 CT_CC_SUPPORT_CXX=y
 CT_CC_SUPPORT_FORTRAN=y
 CT_CC_SUPPORT_ADA=y
@@ -535,7 +538,6 @@ CT_CC_GCC_PKG_KSYM="GCC"
 CT_GCC_DIR_NAME="gcc"
 CT_GCC_USE_GNU=y
 # CT_GCC_USE_LINARO is not set
-# CT_GCC_USE_ORACLE is not set
 CT_GCC_USE="GCC"
 CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
@@ -578,8 +580,6 @@ CT_GCC_later_than_5=y
 CT_GCC_5_or_later=y
 CT_GCC_later_than_4_9=y
 CT_GCC_4_9_or_later=y
-CT_GCC_later_than_4_8=y
-CT_GCC_4_8_or_later=y
 CT_CC_GCC_ENABLE_PLUGINS=y
 CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
@@ -679,6 +679,21 @@ CT_GETTEXT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GETTEXT_SIGNATURE_FORMAT="packed/.sig"
+CT_GETTEXT_0_21_or_later=y
+CT_GETTEXT_0_21_or_older=y
+CT_GETTEXT_INCOMPATIBLE_WITH_UCLIBC_NG=y
+
+#
+# This version of gettext is not compatible with uClibc-NG. Select
+#
+
+#
+# a different version if uClibc-NG is used on the target or (in a
+#
+
+#
+# Canadian cross build) on the host.
+#
 CT_COMP_LIBS_GMP=y
 CT_COMP_LIBS_GMP_PKG_KSYM="GMP"
 CT_GMP_DIR_NAME="gmp"
@@ -701,11 +716,6 @@ CT_GMP_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2"
 CT_GMP_SIGNATURE_FORMAT="packed/.sig"
-CT_GMP_later_than_5_1_0=y
-CT_GMP_5_1_0_or_later=y
-CT_GMP_later_than_5_0_0=y
-CT_GMP_5_0_0_or_later=y
-CT_GMP_REQUIRE_5_0_0_or_later=y
 CT_COMP_LIBS_ISL=y
 CT_COMP_LIBS_ISL_PKG_KSYM="ISL"
 CT_ISL_DIR_NAME="isl"
@@ -739,15 +749,6 @@ CT_ISL_later_than_0_18=y
 CT_ISL_0_18_or_later=y
 CT_ISL_later_than_0_15=y
 CT_ISL_0_15_or_later=y
-CT_ISL_REQUIRE_0_15_or_later=y
-CT_ISL_later_than_0_14=y
-CT_ISL_0_14_or_later=y
-CT_ISL_REQUIRE_0_14_or_later=y
-CT_ISL_later_than_0_13=y
-CT_ISL_0_13_or_later=y
-CT_ISL_later_than_0_12=y
-CT_ISL_0_12_or_later=y
-CT_ISL_REQUIRE_0_12_or_later=y
 # CT_COMP_LIBS_LIBELF is not set
 CT_COMP_LIBS_LIBICONV=y
 CT_COMP_LIBS_LIBICONV_PKG_KSYM="LIBICONV"
@@ -821,9 +822,6 @@ CT_MPFR_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz .zip"
 CT_MPFR_SIGNATURE_FORMAT="packed/.asc"
 CT_MPFR_later_than_4_0_0=y
 CT_MPFR_4_0_0_or_later=y
-CT_MPFR_later_than_3_0_0=y
-CT_MPFR_3_0_0_or_later=y
-CT_MPFR_REQUIRE_3_0_0_or_later=y
 CT_COMP_LIBS_NCURSES=y
 CT_COMP_LIBS_NCURSES_PKG_KSYM="NCURSES"
 CT_NCURSES_DIR_NAME="ncurses"

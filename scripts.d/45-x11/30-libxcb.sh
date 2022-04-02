@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBXCB_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcb.git"
-LIBXCB_COMMIT="43fbf03e549bf6da8d1d8522e0ceddc4d49c37c6"
+LIBXCB_COMMIT="ddafdba11f6919e6fcf977c09c78b06f94de47aa"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1

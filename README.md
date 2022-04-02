@@ -18,6 +18,7 @@ Builds run daily at 12:00 UTC (or GitHubs idea of that time) and are automatical
 
 - The last build of each month is kept for two years.
 - The last 14 daily builds are kept.
+- The special "latest" build floats and provides consistent URLs always pointing to the latest build.
 
 ## Package List
 

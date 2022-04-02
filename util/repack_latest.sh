@@ -8,6 +8,7 @@ fi
 
 RELEASE_DIR="$(realpath "$1")"
 shift
+mkdir -p "$RELEASE_DIR"
 
 rm -rf repack_dir
 mkdir repack_dir
@@ -17,36 +18,55 @@ while [[ $# -gt 0 ]]; do
     INPUT="$1"
     shift
 
-    rm -rf repack_dir/*
+    (
+        set -e
+        REPACK_DIR="repack_dir/$BASHPID"
+        rm -rf "$REPACK_DIR"
+        mkdir "$REPACK_DIR"
 
-    if [[ $INPUT == *.zip ]]; then
-        unzip "$INPUT" -d repack_dir
-    elif [[ $INPUT == *.tar.xz ]]; then
-        tar xvaf "$INPUT" -C repack_dir
-    else
-        echo "Unknown input file type: $INPUT"
-        exit 1
-    fi
+        if [[ $INPUT == *.zip ]]; then
+            unzip "$INPUT" -d "$REPACK_DIR"
+        elif [[ $INPUT == *.tar.xz ]]; then
+            tar xvaf "$INPUT" -C "$REPACK_DIR"
+        else
+            echo "Unknown input file type: $INPUT"
+            exit 1
+        fi
 
-    cd repack_dir
+        cd "$REPACK_DIR"
 
-    INAME="$(echo ffmpeg-*)"
-    TAGNAME="$(cut -d- -f2 <<<"$INAME")"
+        INAME="$(echo ffmpeg-*)"
+        TAGNAME="$(cut -d- -f2 <<<"$INAME")"
 
-    if [[ $TAGNAME == N ]]; then
-        TAGNAME="master"
-    elif [[ $TAGNAME == n* ]]; then
-        TAGNAME="$(sed -re 's/([0-9]+\.[0-9]+).*/\1/' <<<"$TAGNAME")"
-    fi
+        if [[ $TAGNAME == N ]]; then
+            TAGNAME="master"
+        elif [[ $TAGNAME == n* ]]; then
+            TAGNAME="$(sed -re 's/([0-9]+\.[0-9]+).*/\1/' <<<"$TAGNAME")"
+        fi
 
-    ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f5- <<<"$INAME")"
-    mv "$INAME" "$ONAME"
+        if [[ "$INAME" =~ -[0-9]+-g ]]; then
+            ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f5- <<<"$INAME")"
+        else
+            ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f3- <<<"$INAME")"
+        fi
 
-    if [[ $INPUT == *.zip ]]; then
-        zip -9 -r "$RELEASE_DIR/$ONAME.zip" "$ONAME"
-    elif [[ $INPUT == *.tar.xz ]]; then
-        tar cvJf "$RELEASE_DIR/$ONAME.tar.xz" "$ONAME"
-    fi
+        mv "$INAME" "$ONAME"
 
-    cd ..
+        if [[ $INPUT == *.zip ]]; then
+            zip -9 -r "$RELEASE_DIR/$ONAME.zip" "$ONAME"
+        elif [[ $INPUT == *.tar.xz ]]; then
+            tar cvJf "$RELEASE_DIR/$ONAME.tar.xz" "$ONAME"
+        fi
+
+        rm -rf "$REPACK_DIR"
+    ) &
+
+    while [[ $(jobs | wc -l) -gt 3 ]]; do
+        wait %1
+    done
 done
+
+while [[ $(jobs | wc -l) -gt 0 ]]; do
+    wait %1
+done
+rm -rf repack_dir

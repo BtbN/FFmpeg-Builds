@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ZLIB_SRC="https://zlib.net/zlib-1.2.11.tar.gz"
+ZLIB_SRC="https://zlib.net/zlib-1.2.12.tar.gz"
 
 ffbuild_enabled() {
     return -1
