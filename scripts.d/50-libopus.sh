@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPUS_REPO="https://github.com/xiph/opus.git"
-OPUS_COMMIT="37aba6e9b382f7dbdb7916adbc335704cf2992e8"
+OPUS_COMMIT="ccaaffa9a3ee427e9401c4dcf6462e378d9a4694"
 
 ffbuild_enabled() {
     return 0

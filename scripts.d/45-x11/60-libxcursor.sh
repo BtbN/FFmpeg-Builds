@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBXCURSOR_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcursor.git"
-LIBXCURSOR_COMMIT="801925839d26e7c8d942c5e02c4897652ead26c8"
+LIBXCURSOR_COMMIT="27adb16027fa99d83818a0ed9f6623cb03f0c574"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
