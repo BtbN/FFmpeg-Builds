@@ -1,0 +1,25 @@
+From 41dc61558ca886b4780e3f319184c9e0ae52b67c Mon Sep 17 00:00:00 2001
+From: shirt <2660574+shirt-dev@users.noreply.github.com>
+Date: Tue, 1 Feb 2022 11:37:02 -0500
+Subject: [PATCH] Update pnglibconf.dfa
+
+---
+ scripts/pnglibconf.dfa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/pnglibconf.dfa b/scripts/pnglibconf.dfa
+index b298a72f3..c45b53f0d 100644
+--- a/scripts/pnglibconf.dfa
++++ b/scripts/pnglibconf.dfa
+@@ -266,7 +266,7 @@ option POWERPC_VSX_CHECK disabled,
+ # The TEXT values are the defaults when writing compressed text (all forms)
+ 
+ # Include the zlib header so that the defaults below are known
+-@#  include <zlib.h>
++#@#  include <zlib.h>
+ 
+ # The '@' here means to substitute the value when pnglibconf.h is built
+ setting Z_DEFAULT_COMPRESSION default @Z_DEFAULT_COMPRESSION
+-- 
+2.34.1.windows.1
+
