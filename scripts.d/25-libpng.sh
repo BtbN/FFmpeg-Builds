@@ -20,7 +20,7 @@ ffbuild_dockerbuild() {
         git am < "$patch"
     done
 
-    autoreconf -fi
+    autoreconf -i
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

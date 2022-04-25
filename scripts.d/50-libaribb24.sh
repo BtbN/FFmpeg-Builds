@@ -12,7 +12,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$ARIBB24_REPO" "$ARIBB24_COMMIT" aribb24
     cd aribb24
 
-    autoreconf -fi
+    autoreconf -i
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
