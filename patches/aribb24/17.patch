@@ -1,0 +1,151 @@
+From 58a34b8fabf4d0e9e1984fb603a97f52fb934a09 Mon Sep 17 00:00:00 2001
+From: scimmia9286 <scimmia9286@yahoo.co.jp>
+Date: Thu, 22 Apr 2021 20:26:45 +0900
+Subject: [PATCH] Fixed DRCS parser bug
+
+---
+ src/decoder.c |  3 ++-
+ src/drcs.c    | 12 ++++++++----
+ src/drcs.h    |  2 +-
+ src/parser.c  | 25 +++++++++++++++++++++----
+ 4 files changed, 32 insertions(+), 10 deletions(-)
+
+diff --git a/src/decoder.c b/src/decoder.c
+index 2b77f38..c9d6ac3 100644
+--- a/src/decoder.c
++++ b/src/decoder.c
+@@ -1139,9 +1139,10 @@ static int decoder_handle_time( arib_decoder_t *decoder )
+                     return 1;
+                 break;
+             default:
+-                if( i_mode == 1 && c >= 0x40 && c <= 0x7F )
++                if( i_mode == 1 && c >= 0x40 && c <= 0x7F ) {
+                     decoder->i_control_time += c & 0x3f;
+                     return 1;
++                }
+                 return 0;
+         }
+         if( i_mode == 0 )
+diff --git a/src/drcs.c b/src/drcs.c
+index 114d846..8ff8d4f 100644
+--- a/src/drcs.c
++++ b/src/drcs.c
+@@ -406,15 +406,19 @@ static void save_drcs_pattern_data_image(
+ void save_drcs_pattern(
+         arib_instance_t *p_instance,
+         int i_width, int i_height,
+-        int i_depth, const int8_t* p_patternData )
++        int i_depth, const int8_t* p_patternData,
++        int16_t i_CharacterCode )
+ {
++//    int i_drcsPage = (i_CharacterCode >> 16) & 0xff;
++    int i_code = (i_CharacterCode & 0xff) - 0x20;
+     char* psz_hash = get_drcs_pattern_data_hash( p_instance,
+             i_width, i_height, i_depth, p_patternData );
+ 
+-    strncpy( p_instance->p->drcs_hash_table[p_instance->p->i_drcs_num], psz_hash, 32 );
+-    p_instance->p->drcs_hash_table[p_instance->p->i_drcs_num][32] = '\0';
++    strncpy( p_instance->p->drcs_hash_table[i_code-1], psz_hash, 32 );
++    p_instance->p->drcs_hash_table[i_code-1][32] = '\0';
+ 
+-    p_instance->p->i_drcs_num++;
++    p_instance->p->i_drcs_num = i_code > p_instance->p->i_drcs_num ?
++                                i_code : p_instance->p->i_drcs_num;
+ 
+     save_drcs_pattern_data_image( p_instance, psz_hash,
+             i_width, i_height, i_depth, p_patternData );
+diff --git a/src/drcs.h b/src/drcs.h
+index 274ff44..9c1533e 100644
+--- a/src/drcs.h
++++ b/src/drcs.h
+@@ -77,6 +77,6 @@ typedef struct drcs_data_s
+ 
+ bool apply_drcs_conversion_table( arib_instance_t * );
+ bool load_drcs_conversion_table( arib_instance_t * );
+-void save_drcs_pattern( arib_instance_t *, int, int, int, const int8_t* );
++void save_drcs_pattern( arib_instance_t *, int, int, int, const int8_t*, int16_t );
+ 
+ #endif
+diff --git a/src/parser.c b/src/parser.c
+index 1403dd6..6db27ae 100644
+--- a/src/parser.c
++++ b/src/parser.c
+@@ -79,7 +79,6 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+                                   uint8_t i_data_unit_parameter,
+                                   uint32_t i_data_unit_size )
+ {
+-    p_parser->p_instance->p->i_drcs_num = 0;
+ #ifdef ARIBSUB_GEN_DRCS_DATA
+     if( p_parser->p_drcs_data != NULL )
+     {
+@@ -119,7 +118,7 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+ 
+     for( int i = 0; i < i_NumberOfCode; i++ )
+     {
+-        bs_skip( p_bs, 16 ); /* i_character_code */
++        int16_t i_CharacterCode = bs_read( p_bs, 16 ); /* i_character_code */
+         p_parser->i_data_unit_size += 2;
+         uint8_t i_NumberOfFont = bs_read( p_bs, 8 );
+         p_parser->i_data_unit_size += 1;
+@@ -139,7 +138,11 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+ 
+         for( int j = 0; j < i_NumberOfFont; j++ )
+         {
++#ifdef ARIBSUB_GEN_DRCS_DATA
++            int8_t i_fontId = bs_read( p_bs, 4 ); /* i_fontID */
++#else
+             bs_skip( p_bs, 4 ); /* i_fontID */
++#endif //ARIBSUB_GEN_DRCS_DATA
+             uint8_t i_mode = bs_read( p_bs, 4 );
+             p_parser->i_data_unit_size += 1;
+ 
+@@ -206,18 +209,26 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+ 
+ #ifdef ARIBSUB_GEN_DRCS_DATA
+                 save_drcs_pattern( p_parser->p_instance, i_width, i_height, i_depth + 2,
+-                                   p_drcs_pattern_data->p_patternData );
++                                   p_drcs_pattern_data->p_patternData, i_CharacterCode );
+ #else
+                 save_drcs_pattern( p_parser->p_instance, i_width, i_height, i_depth + 2,
+-                                   p_patternData );
++                                   p_patternData, i_CharacterCode);
+                 free( p_patternData );
+ #endif //ARIBSUB_GEN_DRCS_DATA
+             }
+             else
+             {
++#ifdef ARIBSUB_GEN_DRCS_DATA
++                int8_t i_regionX = bs_read( p_bs, 8 ); /* i_regionX */
++#else
+                 bs_skip( p_bs, 8 ); /* i_regionX */
++#endif //ARIBSUB_GEN_DRCS_DATA
+                 p_parser->i_data_unit_size += 1;
++#ifdef ARIBSUB_GEN_DRCS_DATA
++                int8_t i_regionY = bs_read( p_bs, 8 ); /* i_regionY */
++#else
+                 bs_skip( p_bs, 8 ); /* i_regionY */
++#endif //ARIBSUB_GEN_DRCS_DATA
+                 p_parser->i_data_unit_size += 1;
+                 uint16_t i_geometricData_length = bs_read( p_bs, 16 );
+                 p_parser->i_data_unit_size += 2;
+@@ -245,7 +256,11 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+ 
+                 for( int k = 0; k < i_geometricData_length ; k++ )
+                 {
++#ifdef ARIBSUB_GEN_DRCS_DATA
++                    int8_t i_geometricData = bs_read( p_bs, 8 ); /* i_geometric_data */
++#else
+                     bs_skip( p_bs, 8 ); /* i_geometric_data */
++#endif //ARIBSUB_GEN_DRCS_DATA
+                     p_parser->i_data_unit_size += 1;
+ 
+ #ifdef ARIBSUB_GEN_DRCS_DATA
+@@ -344,6 +359,8 @@ static void parse_caption_management_data( arib_parser_t *p_parser, bs_t *p_bs )
+     p_parser->i_data_unit_size = 0;
+     p_parser->i_subtitle_data_size = 0;
+     p_parser->psz_subtitle_data = NULL;
++    p_parser->p_instance->p->i_drcs_num = 0;
++    memset(p_parser->p_instance->p->drcs_hash_table, 0, sizeof(p_parser->p_instance->p->drcs_hash_table));
+     if( i_data_unit_loop_length > 0 )
+     {
+         p_parser->psz_subtitle_data = (unsigned char*) calloc(

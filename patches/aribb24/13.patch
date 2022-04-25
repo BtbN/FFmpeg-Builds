@@ -1,0 +1,23 @@
+From facc51923d43f26dec09a9391566de7cba29f8db Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20Ekstr=C3=B6m?= <jeebjp@gmail.com>
+Date: Sun, 17 Feb 2019 22:42:31 +0200
+Subject: [PATCH] decoder: reset control_time when finalizing decoder
+
+This way finalize_decoder() can properly be utilized as a flush
+function.
+---
+ src/decoder.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/decoder.c b/src/decoder.c
+index 2b77f38..24c0f06 100644
+--- a/src/decoder.c
++++ b/src/decoder.c
+@@ -1506,6 +1506,7 @@ void arib_finalize_decoder( arib_decoder_t* decoder )
+         free( p_region );
+     }
+     decoder->p_region = NULL;
++    decoder->i_control_time = 0;
+ }
+ 
+ size_t arib_decode_buffer( arib_decoder_t* decoder,
