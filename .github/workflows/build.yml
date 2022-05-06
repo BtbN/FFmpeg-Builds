@@ -2,6 +2,8 @@ name: Build FFmpeg
 
 on:
   push:
+    branches-ignore:
+      - 'dependabot/**'
     paths-ignore:
       - '**.md'
       - 'LICENSE'

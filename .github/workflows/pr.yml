@@ -3,6 +3,8 @@ on:
   pull_request:
     branches:
       - master
+    branches-ignore:
+      - 'dependabot/**'
     paths-ignore:
       - '**.md'
       - 'LICENSE'
