@@ -21,9 +21,9 @@ jobs:
         variant: [gpl,lgpl,gpl 4.4,gpl 5.0,lgpl 4.4,lgpl 5.0,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.0,lgpl-shared 4.4,lgpl-shared 5.0]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           config: .github/buildkit.toml
           driver: docker
@@ -32,7 +32,7 @@ jobs:
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ffmpeg
           path: artifacts/*
