@@ -36,6 +36,11 @@ ffbuild_dockerbuild() {
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             linux-x86_64
         )
+    elif [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
+            linux-aarch64
+        )
     else
         echo "Unknown target"
         return -1
