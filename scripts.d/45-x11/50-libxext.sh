@@ -5,6 +5,7 @@ LIBXEXT_COMMIT="47904063048fa6ef6e8e16219ddef4d14d5d9a4b"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

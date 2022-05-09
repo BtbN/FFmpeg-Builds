@@ -29,10 +29,15 @@ ffbuild_dockerbuild() {
         --enable-threads
         --with-combined-threads
         --with-incoming-stack-boundary=2
-        --enable-sse2
-        --enable-avx
-        --enable-avx2
     )
+
+    if [[ $TARGET != *arm64 ]]; then
+        myconf+=(
+            --enable-sse2
+            --enable-avx
+            --enable-avx2
+        )
+    fi
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(

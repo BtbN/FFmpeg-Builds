@@ -1,0 +1,12 @@
+[binaries]
+c = 'aarch64-ffbuild-linux-gnu-gcc'
+cpp = 'aarch64-ffbuild-linux-gnu-g++'
+ld = 'aarch64-ffbuild-linux-gnu-ld'
+ar = 'aarch64-ffbuild-linux-gnu-ar'
+strip = 'aarch64-ffbuild-linux-gnu-strip'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'

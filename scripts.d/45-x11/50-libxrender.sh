@@ -5,6 +5,7 @@ LIBXRENDER_COMMIT="bce0618839fc33f44edd8b5498b8e33d167806ff"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

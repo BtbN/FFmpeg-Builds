@@ -25,6 +25,12 @@ ffbuild_dockerbuild() {
         )
     fi
 
+    # For some reason, RUSTFLAGS, CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER,
+    # and .cargo/config.toml can't work, so have to put a symbolic link
+    if [[ $TARGET == linuxarm64 ]]; then
+        ln -s /opt/ct-ng/bin/aarch64-ffbuild-linux-gnu-gcc /opt/ct-ng/bin/aarch64-linux-gnu-gcc
+    fi
+
     cargo cinstall "${myconf[@]}"
 }
 
