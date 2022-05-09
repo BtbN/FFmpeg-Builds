@@ -5,6 +5,7 @@ LIBXCURSOR_COMMIT="27adb16027fa99d83818a0ed9f6623cb03f0c574"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

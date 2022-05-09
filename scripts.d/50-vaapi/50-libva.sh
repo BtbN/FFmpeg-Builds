@@ -5,6 +5,7 @@ LIBVA_COMMIT="aeba58590726ab08b924e6a2ad0078d74c5dd01b"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

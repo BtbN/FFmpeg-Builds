@@ -5,6 +5,7 @@ GLVND_COMMIT="5024e5796ea16baf6f9203b1414c870a30b20474"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

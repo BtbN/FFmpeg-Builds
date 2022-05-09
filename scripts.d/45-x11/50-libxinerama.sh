@@ -5,6 +5,7 @@ LIBXINERAMA_COMMIT="c5187f076d16601c15c59c5a2f05c0513d9f042b"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
