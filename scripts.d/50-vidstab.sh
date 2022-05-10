@@ -16,7 +16,7 @@ ffbuild_dockerbuild() {
     mkdir build && cd build
 
     local disable_sse2=""
-    if [[ $TARGET == linuxarm64 ]]; then
+    if [[ $TARGET == *arm64 ]]; then
         disable_sse2=-DSSE2_FOUND=FALSE
     fi
 
