@@ -19,10 +19,11 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == linux* ]]; then
         # our glibc is too old(<2.25), and their detection fails for some reason
         export CXXFLAGS="$CXXFLAGS -DVQSORT_GETRANDOM=0 -DVQSORT_SECURE_SEED=0"
+    elif [[ $TARGET == win* ]]; then
+        # Fix AVX2 related crash due to unaligned stack memory  
+        export CXXFLAGS="$CXXFLAGS -Wa,-muse-unaligned-vector-move"
+        export CFLAGS="$CFLAGS -Wa,-muse-unaligned-vector-move"
     fi
-
-    export CXXFLAGS="$CXXFLAGS -DHWY_COMPILE_ONLY_SCALAR"
-    export CFLAGS="$CFLAGS -DHWY_COMPILE_ONLY_SCALAR"
 
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
         -DBUILD_SHARED_LIBS=OFF -DJPEGXL_STATIC=OFF -DJPEGXL_ENABLE_TOOLS=OFF -DJPEGXL_ENABLE_VIEWERS=OFF -DJPEGXL_EMSCRIPTEN=OFF -DJPEGXL_ENABLE_DOXYGEN=OFF \
