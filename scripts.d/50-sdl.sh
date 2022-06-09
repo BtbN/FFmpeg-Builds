@@ -49,6 +49,10 @@ ffbuild_dockerbuild() {
             -e 's/ \-Dmain=SDL_main//g' \
             "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
     fi
+
+    sed -ri -e 's/ -lSDL2//g' \
+        -e 's/Libs: /Libs: -lSDL2 /'\
+        "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
 }
 
 ffbuild_configure() {
