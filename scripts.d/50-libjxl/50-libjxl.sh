@@ -41,10 +41,6 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == win* ]]; then
         echo "Libs.private: -ladvapi32" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl.pc
         echo "Libs.private: -ladvapi32" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl_threads.pc
-
-        mv "${FFBUILD_PREFIX}"/lib/libjxl{-static,}.a
-        mv "${FFBUILD_PREFIX}"/lib/libjxl_dec{-static,}.a
-        mv "${FFBUILD_PREFIX}"/lib/libjxl_threads{-static,}.a
     fi
 }
 
