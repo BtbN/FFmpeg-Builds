@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PLACEBO_REPO="https://code.videolan.org/videolan/libplacebo.git"
-PLACEBO_COMMIT="f85c3c0791271089a3b1df2b5d6948cd1cb8c63e"
+PLACEBO_COMMIT="93c54f9a45ba9b85eadd64d1ab58b12896138cd2"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1

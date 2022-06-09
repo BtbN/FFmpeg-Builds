@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AOM_REPO="https://aomedia.googlesource.com/aom"
-AOM_COMMIT="93e83ff473b20e983c6b9bf6ba8d208c70a31188"
+AOM_COMMIT="67c37914286ace423a9de7fbd9f6272871061db3"
 
 ffbuild_enabled() {
     return 0
