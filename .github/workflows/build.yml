@@ -162,7 +162,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' }}
+    if: ${{ always() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
