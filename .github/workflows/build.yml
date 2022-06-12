@@ -12,6 +12,11 @@ on:
         type: boolean
         default: false
         required: false
+      buildOnly:
+        description: 'Only build ffmpeg'
+        type: boolean
+        default: false
+        required: false
   schedule:
     - cron: '0 12 * * *'
 
@@ -21,6 +26,7 @@ env:
 jobs:
   build_base:
     name: Build base image
+    if: ${{ github.event.inputs.buildOnly != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,6 +57,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_target_bases:
     name: Build target base image
+    if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_base
     runs-on: ubuntu-latest
     strategy:
@@ -86,6 +93,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_targets:
     name: Build target-variant image
+    if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_target_bases
     runs-on: ubuntu-latest
     strategy:
