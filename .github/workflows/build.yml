@@ -168,6 +168,7 @@ jobs:
         id: create_release
         run: |
           set -xe
+          shopt -s nullglob
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
@@ -179,6 +180,7 @@ jobs:
       - name: Update Latest
         run: |
           set -xe
+          shopt -s nullglob
           mkdir latest_artifacts
           ./util/repack_latest.sh latest_artifacts artifacts/*.{zip,tar.xz}
           NAME="Latest Auto-Build (${{ steps.create_release.outputs.rel_date }})"
