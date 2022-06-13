@@ -18,7 +18,7 @@ ffbuild_dockerbuild() {
     echo > src/pulsecore/sndfile-util.c
     echo > src/pulsecore/sndfile-util.h
     sed -ri -e 's/(sndfile_dep = .*)\)/\1, required : false)/' meson.build
-    sed -ri -e 's/shared_library/static_library/g' src/meson.build src/pulse/meson.build
+    sed -ri -e 's/shared_library/library/g' src/meson.build src/pulse/meson.build
 
     mkdir build && cd build
 
