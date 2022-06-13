@@ -134,7 +134,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
   build_ffmpeg:
     name: Build ffmpeg
-    if: ${{ github.event.inputs.buildOnly == 'true' || success() }}
+    if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || success() }}
     needs: build_targets
     runs-on: ubuntu-latest
     strategy:
@@ -162,7 +162,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ always() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
+    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
