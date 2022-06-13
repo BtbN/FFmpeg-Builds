@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBDRM_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
-LIBDRM_COMMIT="f83ad09dc04c9f918ee8836bac9d88dac5de6745"
+LIBDRM_COMMIT="f7828dc180ba3427b5e405fab25e9846c07322bc"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -17,7 +17,6 @@ ffbuild_dockerbuild() {
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         -Ddefault_library=shared
-        -Dlibkms=false
         -Dudev=false
         -Dcairo-tests=false
         -Dvalgrind=false
