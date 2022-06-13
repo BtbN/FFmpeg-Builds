@@ -61,6 +61,8 @@ EOF
     fi
 
     make install
+
+    echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/x265.pc
 }
 
 ffbuild_configure() {
