@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.24.0.533_681aaef Configuration
+# crosstool-NG 1.25.0.55_3defb7b Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -27,7 +27,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.24.0.533_681aaef"
+CT_VERSION="1.25.0.55_3defb7b"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -374,7 +374,7 @@ CT_MINGW_DIRECTX=y
 CT_MINGW_DDK=y
 CT_MINGW_TOOLS=y
 CT_MINGW_TOOL_LIST_ARRAY="gendef genidl genlib genpeimg widl"
-CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC_NG"
+CT_ALL_LIBC_CHOICES="AVR_LIBC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC_NG"
 CT_LIBC_SUPPORT_THREADS_ANY=y
 CT_LIBC_SUPPORT_THREADS_NATIVE=y
 CT_LIBC_SUPPORT_THREADS_POSIX=y
@@ -393,6 +393,7 @@ CT_CC_CORE_NEEDED=y
 CT_CC_SUPPORT_CXX=y
 CT_CC_SUPPORT_FORTRAN=y
 CT_CC_SUPPORT_ADA=y
+CT_CC_SUPPORT_D=y
 CT_CC_SUPPORT_OBJC=y
 CT_CC_SUPPORT_OBJCXX=y
 CT_CC_SUPPORT_GOLANG=y
@@ -408,6 +409,7 @@ CT_CC_GCC_PKG_KSYM="GCC"
 CT_GCC_DIR_NAME="gcc"
 CT_GCC_USE_GNU=y
 # CT_GCC_USE_LINARO is not set
+# CT_GCC_USE_ORACLE is not set
 CT_GCC_USE="GCC"
 CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
@@ -420,7 +422,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_11=y
+CT_GCC_V_12=y
+# CT_GCC_V_11 is not set
 # CT_GCC_V_10 is not set
 # CT_GCC_V_9 is not set
 # CT_GCC_V_8 is not set
@@ -428,12 +431,14 @@ CT_GCC_V_11=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="11.2.0"
+CT_GCC_VERSION="12.1.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_12=y
+CT_GCC_12_or_later=y
 CT_GCC_later_than_11=y
 CT_GCC_11_or_later=y
 CT_GCC_later_than_10=y
@@ -502,6 +507,7 @@ CT_ALL_CC_CHOICES="GCC"
 CT_CC_LANG_CXX=y
 # CT_CC_LANG_FORTRAN is not set
 # CT_CC_LANG_ADA is not set
+# CT_CC_LANG_D is not set
 # CT_CC_LANG_OBJC is not set
 # CT_CC_LANG_OBJCXX is not set
 # CT_CC_LANG_GOLANG is not set
@@ -599,6 +605,7 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
 CT_ISL_V_0_24=y
+# CT_ISL_V_0_23 is not set
 # CT_ISL_V_0_22 is not set
 # CT_ISL_V_0_21 is not set
 # CT_ISL_V_0_20 is not set
@@ -636,7 +643,7 @@ CT_MPC_PATCH_ORDER="global"
 CT_MPC_V_1_2=y
 # CT_MPC_V_1_1 is not set
 # CT_MPC_V_1_0 is not set
-CT_MPC_VERSION="1.2.0"
+CT_MPC_VERSION="1.2.1"
 CT_MPC_MIRRORS="http://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
 CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -684,8 +691,8 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_2_11=y
-CT_ZLIB_VERSION="1.2.11"
+CT_ZLIB_V_1_2_12=y
+CT_ZLIB_VERSION="1.2.12"
 CT_ZLIB_MIRRORS="http://downloads.sourceforge.net/project/libpng/zlib/${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"

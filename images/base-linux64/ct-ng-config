@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.24.0.533_681aaef Configuration
+# crosstool-NG 1.25.0.55_3defb7b Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -27,7 +27,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.24.0.533_681aaef"
+CT_VERSION="1.25.0.55_3defb7b"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -264,6 +264,9 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_5_18 is not set
+# CT_LINUX_V_5_17 is not set
+# CT_LINUX_V_5_16 is not set
 # CT_LINUX_V_5_15 is not set
 # CT_LINUX_V_5_14 is not set
 # CT_LINUX_V_5_13 is not set
@@ -301,7 +304,7 @@ CT_LINUX_V_4_4=y
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
 # CT_LINUX_V_2_6_32 is not set
-CT_LINUX_VERSION="4.4.292"
+CT_LINUX_VERSION="4.4.302"
 CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -309,6 +312,8 @@ CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_LINUX_SIGNATURE_FORMAT="unpacked/.sign"
 CT_LINUX_5_12_or_older=y
 CT_LINUX_older_than_5_12=y
+CT_LINUX_5_5_or_older=y
+CT_LINUX_older_than_5_5=y
 CT_LINUX_5_3_or_older=y
 CT_LINUX_older_than_5_3=y
 CT_LINUX_4_8_or_older=y
@@ -407,13 +412,11 @@ CT_ALL_BINUTILS_CHOICES="BINUTILS"
 #
 # C-library
 #
-# CT_LIBC_BIONIC is not set
 CT_LIBC_GLIBC=y
 # CT_LIBC_MUSL is not set
 # CT_LIBC_UCLIBC_NG is not set
 CT_LIBC="glibc"
 CT_LIBC_CHOICE_KSYM="GLIBC"
-CT_THREADS="nptl"
 CT_LIBC_GLIBC_SHOW=y
 
 #
@@ -450,15 +453,18 @@ CT_GLIBC_PATCH_ORDER="global"
 CT_GLIBC_V_2_23=y
 # CT_GLIBC_V_2_19 is not set
 # CT_GLIBC_V_2_17 is not set
-# CT_GLIBC_V_2_12_1 is not set
 CT_GLIBC_VERSION="2.23"
 CT_GLIBC_MIRRORS="$(CT_Mirrors GNU glibc)"
 CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_GLIBC_SIGNATURE_FORMAT="packed/.sig"
+CT_GLIBC_2_34_or_older=y
+CT_GLIBC_older_than_2_34=y
 CT_GLIBC_2_32_or_older=y
 CT_GLIBC_older_than_2_32=y
+CT_GLIBC_2_31_or_older=y
+CT_GLIBC_older_than_2_31=y
 CT_GLIBC_2_30_or_older=y
 CT_GLIBC_older_than_2_30=y
 CT_GLIBC_2_29_or_older=y
@@ -486,12 +492,14 @@ CT_GLIBC_DEP_BINUTILS=y
 CT_GLIBC_DEP_GCC=y
 CT_GLIBC_DEP_PYTHON=y
 CT_GLIBC_SPARC_ALLOW_V7=y
+CT_THREADS="nptl"
 CT_GLIBC_HAS_LIBIDN_ADDON=y
 # CT_GLIBC_USE_LIBIDN_ADDON is not set
 CT_GLIBC_NO_SPARC_V8=y
 CT_GLIBC_HAS_OBSOLETE_RPC=y
 CT_GLIBC_EXTRA_CONFIG_ARRAY="--with-pic"
 CT_GLIBC_CONFIGPARMS=""
+# CT_GLIBC_ENABLE_DEBUG is not set
 CT_GLIBC_EXTRA_CFLAGS="-fPIC -DPIC"
 CT_GLIBC_ENABLE_OBSOLETE_RPC=y
 # CT_GLIBC_ENABLE_FORTIFIED_BUILD is not set
@@ -502,9 +510,9 @@ CT_GLIBC_FORCE_UNWIND=y
 # CT_GLIBC_KERNEL_VERSION_NONE is not set
 CT_GLIBC_KERNEL_VERSION_AS_HEADERS=y
 # CT_GLIBC_KERNEL_VERSION_CHOSEN is not set
-CT_GLIBC_MIN_KERNEL="4.4.292"
+CT_GLIBC_MIN_KERNEL="4.4.302"
 CT_GLIBC_ENABLE_COMMON_FLAG=y
-CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC_NG"
+CT_ALL_LIBC_CHOICES="AVR_LIBC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC_NG"
 CT_LIBC_SUPPORT_THREADS_ANY=y
 CT_LIBC_SUPPORT_THREADS_NATIVE=y
 
@@ -523,6 +531,7 @@ CT_CC_CORE_NEEDED=y
 CT_CC_SUPPORT_CXX=y
 CT_CC_SUPPORT_FORTRAN=y
 CT_CC_SUPPORT_ADA=y
+CT_CC_SUPPORT_D=y
 CT_CC_SUPPORT_OBJC=y
 CT_CC_SUPPORT_OBJCXX=y
 CT_CC_SUPPORT_GOLANG=y
@@ -538,6 +547,7 @@ CT_CC_GCC_PKG_KSYM="GCC"
 CT_GCC_DIR_NAME="gcc"
 CT_GCC_USE_GNU=y
 # CT_GCC_USE_LINARO is not set
+# CT_GCC_USE_ORACLE is not set
 CT_GCC_USE="GCC"
 CT_GCC_PKG_NAME="gcc"
 CT_GCC_SRC_RELEASE=y
@@ -550,7 +560,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_11=y
+CT_GCC_V_12=y
+# CT_GCC_V_11 is not set
 # CT_GCC_V_10 is not set
 # CT_GCC_V_9 is not set
 # CT_GCC_V_8 is not set
@@ -558,12 +569,14 @@ CT_GCC_V_11=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="11.2.0"
+CT_GCC_VERSION="12.1.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_12=y
+CT_GCC_12_or_later=y
 CT_GCC_later_than_11=y
 CT_GCC_11_or_later=y
 CT_GCC_later_than_10=y
@@ -634,6 +647,7 @@ CT_ALL_CC_CHOICES="GCC"
 CT_CC_LANG_CXX=y
 # CT_CC_LANG_FORTRAN is not set
 # CT_CC_LANG_ADA is not set
+# CT_CC_LANG_D is not set
 # CT_CC_LANG_OBJC is not set
 # CT_CC_LANG_OBJCXX is not set
 # CT_CC_LANG_GOLANG is not set
@@ -731,6 +745,7 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
 CT_ISL_V_0_24=y
+# CT_ISL_V_0_23 is not set
 # CT_ISL_V_0_22 is not set
 # CT_ISL_V_0_21 is not set
 # CT_ISL_V_0_20 is not set
@@ -739,6 +754,7 @@ CT_ISL_V_0_24=y
 # CT_ISL_V_0_17 is not set
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
+# CT_ISL_V_0_11 is not set
 CT_ISL_VERSION="0.24"
 CT_ISL_MIRRORS="https://libisl.sourceforge.io"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
@@ -789,7 +805,7 @@ CT_MPC_PATCH_ORDER="global"
 CT_MPC_V_1_2=y
 # CT_MPC_V_1_1 is not set
 # CT_MPC_V_1_0 is not set
-CT_MPC_VERSION="1.2.0"
+CT_MPC_VERSION="1.2.1"
 CT_MPC_MIRRORS="http://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
 CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -866,8 +882,8 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_2_11=y
-CT_ZLIB_VERSION="1.2.11"
+CT_ZLIB_V_1_2_12=y
+CT_ZLIB_VERSION="1.2.12"
 CT_ZLIB_MIRRORS="http://downloads.sourceforge.net/project/libpng/zlib/${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
