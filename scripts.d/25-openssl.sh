@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPENSSL_REPO="https://github.com/openssl/openssl.git"
-OPENSSL_COMMIT="OpenSSL_1_1_1p"
+OPENSSL_COMMIT="OpenSSL_1_1_1q"
 
 ffbuild_enabled() {
     return 0
