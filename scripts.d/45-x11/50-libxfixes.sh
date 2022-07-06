@@ -5,7 +5,6 @@ LIBXFIXES_COMMIT="6fe3bd64dd82f704ed91478acb4c99ab5c00be16"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 

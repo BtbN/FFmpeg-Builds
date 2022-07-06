@@ -5,7 +5,6 @@ LIBXSCRNSAVER_COMMIT="aa9fd5061d0a8832480ad0c1acc9d2e864e807f4"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
@@ -21,6 +20,12 @@ ffbuild_dockerbuild() {
         --disable-static
         --with-pic
     )
+
+    if [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --disable-malloc0returnsnull
+        )
+    fi
 
     if [[ $TARGET == linux* ]]; then
         myconf+=(

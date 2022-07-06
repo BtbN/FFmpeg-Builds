@@ -5,7 +5,6 @@ LIBX11_COMMIT="3a30ada60c5217ada37b143b541c8e6f6284c7fa"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
@@ -27,6 +26,12 @@ ffbuild_dockerbuild() {
         --disable-specs
         --enable-ipv6
     )
+
+    if [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --disable-malloc0returnsnull
+        )
+    fi
 
     if [[ $TARGET == linux* ]]; then
         myconf+=(

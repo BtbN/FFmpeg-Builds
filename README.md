@@ -52,11 +52,8 @@ Available targets:
 
 The linuxarm64 target will not build some dependencies due to lack of arm64 (aarch64) architecture support or cross-compiling restrictions.
 
-* `libx11` and dependencies: libx11 and its dependencies don't seem to support cross-compiling.
-* `SDL`: Because it depends on libx11.
 * `davs2` and `xavs2`: aarch64 support is broken.
 * `libmfx` and `libva`: Library for Intel QSV, so there is no aarch64 support.
-* `ffplay` binary: Because it depends on libx11 and SDL.
 
 Available:
 * `gpl` Includes all dependencies, even those that require full GPL instead of just LGPL.

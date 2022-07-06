@@ -5,7 +5,6 @@ LIBXI_COMMIT="f24d7f43ab4d97203e60677a3d42e11dbc80c8b4"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
@@ -21,6 +20,12 @@ ffbuild_dockerbuild() {
         --disable-static
         --with-pic
     )
+
+    if [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --disable-malloc0returnsnull
+        )
+    fi
 
     if [[ $TARGET == linux* ]]; then
         myconf+=(

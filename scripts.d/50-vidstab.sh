@@ -15,12 +15,18 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    local disable_sse2=""
+    local mycmake=(
+        -DBUILD_SHARED_LIBS=OFF
+        -DUSE_OMP=ON
+    )
+
     if [[ $TARGET == *arm64 ]]; then
-        disable_sse2=-DSSE2_FOUND=FALSE
+        mycmake+=(
+            -DSSE2_FOUND=FALSE
+        )
     fi
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DUSE_OMP=ON $disable_sse2 ..
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" "${mycmake[@]}" ..
     make -j$(nproc)
     make install
 

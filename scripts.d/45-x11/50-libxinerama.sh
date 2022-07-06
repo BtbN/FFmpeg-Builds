@@ -5,7 +5,6 @@ LIBXINERAMA_COMMIT="c5187f076d16601c15c59c5a2f05c0513d9f042b"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
@@ -21,6 +20,12 @@ ffbuild_dockerbuild() {
         --disable-static
         --with-pic
     )
+
+    if [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --disable-malloc0returnsnull
+        )
+    fi
 
     if [[ $TARGET == linux* ]]; then
         myconf+=(
