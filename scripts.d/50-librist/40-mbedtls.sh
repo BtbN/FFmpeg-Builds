@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
-MBEDTLS_COMMIT="v3.1.0"
+MBEDTLS_COMMIT="v3.2.0"
 
 ffbuild_enabled() {
     return 0
