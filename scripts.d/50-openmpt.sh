@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    svn checkout "${SCRIPT_REPO}@${SCRIPT}" openmpt
+    retry-tool sh -c "rm -rf openmpt && svn checkout '${SCRIPT_REPO}@${SCRIPT}' openmpt"
     cd openmpt
 
     local myconf=(

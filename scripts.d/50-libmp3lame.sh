@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    svn checkout "${SCRIPT_REPO}@${SCRIPT_REV}" lame
+    retry-tool sh -c "rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame"
     cd lame
 
     autoreconf -i

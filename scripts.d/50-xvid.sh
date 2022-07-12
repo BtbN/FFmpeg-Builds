@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    svn checkout --username "anonymous" --password "" "${SCRIPT_REPO}@${SCRIPT_REV}" xvid
+    retry-tool sh -c "rm -rf xvid && svn checkout --username 'anonymous' --password '' '${SCRIPT_REPO}@${SCRIPT_REV}' xvid"
     cd xvid
 
     cd build/generic

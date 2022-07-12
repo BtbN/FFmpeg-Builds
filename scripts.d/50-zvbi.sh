@@ -12,7 +12,7 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    svn checkout "${SCRIPT_REPO}@${SCRIPT_REV}" zvbi
+    retry-tool sh -c "rm -rf zvbi && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' zvbi"
     cd zvbi
 
     for patch in /patches/*.patch; do
