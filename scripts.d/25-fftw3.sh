@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# https://fftw.org/download.html
-FFTW3_SRC="https://fftw.org/fftw-3.3.10.tar.gz"
-FFTW3_SHA512="2d34b5ccac7b08740dbdacc6ebe451d8a34cf9d9bfec85a5e776e87adf94abfd803c222412d8e10fbaa4ed46f504aa87180396af1b108666cde4314a55610b40"
+SCRIPT_REPO="https://github.com/FFTW/fftw3.git"
+SCRIPT_COMMIT="619564efbf84199f87e1a3047da00b600208fca2"
 
 ffbuild_enabled() {
     # Dependency of GPL-Only librubberband
@@ -11,16 +10,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir fftw3
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT_PINNED" fftw3
     cd fftw3
-
-    check-wget fftw3.tar.gz "$FFTW3_SRC" "$FFTW3_SHA512"
-    tar xaf fftw3.tar.gz
-    rm fftw3.tar.gz
-    cd fftw*
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --enable-maintainer-mode
         --disable-shared
         --enable-static
         --disable-fortran
@@ -48,7 +43,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    ./configure "${myconf[@]}"
+    ./bootstrap.sh "${myconf[@]}"
     make -j$(nproc)
     make install
 }
