@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# https://sourceforge.net/p/soxr/code/ci/master/tree/
 SCRIPT_REPO="https://git.code.sf.net/p/soxr/code"
 SCRIPT_COMMIT="945b592b70470e29f917f4de89b4281fbbd540c0"
 

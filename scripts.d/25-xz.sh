@@ -1,19 +1,17 @@
 #!/bin/bash
 
-XZ_SRC="https://sourceforge.net/projects/lzmautils/files/xz-5.2.5.tar.xz/download"
+SCRIPT_REPO="https://github.com/xz-mirror/xz.git"
+SCRIPT_COMMIT="4773608554d1b684a05ff9c1d879cf5c42266d33"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    mkdir xz
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xz
     cd xz
 
-    wget "$XZ_SRC" -O xz.tar.xz
-    tar xaf xz.tar.xz
-    rm xz.tar.xz
-    cd xz*
+    ./autogen.sh --no-po4a
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

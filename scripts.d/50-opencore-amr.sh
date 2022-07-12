@@ -1,18 +1,15 @@
 #!/bin/bash
 
-OAMR_SRC="https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz/download"
+SCRIPT_REPO="https://git.code.sf.net/p/opencore-amr/code"
+SCRIPT_COMMIT="7ba9df63d310355f86cb594018fba999965c1388"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    mkdir opencore
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" opencore
     cd opencore
-    wget -O opencore.tar.gz "$OAMR_SRC"
-    tar xaf opencore.tar.gz
-    rm opencore.tar.gz
-    cd opencore*
 
     autoreconf -i
 

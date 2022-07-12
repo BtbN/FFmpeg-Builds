@@ -1,19 +1,17 @@
 #!/bin/bash
 
-FONTCONFIG_SRC="https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.0.tar.xz"
+SCRIPT_REPO="https://gitlab.freedesktop.org/fontconfig/fontconfig.git"
+SCRIPT_COMMIT="fd0753af88f746fd3d729bf6e1df08eefeeaa3ac"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    mkdir fc
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fc
     cd fc
 
-    wget "$FONTCONFIG_SRC" -O fc.tar.gz
-    tar xaf fc.tar.gz
-    rm fc.tar.gz
-    cd fontconfig*
+    ./autogen.sh --noconf
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-XVID_SRC="https://downloads.xvid.com/downloads/xvidcore-1.3.7.tar.gz"
+SCRIPT_REPO="http://svn.xvid.org/trunk/xvidcore"
+SCRIPT_REV="2197"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -8,12 +9,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir xvid
+    svn checkout --username "anonymous" --password "" "${SCRIPT_REPO}@${SCRIPT_REV}" xvid
     cd xvid
-    wget -O xvid.tar.gz "$XVID_SRC"
-    tar xaf xvid.tar.gz
-    rm xvid.tar.gz
-    cd xvid*
 
     cd build/generic
 

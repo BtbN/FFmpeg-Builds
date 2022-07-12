@@ -1,17 +1,18 @@
 #!/bin/bash
 
-# https://ftp.gnu.org/gnu/libiconv/
-ICONV_SRC="https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz"
+SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
+SCRIPT_COMMIT="4b9c27bec873392533dd3ef309cd62962a644e18"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    wget -O iconv.tar.gz "$ICONV_SRC"
-    tar xaf iconv.tar.gz
-    rm iconv.tar.gz
-    cd libiconv*
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" iconv
+    cd iconv
+
+    ./gitsub.sh pull
+    ./autogen.sh
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

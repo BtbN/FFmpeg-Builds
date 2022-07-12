@@ -1,18 +1,18 @@
 #!/bin/bash
 
-TWOLAME_SRC="https://sourceforge.net/projects/twolame/files/twolame/0.4.0/twolame-0.4.0.tar.gz/download"
+SCRIPT_REPO="https://github.com/njh/twolame.git"
+SCRIPT_COMMIT="90b694b6125dbe23a346bd5607a7fb63ad2785dc"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    mkdir twolame
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" twolame
     cd twolame
-    wget -O twolame.tar.gz "$TWOLAME_SRC"
-    tar xaf twolame.tar.gz
-    rm twolame.tar.gz
-    cd twolame*
+
+    NOCONFIGURE=1 ./autogen.sh
+    touch doc/twolame.1
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
