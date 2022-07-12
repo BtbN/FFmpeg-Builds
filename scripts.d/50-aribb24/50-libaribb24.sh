@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ARIBB24_REPO="https://github.com/nkoriyama/aribb24.git"
-ARIBB24_COMMIT="5e9be272f96e00f15a2f3c5f8ba7e124862aec38"
+SCRIPT_REPO="https://github.com/nkoriyama/aribb24.git"
+SCRIPT_COMMIT="5e9be272f96e00f15a2f3c5f8ba7e124862aec38"
 
 ffbuild_enabled() {
     return 0
@@ -12,7 +12,7 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$ARIBB24_REPO" "$ARIBB24_COMMIT" aribb24
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" aribb24
     cd aribb24
 
     for patch in /patches/*.patch; do

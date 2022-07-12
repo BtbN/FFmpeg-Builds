@@ -1,14 +1,14 @@
 #!/bin/bash
 
-OPENMPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
-OPENMPT_REV="17456"
+SCRIPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
+SCRIPT_REV="17456"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    svn checkout "${OPENMPT_REPO}@${OPENMPT_REV}" openmpt
+    svn checkout "${SCRIPT_REPO}@${SCRIPT}" openmpt
     cd openmpt
 
     local myconf=(

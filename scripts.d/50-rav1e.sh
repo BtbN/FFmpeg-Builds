@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RAV1E_REPO="https://github.com/xiph/rav1e.git"
-RAV1E_COMMIT="a8d1e46e0dba460345e70a519d3becd079bb3acd"
+SCRIPT_REPO="https://github.com/xiph/rav1e.git"
+SCRIPT_COMMIT="a8d1e46e0dba460345e70a519d3becd079bb3acd"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$RAV1E_REPO" "$RAV1E_COMMIT" rav1e
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" rav1e
     cd rav1e
 
     local myconf=(

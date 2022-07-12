@@ -1,7 +1,7 @@
 #!/bin/bash
 
-UAVS3D_REPO="https://github.com/uavs3/uavs3d.git"
-UAVS3D_COMMIT="7b1dd734c926a23f8134b42dbfaac4d22cd6ba1d"
+SCRIPT_REPO="https://github.com/uavs3/uavs3d.git"
+SCRIPT_COMMIT="7b1dd734c926a23f8134b42dbfaac4d22cd6ba1d"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -9,9 +9,9 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$UAVS3D_REPO" uavs3d
+    git clone "$SCRIPT_REPO" uavs3d
     cd uavs3d
-    git checkout "$UAVS3D_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
 
     mkdir build/linux
     cd build/linux

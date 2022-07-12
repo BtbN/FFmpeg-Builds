@@ -1,14 +1,14 @@
 #!/bin/bash
 
-LILV_REPO="https://github.com/lv2/lilv.git"
-LILV_COMMIT="c36d3451278555134de850fc548d743b6da2179a"
+SCRIPT_REPO="https://github.com/lv2/lilv.git"
+SCRIPT_COMMIT="c36d3451278555134de850fc548d743b6da2179a"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LILV_REPO" "$LILV_COMMIT" lilv
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" lilv
     cd lilv
     git submodule update --init --recursive --depth 1
 

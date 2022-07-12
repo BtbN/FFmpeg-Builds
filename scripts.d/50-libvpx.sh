@@ -1,14 +1,14 @@
 #!/bin/bash
 
-LIBVPX_REPO="https://chromium.googlesource.com/webm/libvpx"
-LIBVPX_COMMIT="7b1b9f7cd23e085d97c26ed026d2c817d78a14d6"
+SCRIPT_REPO="https://chromium.googlesource.com/webm/libvpx"
+SCRIPT_COMMIT="7b1b9f7cd23e085d97c26ed026d2c817d78a14d6"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBVPX_REPO" "$LIBVPX_COMMIT" libvpx
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libvpx
     cd libvpx
 
     local myconf=(

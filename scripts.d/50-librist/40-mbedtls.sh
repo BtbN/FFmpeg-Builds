@@ -1,14 +1,14 @@
 #!/bin/bash
 
-MBEDTLS_REPO="https://github.com/ARMmbed/mbedtls.git"
-MBEDTLS_COMMIT="v3.2.1"
+SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
+SCRIPT_COMMIT="v3.2.1"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$MBEDTLS_REPO" "$MBEDTLS_COMMIT" mbedtls
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mbedtls
     cd mbedtls
 
     mkdir build && cd build

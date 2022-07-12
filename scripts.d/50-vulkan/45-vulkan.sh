@@ -1,7 +1,7 @@
 #!/bin/bash
 
-HEADERS_REPO="https://github.com/KhronosGroup/Vulkan-Headers.git"
-HEADERS_VERSION="1.3.217"
+SCRIPT_REPO="https://github.com/KhronosGroup/Vulkan-Headers.git"
+SCRIPT_COMMIT="v1.3.217"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$HEADERS_REPO" "v$HEADERS_VERSION" vkheaders
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" vkheaders
     cd vkheaders
 
     mkdir build && cd build
@@ -23,7 +23,7 @@ prefix=$FFBUILD_PREFIX
 includedir=\${prefix}/include
 
 Name: vulkan
-Version: $HEADERS_VERSION
+Version: ${SCRIPT_COMMIT:1}
 Description: Vulkan (Headers Only)
 Cflags: -I\${includedir}
 EOF

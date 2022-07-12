@@ -1,7 +1,7 @@
 #!/bin/bash
 
-XCBPROTO_REPO="https://gitlab.freedesktop.org/xorg/proto/xcbproto.git"
-XCBPROTO_COMMIT="b69b997c11d863d63ee053a0ff4d62957d8ab389"
+SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/proto/xcbproto.git"
+SCRIPT_COMMIT="b69b997c11d863d63ee053a0ff4d62957d8ab389"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$XCBPROTO_REPO" "$XCBPROTO_COMMIT" xcbproto
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xcbproto
     cd xcbproto
 
     autoreconf -i

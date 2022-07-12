@@ -1,14 +1,14 @@
 #!/bin/bash
 
-SRATOM_REPO="https://github.com/lv2/sratom.git"
-SRATOM_COMMIT="8cf09feee6895ba0760f8c24db6416dac9006dc3"
+SCRIPT_REPO="https://github.com/lv2/sratom.git"
+SCRIPT_COMMIT="8cf09feee6895ba0760f8c24db6416dac9006dc3"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SRATOM_REPO" "$SRATOM_COMMIT" sratom
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" sratom
     cd sratom
     git submodule update --init --recursive --depth 1
 

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-LIBPNG_REPO="https://github.com/glennrp/libpng.git"
-LIBPNG_COMMIT="a37d4836519517bdce6cb9d956092321eca3e73b"
+SCRIPT_REPO="https://github.com/glennrp/libpng.git"
+SCRIPT_COMMIT="a37d4836519517bdce6cb9d956092321eca3e73b"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBPNG_REPO" "$LIBPNG_COMMIT" libpng
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libpng
     cd libpng
 
     autoreconf -i

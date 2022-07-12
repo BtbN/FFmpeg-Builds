@@ -1,14 +1,14 @@
 #!/bin/bash
 
-OPENSSL_REPO="https://github.com/openssl/openssl.git"
-OPENSSL_COMMIT="OpenSSL_1_1_1q"
+SCRIPT_REPO="https://github.com/openssl/openssl.git"
+SCRIPT_COMMIT="OpenSSL_1_1_1q"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$OPENSSL_REPO" "$OPENSSL_COMMIT" openssl
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" openssl
     cd openssl
 
     local myconf=(

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-XAVS2_REPO="https://github.com/pkuvcl/xavs2.git"
-XAVS2_COMMIT="eae1e8b9d12468059bdd7dee893508e470fa83d8"
+SCRIPT_REPO="https://github.com/pkuvcl/xavs2.git"
+SCRIPT_COMMIT="eae1e8b9d12468059bdd7dee893508e470fa83d8"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -12,9 +12,9 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$XAVS2_REPO" xavs2
+    git clone "$SCRIPT_REPO" xavs2
     cd xavs2
-    git checkout "$XAVS2_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
     cd build/linux
 
     local myconf=(

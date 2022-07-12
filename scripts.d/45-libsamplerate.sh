@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBSR_REPO="https://github.com/libsndfile/libsamplerate.git"
-LIBSR_COMMIT="9cccc50b0e850cb1d5fed6c36e9a3b6f07a13711"
+SCRIPT_REPO="https://github.com/libsndfile/libsamplerate.git"
+SCRIPT_COMMIT="9cccc50b0e850cb1d5fed6c36e9a3b6f07a13711"
 
 ffbuild_enabled() {
     # Dependency of GPL-Only librubberband
@@ -10,7 +10,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBSR_REPO" "$LIBSR_COMMIT" libsr
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libsr
     cd libsr
 
     mkdir build

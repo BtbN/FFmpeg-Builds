@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MINGW_REPO="https://github.com/mirror/mingw-w64.git"
-MINGW_COMMIT="826706cbf2b01e799f495bf57d5e681da74dad37"
+SCRIPT_REPO="https://github.com/mirror/mingw-w64.git"
+SCRIPT_COMMIT="826706cbf2b01e799f495bf57d5e681da74dad37"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
@@ -18,7 +18,7 @@ ffbuild_dockerfinal() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$MINGW_REPO" "$MINGW_COMMIT" mingw
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mingw
     cd mingw
 
     cd mingw-w64-headers

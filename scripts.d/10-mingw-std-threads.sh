@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MINGW_STD_THREADS_REPO="https://github.com/meganz/mingw-std-threads.git"
-MINGW_STD_THREADS_COMMIT="6c2061b7da41d6aa1b2162ff4383ec3ece864bc6"
+SCRIPT_REPO="https://github.com/meganz/mingw-std-threads.git"
+SCRIPT_COMMIT="6c2061b7da41d6aa1b2162ff4383ec3ece864bc6"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$MINGW_STD_THREADS_REPO" "$MINGW_STD_THREADS_COMMIT" mingw-std-threads
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mingw-std-threads
     cd mingw-std-threads
 
     mkdir -p "$FFBUILD_PREFIX"/include

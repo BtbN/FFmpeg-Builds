@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBXSCRNSAVER_REPO="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
-LIBXSCRNSAVER_COMMIT="aa9fd5061d0a8832480ad0c1acc9d2e864e807f4"
+SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
+SCRIPT_COMMIT="aa9fd5061d0a8832480ad0c1acc9d2e864e807f4"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBXSCRNSAVER_REPO" "$LIBXSCRNSAVER_COMMIT" libxscrnsaver
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxscrnsaver
     cd libxscrnsaver
 
     autoreconf -i

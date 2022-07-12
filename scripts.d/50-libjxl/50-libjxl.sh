@@ -1,7 +1,7 @@
 #!/bin/bash
 
-JXL_REPO="https://github.com/libjxl/libjxl.git"
-JXL_COMMIT="ec093557b0e8f76a48b0a68356d786c664a65660"
+SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
+SCRIPT_COMMIT="ec093557b0e8f76a48b0a68356d786c664a65660"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -10,7 +10,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$JXL_REPO" "$JXL_COMMIT" jxl
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" jxl
     cd jxl
     git submodule update --init --recursive --depth 1 --recommend-shallow third_party/{highway,skcms}
 

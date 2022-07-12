@@ -1,14 +1,14 @@
 #!/bin/bash
 
-LIBUDFREAD_REPO="https://code.videolan.org/videolan/libudfread.git"
-LIBUDFREAD_COMMIT="b3e6936a23f8af30a0be63d88f4695bdc0ea26e1"
+SCRIPT_REPO="https://code.videolan.org/videolan/libudfread.git"
+SCRIPT_COMMIT="b3e6936a23f8af30a0be63d88f4695bdc0ea26e1"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBUDFREAD_REPO" "$LIBUDFREAD_COMMIT" libudfread
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libudfread
     cd libudfread
 
     ./bootstrap

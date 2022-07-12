@@ -1,16 +1,16 @@
 #!/bin/bash
 
-GME_REPO="https://bitbucket.org/mpyne/game-music-emu.git"
-GME_COMMIT="d39b0bce47f66074c6aa85202b8cb4642fa77b78"
+SCRIPT_REPO="https://bitbucket.org/mpyne/game-music-emu.git"
+SCRIPT_COMMIT="d39b0bce47f66074c6aa85202b8cb4642fa77b78"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git clone "$GME_REPO" gme
+    git clone "$SCRIPT_REPO" gme
     cd gme
-    git checkout "$GME_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
 
     mkdir build && cd build
 

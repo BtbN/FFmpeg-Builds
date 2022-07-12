@@ -1,14 +1,14 @@
 #!/bin/bash
 
-VMAF_REPO="https://github.com/Netflix/vmaf.git"
-VMAF_COMMIT="ebc457e98fec3400af87382fcae2b963a9152d91"
+SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
+SCRIPT_COMMIT="ebc457e98fec3400af87382fcae2b963a9152d91"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$VMAF_REPO" "$VMAF_COMMIT" vmaf
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" vmaf
     cd vmaf
 
     # Kill build of unused and broken tools

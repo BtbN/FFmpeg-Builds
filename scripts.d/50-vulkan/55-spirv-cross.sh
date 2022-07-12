@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SPIRV_CROSS_REPO="https://github.com/KhronosGroup/SPIRV-Cross.git"
-SPIRV_CROSS_COMMIT="a97bbc24c5bae15d3d2eaa2865c122e8d3be1b67"
+SCRIPT_REPO="https://github.com/KhronosGroup/SPIRV-Cross.git"
+SCRIPT_COMMIT="a97bbc24c5bae15d3d2eaa2865c122e8d3be1b67"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SPIRV_CROSS_REPO" "$SPIRV_CROSS_COMMIT" spirv-cross
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" spirv-cross
     cd spirv-cross
 
     VER_MAJ="$(grep 'set(spirv-cross-abi-major' CMakeLists.txt | sed -re 's/.* ([0-9]+)\)/\1/')"
