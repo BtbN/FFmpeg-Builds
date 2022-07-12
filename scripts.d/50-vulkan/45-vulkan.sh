@@ -2,6 +2,7 @@
 
 SCRIPT_REPO="https://github.com/KhronosGroup/Vulkan-Headers.git"
 SCRIPT_COMMIT="v1.3.217"
+SCRIPT_TAGFILTER="v?.*.*"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
