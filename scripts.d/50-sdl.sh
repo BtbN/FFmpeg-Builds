@@ -53,6 +53,8 @@ ffbuild_dockerbuild() {
     sed -ri -e 's/ -lSDL2//g' \
         -e 's/Libs: /Libs: -lSDL2 /'\
         "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
+
+    echo 'Requires: samplerate' >> "$FFBUILD_PREFIX"/lib/pkgconfig/sdl2.pc
 }
 
 ffbuild_configure() {
