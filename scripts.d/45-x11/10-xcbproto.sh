@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/proto/xcbproto.git"
-SCRIPT_COMMIT="b69b997c11d863d63ee053a0ff4d62957d8ab389"
+SCRIPT_COMMIT="0fc6197034c49d9fdf5607cae201f1ac3270e7de"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1

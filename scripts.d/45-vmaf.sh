@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
-SCRIPT_COMMIT="ebc457e98fec3400af87382fcae2b963a9152d91"
+SCRIPT_COMMIT="8a95060b0d65fe7158d8c0ccab333ca658b0f7b5"
 
 ffbuild_enabled() {
     return 0
