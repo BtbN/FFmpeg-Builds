@@ -40,7 +40,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export CFLAGS="$RAW_CFLAGS"
+    export CFLAGS="$RAW_CFLAGS -D_GNU_SOURCE"
     export LDFLAFS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"
