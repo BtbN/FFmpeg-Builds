@@ -40,8 +40,7 @@ ffbuild_dockerbuild() {
     make install
 
     if [[ $TARGET == win* ]]; then
-        rm "$FFBUILD_PREFIX"/{bin/xvidcore.dll,lib/xvidcore.dll.a}
-        mv "$FFBUILD_PREFIX"/lib/{,lib}xvidcore.a
+        rm "$FFBUILD_PREFIX"/{bin/libxvidcore.dll,lib/libxvidcore.dll.a}
     elif [[ $TARGET == linux* ]]; then
         rm "$FFBUILD_PREFIX"/lib/libxvidcore.so*
     fi
