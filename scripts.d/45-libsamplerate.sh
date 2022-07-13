@@ -4,8 +4,6 @@ SCRIPT_REPO="https://github.com/libsndfile/libsamplerate.git"
 SCRIPT_COMMIT="aee38d0bc797d0d1a3774ef574af1d5d248d2398"
 
 ffbuild_enabled() {
-    # Dependency of GPL-Only librubberband
-    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 
