@@ -18,12 +18,14 @@ echo "Processing ${scr}"
         REPO_VAR="SCRIPT_REPO$i"
         COMMIT_VAR="SCRIPT_COMMIT$i"
         REV_VAR="SCRIPT_REV$i"
+        HGREV_VAR="SCRIPT_HGREV$i"
         BRANCH_VAR="SCRIPT_BRANCH$i"
         TAGFILTER_VAR="SCRIPT_TAGFILTER$i"
 
         CUR_REPO="${!REPO_VAR}"
         CUR_COMMIT="${!COMMIT_VAR}"
         CUR_REV="${!REV_VAR}"
+        CUR_HGREV="${!HGREV_VAR}"
         CUR_BRANCH="${!BRANCH_VAR}"
         CUR_TAGFILTER="${!TAGFILTER_VAR}"
 
@@ -44,6 +46,20 @@ echo "Processing ${scr}"
             if [[ "${NEW_REV}" != "${CUR_REV}" ]]; then
                 echo "Updating ${scr}"
                 sed -i "s/^${REV_VAR}=.*/${REV_VAR}=\"${NEW_REV}\"/" "${scr}"
+            fi
+        elif [[ -n "${CUR_HGREV}" ]]; then # HG
+            hg init tmphgrepo
+            trap "rm -rf tmphgrepo" EXIT
+            cd tmphgrepo
+            NEW_HGREV="$(hg in -f -n -l 1 "${CUR_REPO}" | grep changeset | cut -d: -f3 | xargs)"
+            cd ..
+            rm -rf tmphgrepo
+
+            echo "Got ${NEW_HGREV} (current: ${CUR_HGREV})"
+
+            if [[ "${NEW_HGREV}" != "${CUR_HGREV}" ]]; then
+                echo "Updating ${scr}"
+                sed -i "s/^${HGREV_VAR}=.*/${HGREV_VAR}=\"${NEW_HGREV}\"/" "${scr}"
             fi
         elif [[ -n "${CUR_COMMIT}" ]]; then # GIT
             if [[ -n "${CUR_TAGFILTER}" ]]; then
