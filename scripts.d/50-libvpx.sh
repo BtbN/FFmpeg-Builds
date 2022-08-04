@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://chromium.googlesource.com/webm/libvpx"
-SCRIPT_COMMIT="68c68ae959bcd13a0be036ea8eb81319f96faf07"
+SCRIPT_COMMIT="2e61a623d4d5408c59f58e7bec713d789b27c3ef"
 
 ffbuild_enabled() {
     return 0
