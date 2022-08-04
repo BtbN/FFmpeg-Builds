@@ -11,6 +11,7 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" placebo
     cd placebo
+    git submodule update --init --recursive
 
     mkdir build && cd build
 

@@ -34,6 +34,4 @@ ffbuild_dockerbuild() {
     meson "${myconf[@]}" ..
     ninja -j"$(nproc)"
     ninja install
-
-    sed -i 's/Cflags:/Cflags: -DSERD_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/serd-0.pc
 }
