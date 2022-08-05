@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    hg clone -r "$SCRIPT_HGREV" -u "$SCRIPT_HGREV" "$SCRIPT_REPO" gmp
+    retry-tool sh -c "rm -rf gmp && hg clone -r '$SCRIPT_HGREV' -u '$SCRIPT_HGREV' '$SCRIPT_REPO' gmp"
     cd gmp
 
     ./.bootstrap
