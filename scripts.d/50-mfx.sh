@@ -38,7 +38,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libmfx
+    [[ $ADDINS_STR == *onevpl* ]] || echo --enable-libmfx
 }
 
 ffbuild_unconfigure() {
