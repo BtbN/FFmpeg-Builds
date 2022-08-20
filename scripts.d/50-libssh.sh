@@ -13,26 +13,22 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    cmake \
-        -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
+    if [[ $TARGET == win* ]]; then
+        export CFLAGS="$CFLAGS -Dgettimeofday=ssh_gettimeofday"
+        export CXXFLAGS="$CFLAGS -Dgettimeofday=ssh_gettimeofday"
+    fi
+
+    cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DWITH_BLOWFISH_CIPHER=ON \
-        -DWITH_DSA=ON \
-        -DWITH_PCAP=ON \
-        -DWITH_SFTP=ON \
-        -DWITH_ZLIB=ON \
-        -DWITH_EXAMPLES=OFF \
-        -DWITH_SERVER=OFF \
-        -GNinja \
-        ..
+        -DWITH_EXAMPLES=OFF -DWITH_SERVER=OFF \
+        -DWITH_SFTP=ON -DWITH_ZLIB=ON ..
+
     ninja -j$(nproc)
     ninja install
 
     {
         echo "Requires.private: libssl libcrypto zlib"
-        echo "Cflags.private: -DLIBSSH_STATIC" 
+        echo "Cflags.private: -DLIBSSH_STATIC"
     } >> "$FFBUILD_PREFIX"/lib/pkgconfig/libssh.pc
 }
 
@@ -42,8 +38,4 @@ ffbuild_configure() {
 
 ffbuild_unconfigure() {
     echo --disable-libssh
-}
-
-ffbuild_ldflags() {
-    echo -Wl,--allow-multiple-definition
 }
