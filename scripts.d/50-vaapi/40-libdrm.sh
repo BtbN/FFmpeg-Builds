@@ -18,16 +18,16 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         -Ddefault_library=shared
         -Dudev=false
-        -Dcairo-tests=false
-        -Dvalgrind=false
-        -Dexynos=false
-        -Dfreedreno=false
-        -Domap=false
-        -Detnaviv=false
-        -Dintel=true
-        -Dnouveau=true
-        -Dradeon=true
-        -Damdgpu=true
+        -Dcairo-tests=disabled
+        -Dvalgrind=disabled
+        -Dexynos=disabled
+        -Dfreedreno=disabled
+        -Domap=disabled
+        -Detnaviv=disabled
+        -Dintel=enabled
+        -Dnouveau=enabled
+        -Dradeon=enabled
+        -Damdgpu=enabled
     )
 
     if [[ $TARGET == linux* ]]; then
