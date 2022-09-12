@@ -32,6 +32,16 @@ ffbuild_dockerbuild() {
     if [[ -n "$FFBUILD_RUST_TARGET" ]]; then
         unset PKG_CONFIG_LIBDIR
 
+        export CC="gcc"
+        export CXX="g++"
+        export TARGET_CC="${FFBUILD_CROSS_PREFIX}gcc"
+        export TARGET_CXX="${FFBUILD_CROSS_PREFIX}g++"
+        export CROSS_COMPILE=1
+        export TARGET_CFLAGS="$CFLAGS"
+        export TARGET_CXXFLAGS="$CFLAGS"
+        unset CFLAGS
+        unset CXXFLAGS
+
         myconf+=(
             --target="$FFBUILD_RUST_TARGET"
         )
