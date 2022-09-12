@@ -30,18 +30,14 @@ ffbuild_dockerbuild() {
     fi
 
     if [[ -n "$FFBUILD_RUST_TARGET" ]]; then
-        if [[ $TARGET == win* ]]; then
-            unset PKG_CONFIG_LIBDIR
-        fi
+        unset PKG_CONFIG_LIBDIR
 
         myconf+=(
             --target="$FFBUILD_RUST_TARGET"
         )
         cat <<EOF >$CARGO_HOME/config.toml
-[build]
-target = "$FFBUILD_RUST_TARGET"
 [target.$FFBUILD_RUST_TARGET]
-linker = "${FFBUILD_CROSS_PREFIX}ld"
+linker = "${FFBUILD_CROSS_PREFIX}gcc"
 ar = "${FFBUILD_CROSS_PREFIX}ar"
 EOF
     fi
