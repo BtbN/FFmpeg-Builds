@@ -30,7 +30,9 @@ ffbuild_dockerbuild() {
     fi
 
     if [[ -n "$FFBUILD_RUST_TARGET" ]]; then
-        unset PKG_CONFIG_LIBDIR
+        if [[ $TARGET == win* ]]; then
+            unset PKG_CONFIG_LIBDIR
+        fi
 
         myconf+=(
             --target="$FFBUILD_RUST_TARGET"
