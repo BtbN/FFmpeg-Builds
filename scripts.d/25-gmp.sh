@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gmplib.org/repo/gmp/"
-SCRIPT_HGREV="b0d6b9f5807e"
+SCRIPT_HGREV="261268754dec"
 
 ffbuild_enabled() {
     return 0

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libass/libass.git"
-SCRIPT_COMMIT="a48c98c274df25cc8d60cac1402948387d49840c"
+SCRIPT_COMMIT="44f6532daf5eb13cb1aa95f5449a77b5df1dd85b"
 
 ffbuild_enabled() {
     return 0
