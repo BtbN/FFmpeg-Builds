@@ -15,6 +15,7 @@ ffbuild_dockerbuild() {
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --disable-symbol-versions
         --disable-shared
         --enable-static
         --with-pic
