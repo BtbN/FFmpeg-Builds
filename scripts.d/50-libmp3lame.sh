@@ -33,6 +33,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CFLAGS="$CFLAGS -DNDEBUG"
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
