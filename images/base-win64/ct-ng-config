@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.25.0.55_3defb7b Configuration
+# crosstool-NG 1.25.0.90_cf9beb1 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -19,6 +19,7 @@ CT_CONFIGURE_has_automake_1_15_or_newer=y
 CT_CONFIGURE_has_gnu_m4_1_4_12_or_newer=y
 CT_CONFIGURE_has_python_3_4_or_newer=y
 CT_CONFIGURE_has_bison_2_7_or_newer=y
+CT_CONFIGURE_has_bison_3_0_4_or_newer=y
 CT_CONFIGURE_has_python=y
 CT_CONFIGURE_has_svn=y
 CT_CONFIGURE_has_git=y
@@ -27,7 +28,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.25.0.55_3defb7b"
+CT_VERSION="1.25.0.90_cf9beb1"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -137,6 +138,7 @@ CT_LOG_LEVEL_MAX="EXTRA"
 # CT_ARCH_ARM is not set
 # CT_ARCH_AVR is not set
 # CT_ARCH_C6X is not set
+# CT_ARCH_LOONGARCH is not set
 # CT_ARCH_M68K is not set
 # CT_ARCH_MICROBLAZE is not set
 # CT_ARCH_MIPS is not set
@@ -161,7 +163,7 @@ CT_ARCH_X86_SHOW=y
 # Options for x86
 #
 CT_ARCH_X86_PKG_KSYM=""
-CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR C6X M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
+CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
 CT_ARCH_SUFFIX=""
 # CT_OMIT_TARGET_VENDOR is not set
 
@@ -171,6 +173,7 @@ CT_ARCH_SUFFIX=""
 # CT_MULTILIB is not set
 CT_DEMULTILIB=y
 CT_ARCH_USE_MMU=y
+CT_ARCH_SUPPORTS_LIBSANITIZER=y
 CT_ARCH_SUPPORTS_32=y
 CT_ARCH_SUPPORTS_64=y
 CT_ARCH_DEFAULT_32=y
@@ -241,6 +244,7 @@ CT_BUILD_SUFFIX=""
 # Operating System
 #
 CT_WINDOWS=y
+CT_KERNEL_SUPPORTS_SHARED_LIBS=y
 # CT_KERNEL_BARE_METAL is not set
 # CT_KERNEL_LINUX is not set
 CT_KERNEL_WINDOWS=y
@@ -257,6 +261,7 @@ CT_ALL_KERNEL_CHOICES="BARE_METAL LINUX WINDOWS"
 #
 # Common kernel options
 #
+CT_SHARED_LIBS=y
 # end of Operating System
 
 #
@@ -288,7 +293,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_38=y
+CT_BINUTILS_V_2_39=y
+# CT_BINUTILS_V_2_38 is not set
 # CT_BINUTILS_V_2_37 is not set
 # CT_BINUTILS_V_2_36 is not set
 # CT_BINUTILS_V_2_35 is not set
@@ -301,12 +307,14 @@ CT_BINUTILS_V_2_38=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.38"
+CT_BINUTILS_VERSION="2.39"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_39_or_later=y
+CT_BINUTILS_2_39_or_older=y
 CT_BINUTILS_later_than_2_30=y
 CT_BINUTILS_2_30_or_later=y
 CT_BINUTILS_later_than_2_27=y
@@ -384,6 +392,8 @@ CT_LIBC_SUPPORT_THREADS_POSIX=y
 #
 # CT_THREADS_NATIVE is not set
 CT_THREADS_POSIX=y
+# CT_CREATE_LDSO_CONF is not set
+CT_LIBC_XLDD=y
 # end of C-library
 
 #
@@ -431,7 +441,7 @@ CT_GCC_V_12=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="12.1.0"
+CT_GCC_VERSION="12.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -479,6 +489,7 @@ CT_CC_GCC_LTO_ZSTD=m
 CT_CC_GCC_LIBGOMP=y
 CT_CC_GCC_LIBSSP=m
 # CT_CC_GCC_LIBQUADMATH is not set
+# CT_CC_GCC_LIBSTDCXX_VERBOSE is not set
 
 #
 # Misc. obscure options.
@@ -691,9 +702,9 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_2_12=y
-CT_ZLIB_VERSION="1.2.12"
-CT_ZLIB_MIRRORS="http://downloads.sourceforge.net/project/libpng/zlib/${CT_ZLIB_VERSION} https://www.zlib.net/"
+CT_ZLIB_V_1_2_13=y
+CT_ZLIB_VERSION="1.2.13"
+CT_ZLIB_MIRRORS="https://github.com/madler/zlib/releases/download/v${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_FORMATS=".tar.xz .tar.gz"
