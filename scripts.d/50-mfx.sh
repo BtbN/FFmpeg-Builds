@@ -4,7 +4,8 @@ SCRIPT_REPO="https://github.com/lu-zero/mfx_dispatch.git"
 SCRIPT_COMMIT="7e4d221c36c630c1250b23a5dfa15657bc04c10c"
 
 ffbuild_enabled() {
-    [[ $TARGET == linuxarm64 ]] && return -1
+    [[ $TARGET == *arm64 ]] && return -1
+    [[ $ADDINS_STR != *4.4* && $ADDINS_STR == *5.0* && $ADDINS_STR == *5.1* ]] && return -1
     return 0
 }
 
@@ -38,7 +39,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    [[ $ADDINS_STR == *onevpl* ]] || echo --enable-libmfx
+    echo --enable-libmfx
 }
 
 ffbuild_unconfigure() {

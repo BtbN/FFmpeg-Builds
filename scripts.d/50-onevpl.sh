@@ -32,7 +32,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    [[ $ADDINS_STR == *onevpl* ]] && echo --enable-libvpl
+    echo --enable-libvpl
 }
 
 ffbuild_unconfigure() {
