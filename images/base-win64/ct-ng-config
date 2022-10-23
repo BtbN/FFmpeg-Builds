@@ -121,10 +121,10 @@ CT_CONFIG_SHELL="${bash}"
 # CT_LOG_ERROR is not set
 # CT_LOG_WARN is not set
 # CT_LOG_INFO is not set
-CT_LOG_EXTRA=y
+# CT_LOG_EXTRA is not set
 # CT_LOG_ALL is not set
-# CT_LOG_DEBUG is not set
-CT_LOG_LEVEL_MAX="EXTRA"
+CT_LOG_DEBUG=y
+CT_LOG_LEVEL_MAX="DEBUG"
 # CT_LOG_SEE_TOOLS_WARN is not set
 # CT_LOG_PROGRESS_BAR is not set
 # CT_LOG_TO_FILE is not set
