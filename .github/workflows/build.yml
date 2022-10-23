@@ -43,7 +43,7 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base"
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/base" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -79,7 +79,7 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "::set-output name=name::ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -120,8 +120,8 @@ jobs:
         id: imagename
         run: |
           IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "::set-output name=name::${IMG/ /-}"
-          echo "::set-output name=gh_repo::${GITHUB_REPOSITORY,,}"
+          echo "name=${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -185,8 +185,8 @@ jobs:
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
           hub release create $(for a in artifacts/*.{zip,tar.xz}; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
-          echo "::set-output name=tag_name::${TAGNAME}"
-          echo "::set-output name=rel_date::${RELDATE}"
+          echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
+          echo "rel_date=${RELDATE}" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Update Latest
