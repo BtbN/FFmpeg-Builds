@@ -9,9 +9,18 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerstage() {
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/mfx,dst=/patches run_stage /stage.sh"
+}
+
 ffbuild_dockerbuild() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mfx
     cd mfx
+
+    for patch in /patches/*.patch; do
+        echo "Applying $patch"
+        git am < "$patch"
+    done
 
     autoreconf -i
 
