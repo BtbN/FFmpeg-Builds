@@ -19,4 +19,8 @@ ffbuild_dockerbuild() {
     make install
 
     echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/openal.pc
+
+    if [[ $TARGET == win* ]]; then
+        echo "Libs.private: -lole32" >> "$FFBUILD_PREFIX"/lib/pkgconfig/openal.pc
+    fi
 }
