@@ -18,6 +18,7 @@ ffbuild_dockerbuild() {
         --disable-examples
         --disable-tools
         --disable-docs
+        --disable-unit-tests
         --enable-vp9-highbitdepth
         --prefix="$FFBUILD_PREFIX"
     )
