@@ -41,6 +41,10 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    # Work around configure endian check failing on modern gcc/binutils.
+    # Assumes all supported archs are little endian.
+    sed -i -e 's/EGIB/bss/g' -e 's/naidnePF/bss/g' configure
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
