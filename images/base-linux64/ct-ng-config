@@ -610,7 +610,7 @@ CT_CC_GCC_ENABLE_PLUGINS=y
 CT_CC_GCC_HAS_LIBMPX=y
 CT_CC_GCC_ENABLE_CXX_FLAGS=""
 CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY="--enable-host-shared --enable-default-ssp"
-CT_CC_GCC_EXTRA_CONFIG_ARRAY="--enable-host-shared --enable-default-ssp"
+CT_CC_GCC_EXTRA_CONFIG_ARRAY="--enable-host-shared --enable-default-ssp --with-build-config=bootstrap-lto-lean --enable-link-serialization=2"
 # CT_CC_GCC_STATIC_LIBSTDCXX is not set
 # CT_CC_GCC_SYSTEM_ZLIB is not set
 CT_CC_GCC_CONFIG_TLS=m
