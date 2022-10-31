@@ -4,6 +4,9 @@ SCRIPT_REPO="https://github.com/kcat/openal-soft.git"
 SCRIPT_COMMIT="f1f3672f0b8c45b87fcf3b3b99868c274569eaf4"
 
 ffbuild_enabled() {
+    [[ $ADDINS_STR == *4.4* ]] && return -1
+    [[ $ADDINS_STR == *5.0* ]] && return -1
+    [[ $ADDINS_STR == *5.1* ]] && return -1
     return 0
 }
 
@@ -23,4 +26,12 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == win* ]]; then
         echo "Libs.private: -lole32" >> "$FFBUILD_PREFIX"/lib/pkgconfig/openal.pc
     fi
+}
+
+ffbuild_configure() {
+    echo --enable-openal
+}
+
+ffbuild_unconfigure() {
+    echo --disable-openal
 }
