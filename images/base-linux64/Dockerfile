@@ -39,10 +39,10 @@ ADD cross.meson /cross.meson
 ADD gen-implib.sh /usr/bin/gen-implib
 RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib
 
+ENV FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu
 ENV PATH="/opt/ct-ng/bin:${PATH}" \
-    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=x86_64-ffbuild-linux-gnu- --arch=x86_64 --target-os=linux" \
-    FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu \
-    FFBUILD_CROSS_PREFIX="x86_64-ffbuild-linux-gnu-" \
+    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=x86_64 --target-os=linux" \
+    FFBUILD_CROSS_PREFIX="${FFBUILD_TOOLCHAIN}-" \
     FFBUILD_RUST_TARGET="x86_64-unknown-linux-gnu" \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \

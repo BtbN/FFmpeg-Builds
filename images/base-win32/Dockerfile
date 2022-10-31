@@ -24,10 +24,10 @@ RUN rustup target add i686-pc-windows-gnu
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
+ENV FFBUILD_TOOLCHAIN=i686-w64-mingw32
 ENV PATH="/opt/ct-ng/bin:${PATH}" \
-    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=i686-w64-mingw32- --arch=i686 --target-os=mingw32" \
-    FFBUILD_TOOLCHAIN=i686-w64-mingw32 \
-    FFBUILD_CROSS_PREFIX=i686-w64-mingw32- \
+    FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=i686 --target-os=mingw32" \
+    FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
     FFBUILD_RUST_TARGET=i686-pc-windows-gnu \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
@@ -36,6 +36,6 @@ ENV PATH="/opt/ct-ng/bin:${PATH}" \
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong" \
-    DLLTOOL="i686-w64-mingw32-dlltool" \
+    DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
     STAGE_CFLAGS="-fno-semantic-interposition" \
     STAGE_CXXFLAGS="-fno-semantic-interposition"
