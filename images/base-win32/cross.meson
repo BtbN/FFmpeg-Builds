@@ -1,7 +1,8 @@
 [binaries]
 c = 'i686-w64-mingw32-gcc'
 cpp = 'i686-w64-mingw32-g++'
-ar = 'i686-w64-mingw32-ar'
+ar = 'i686-w64-mingw32-gcc-ar'
+ranlib = 'i686-w64-mingw32-gcc-ranlib'
 strip = 'i686-w64-mingw32-strip'
 windres = 'i686-w64-mingw32-windres'
 exe_wrapper = ['wine']
