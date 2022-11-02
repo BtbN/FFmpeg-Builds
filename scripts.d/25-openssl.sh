@@ -50,6 +50,12 @@ ffbuild_dockerbuild() {
     export CFLAGS="$CFLAGS -fno-strict-aliasing"
     export CXXFLAGS="$CXXFLAGS -fno-strict-aliasing"
 
+    # OpenSSL build system prepends the cross prefix itself
+    export CC="gcc"
+    export CXX="g++"
+    export AR="gcc-ar"
+    export RANLIB="gcc-ranlib"
+
     ./Configure "${myconf[@]}"
 
     sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile

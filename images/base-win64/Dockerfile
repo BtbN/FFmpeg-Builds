@@ -33,9 +33,15 @@ ENV PATH="/opt/ct-ng/bin:${PATH}" \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG=pkg-config \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig:/opt/ffbuild/share/pkgconfig \
+    CC="${FFBUILD_TOOLCHAIN}-gcc" \
+    CXX="${FFBUILD_TOOLCHAIN}-g++" \
+    LD="${FFBUILD_TOOLCHAIN}-ld" \
+    AR="${FFBUILD_TOOLCHAIN}-gcc-ar" \
+    RANLIB="${FFBUILD_TOOLCHAIN}-gcc-ranlib" \
+    NM="${FFBUILD_TOOLCHAIN}-gcc-nm" \
+    DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong" \
-    DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
     STAGE_CFLAGS="-fno-semantic-interposition" \
     STAGE_CXXFLAGS="-fno-semantic-interposition"
