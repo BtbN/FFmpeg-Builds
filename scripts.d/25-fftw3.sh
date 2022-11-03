@@ -4,8 +4,6 @@ SCRIPT_REPO="https://github.com/FFTW/fftw3.git"
 SCRIPT_COMMIT="9426cd59106ffddde1f55131c07fa9c562fa2f8e"
 
 ffbuild_enabled() {
-    # Dependency of GPL-Only librubberband
-    [[ $VARIANT == lgpl* ]] && return -1
     return 0
 }
 
