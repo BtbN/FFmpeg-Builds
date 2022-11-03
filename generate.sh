@@ -32,7 +32,7 @@ to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
 for addin in "${ADDINS[@]}"; do
 (
     source addins/"${addin}.sh"
-    type ffbuild_dockeraddin &>/dev/null && ffbuild_dockeraddin
+    type ffbuild_dockeraddin &>/dev/null && ffbuild_dockeraddin || true
 )
 done
 
