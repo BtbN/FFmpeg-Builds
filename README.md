@@ -34,11 +34,11 @@ Every file corresponds to its respective package.
 
 ### Build Image
 
-* `./makeimage.sh target variant [addins]`
+* `./makeimage.sh target variant [addin [addin] [addin] ...]`
 
 ### Build FFmpeg
 
-* `./build.sh target variant [addins]`
+* `./build.sh target variant [addin [addin] [addin] ...]`
 
 On success, the resulting zip file will be in the `artifacts` subdir.
 
@@ -55,7 +55,7 @@ The linuxarm64 target will not build some dependencies due to lack of arm64 (aar
 * `davs2` and `xavs2`: aarch64 support is broken.
 * `libmfx` and `libva`: Library for Intel QSV, so there is no aarch64 support.
 
-Available:
+Available variants:
 * `gpl` Includes all dependencies, even those that require full GPL instead of just LGPL.
 * `lgpl` Lacking libraries that are GPL-only. Most prominently libx264 and libx265.
 * `nonfree` Includes fdk-aac in addition to all the dependencies of the gpl variant.
@@ -63,7 +63,9 @@ Available:
 * `lgpl-shared` Same again, but with the lgpl set of dependencies.
 * `nonfree-shared` Same again, but with the nonfree set of dependencies.
 
-All of those can be optionally combined with any combination of addins.
+All of those can be optionally combined with any combination of addins:
 * `4.4` to build from the 4.4 release branch instead of master.
 * `5.0` to build from the 5.0 release branch instead of master.
+* `5.1` to build from the 5.1 release branch instead of master.
 * `debug` to not strip debug symbols from the binaries. This increases the output size by about 250MB.
+* `lto` build all dependencies and ffmpeg with -flto=auto (HIGHLY EXPERIMENTAL, broken for Windows, sometimes works for Linux)
