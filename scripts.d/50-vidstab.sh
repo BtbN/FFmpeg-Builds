@@ -1,8 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/georgmartius/vid.stab.git"
-# TODO: clamp to e7715fc until georgmartius/vid.stab#104 get fixed
-SCRIPT_COMMIT_PINNED="e7715fcf329573cdcff5c57d0e4a25f4c3a0cb7f"
+SCRIPT_COMMIT="90c76aca2cb06c3ff6f7476a7cd6851b39436656"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
