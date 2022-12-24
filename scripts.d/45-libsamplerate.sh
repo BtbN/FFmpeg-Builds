@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libsndfile/libsamplerate.git"
-SCRIPT_COMMIT="af61800ffd60f300cb94b2ea84f06f811a35e68a"
+SCRIPT_COMMIT="a9945ab36e827260cacf7b3e4f6e783b460e21ee"
 
 ffbuild_enabled() {
     return 0

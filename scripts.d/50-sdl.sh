@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libsdl-org/SDL.git"
-SCRIPT_COMMIT="07d6d116ed413a34d77af0657788667bcbefcae7"
+SCRIPT_COMMIT="af54c82138bbb6823f6a77d94710c871ccb1309d"
 SCRIPT_BRANCH="SDL2"
 
 ffbuild_enabled() {

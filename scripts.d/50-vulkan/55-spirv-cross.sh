@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/KhronosGroup/SPIRV-Cross.git"
-SCRIPT_COMMIT="c77b09b57c27837dc2d41aa371ed3d236ce9ce47"
+SCRIPT_COMMIT="a89dea3c499b1e322b39c7e6127af2777c4aa49b"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
