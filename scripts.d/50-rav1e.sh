@@ -43,6 +43,8 @@ EOF
     fi
 
     cargo cinstall -v "${myconf[@]}"
+
+    chmod 644 "${FFBUILD_PREFIX}"/lib/*rav1e*
 }
 
 ffbuild_configure() {
