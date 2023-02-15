@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone --filter=blob:none "$SCRIPT_REPO" iconv
+    git clone "$SCRIPT_REPO" iconv
     cd iconv
     git checkout "$SCRIPT_COMMIT"
 
