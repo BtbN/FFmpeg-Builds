@@ -13,6 +13,8 @@ ffbuild_dockerbuild() {
     cd uavs3d
     git checkout "$SCRIPT_COMMIT"
 
+    sed -i '50c \ ' source/decore/com_def.h
+   
     mkdir build/linux
     cd build/linux
 
