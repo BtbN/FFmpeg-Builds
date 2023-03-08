@@ -27,8 +27,6 @@ ffbuild_dockerbuild() {
     ninja install
 
     rm -rf "$FFBUILD_PREFIX"/{etc,share}
-
-    cat /opt/ffbuild/lib/pkgconfig/vpl.pc
 }
 
 ffbuild_configure() {
