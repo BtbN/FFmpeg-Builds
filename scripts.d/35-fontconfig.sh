@@ -22,7 +22,13 @@ ffbuild_dockerbuild() {
         --enable-static
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
+    if [[ $TARGET == linux* ]]; then
+        myconf+=(
+            --sysconfdir=/etc
+            --localstatedir=/var
+            --host="$FFBUILD_TOOLCHAIN"
+        )
+    elif [[ $TARGET == win* ]]; then
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
         )
