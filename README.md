@@ -64,8 +64,6 @@ Available variants:
 * `nonfree-shared` Same again, but with the nonfree set of dependencies.
 
 All of those can be optionally combined with any combination of addins:
-* `4.4` to build from the 4.4 release branch instead of master.
-* `5.0` to build from the 5.0 release branch instead of master.
-* `5.1` to build from the 5.1 release branch instead of master.
+* `4.4`/`5.0`/`5.1`/`6.0` to build from the respective release branch instead of master.
 * `debug` to not strip debug symbols from the binaries. This increases the output size by about 250MB.
 * `lto` build all dependencies and ffmpeg with -flto=auto (HIGHLY EXPERIMENTAL, broken for Windows, sometimes works for Linux)
