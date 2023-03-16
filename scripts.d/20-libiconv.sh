@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$SCRIPT_REPO" iconv
+    retry-tool sh -c "rm -rf iconv && git clone '$SCRIPT_REPO' iconv"
     cd iconv
     git checkout "$SCRIPT_COMMIT"
 
