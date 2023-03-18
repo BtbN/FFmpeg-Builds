@@ -13,7 +13,7 @@ jobs:
       - name: Cleanup
         uses: Chizkiyahu/delete-untagged-ghcr-action@v2
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.CLEANUP_PAT }}
           repository_owner: ${{ github.repository_owner }}
           repository: ${{ github.repository }}
           owner_type: user
