@@ -22,6 +22,7 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
+  HAVE_CLEANUP_PAT: ${{ secrets.CLEANUP_PAT != '' }}
 
 jobs:
   build_base:
@@ -43,7 +44,10 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/base" >> $GITHUB_OUTPUT
+        run: |
+          IMG="${GITHUB_REPOSITORY,,}/base"
+          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -55,6 +59,16 @@ jobs:
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+      - name: Cleanup
+        if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        uses: BtbN/delete-untagged-ghcr-action@main
+        with:
+          token: ${{ secrets.CLEANUP_PAT }}
+          package_name: ${{ steps.imagename.outputs.rawname }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: user
+          untagged_only: true
   build_target_bases:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
@@ -79,7 +93,10 @@ jobs:
           password: ${{ github.token }}
       - name: Image Name
         id: imagename
-        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}" >> $GITHUB_OUTPUT
+        run: |
+          IMG="${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
+          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -91,6 +108,16 @@ jobs:
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+      - name: Cleanup
+        if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        uses: BtbN/delete-untagged-ghcr-action@main
+        with:
+          token: ${{ secrets.CLEANUP_PAT }}
+          package_name: ${{ steps.imagename.outputs.rawname }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: user
+          untagged_only: true
   build_targets:
     name: Build target-variant image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
@@ -119,8 +146,9 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="ghcr.io/${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "name=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
+          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
@@ -135,6 +163,16 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
           build-args: |
             GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
+      - name: Cleanup
+        if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        uses: BtbN/delete-untagged-ghcr-action@main
+        with:
+          token: ${{ secrets.CLEANUP_PAT }}
+          package_name: ${{ steps.imagename.outputs.rawname }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: user
+          untagged_only: true
   build_ffmpeg:
     name: Build ffmpeg
     if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || success() }}
