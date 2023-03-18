@@ -1,0 +1,20 @@
+name: Cleanup
+
+on:
+  workflow_dispatch: ~
+  schedule:
+    - cron: '0 20 * * *'
+
+jobs:
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v2
+        with:
+          token: ${{ github.token }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: user
+          untagged_only: true
