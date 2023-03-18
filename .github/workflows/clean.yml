@@ -9,8 +9,11 @@ jobs:
   cleanup:
     name: Cleanup
     runs-on: ubuntu-latest
+    env:
+      HAVE_PAT: ${{ secrets.CLEANUP_PAT != '' }}
     steps:
       - name: Cleanup
+        if: ${{ env.HAVE_PAT == 'true' }}
         uses: Chizkiyahu/delete-untagged-ghcr-action@v2
         with:
           token: ${{ secrets.CLEANUP_PAT }}
