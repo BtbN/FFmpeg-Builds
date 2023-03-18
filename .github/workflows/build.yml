@@ -61,6 +61,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ secrets.CLEANUP_PAT }}
@@ -110,6 +111,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ secrets.CLEANUP_PAT }}
@@ -165,6 +167,7 @@ jobs:
             GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
+        continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ secrets.CLEANUP_PAT }}
