@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT="c5e4af74850a616c42d39ed45b9b8568b71bf8bf"
+SCRIPT_COMMIT="450f8a634309b8f212b1a642630e164150d6a427"
 
 SCRIPT_REPO2="https://github.com/FFmpeg/nv-codec-headers.git"
 SCRIPT_COMMIT2="2055784e5d5bfb3df78d4d3645f345f19062dce2"

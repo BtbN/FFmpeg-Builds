@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrender.git"
-SCRIPT_COMMIT="e5e23272394c90731debd7e18dd167e8c25b5c15"
+SCRIPT_COMMIT="07efd80468f6b595e6432edd28b8560ca7695ba0"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
