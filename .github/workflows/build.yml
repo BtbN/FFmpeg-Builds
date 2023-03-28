@@ -240,7 +240,7 @@ jobs:
           TAGNAME="latest"
           hub release delete "$TAGNAME" || true
           git push --delete origin "$TAGNAME" || true
-          sleep 5
+          sleep 15
           hub release create $(for a in latest_artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
         env:
           GITHUB_TOKEN: ${{ github.token }}
