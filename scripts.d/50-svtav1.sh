@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SVTAV1_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
-SVTAV1_COMMIT="a9dcf001750ce894187c4bed216675ccc5e038e9"
+SCRIPT_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
+SCRIPT_COMMIT="fca45816bb70e431b2e664374d93c39afecb2783"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -9,13 +9,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$SVTAV1_REPO" svtav1
+    git clone "$SCRIPT_REPO" svtav1
     cd svtav1
-    git checkout "$SVTAV1_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
 
     mkdir build && cd build
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DBUILD_APPS=OFF ..
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DBUILD_APPS=OFF -DENABLE_AVX512=ON ..
     make -j$(nproc)
     make install
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBXEXT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxext.git"
-LIBXEXT_COMMIT="47904063048fa6ef6e8e16219ddef4d14d5d9a4b"
+SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxext.git"
+SCRIPT_COMMIT="de2ebd62c1eb8fe16c11aceac4a6981bda124cf4"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBXEXT_REPO" "$LIBXEXT_COMMIT" libxext
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxext
     cd libxext
 
     autoreconf -i
@@ -25,6 +25,12 @@ ffbuild_dockerbuild() {
         --without-lint
     )
 
+    if [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --disable-malloc0returnsnull
+        )
+    fi
+
     if [[ $TARGET == linux* ]]; then
         myconf+=(
             --host="$FFBUILD_TOOLCHAIN"
@@ -34,7 +40,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export CFLAGS="$RAW_CFLAGS"
+    export CFLAGS="$RAW_CFLAGS -D_GNU_SOURCE"
     export LDFLAFS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"

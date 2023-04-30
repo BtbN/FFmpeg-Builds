@@ -1,10 +1,10 @@
 #!/bin/bash
 
-HEADERS_REPO="https://github.com/KhronosGroup/OpenCL-Headers.git"
-HEADERS_COMMIT="dcd5bede6859d26833cd85f0d6bbcee7382dc9b3"
+SCRIPT_REPO="https://github.com/KhronosGroup/OpenCL-Headers.git"
+SCRIPT_COMMIT="4fdcfb0ae675f2f63a9add9552e0af62c2b4ed30"
 
-LOADER_REPO="https://github.com/KhronosGroup/OpenCL-ICD-Loader.git"
-LOADER_COMMIT="cd7d07cfa667d8d959b4272be45cf217a65c2948"
+SCRIPT_REPO2="https://github.com/KhronosGroup/OpenCL-ICD-Loader.git"
+SCRIPT_COMMIT2="b1bce7c3c580a8345205cf65fc1a5f55ba9cdb01"
 
 ffbuild_enabled() {
     return -1
@@ -13,16 +13,19 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     mkdir opencl && cd opencl
 
-    git-mini-clone "$HEADERS_REPO" "$HEADERS_COMMIT" headers
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" headers
     mkdir -p "$FFBUILD_PREFIX"/include/CL
     cp -r headers/CL/* "$FFBUILD_PREFIX"/include/CL/.
 
-    git-mini-clone "$LOADER_REPO" "$LOADER_COMMIT" loader
+    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" loader
     cd loader
 
     mkdir build && cd build
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DOPENCL_ICD_LOADER_HEADERS_DIR="$FFBUILD_PREFIX"/include -DOPENCL_ICD_LOADER_BUILD_SHARED_LIBS=OFF -DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON -DOPENCL_ICD_LOADER_PIC=ON -DOPENCL_ICD_LOADER_BUILD_TESTING=OFF -DBUILD_TESTING=OFF ..
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
+        -DOPENCL_ICD_LOADER_HEADERS_DIR="$FFBUILD_PREFIX"/include -DOPENCL_ICD_LOADER_BUILD_SHARED_LIBS=OFF \
+        -DOPENCL_ICD_LOADER_DISABLE_OPENCLON12=ON -DOPENCL_ICD_LOADER_PIC=ON \
+        -DOPENCL_ICD_LOADER_BUILD_TESTING=OFF -DBUILD_TESTING=OFF ..
     make -j$(nproc)
     make install
 
@@ -34,12 +37,13 @@ ffbuild_dockerbuild() {
     echo "Name: OpenCL" >> OpenCL.pc
     echo "Description: OpenCL ICD Loader" >> OpenCL.pc
     echo "Version: 9999" >> OpenCL.pc
-    echo "Libs: -L\${libdir} -lOpenCL" >> OpenCL.pc
     echo "Cflags: -I\${includedir}" >> OpenCL.pc
 
     if [[ $TARGET == linux* ]]; then
+        echo "Libs: -L\${libdir} -lOpenCL" >> OpenCL.pc
         echo "Libs.private: -ldl" >> OpenCL.pc
     elif [[ $TARGET == win* ]]; then
+        echo "Libs: -L\${libdir} -l:OpenCL.a" >> OpenCL.pc
         echo "Libs.private: -lole32 -lshlwapi -lcfgmgr32" >> OpenCL.pc
     fi
 

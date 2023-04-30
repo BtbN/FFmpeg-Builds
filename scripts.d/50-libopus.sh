@@ -1,14 +1,14 @@
 #!/bin/bash
 
-OPUS_REPO="https://github.com/xiph/opus.git"
-OPUS_COMMIT="37aba6e9b382f7dbdb7916adbc335704cf2992e8"
+SCRIPT_REPO="https://github.com/xiph/opus.git"
+SCRIPT_COMMIT="8cf872a186b96085b1bb3a547afd598354ebeb87"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$OPUS_REPO" "$OPUS_COMMIT" opus
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" opus
     cd opus
 
     ./autogen.sh

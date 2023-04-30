@@ -1,14 +1,14 @@
 #!/bin/bash
 
-HARFBUZZ_REPO="https://github.com/harfbuzz/harfbuzz.git"
-HARFBUZZ_COMMIT="924dd71de3c8444125f532655a8647c713f0cdc0"
+SCRIPT_REPO="https://github.com/harfbuzz/harfbuzz.git"
+SCRIPT_COMMIT="3db6baa20e0a4661f99654860000e74a2770c2e0"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$HARFBUZZ_REPO" "$HARFBUZZ_COMMIT" harfbuzz
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" harfbuzz
     cd harfbuzz
 
     local myconf=(

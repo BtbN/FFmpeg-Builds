@@ -18,21 +18,34 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64]
-        variant: [gpl-shared 4.4,gpl-shared 5.0]
+        variant: [gpl-shared 6.0,lgpl-shared 6.0]
+        quickbuild: [1]
+        include:
+          - target: win64
+            variant: gpl
+            quickbuild: ''
+          - target: linux64
+            variant: gpl
+            quickbuild: ''
+          - target: linuxarm64
+            variant: gpl
+            quickbuild: ''
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           config: .github/buildkit.toml
           driver: docker
       - name: Build Image
         run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
+        env:
+          QUICKBUILD: ${{ matrix.quickbuild }}
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ffmpeg
           path: artifacts/*

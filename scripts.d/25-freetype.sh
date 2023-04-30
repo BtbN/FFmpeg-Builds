@@ -1,19 +1,17 @@
 #!/bin/bash
 
-# https://sourceforge.net/projects/freetype/files/freetype2/
-FREETYPE_SRC="https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz/download"
+SCRIPT_REPO="https://gitlab.freedesktop.org/freetype/freetype.git"
+SCRIPT_COMMIT="c4fe77c3f072fab930267f95510562e7aeb03302"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    mkdir ft
-    cd ft
-    wget -O ft.tar.gz "$FREETYPE_SRC"
-    tar xaf ft.tar.gz
-    rm ft.tar.gz
-    cd freetype*
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" freetype
+    cd freetype
+
+    ./autogen.sh
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

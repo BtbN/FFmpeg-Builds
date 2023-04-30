@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# https://sourceforge.net/p/soxr/code/ci/master/tree/
-SOXR_REPO="https://git.code.sf.net/p/soxr/code"
-SOXR_COMMIT="945b592b70470e29f917f4de89b4281fbbd540c0"
+SCRIPT_REPO="https://git.code.sf.net/p/soxr/code"
+SCRIPT_COMMIT="945b592b70470e29f917f4de89b4281fbbd540c0"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SOXR_REPO" "$SOXR_COMMIT" soxr
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" soxr
     cd soxr
 
     mkdir build && cd build

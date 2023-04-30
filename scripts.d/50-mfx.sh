@@ -1,14 +1,14 @@
 #!/bin/bash
 
-MFX_REPO="https://github.com/lu-zero/mfx_dispatch.git"
-MFX_COMMIT="7e4d221c36c630c1250b23a5dfa15657bc04c10c"
+SCRIPT_REPO="https://github.com/lu-zero/mfx_dispatch.git"
+SCRIPT_COMMIT="5a3f178be7f406cec920b9f52f46c1ae29f29bb2"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$MFX_REPO" "$MFX_COMMIT" mfx
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mfx
     cd mfx
 
     autoreconf -i
@@ -32,6 +32,8 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
+
+    ln -s libmfx.pc "$FFBUILD_PREFIX"/lib/pkgconfig/mfx.pc
 }
 
 ffbuild_configure() {

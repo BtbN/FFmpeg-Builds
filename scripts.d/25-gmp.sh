@@ -1,21 +1,21 @@
 #!/bin/bash
 
-GMP_SRC="https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz"
+SCRIPT_REPO="https://gmplib.org/repo/gmp/"
+SCRIPT_HGREV="614a1cd8bb1d"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    wget "$GMP_SRC" -O gmp.tar.xz
-    tar xaf gmp.tar.xz
-    rm gmp.tar.xz
-    cd gmp*
+    retry-tool sh -c "rm -rf gmp && hg clone -r '$SCRIPT_HGREV' -u '$SCRIPT_HGREV' '$SCRIPT_REPO' gmp"
+    cd gmp
 
-    autoreconf -i
+    ./.bootstrap
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --enable-maintainer-mode
         --disable-shared
         --enable-static
         --with-pic

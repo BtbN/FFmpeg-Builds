@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBDRM_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
-LIBDRM_COMMIT="8376362245e5cc61e4fa4932ecbcc5cc1566e98f"
+SCRIPT_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
+SCRIPT_COMMIT="28d9a3c4fb4c99aafc31b288b3f735e19e728d64"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBDRM_REPO" "$LIBDRM_COMMIT" libdrm
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libdrm
     cd libdrm
 
     mkdir build && cd build
@@ -17,18 +17,17 @@ ffbuild_dockerbuild() {
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         -Ddefault_library=shared
-        -Dlibkms=false
         -Dudev=false
-        -Dcairo-tests=false
-        -Dvalgrind=false
-        -Dexynos=false
-        -Dfreedreno=false
-        -Domap=false
-        -Detnaviv=false
-        -Dintel=true
-        -Dnouveau=true
-        -Dradeon=true
-        -Damdgpu=true
+        -Dcairo-tests=disabled
+        -Dvalgrind=disabled
+        -Dexynos=disabled
+        -Dfreedreno=disabled
+        -Domap=disabled
+        -Detnaviv=disabled
+        -Dintel=enabled
+        -Dnouveau=enabled
+        -Dradeon=enabled
+        -Damdgpu=enabled
     )
 
     if [[ $TARGET == linux* ]]; then

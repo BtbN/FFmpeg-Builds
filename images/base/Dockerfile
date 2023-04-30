@@ -1,10 +1,17 @@
-FROM ubuntu:21.10
+FROM ubuntu:22.10
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
     apt-get -y update && \
     apt-get -y dist-upgrade && \
-    apt-get -y install build-essential yasm nasm xxd pkgconf git curl wget unzip subversion autoconf automake libtool libtool-bin autopoint cmake clang texinfo texi2html help2man flex bison gperf gettext itstool ragel libc6-dev libssl-dev gtk-doc-tools gobject-introspection gawk meson ninja-build p7zip-full python3-distutils python3-apt python-is-python3 && \
+    apt-get -y install build-essential yasm nasm \
+        xxd pkgconf curl wget unzip git subversion mercurial \
+        autoconf automake libtool libtool-bin autopoint gettext cmake clang meson ninja-build \
+        texinfo texi2html help2man flex bison groff \
+        gperf itstool ragel libc6-dev libssl-dev \
+        gtk-doc-tools gobject-introspection gawk \
+        ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full \
+        python3-distutils python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
     apt-get -y clean && \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \

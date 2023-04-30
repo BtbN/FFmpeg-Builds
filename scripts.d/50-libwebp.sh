@@ -1,14 +1,14 @@
 #!/bin/bash
 
-WEBP_REPO="https://chromium.googlesource.com/webm/libwebp"
-WEBP_COMMIT="0fa0ea5488ab37f229b42c363c73c4bae3d90386"
+SCRIPT_REPO="https://chromium.googlesource.com/webm/libwebp"
+SCRIPT_COMMIT="761f49c3ab1c91b8e911840a4f6f246308b7c242"
 
 ffbuild_enabled() {
     return -1
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$WEBP_REPO" "$WEBP_COMMIT" webp
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" webp
     cd webp
 
     ./autogen.sh

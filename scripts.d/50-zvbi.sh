@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ZVBI_REPO="https://svn.code.sf.net/p/zapping/svn/trunk/vbi"
-ZVBI_REV="4270"
+SCRIPT_REPO="https://svn.code.sf.net/p/zapping/svn/trunk/vbi"
+SCRIPT_REV="4270"
 
 ffbuild_enabled() {
     return -1
@@ -12,7 +12,7 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    svn checkout "${ZVBI_REPO}@${ZVBI_REV}" zvbi
+    retry-tool sh -c "rm -rf zvbi && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' zvbi"
     cd zvbi
 
     for patch in /patches/*.patch; do

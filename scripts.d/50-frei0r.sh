@@ -1,7 +1,7 @@
 #!/bin/bash
 
-FREI0R_REPO="https://github.com/dyne/frei0r.git"
-FREI0R_COMMIT="febd73874dab6be330398a3b55112451b36ee939"
+SCRIPT_REPO="https://github.com/dyne/frei0r.git"
+SCRIPT_COMMIT="3e1234b9f2ba86b1deebdd1034735e12d706c095"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -10,32 +10,20 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$FREI0R_REPO" "$FREI0R_COMMIT" frei0r
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" frei0r
     cd frei0r
 
-    ./autogen.sh
+    mkdir build && cd build
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-        --enable-cpuflags
-    )
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" ..
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
+    mkdir -p "$FFBUILD_PREFIX"/lib/pkgconfig
+    cp frei0r.pc "$FFBUILD_PREFIX"/lib/pkgconfig
 
-    ./configure "${myconf[@]}"
-    make -C include -j$(nproc)
-    make -C include install
-    make install-pkgconfigDATA
+    mkdir -p "$FFBUILD_PREFIX"/include
+    cp ../include/frei0r.h "$FFBUILD_PREFIX"/include
+
+    cat frei0r.pc
 }
 
 ffbuild_configure() {

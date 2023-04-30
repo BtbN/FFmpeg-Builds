@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PULSEAUDIO_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
-PULSEAUDIO_COMMIT="5af2afba85b8cc33b12189a8b0d40cfc4477ed89"
+SCRIPT_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
+SCRIPT_COMMIT="86e9c901289d2e1a3c2c6cb5885294a829f3eb27"
 
 ffbuild_enabled() {
     [[ $TARGET == linux* ]] || return 1
@@ -9,16 +9,16 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone --filter=blob:none "$PULSEAUDIO_REPO" pa
+    git clone --filter=blob:none "$SCRIPT_REPO" pa
     cd pa
-    git checkout "$PULSEAUDIO_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
 
     # Kill build of utils and their sndfile dep
     echo > src/utils/meson.build
     echo > src/pulsecore/sndfile-util.c
     echo > src/pulsecore/sndfile-util.h
     sed -ri -e 's/(sndfile_dep = .*)\)/\1, required : false)/' meson.build
-    sed -ri -e 's/shared_library/static_library/g' src/meson.build src/pulse/meson.build
+    sed -ri -e 's/shared_library/library/g' src/meson.build src/pulse/meson.build
 
     mkdir build && cd build
 

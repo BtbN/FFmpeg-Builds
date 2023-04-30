@@ -29,6 +29,13 @@ to_df() {
 to_df "FROM ${REGISTRY}/${REPO}/base-${TARGET}:latest AS base"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
 
+for addin in "${ADDINS[@]}"; do
+(
+    source addins/"${addin}.sh"
+    type ffbuild_dockeraddin &>/dev/null && ffbuild_dockeraddin || true
+)
+done
+
 PREVLAYER="base"
 for ID in $(ls -1d scripts.d/??-* | sed -s 's|^.*/\(..\).*|\1|' | sort -u); do
     LAYER="layer-$ID"

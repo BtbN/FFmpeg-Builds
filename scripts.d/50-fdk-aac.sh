@@ -1,7 +1,7 @@
 #!/bin/bash
 
-FDK_REPO="https://github.com/mstorsjo/fdk-aac.git"
-FDK_COMMIT="072f2cdafdd2bb7ed2d630d09c2a5697a4aec53d"
+SCRIPT_REPO="https://github.com/mstorsjo/fdk-aac.git"
+SCRIPT_COMMIT="3f864cce9736cc8e9312835465fae18428d76295"
 
 ffbuild_enabled() {
     [[ $VARIANT == nonfree* ]] || return -1
@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$FDK_REPO" "$FDK_COMMIT" fdk
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fdk
     cd fdk
 
     ./autogen.sh

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DAVS2_REPO="https://github.com/pkuvcl/davs2.git"
-DAVS2_COMMIT="b06d7585620f4e90a6d19a2926bb4e59793b8942"
+SCRIPT_REPO="https://github.com/pkuvcl/davs2.git"
+SCRIPT_COMMIT="b41cf117452e2d73d827f02d3e30aa20f1c721ac"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -10,9 +10,9 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone "$DAVS2_REPO" davs2
+    git clone "$SCRIPT_REPO" davs2
     cd davs2
-    git checkout "$DAVS2_COMMIT"
+    git checkout "$SCRIPT_COMMIT"
     cd build/linux
 
     local myconf=(
@@ -30,6 +30,10 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
+
+    # Work around configure endian check failing on modern gcc/binutils.
+    # Assumes all supported archs are little endian.
+    sed -i -e 's/EGIB/bss/g' -e 's/naidnePF/bss/g' configure
 
     ./configure "${myconf[@]}"
     make -j$(nproc)

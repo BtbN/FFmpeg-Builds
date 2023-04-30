@@ -2,7 +2,8 @@
 c = 'x86_64-ffbuild-linux-gnu-gcc'
 cpp = 'x86_64-ffbuild-linux-gnu-g++'
 ld = 'x86_64-ffbuild-linux-gnu-ld'
-ar = 'x86_64-ffbuild-linux-gnu-ar'
+ar = 'x86_64-ffbuild-linux-gnu-gcc-ar'
+ranlib = 'x86_64-ffbuild-linux-gnu-gcc-ranlib'
 strip = 'x86_64-ffbuild-linux-gnu-strip'
 
 [host_machine]
