@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/openssl/openssl.git"
-SCRIPT_COMMIT="OpenSSL_1_1_1t"
-SCRIPT_TAGFILTER="OpenSSL_1_1_1*"
+SCRIPT_COMMIT="openssl-3.0.8"
+SCRIPT_TAGFILTER="openssl-3.0.*"
 
 ffbuild_enabled() {
     return 0
@@ -11,6 +11,7 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" openssl
     cd openssl
+    git submodule update --init --recursive --depth=1
 
     local myconf=(
         threads
@@ -20,6 +21,7 @@ ffbuild_dockerbuild() {
         enable-ec
         enable-srp
         --prefix="$FFBUILD_PREFIX"
+        --libdir=lib
     )
 
     if [[ $TARGET == win64 ]]; then
@@ -51,15 +53,20 @@ ffbuild_dockerbuild() {
     export CXXFLAGS="$CXXFLAGS -fno-strict-aliasing"
 
     # OpenSSL build system prepends the cross prefix itself
-    export CC="gcc"
-    export CXX="g++"
-    export AR="gcc-ar"
-    export RANLIB="gcc-ranlib"
+    export CC="${CC/${FFBUILD_CROSS_PREFIX}/}"
+    export CXX="${CXX/${FFBUILD_CROSS_PREFIX}/}"
+    export AR="${AR/${FFBUILD_CROSS_PREFIX}/}"
+    export RANLIB="${RANLIB/${FFBUILD_CROSS_PREFIX}/}"
 
     ./Configure "${myconf[@]}"
 
     sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile
 
-    make -j$(nproc)
+    make -j$(nproc) build_sw
     make install_sw
+}
+
+ffbuild_configure() {
+    [[ $TARGET == win* ]] && return 0
+    echo --enable-openssl
 }

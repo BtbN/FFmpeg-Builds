@@ -21,8 +21,3 @@ ffbuild_dockerbuild() {
     make -j$(nproc)
     make install
 }
-
-ffbuild_configure() {
-    [[ $TARGET == win* ]] && return -1
-    echo --enable-mbedtls
-}
