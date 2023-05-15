@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT_PINNED" fftw3
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fftw3
     cd fftw3
 
     local myconf=(
