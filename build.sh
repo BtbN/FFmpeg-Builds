@@ -66,6 +66,35 @@ cat <<EOF >"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
+    patch_contents=\$(cat <<PATCH
+diff --git a/libavformat/movenc.h b/libavformat/movenc.h
+index e85d83abdb..cb4a0de10a 100644
+--- a/libavformat/movenc.h
++++ b/libavformat/movenc.h
+@@ -30,7 +30,7 @@
+ 
+ #define MOV_FRAG_INFO_ALLOC_INCREMENT 64
+ #define MOV_INDEX_CLUSTER_SIZE 1024
+-#define MOV_TIMESCALE 1000
++#define MOV_TIMESCALE 48000
+ 
+ #define RTP_MAX_PACKET_SIZE 1450
+ 
+
+PATCH
+)
+
+    # Apply the patch from the variable
+    git apply --check <<< "\$patch_contents"
+
+    # Check if the patch applies successfully
+    if [ $? -eq 0 ]; then
+      git apply <<< "\$patch_contents"
+      echo "Patch applied successfully!"
+    else
+      echo "Patch failed to apply."
+    fi
+
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags='$FF_CFLAGS' --extra-cxxflags='$FF_CXXFLAGS' \
         --extra-ldflags='$FF_LDFLAGS' --extra-ldexeflags='$FF_LDEXEFLAGS' --extra-libs='$FF_LIBS' \
@@ -73,6 +102,8 @@ cat <<EOF >"$BUILD_SCRIPT"
     make -j\$(nproc) V=1
     make install install-doc
 EOF
+
+cat "$BUILD_SCRIPT"
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 

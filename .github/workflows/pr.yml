@@ -17,19 +17,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [lgpl,gpl 6.0,gpl 5.1,lgpl 6.0,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 6.0,gpl-shared 5.1,lgpl-shared 6.0,lgpl-shared 5.1]
+        target: [win64]
+        variant: [gpl,gpl 6.0]
         quickbuild: [1]
-        include:
-          - target: win64
-            variant: gpl
-            quickbuild: ''
-          - target: linux64
-            variant: gpl
-            quickbuild: ''
-          - target: linuxarm64
-            variant: gpl
-            quickbuild: ''
+#        include:
+#          - target: win64
+#            variant: gpl
+#            quickbuild: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v3
