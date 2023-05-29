@@ -12,8 +12,8 @@ ffbuild_dockerbuild() {
     cd iconv
     git checkout "$SCRIPT_COMMIT"
 
-    ./gitsub.sh pull
-    ./autogen.sh
+    retry-tool ./autopull.sh --one-time
+    (unset CC CFLAGS GMAKE && ./autogen.sh)
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
