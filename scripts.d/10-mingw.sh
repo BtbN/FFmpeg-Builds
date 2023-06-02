@@ -18,8 +18,9 @@ ffbuild_dockerfinal() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mingw
+    retry-tool sh -c "rm -rf mingw && git clone '$SCRIPT_REPO' mingw"
     cd mingw
+    git checkout "$SCRIPT_COMMIT"
 
     cd mingw-w64-headers
 
