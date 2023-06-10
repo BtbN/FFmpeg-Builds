@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.25.0.152_89671bf Configuration
+# crosstool-NG 1.25.0.196_227d99d Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -28,7 +28,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.25.0.152_89671bf"
+CT_VERSION="1.25.0.196_227d99d"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -382,6 +382,10 @@ CT_MINGW_W64_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_FORMATS=".tar.bz2 .zip"
 CT_MINGW_W64_SIGNATURE_FORMAT="packed/.sig"
 CT_MINGW_SECURE_API=y
+# CT_MINGW_DEFAULT_MSVCRT_DEFAULT is not set
+# CT_MINGW_DEFAULT_MSVCRT_MSVCRT is not set
+CT_MINGW_DEFAULT_MSVCRT_UCRT=y
+# CT_MINGW_DEFAULT_MSVCRT_CUSTOM is not set
 CT_MINGW_DIRECTX=y
 CT_MINGW_DDK=y
 CT_MINGW_TOOLS=y
@@ -437,7 +441,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_12=y
+CT_GCC_V_13=y
+# CT_GCC_V_12 is not set
 # CT_GCC_V_11 is not set
 # CT_GCC_V_10 is not set
 # CT_GCC_V_9 is not set
@@ -446,12 +451,14 @@ CT_GCC_V_12=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="12.2.0"
+CT_GCC_VERSION="13.1.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_13=y
+CT_GCC_13_or_later=y
 CT_GCC_later_than_12=y
 CT_GCC_12_or_later=y
 CT_GCC_later_than_11=y
@@ -621,7 +628,8 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_LOCAL_BUNDLED is not set
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
-CT_ISL_V_0_25=y
+CT_ISL_V_0_26=y
+# CT_ISL_V_0_25 is not set
 # CT_ISL_V_0_24 is not set
 # CT_ISL_V_0_23 is not set
 # CT_ISL_V_0_22 is not set
@@ -632,7 +640,7 @@ CT_ISL_V_0_25=y
 # CT_ISL_V_0_17 is not set
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
-CT_ISL_VERSION="0.25"
+CT_ISL_VERSION="0.26"
 CT_ISL_MIRRORS="https://libisl.sourceforge.io"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -730,8 +738,9 @@ CT_ZSTD_PATCH_GLOBAL=y
 # CT_ZSTD_PATCH_LOCAL_BUNDLED is not set
 # CT_ZSTD_PATCH_NONE is not set
 CT_ZSTD_PATCH_ORDER="global"
-CT_ZSTD_V_1_5_2=y
-CT_ZSTD_VERSION="1.5.2"
+CT_ZSTD_V_1_5_5=y
+# CT_ZSTD_V_1_5_2 is not set
+CT_ZSTD_VERSION="1.5.5"
 CT_ZSTD_MIRRORS="https://github.com/facebook/zstd/releases/download/v${CT_ZSTD_VERSION} https://www.zstd.net/"
 CT_ZSTD_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZSTD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
