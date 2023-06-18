@@ -25,9 +25,24 @@ env:
   HAVE_CLEANUP_PAT: ${{ secrets.CLEANUP_PAT != '' }}
 
 jobs:
+  pre_check:
+    name: Pre Checks
+    if: ${{ github.event.inputs.buildOnly != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo Check
+        run: |
+          if [[ "$GITHUB_REPOSITORY" != "BtbN/FFmpeg-Builds" ]]; then
+            echo "When forking this repository to make your own builds, you have to adjust this check."
+            echo "When doing so make sure to randomize the scheduled cron time above, in order to spread out the various build times as much as possible."
+            echo "This has been put in place due to the enormous amounts of traffic hundreds/thousands of parallel builds can cause on external infrastructure."
+            exit 1
+          fi
+          exit 0
   build_base:
     name: Build base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
+    needs: pre_check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
