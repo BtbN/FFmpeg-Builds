@@ -3,12 +3,70 @@ set -e
 cd "$(dirname "$0")"
 source util/vars.sh
 
-rm -f Dockerfile
+rm -f Dockerfile Dockerfile.{dl,final,dl.final}
 
 layername() {
     printf "layer-"
     basename "$1" | sed 's/.sh$//'
 }
+
+to_df() {
+    _of="${TODF:-Dockerfile}"
+    printf "$@" >> "$_of"
+    echo >> "$_of"
+}
+
+###
+### Generate download Dockerfile
+###
+
+exec_dockerstage_dl() {
+    SCRIPT="$1"
+    (
+        SELF="$SCRIPT"
+        SELFLAYER="$(layername "$STAGE")"
+        source "$SCRIPT"
+        ffbuild_dockerstage_dl || exit $?
+        TODF="Dockerfile.dl.final" ffbuild_dockerlayer_dl || exit $?
+    )
+}
+
+export TODF="Dockerfile.dl"
+
+to_df "FROM ${REGISTRY}/${REPO}/base:latest AS base"
+to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
+
+PREVLAYER="base"
+for ID in $(ls -1d scripts.d/??-* | sed -s 's|^.*/\(..\).*|\1|' | sort -u); do
+    LAYER="layer-$ID"
+
+    for STAGE in scripts.d/$ID-*; do
+        if [[ -f "$STAGE" ]]; then
+            to_df "FROM $PREVLAYER AS $(layername "$STAGE")"
+            exec_dockerstage_dl "$STAGE"
+        else
+            for STAGE in "${STAGE}"/??-*; do
+                to_df "FROM $PREVLAYER AS $(layername "$STAGE")"
+                exec_dockerstage_dl "$STAGE"
+            done
+        fi
+    done
+done
+
+to_df "FROM base AS intermediate"
+cat Dockerfile.dl.final >> "$TODF"
+rm Dockerfile.dl.final
+
+to_df "FROM base"
+to_df "COPY --from=intermediate \$FFBUILD_DLDIR/. \$FFBUILD_DLDIR"
+
+if [[ "$TARGET" == "dl" && "$VARIANT" == "only" ]]; then
+    exit 0
+fi
+
+###
+### Generate main Dockerfile
+###
 
 exec_dockerstage() {
     SCRIPT="$1"
@@ -20,11 +78,7 @@ exec_dockerstage() {
     )
 }
 
-to_df() {
-    _of="${TODF:-Dockerfile}"
-    printf "$@" >> "$_of"
-    echo >> "$_of"
-}
+export TODF="Dockerfile"
 
 to_df "FROM ${REGISTRY}/${REPO}/base-${TARGET}:latest AS base"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"

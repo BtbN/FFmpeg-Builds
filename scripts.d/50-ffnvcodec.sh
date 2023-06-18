@@ -11,13 +11,17 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" ffnvcodec
+    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" ffnvcodec2
+}
+
 ffbuild_dockerbuild() {
     if [[ $ADDINS_STR == *4.4* || $ADDINS_STR == *5.0* || $ADDINS_STR == *5.1* ]]; then
-        SCRIPT_COMMIT="$SCRIPT_COMMIT2"
+        cd "$FFBUILD_DLDIR"/ffnvcodec2
+    else
+        cd "$FFBUILD_DLDIR"/ffnvcodec
     fi
-
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" ffnvcodec
-    cd ffnvcodec
 
     make PREFIX="$FFBUILD_PREFIX" install
 }

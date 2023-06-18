@@ -8,9 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" rubberband
-    cd rubberband
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/rubberband
 
     mkdir build && cd build
 

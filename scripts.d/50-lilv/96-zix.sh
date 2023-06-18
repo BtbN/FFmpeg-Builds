@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" zix
-    cd zix
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/zix
 
     mkdir build && cd build
 

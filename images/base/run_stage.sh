@@ -11,5 +11,12 @@ export RAW_LDFLAGS="$LDFLAGS"
 mkdir -p /stage
 source "$1"
 cd /stage
-ffbuild_dockerbuild
+if [[ -n "$3" ]]; then
+    cd "$3"
+fi
+if [[ -z "$2" ]]; then
+    ffbuild_dockerbuild
+else
+    "$2"
+fi
 rm -rf /stage "$FFBUILD_PREFIX"/bin

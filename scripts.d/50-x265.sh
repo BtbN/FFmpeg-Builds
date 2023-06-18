@@ -8,10 +8,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git clone "$SCRIPT_REPO" x265
     cd x265
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/x265
 
     local common_config=(
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"

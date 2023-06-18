@@ -12,6 +12,10 @@ ffbuild_dockerlayer() {
     to_df "COPY --from=${SELFLAYER} \$FFBUILD_PREFIX/share/aclocal/. /usr/share/aclocal"
 }
 
+ffbuild_dockerdl() {
+    return 0
+}
+
 ffbuild_dockerbuild() {
     rm "$FFBUILD_PREFIX"/lib/lib*.so* || true
     rm "$FFBUILD_PREFIX"/lib/*.la || true

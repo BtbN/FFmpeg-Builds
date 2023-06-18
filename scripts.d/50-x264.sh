@@ -8,9 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" x264
-    cd x264
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/x264
 
     local myconf=(
         --disable-cli

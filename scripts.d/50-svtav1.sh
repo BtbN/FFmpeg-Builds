@@ -8,10 +8,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git clone "$SCRIPT_REPO" svtav1
     cd svtav1
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/svtav1
 
     mkdir build && cd build
 

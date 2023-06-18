@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" webp
-    cd webp
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/webp
 
     ./autogen.sh
 

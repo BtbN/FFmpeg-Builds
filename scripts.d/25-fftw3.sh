@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fftw3
-    cd fftw3
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/fftw3
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

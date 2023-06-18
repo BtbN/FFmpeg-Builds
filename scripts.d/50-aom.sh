@@ -8,12 +8,15 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/aom,dst=/patches run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=\$FFBUILD_DLDIR,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw --mount=src=patches/aom,dst=/patches run_stage /stage.sh"
+}
+
+ffbuild_dockerdl() {
+    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" aom
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" aom
-    cd aom
+    cd "$FFBUILD_DLDIR"/aom
 
     for patch in /patches/*.patch; do
         echo "Applying $patch"

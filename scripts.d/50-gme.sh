@@ -7,10 +7,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git clone "$SCRIPT_REPO" gme
     cd gme
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/gme
 
     mkdir build && cd build
 

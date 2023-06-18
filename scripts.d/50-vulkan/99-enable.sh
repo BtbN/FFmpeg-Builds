@@ -7,6 +7,10 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    return 0
+}
+
 ffbuild_dockerbuild() {
     return 0
 }

@@ -8,9 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mbedtls
-    cd mbedtls
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/mbedtls
 
     mkdir build && cd build
 

@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxml2
-    cd libxml2
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/libxml2
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

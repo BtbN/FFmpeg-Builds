@@ -9,10 +9,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" jxl
     cd jxl
     git submodule update --init --recursive --depth 1 --recommend-shallow third_party/{highway,skcms}
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/jxl
 
     mkdir build && cd build
 

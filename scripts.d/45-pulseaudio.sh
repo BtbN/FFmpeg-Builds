@@ -8,10 +8,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git clone --filter=blob:none "$SCRIPT_REPO" pa
     cd pa
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/pa
 
     # Kill build of utils and their sndfile dep
     echo > src/utils/meson.build

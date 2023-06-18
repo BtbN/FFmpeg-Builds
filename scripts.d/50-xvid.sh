@@ -8,9 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     retry-tool sh -c "rm -rf xvid && svn checkout --username 'anonymous' --password '' '${SCRIPT_REPO}@${SCRIPT_REV}' xvid"
-    cd xvid
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/xvid
 
     cd build/generic
 

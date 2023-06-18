@@ -8,12 +8,15 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/zvbi,dst=/patches run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=\$FFBUILD_DLDIR,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw --mount=src=patches/zvbi,dst=/patches run_stage /stage.sh"
+}
+
+ffbuild_dockerdl() {
+    retry-tool sh -c "rm -rf zvbi && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' zvbi"
 }
 
 ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf zvbi && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' zvbi"
-    cd zvbi
+    cd "$FFBUILD_DLDIR"/zvbi
 
     for patch in /patches/*.patch; do
         echo "Applying $patch"

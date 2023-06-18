@@ -11,10 +11,14 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git clone "$SCRIPT_REPO" xavs2
     cd xavs2
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/xavs2
     cd build/linux
 
     local myconf=(

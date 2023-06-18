@@ -8,9 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xcbproto
-    cd xcbproto
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/xcbproto
 
     autoreconf -i
 

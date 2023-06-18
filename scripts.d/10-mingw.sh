@@ -17,10 +17,14 @@ ffbuild_dockerfinal() {
     to_df "COPY --from=${PREVLAYER} /opt/mingw/. /"
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     retry-tool sh -c "rm -rf mingw && git clone '$SCRIPT_REPO' mingw"
     cd mingw
     git checkout "$SCRIPT_COMMIT"
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR/mingw"
 
     cd mingw-w64-headers
 

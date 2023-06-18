@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" brotli
-    cd brotli
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/brotli
 
     mkdir build && cd build
 

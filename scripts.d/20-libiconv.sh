@@ -7,10 +7,15 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     retry-tool sh -c "rm -rf iconv && git clone '$SCRIPT_REPO' iconv"
     cd iconv
     git checkout "$SCRIPT_COMMIT"
+    retry-tool ./autopull.sh --one-time
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/iconv
 
     retry-tool ./autopull.sh --one-time
     (unset CC CFLAGS GMAKE && ./autogen.sh)

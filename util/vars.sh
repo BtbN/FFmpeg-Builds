@@ -36,9 +36,23 @@ REGISTRY="${REGISTRY_OVERRIDE:-ghcr.io}"
 BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
 TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"
+DL_IMAGE="${REGISTRY}/${REPO}/dl_cache:latest"
+
+if [[ -n "$REGISTRY_OVERRIDE_DL" && -n "$GITHUB_REPOSITORY_DL" ]]; then
+    DL_IMAGE="${REGISTRY_OVERRIDE_DL}/${GITHUB_REPOSITORY_DL}/dl_cache:latest"
+    DL_IMAGE="${DL_IMAGE,,}"
+fi
+
+ffbuild_dockerstage_dl() {
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh ffbuild_dockerdl \$FFBUILD_DLDIR"
+}
+
+ffbuild_dockerlayer_dl() {
+    to_df "COPY --from=${SELFLAYER} \$FFBUILD_DLDIR/. \$FFBUILD_DLDIR"
+}
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=\$FFBUILD_DLDIR,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw run_stage /stage.sh"
 }
 
 ffbuild_dockerlayer() {

@@ -8,10 +8,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     retry-tool check-wget "gmp.tar.xz" "$SCRIPT_URL" "$SCRIPT_SHA512"
+}
 
-    tar xaf "gmp.tar.xz"
+ffbuild_dockerbuild() {
+    tar xaf "$FFBUILD_DLDIR"/gmp.tar.xz
     cd "gmp-$SCRIPT_VERSION"
 
     local myconf=(

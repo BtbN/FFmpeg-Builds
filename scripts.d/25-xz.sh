@@ -7,9 +7,12 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xz
-    cd xz
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/xz
 
     ./autogen.sh --no-po4a
 

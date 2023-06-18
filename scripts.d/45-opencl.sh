@@ -10,16 +10,19 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
+ffbuild_dockerdl() {
     mkdir opencl && cd opencl
-
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" headers
+    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" loader
+}
+
+ffbuild_dockerbuild() {
+    cd "$FFBUILD_DLDIR"/opencl
+
     mkdir -p "$FFBUILD_PREFIX"/include/CL
     cp -r headers/CL/* "$FFBUILD_PREFIX"/include/CL/.
 
-    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" loader
     cd loader
-
     mkdir build && cd build
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
