@@ -7,12 +7,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libvpx
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/libvpx
+    cd "$FFBUILD_DLDIR/$SELF"
 
     local myconf=(
         --disable-shared

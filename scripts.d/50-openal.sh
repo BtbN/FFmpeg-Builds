@@ -10,12 +10,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" openal
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/openal
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir cm_build && cd cm_build
 

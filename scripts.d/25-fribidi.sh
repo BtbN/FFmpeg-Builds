@@ -7,12 +7,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" fribidi
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/fribidi
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

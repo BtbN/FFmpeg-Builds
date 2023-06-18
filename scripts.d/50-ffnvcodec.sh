@@ -12,8 +12,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" ffnvcodec
-    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" ffnvcodec2
+    default_dl ffnvcodec
+    to_df "RUN git-mini-clone \"$SCRIPT_REPO2\" \"$SCRIPT_COMMIT2\" ffnvcodec2"
 }
 
 ffbuild_dockerbuild() {

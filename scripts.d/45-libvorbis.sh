@@ -7,12 +7,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" vorbis
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/vorbis
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./autogen.sh
 

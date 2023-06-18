@@ -43,8 +43,8 @@ if [[ -n "$REGISTRY_OVERRIDE_DL" && -n "$GITHUB_REPOSITORY_DL" ]]; then
     DL_IMAGE="${DL_IMAGE,,}"
 fi
 
-ffbuild_dockerstage_dl() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh ffbuild_dockerdl \$FFBUILD_DLDIR"
+ffbuild_dockerdl() {
+    default_dl "$SELF"
 }
 
 ffbuild_dockerlayer_dl() {
@@ -52,7 +52,7 @@ ffbuild_dockerlayer_dl() {
 }
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=\$FFBUILD_DLDIR,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=\$FFBUILD_DLDIR,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw SELF=\"$SELF\" run_stage /stage.sh"
 }
 
 ffbuild_dockerlayer() {

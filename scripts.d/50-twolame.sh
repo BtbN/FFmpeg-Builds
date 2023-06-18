@@ -7,12 +7,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" twolame
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/twolame
+    cd "$FFBUILD_DLDIR/$SELF"
 
     NOCONFIGURE=1 ./autogen.sh
     touch doc/twolame.1

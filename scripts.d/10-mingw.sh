@@ -18,9 +18,7 @@ ffbuild_dockerfinal() {
 }
 
 ffbuild_dockerdl() {
-    retry-tool sh -c "rm -rf mingw && git clone '$SCRIPT_REPO' mingw"
-    cd mingw
-    git checkout "$SCRIPT_COMMIT"
+    to_df "RUN retry-tool sh -c \"rm -rf mingw && git clone '$SCRIPT_REPO' mingw\" && cd mingw && git checkout \"$SCRIPT_COMMIT\""
 }
 
 ffbuild_dockerbuild() {

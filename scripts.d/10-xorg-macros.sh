@@ -13,12 +13,8 @@ ffbuild_dockerlayer() {
     to_df "COPY --from=${SELFLAYER} \$FFBUILD_PREFIX/share/aclocal/. /usr/share/aclocal"
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xorg-macros
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/xorg-macros
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
     ./configure --prefix="$FFBUILD_PREFIX"

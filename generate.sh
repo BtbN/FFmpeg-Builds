@@ -16,6 +16,10 @@ to_df() {
     echo >> "$_of"
 }
 
+default_dl() {
+    to_df "RUN git-mini-clone \"$SCRIPT_REPO\" \"$SCRIPT_COMMIT\" \"$1\""
+}
+
 ###
 ### Generate download Dockerfile
 ###
@@ -26,7 +30,7 @@ exec_dockerstage_dl() {
         SELF="$SCRIPT"
         SELFLAYER="$(layername "$STAGE")"
         source "$SCRIPT"
-        ffbuild_dockerstage_dl || exit $?
+        ffbuild_dockerdl || exit $?
         TODF="Dockerfile.dl.final" ffbuild_dockerlayer_dl || exit $?
     )
 }
@@ -35,6 +39,7 @@ export TODF="Dockerfile.dl"
 
 to_df "FROM ${REGISTRY}/${REPO}/base:latest AS base"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
+to_df "WORKDIR \$FFBUILD_DLDIR"
 
 PREVLAYER="base"
 for ID in $(ls -1d scripts.d/??-* | sed -s 's|^.*/\(..\).*|\1|' | sort -u); do

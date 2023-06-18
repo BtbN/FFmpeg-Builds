@@ -7,12 +7,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libbluray
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/libbluray
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./bootstrap
 

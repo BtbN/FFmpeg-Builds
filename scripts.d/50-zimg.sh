@@ -8,13 +8,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" zimg
-    cd zimg
-    git submodule update --init --recursive --depth=1
+    default_dl "$SELF"
+    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth=1"
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/zimg
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./autogen.sh
 

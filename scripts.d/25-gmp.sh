@@ -9,7 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    retry-tool check-wget "gmp.tar.xz" "$SCRIPT_URL" "$SCRIPT_SHA512"
+    to_df "RUN retry-tool check-wget gmp.tar.xz \"$SCRIPT_URL\" \"$SCRIPT_SHA512\""
 }
 
 ffbuild_dockerbuild() {

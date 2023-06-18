@@ -9,13 +9,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    git clone "$SCRIPT_REPO" uavs3d
-    cd uavs3d
-    git checkout "$SCRIPT_COMMIT"
+    to_df "RUN git clone \"$SCRIPT_REPO\" \"$SELF\""
+    to_df "RUN git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/uavs3d
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build/linux
     cd build/linux

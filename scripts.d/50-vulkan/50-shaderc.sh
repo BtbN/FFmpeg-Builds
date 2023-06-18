@@ -9,13 +9,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" shaderc
-    cd shaderc
-    ./utils/git-sync-deps
+    default_dl "$SELF"
+    to_df "RUN cd \"$SELF\" && ./utils/git-sync-deps"
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/shaderc
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

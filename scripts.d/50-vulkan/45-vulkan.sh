@@ -9,12 +9,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" vkheaders
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/vkheaders
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

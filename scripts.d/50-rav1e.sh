@@ -8,12 +8,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" rav1e
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/rav1e
+    cd "$FFBUILD_DLDIR/$SELF"
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    retry-tool sh -c "rm -rf openmpt && svn checkout '${SCRIPT_REPO}@${SCRIPT}' openmpt"
+    to_df "RUN retry-tool sh -c \"rm -rf openmpt && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' openmpt\""
 }
 
 ffbuild_dockerbuild() {

@@ -8,12 +8,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxxf86vm
-}
-
 ffbuild_dockerbuild() {
-    cd  "$FFBUILD_DLDIR"/libxxf86vm
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

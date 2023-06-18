@@ -11,9 +11,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    mkdir opencl && cd opencl
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" headers
-    git-mini-clone "$SCRIPT_REPO2" "$SCRIPT_COMMIT2" loader
+    default_dl opencl/headers
+    to_df "RUN git-mini-clone \"$SCRIPT_REPO2\" \"$SCRIPT_COMMIT2\" opencl/loader"
 }
 
 ffbuild_dockerbuild() {

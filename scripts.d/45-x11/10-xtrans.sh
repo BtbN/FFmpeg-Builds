@@ -8,12 +8,8 @@ ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxtrans
-}
-
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/libxtrans
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

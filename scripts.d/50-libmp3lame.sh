@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    retry-tool sh -c "rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame"
+    to_df "RUN retry-tool sh -c \"rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\""
 }
 
 ffbuild_dockerbuild() {

@@ -8,13 +8,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    git clone "$SCRIPT_REPO" gme
-    cd gme
-    git checkout "$SCRIPT_COMMIT"
+    to_df "RUN git clone \"$SCRIPT_REPO\" \"$SELF\""
+    to_df "RUN git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/gme
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 
