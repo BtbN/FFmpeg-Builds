@@ -115,7 +115,7 @@ jobs:
           repository: ${{ github.repository }}
           owner_type: user
           untagged_only: false
-          keep_latest: 3
+          keep_latest: 20
   build_target_bases:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
