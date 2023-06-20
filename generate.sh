@@ -52,8 +52,8 @@ to_df "FROM base AS intermediate"
 cat Dockerfile.dl.final >> "$TODF"
 rm Dockerfile.dl.final
 
-to_df "FROM base"
-to_df "COPY --from=intermediate \$FFBUILD_DLDIR/. \$FFBUILD_DLDIR"
+to_df "FROM scratch"
+to_df "COPY --from=intermediate /opt/ffdl/. /"
 
 if [[ "$TARGET" == "dl" && "$VARIANT" == "only" ]]; then
     exit 0
