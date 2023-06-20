@@ -3,6 +3,8 @@ set -e
 cd "$(dirname "$0")"
 source util/vars.sh
 
+export LC_ALL=C.UTF-8
+
 rm -f Dockerfile Dockerfile.{dl,final,dl.final}
 
 layername() {
