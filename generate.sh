@@ -41,21 +41,9 @@ to_df "FROM ${REGISTRY}/${REPO}/base:latest AS base"
 to_df "ENV TARGET=$TARGET VARIANT=$VARIANT REPO=$REPO ADDINS_STR=$ADDINS_STR"
 to_df "WORKDIR \$FFBUILD_DLDIR"
 
-PREVLAYER="base"
-for ID in $(ls -1d scripts.d/??-* | sed -s 's|^.*/\(..\).*|\1|' | sort -u); do
-    LAYER="layer-$ID"
-
-    for STAGE in scripts.d/$ID-*; do
-        if [[ -f "$STAGE" ]]; then
-            to_df "FROM $PREVLAYER AS $(layername "$STAGE")"
-            exec_dockerstage_dl "$STAGE"
-        else
-            for STAGE in "${STAGE}"/??-*; do
-                to_df "FROM $PREVLAYER AS $(layername "$STAGE")"
-                exec_dockerstage_dl "$STAGE"
-            done
-        fi
-    done
+for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
+    to_df "FROM base AS $(layername "$STAGE")"
+    exec_dockerstage_dl "$STAGE"
 done
 
 to_df "FROM base AS intermediate"
