@@ -69,6 +69,8 @@ if [[ "$TARGET" == "dl" && "$VARIANT" == "only" ]]; then
     exit 0
 fi
 
+DL_IMAGE="${DL_IMAGE_RAW}:$(./util/get_dl_cache_tag.sh)"
+
 ###
 ### Generate main Dockerfile
 ###
@@ -78,7 +80,10 @@ exec_dockerstage() {
     (
         SELF="$SCRIPT"
         source "$SCRIPT"
+
         ffbuild_enabled || exit 0
+
+        to_df "ENV SELF=\"$SELF\""
         ffbuild_dockerstage || exit $?
     )
 }

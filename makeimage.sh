@@ -43,11 +43,20 @@ if [[ -z "$QUICKBUILD" ]]; then
 fi
 
 ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
+DL_CACHE_TAG="$(./util/get_dl_cache_tag.sh)"
+DL_IMAGE="${DL_IMAGE_RAW}:${DL_CACHE_TAG}"
 
-docker buildx --builder ffbuilder build -f Dockerfile.dl \
-    --cache-from=type=local,src=.cache/"${DL_IMAGE/:/_}" \
-    --cache-to=type=local,mode=max,dest=.cache/"${DL_IMAGE/:/_}" \
-    --push --tag "${LOCAL_ROOT}/dl_cache:latest" .
+if docker pull "${DL_IMAGE}"; then
+    export REGISTRY_OVERRIDE_DL="$REGISTRY" GITHUB_REPOSITORY_DL="$REPO"
+    ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
+else
+    DL_IMAGE="${LOCAL_ROOT}/dl_cache:${DL_CACHE_TAG}"
+    docker manifest inspect --insecure "${DL_IMAGE}" >/dev/null ||
+        docker buildx --builder ffbuilder build -f Dockerfile.dl \
+            --cache-from=type=local,src=.cache/dl_image_cache \
+            --cache-to=type=local,mode=max,dest=.cache/dl_image_cache \
+            --push --tag "${DL_IMAGE}" .
+fi
 
 docker buildx --builder ffbuilder build \
     --cache-from=type=local,src=.cache/"${IMAGE/:/_}" \
