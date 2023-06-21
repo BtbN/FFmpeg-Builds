@@ -1,17 +1,20 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://gmplib.org/repo/gmp/"
-SCRIPT_HGREV="614a1cd8bb1d"
+SCRIPT_VERSION="6.2.1"
+SCRIPT_SHA512="c99be0950a1d05a0297d65641dd35b75b74466f7bf03c9e8a99895a3b2f9a0856cd17887738fa51cf7499781b65c049769271cbcb77d057d2e9f1ec52e07dd84"
+SCRIPT_URL="https://ftp.gnu.org/gnu/gmp/gmp-${SCRIPT_VERSION}.tar.xz"
 
 ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf gmp && hg clone -r '$SCRIPT_HGREV' -u '$SCRIPT_HGREV' '$SCRIPT_REPO' gmp"
-    cd gmp
+ffbuild_dockerdl() {
+    to_df "RUN retry-tool check-wget gmp.tar.xz \"$SCRIPT_URL\" \"$SCRIPT_SHA512\""
+}
 
-    ./.bootstrap
+ffbuild_dockerbuild() {
+    tar xaf "$FFBUILD_DLDIR"/gmp.tar.xz
+    cd "gmp-$SCRIPT_VERSION"
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

@@ -8,8 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" ass
-    cd ass
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./autogen.sh
 

@@ -1,17 +1,20 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/openssl/openssl.git"
-SCRIPT_COMMIT="openssl-3.0.8"
+SCRIPT_COMMIT="openssl-3.0.9"
 SCRIPT_TAGFILTER="openssl-3.0.*"
 
 ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl "$SELF"
+    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth=1"
+}
+
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" openssl
-    cd openssl
-    git submodule update --init --recursive --depth=1
+    cd "$FFBUILD_DLDIR/$SELF"
 
     local myconf=(
         threads

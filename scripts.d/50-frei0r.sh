@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/dyne/frei0r.git"
-SCRIPT_COMMIT="69819601c671915075bbd1c5c87be01a5feba08d"
+SCRIPT_COMMIT="c3f987c4cc8c1a7f6928e574f4cb272a7770ca6f"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -10,8 +10,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" frei0r
-    cd frei0r
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

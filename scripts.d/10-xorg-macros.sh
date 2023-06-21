@@ -14,8 +14,7 @@ ffbuild_dockerlayer() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" xorg-macros
-    cd xorg-macros
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
     ./configure --prefix="$FFBUILD_PREFIX"

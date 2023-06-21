@@ -7,6 +7,10 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    return 0
+}
+
 ffbuild_dockerbuild() {
     rm "$FFBUILD_PREFIX"/lib/lib*.so* || true
     rm "$FFBUILD_PREFIX"/lib/*.la || true

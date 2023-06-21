@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" mingw-std-threads
-    cd mingw-std-threads
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir -p "$FFBUILD_PREFIX"/include
     cp *.h "$FFBUILD_PREFIX"/include

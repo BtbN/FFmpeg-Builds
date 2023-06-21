@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxscrnsaver
-    cd libxscrnsaver
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

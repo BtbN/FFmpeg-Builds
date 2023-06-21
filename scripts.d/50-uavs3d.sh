@@ -8,10 +8,13 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    to_df "RUN git clone \"$SCRIPT_REPO\" \"$SELF\""
+    to_df "RUN git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
+}
+
 ffbuild_dockerbuild() {
-    git clone "$SCRIPT_REPO" uavs3d
-    cd uavs3d
-    git checkout "$SCRIPT_COMMIT"
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build/linux
     cd build/linux

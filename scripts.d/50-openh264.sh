@@ -8,8 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" openh264
-    cd openh264
+    cd "$FFBUILD_DLDIR/$SELF"
 
     local myconf=(
         PREFIX="$FFBUILD_PREFIX"

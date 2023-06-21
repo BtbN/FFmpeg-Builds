@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
-SCRIPT_COMMIT="c8a4a7aa88f926c00ca4178f6677f83c2fa4e290"
+SCRIPT_COMMIT="b4369bdafa2901512aa6b0728a05a90c8fa314fc"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -9,10 +9,13 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl "$SELF"
+    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth 1 --recommend-shallow third_party/highway third_party/skcms"
+}
+
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" jxl
-    cd jxl
-    git submodule update --init --recursive --depth 1 --recommend-shallow third_party/{highway,skcms}
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

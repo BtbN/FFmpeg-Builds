@@ -8,8 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" vmaf
-    cd vmaf
+    cd "$FFBUILD_DLDIR/$SELF"
 
     # Kill build of unused and broken tools
     echo > libvmaf/tools/meson.build

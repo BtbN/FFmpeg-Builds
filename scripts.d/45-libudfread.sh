@@ -8,8 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libudfread
-    cd libudfread
+    cd "$FFBUILD_DLDIR/$SELF"
 
     ./bootstrap
 

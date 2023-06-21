@@ -11,10 +11,13 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    to_df "RUN git clone \"$SCRIPT_REPO\" \"$SELF\""
+    to_df "RUN git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
+}
+
 ffbuild_dockerbuild() {
-    git clone "$SCRIPT_REPO" davs2
-    cd davs2
-    git checkout "$SCRIPT_COMMIT"
+    cd "$FFBUILD_DLDIR/$SELF"
     cd build/linux
 
     local myconf=(

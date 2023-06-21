@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libplacebo.git"
-SCRIPT_COMMIT="3e25675dc10d98ac67d1ca2af9f07b79c543dc77"
+SCRIPT_COMMIT="d25b82b7dbf961d25d510bed6198ad3f24a7ec27"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -11,10 +11,13 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl "$SELF"
+    to_df "RUN git -C \"$SELF\" submodule update --init --recursive"
+}
+
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" placebo
-    cd placebo
-    git submodule update --init --recursive
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir build && cd build
 

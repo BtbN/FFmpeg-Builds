@@ -10,8 +10,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxv
-    cd libxv
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 

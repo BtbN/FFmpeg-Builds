@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-SCRIPT_COMMIT="9df2e604ddf16765410724716a8d1887ffc61fa9"
+SCRIPT_COMMIT="b38a7d3e8016d920f02aad09187e4a5f6ae46246"
 
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
@@ -17,10 +17,12 @@ ffbuild_dockerfinal() {
     to_df "COPY --from=${PREVLAYER} /opt/mingw/. /"
 }
 
+ffbuild_dockerdl() {
+    to_df "RUN retry-tool sh -c \"rm -rf mingw && git clone '$SCRIPT_REPO' mingw\" && cd mingw && git checkout \"$SCRIPT_COMMIT\""
+}
+
 ffbuild_dockerbuild() {
-    retry-tool sh -c "rm -rf mingw && git clone '$SCRIPT_REPO' mingw"
-    cd mingw
-    git checkout "$SCRIPT_COMMIT"
+    cd "$FFBUILD_DLDIR/mingw"
 
     cd mingw-w64-headers
 

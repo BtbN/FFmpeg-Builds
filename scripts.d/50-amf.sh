@@ -8,8 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" amf
-    cd amf
+    cd "$FFBUILD_DLDIR/$SELF"
 
     mkdir -p "$FFBUILD_PREFIX"/include
     mv amf/public/include "$FFBUILD_PREFIX"/include/AMF

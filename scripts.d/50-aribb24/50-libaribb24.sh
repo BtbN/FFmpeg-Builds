@@ -8,12 +8,11 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/aribb24,dst=/patches run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=/,dst=\$FFBUILD_DLDIR,from=${DL_IMAGE},rw --mount=src=patches/aribb24,dst=/patches run_stage /stage.sh"
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" aribb24
-    cd aribb24
+    cd "$FFBUILD_DLDIR/$SELF"
 
     for patch in /patches/*.patch; do
         echo "Applying $patch"

@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libxau
-    cd libxau
+    cd "$FFBUILD_DLDIR/$SELF"
 
     autoreconf -i
 
