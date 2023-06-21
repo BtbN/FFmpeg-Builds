@@ -5,6 +5,7 @@ ar = 'x86_64-w64-mingw32-gcc-ar'
 ranlib = 'x86_64-w64-mingw32-gcc-ranlib'
 strip = 'x86_64-w64-mingw32-strip'
 windres = 'x86_64-w64-mingw32-windres'
+dlltool = 'x86_64-w64-mingw32-dlltool'
 exe_wrapper = ['wine']
 
 [properties]
