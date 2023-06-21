@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/xiph/rav1e.git"
-SCRIPT_COMMIT="005a86d38a2eef5004bdc415b504e66accd246e0"
+SCRIPT_COMMIT="ba7ed562b01e47dcdb428a44edd0c26a61e8950c"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
