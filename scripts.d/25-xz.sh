@@ -10,7 +10,7 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     cd "$FFBUILD_DLDIR/$SELF"
 
-    ./autogen.sh --no-po4a
+    ./autogen.sh --no-po4a --no-doxygen
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
