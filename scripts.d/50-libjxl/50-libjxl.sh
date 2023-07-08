@@ -11,7 +11,7 @@ ffbuild_enabled() {
 
 ffbuild_dockerdl() {
     default_dl "$SELF"
-    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth 1 --recommend-shallow third_party/highway third_party/skcms"
+    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth 1 --recommend-shallow third_party/highway third_party/skcms third_party/libjpeg-turbo"
 }
 
 ffbuild_dockerbuild() {
