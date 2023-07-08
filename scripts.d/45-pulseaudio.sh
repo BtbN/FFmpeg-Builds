@@ -9,8 +9,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    to_df "RUN git clone --filter=blob:none \"$SCRIPT_REPO\" \"$SELF\""
-    to_df "RUN git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
+    to_df "RUN git clone --filter=blob:none \"$SCRIPT_REPO\" \"$SELF\" && git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
 }
 
 ffbuild_dockerbuild() {
