@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/FFTW/fftw3.git"
-SCRIPT_COMMIT="0842f00ae6b6e1f3aade155bc0edd17a7313fa6a"
+SCRIPT_COMMIT="69f6c1a6ebd7ac5af33e7074134fb79fbc729c3d"
 
 ffbuild_enabled() {
     return 0
