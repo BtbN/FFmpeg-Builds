@@ -11,6 +11,9 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     cd "$FFBUILD_DLDIR/$SELF"
 
+    # their version check is insistant on a tag to exist, so make one
+    git tag -a ffbuild -m "FFbuild Version"
+
     mkdir build && cd build
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DHEADERS_ONLY=ON ..
