@@ -8,7 +8,7 @@ RUN \
     apt-get -y update && \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
-        xxd pkgconf curl wget unzip git subversion mercurial \
+        xxd pkgconf curl wget unzip zip git subversion mercurial \
         autoconf automake libtool libtool-bin autopoint gettext cmake clang meson ninja-build \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev libssl-dev \
