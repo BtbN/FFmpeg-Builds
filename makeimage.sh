@@ -63,5 +63,7 @@ docker buildx --builder ffbuilder build \
     --cache-to=type=local,mode=max,dest=.cache/"${IMAGE/:/_}" \
     --load --tag "$IMAGE" .
 
-docker container stop ffbuildreg
-docker buildx rm -f ffbuilder
+if [[ -z "$NOCLEAN" ]]; then
+    docker container stop ffbuildreg
+    docker buildx rm -f ffbuilder
+fi
