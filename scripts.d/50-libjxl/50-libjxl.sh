@@ -1,14 +1,13 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
-SCRIPT_COMMIT="06ce6cb513c442bfe9a0a9ad7df0d6d5f17dc07d"
+SCRIPT_COMMIT="5d20fbe1cfcdb54bcc7880fc8a59bb9047d8c60f"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
     [[ $ADDINS_STR == *5.0* ]] && return -1
     [[ $ADDINS_STR == *5.1* ]] && return -1
     [[ $ADDINS_STR == *6.0* ]] && return -1
-    [[ $TARGET == win32 ]] && return -1
     return 0
 }
 
