@@ -1,21 +1,19 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.25.0.196_227d99d Configuration
+# crosstool-NG 1.25.0.232_c175b21 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
 CT_CONFIGURE_has_wget=y
 CT_CONFIGURE_has_curl=y
-CT_CONFIGURE_has_meson=y
-CT_CONFIGURE_has_ninja=y
 CT_CONFIGURE_has_rsync=y
 CT_CONFIGURE_has_make_3_81_or_newer=y
 CT_CONFIGURE_has_make_4_0_or_newer=y
 CT_CONFIGURE_has_libtool_2_4_or_newer=y
 CT_CONFIGURE_has_libtoolize_2_4_or_newer=y
-CT_CONFIGURE_has_autoconf_2_71_or_newer=y
-CT_CONFIGURE_has_autoreconf_2_71_or_newer=y
-CT_CONFIGURE_has_automake_1_16_or_newer=y
+CT_CONFIGURE_has_autoconf_2_65_or_newer=y
+CT_CONFIGURE_has_autoreconf_2_65_or_newer=y
+CT_CONFIGURE_has_automake_1_15_or_newer=y
 CT_CONFIGURE_has_gnu_m4_1_4_12_or_newer=y
 CT_CONFIGURE_has_python_3_4_or_newer=y
 CT_CONFIGURE_has_bison_2_7_or_newer=y
@@ -28,7 +26,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.25.0.196_227d99d"
+CT_VERSION="1.25.0.232_c175b21"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -276,6 +274,7 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_6_4 is not set
 # CT_LINUX_V_6_3 is not set
 # CT_LINUX_V_6_2 is not set
 # CT_LINUX_V_6_1 is not set
@@ -460,6 +459,7 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
+# CT_GLIBC_V_2_38 is not set
 # CT_GLIBC_V_2_37 is not set
 # CT_GLIBC_V_2_36 is not set
 # CT_GLIBC_V_2_35 is not set
@@ -483,6 +483,8 @@ CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_GLIBC_SIGNATURE_FORMAT="packed/.sig"
+CT_GLIBC_2_38_or_older=y
+CT_GLIBC_older_than_2_38=y
 CT_GLIBC_2_37_or_older=y
 CT_GLIBC_older_than_2_37=y
 CT_GLIBC_2_36_or_older=y
@@ -605,7 +607,7 @@ CT_GCC_V_13=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="13.1.0"
+CT_GCC_VERSION="13.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -849,7 +851,7 @@ CT_MPC_V_1_2=y
 # CT_MPC_V_1_1 is not set
 # CT_MPC_V_1_0 is not set
 CT_MPC_VERSION="1.2.1"
-CT_MPC_MIRRORS="http://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
+CT_MPC_MIRRORS="https://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
 CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_FORMATS=".tar.gz"
@@ -870,11 +872,12 @@ CT_MPFR_PATCH_GLOBAL=y
 # CT_MPFR_PATCH_LOCAL_BUNDLED is not set
 # CT_MPFR_PATCH_NONE is not set
 CT_MPFR_PATCH_ORDER="global"
-CT_MPFR_V_4_1=y
+CT_MPFR_V_4_2=y
+# CT_MPFR_V_4_1 is not set
 # CT_MPFR_V_4_0 is not set
 # CT_MPFR_V_3_1 is not set
-CT_MPFR_VERSION="4.1.0"
-CT_MPFR_MIRRORS="http://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
+CT_MPFR_VERSION="4.2.1"
+CT_MPFR_MIRRORS="https://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
 CT_MPFR_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz .zip"
