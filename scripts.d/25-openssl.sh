@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/openssl/openssl.git"
-SCRIPT_COMMIT="openssl-3.0.9"
+SCRIPT_COMMIT="openssl-3.0.11"
 SCRIPT_TAGFILTER="openssl-3.0.*"
 
 ffbuild_enabled() {
@@ -20,6 +20,11 @@ ffbuild_dockerbuild() {
         threads
         zlib
         no-shared
+        no-tests
+        no-apps
+        no-legacy
+        no-ssl2
+        no-ssl3
         enable-camellia
         enable-ec
         enable-srp
@@ -60,6 +65,9 @@ ffbuild_dockerbuild() {
     export CXX="${CXX/${FFBUILD_CROSS_PREFIX}/}"
     export AR="${AR/${FFBUILD_CROSS_PREFIX}/}"
     export RANLIB="${RANLIB/${FFBUILD_CROSS_PREFIX}/}"
+
+    # Actually allow Configure to disable apps
+    sed -i '/^my @disablables =/ s/$/"apps",/' Configure
 
     ./Configure "${myconf[@]}"
 

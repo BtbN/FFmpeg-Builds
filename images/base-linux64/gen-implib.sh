@@ -13,5 +13,5 @@ cd "$TMPDIR"
 
 set -x
 python3 /opt/implib/implib-gen.py --target x86_64-linux-gnu --dlopen --lazy-load --verbose "$IN"
-${FFBUILD_CROSS_PREFIX}gcc $CFLAGS $STAGE_CFLAGS -DIMPLIB_HIDDEN_SHIMS -c *.tramp.S *.init.c
+${FFBUILD_CROSS_PREFIX}gcc $CFLAGS $STAGE_CFLAGS -Wa,--noexecstack -DIMPLIB_HIDDEN_SHIMS -c *.tramp.S *.init.c
 ${FFBUILD_CROSS_PREFIX}ar -rcs "$OUT" *.tramp.o *.init.o
