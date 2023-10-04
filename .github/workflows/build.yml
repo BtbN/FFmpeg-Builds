@@ -45,6 +45,8 @@ jobs:
     needs: pre_check
     runs-on: ubuntu-latest
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -126,6 +128,8 @@ jobs:
       matrix:
         target: [win64,linux64,linuxarm64]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -180,6 +184,8 @@ jobs:
         target: [win64,linux64,linuxarm64]
         variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.0,lgpl 4.4,lgpl 5.1,lgpl 6.0,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.0,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.0]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -233,6 +239,8 @@ jobs:
         target: [win64,linux64,linuxarm64]
         variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.0,lgpl 4.4,lgpl 5.1,lgpl 6.0,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.0,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.0]
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Login to Docker
@@ -256,6 +264,8 @@ jobs:
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
+      - name: Free Disk-Space
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download artifacts
