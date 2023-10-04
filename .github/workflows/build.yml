@@ -76,6 +76,7 @@ jobs:
           context: images/base
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
@@ -92,6 +93,7 @@ jobs:
           file: Dockerfile.dl
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.dlname }}:${{ steps.dl_cache.outputs.dltagname }}
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.dlname }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.dlname }}:cache
@@ -157,6 +159,7 @@ jobs:
           context: images/base-${{ matrix.target }}
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
@@ -214,6 +217,7 @@ jobs:
           context: .
           pull: true
           push: true
+          provenance: false
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
