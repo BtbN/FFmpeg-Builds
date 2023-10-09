@@ -11,6 +11,10 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     cd "$FFBUILD_DLDIR/$SELF"
 
+    if [[ $TARGET == win32 ]]; then
+        python3 scripts/config.py unset MBEDTLS_AESNI_C
+    fi
+
     mkdir build && cd build
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
