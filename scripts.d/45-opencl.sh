@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/KhronosGroup/OpenCL-Headers.git"
-SCRIPT_COMMIT="10aaadf55d582934661ca9d66956696cf1d836dc"
+SCRIPT_COMMIT="9ce9a722ba06ea87487cd08bd2001276e2aef8cd"
 
 SCRIPT_REPO2="https://github.com/KhronosGroup/OpenCL-ICD-Loader.git"
 SCRIPT_COMMIT2="229410f86a8c8c9e0f86f195409e5481a2bae067"

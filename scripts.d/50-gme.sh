@@ -1,14 +1,10 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://bitbucket.org/mpyne/game-music-emu.git"
-SCRIPT_COMMIT="6cd4bdb69be304f58c9253fb08b8362f541b3b4b"
+SCRIPT_REPO="https://github.com/libgme/game-music-emu.git"
+SCRIPT_COMMIT="d597f00256a861f478ec88efa77dd8ab7f783345"
 
 ffbuild_enabled() {
     return 0
-}
-
-ffbuild_dockerdl() {
-    to_df "RUN git clone \"$SCRIPT_REPO\" \"$SELF\" && git -C \"$SELF\" checkout \"$SCRIPT_COMMIT\""
 }
 
 ffbuild_dockerbuild() {
@@ -16,7 +12,7 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DENABLE_UBSAN=OFF ..
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_DISABLE_FIND_PACKAGE_SDL2=1 -DBUILD_SHARED_LIBS=OFF -DENABLE_UBSAN=OFF ..
     make -j$(nproc)
     make install
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/drobilla/sord.git"
-SCRIPT_COMMIT="4aae0ffa8b38106202fe96962981562a14a26fc1"
+SCRIPT_COMMIT="c7f822f14aae0367e184c847379496bc28adf63d"
 
 ffbuild_enabled() {
     return 0
