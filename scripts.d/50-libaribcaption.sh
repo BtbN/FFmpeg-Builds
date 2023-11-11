@@ -21,8 +21,10 @@ ffbuild_dockerbuild() {
     cmake .. -DCMAKE_BUILD_TYPE=Release -DARIBCC_USE_FREETYPE:BOOL=ON -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"
     make -j$(nproc)
     make install
-    if [[ $TARGET == linux* ]]; then
-        echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
+    echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
+    if [[ $TARGET == win* ]]; then
+    # Dirty hack: Delete `-l/opt/ct-ng/x86_64-w64-mingw32/lib/libstdc++.a` from libaribcaption.pc from  `Libs:`
+        sed -i '/^Libs:/ s/-l\/opt\/ct-ng\/x86_64-w64-mingw32\/lib\/libstdc++.a//' "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
     fi
 }
 
