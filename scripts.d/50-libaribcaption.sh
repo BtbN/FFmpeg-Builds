@@ -12,18 +12,17 @@ ffbuild_enabled() {
 
     return 0
 }
-
+ffbuild_dockerdl() {
+    default_dl "$SELF"
+}
 ffbuild_dockerbuild() {
-    git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libaribcaption
-    mkdir -p libaribcaption/build
-    cd libaribcaption/build
+    mkdir -p "$FFBUILD_DLDIR/$SELF"/build
+    cd "$FFBUILD_DLDIR/$SELF"/build
     cmake .. -DCMAKE_BUILD_TYPE=Release -DARIBCC_USE_FREETYPE:BOOL=ON -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"
-    cmake --build . -j$(nproc)
-    cmake --install .
-
-    sed -i 's/Libs.private:/Libs.private: -lstdc++/; t; $ a Libs.private: -lstdc++' "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
-    if [[ $TARGET == win* ]]; then
-        sed -i 's/Libs.private:/Libs.private: -lole32/; t; $ a Libs.private: -lole32' "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
+    make -j$(nproc)
+    make install
+    if [[ $TARGET == linux* ]]; then
+        echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libaribcaption.pc
     fi
 }
 
@@ -32,10 +31,10 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return
-    [[ $ADDINS_STR == *5.0* ]] && return
-    [[ $ADDINS_STR == *5.1* ]] && return
-    [[ $ADDINS_STR == *6.0* ]] && return
+    [[ $ADDINS_STR == *4.4* ]] && return 0
+    [[ $ADDINS_STR == *5.0* ]] && return 0
+    [[ $ADDINS_STR == *5.1* ]] && return 0
+    [[ $ADDINS_STR == *6.0* ]] && return 0
 
     echo --disable-libaribcaption
 }
