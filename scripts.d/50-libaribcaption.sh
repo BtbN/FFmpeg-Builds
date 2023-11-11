@@ -17,7 +17,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$SCRIPT_REPO" "$SCRIPT_COMMIT" libaribcaption
     mkdir -p libaribcaption/build
     cd libaribcaption/build
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DARIBCC_USE_FREETYPE:BOOL=ON -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"
     cmake --build . -j$(nproc)
     cmake --install .
 
