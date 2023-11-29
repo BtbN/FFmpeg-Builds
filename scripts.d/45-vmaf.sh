@@ -43,6 +43,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
+    [[ $ADDINS_STR == *4.4* ]] && return 0
     echo --enable-libvmaf
 }
 
