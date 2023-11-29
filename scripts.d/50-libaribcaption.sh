@@ -15,8 +15,6 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     cd "$FFBUILD_DLDIR/$SELF"
 
-    sed -i 's#"-l\.\*#"(-l|/).*#' cmake/GeneratePkgConfig.cmake
-
     mkdir build
     cd build
 
