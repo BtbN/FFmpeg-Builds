@@ -8,8 +8,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     NOCONFIGURE=1 ./autogen.sh
     touch doc/twolame.1
 

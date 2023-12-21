@@ -7,7 +7,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    return 0
+    true
 }
 
 ffbuild_dockerstage() {
@@ -15,10 +15,6 @@ ffbuild_dockerstage() {
 }
 
 ffbuild_dockerbuild() {
-    return 0
-}
-
-ffbuild_dockerlayer_dl() {
     return 0
 }
 

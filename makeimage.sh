@@ -23,8 +23,6 @@ docker container inspect ffbuildreg &>/dev/null || \
 LOCAL_REG_PORT="$(docker container inspect --format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' ffbuildreg)"
 LOCAL_ROOT="127.0.0.1:${LOCAL_REG_PORT}/local"
 
-export REGISTRY_OVERRIDE_DL="127.0.0.1:${LOCAL_REG_PORT}" GITHUB_REPOSITORY_DL="local"
-
 if [[ -z "$QUICKBUILD" ]]; then
     if grep "FROM.*base.*" "images/base-${TARGET}/Dockerfile" >/dev/null 2>&1; then
         docker buildx --builder ffbuilder build \
@@ -39,24 +37,11 @@ if [[ -z "$QUICKBUILD" ]]; then
         --push --tag "${LOCAL_ROOT}/base-${TARGET}:latest" \
         --build-arg GH_REPO="$LOCAL_ROOT" "images/base-${TARGET}"
 
-    export REGISTRY_OVERRIDE="$REGISTRY_OVERRIDE_DL" GITHUB_REPOSITORY="$GITHUB_REPOSITORY_DL"
+    export REGISTRY_OVERRIDE="127.0.0.1:${LOCAL_REG_PORT}" GITHUB_REPOSITORY="local"
 fi
 
+./download.sh
 ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
-DL_CACHE_TAG="$(./util/get_dl_cache_tag.sh)"
-DL_IMAGE="${DL_IMAGE_RAW}:${DL_CACHE_TAG}"
-
-if docker pull "${DL_IMAGE}"; then
-    export REGISTRY_OVERRIDE_DL="$REGISTRY" GITHUB_REPOSITORY_DL="$REPO"
-    ./generate.sh "$TARGET" "$VARIANT" "${ADDINS[@]}"
-else
-    DL_IMAGE="${LOCAL_ROOT}/dl_cache:${DL_CACHE_TAG}"
-    docker manifest inspect --insecure "${DL_IMAGE}" >/dev/null ||
-        docker buildx --builder ffbuilder build -f Dockerfile.dl \
-            --cache-from=type=local,src=.cache/dl_image_cache \
-            --cache-to=type=local,mode=max,dest=.cache/dl_image_cache \
-            --push --tag "${DL_IMAGE}" .
-fi
 
 docker buildx --builder ffbuilder build \
     --cache-from=type=local,src=.cache/"${IMAGE/:/_}" \

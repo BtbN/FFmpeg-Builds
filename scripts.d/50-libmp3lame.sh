@@ -8,12 +8,10 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    to_df "RUN retry-tool sh -c \"rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\""
+    echo "retry-tool sh -c \"rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\" && cd lame"
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR"/lame
-
     autoreconf -i
 
     local myconf=(

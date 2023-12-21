@@ -11,7 +11,7 @@ ffbuild_dockerfinal() {
 }
 
 ffbuild_dockerdl() {
-    return 0
+    true
 }
 
 ffbuild_dockerlayer() {
@@ -19,10 +19,6 @@ ffbuild_dockerlayer() {
 }
 
 ffbuild_dockerstage() {
-    return 0
-}
-
-ffbuild_dockerlayer_dl() {
     return 0
 }
 

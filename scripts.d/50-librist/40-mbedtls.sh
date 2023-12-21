@@ -9,8 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     if [[ $TARGET == win32 ]]; then
         python3 scripts/config.py unset MBEDTLS_AESNI_C
     fi

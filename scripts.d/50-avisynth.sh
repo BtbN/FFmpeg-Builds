@@ -9,8 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     # their version check is insistant on a tag to exist, so make one
     git tag -a ffbuild -m "FFbuild Version"
 

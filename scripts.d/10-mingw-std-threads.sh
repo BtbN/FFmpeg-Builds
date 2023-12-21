@@ -9,8 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     mkdir -p "$FFBUILD_PREFIX"/include
     cp *.h "$FFBUILD_PREFIX"/include
 }

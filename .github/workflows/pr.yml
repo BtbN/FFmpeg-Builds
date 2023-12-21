@@ -40,6 +40,17 @@ jobs:
         with:
           config: .github/buildkit.toml
           driver: docker
+      - name: Get download cache key
+        id: dl_cache
+        run: |
+          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
+      - name: Cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .cache/downloads
+          key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
+          restore-keys: |
+            download-cache-
       - name: Build Image
         run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
         env:

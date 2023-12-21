@@ -63,11 +63,8 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base"
-          DLIMG="${GITHUB_REPOSITORY,,}/dl_cache"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "dlname=ghcr.io/${DLIMG/ /-}" >> $GITHUB_OUTPUT
-          echo "dlrawname=${DLIMG/ /-}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -80,23 +77,22 @@ jobs:
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
-      - name: Generate download cache Dockerfile
+      - name: Get download cache key
         id: dl_cache
         run: |
-          ./generate.sh dl only
           echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
-          cat Dockerfile.dl
-      - name: Build download cache image
-        uses: docker/build-push-action@v5
+      - name: Cache
+        uses: actions/cache@v3
         with:
-          context: .
-          file: Dockerfile.dl
-          pull: true
-          push: true
-          provenance: false
-          tags: ${{ steps.imagename.outputs.dlname }}:${{ steps.dl_cache.outputs.dltagname }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.dlname }}:cache
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.dlname }}:cache
+          path: .cache/downloads
+          key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
+          restore-keys: |
+            download-cache-
+      - name: Update Cache
+        run: |
+          set -e
+          ./download.sh
+          ./util/clean_cache.sh
       - name: Cleanup
         if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
         continue-on-error: true
@@ -108,18 +104,6 @@ jobs:
           repository: ${{ github.repository }}
           owner_type: user
           untagged_only: true
-      - name: Cleanup Download Cache
-        if: ${{ env.HAVE_CLEANUP_PAT == 'true' }}
-        continue-on-error: true
-        uses: BtbN/delete-untagged-ghcr-action@main
-        with:
-          token: ${{ secrets.CLEANUP_PAT }}
-          package_name: ${{ steps.imagename.outputs.dlrawname }}
-          repository_owner: ${{ github.repository_owner }}
-          repository: ${{ github.repository }}
-          owner_type: user
-          untagged_only: false
-          keep_latest: 20
   build_target_bases:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
@@ -201,16 +185,26 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - name: Generate Dockerfile
-        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Image Name
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
           echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+      - name: Get download cache key
+        id: dl_cache
+        run: |
+          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+      - name: Generate Dockerfile
+        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .cache/downloads
+          key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
+          fail-on-cache-miss: true
       - name: Build target base image
         uses: docker/build-push-action@v5
         with:

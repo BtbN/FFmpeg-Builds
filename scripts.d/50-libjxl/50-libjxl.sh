@@ -12,13 +12,11 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerdl() {
-    default_dl "$SELF"
-    to_df "RUN git -C \"$SELF\" submodule update --init --recursive --depth 1 --recommend-shallow third_party/highway"
+    default_dl .
+    echo "git submodule update --init --recursive --depth 1 --recommend-shallow third_party/highway"
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     mkdir build && cd build
 
     if [[ $TARGET == linux* ]]; then

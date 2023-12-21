@@ -8,8 +8,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    cd "$FFBUILD_DLDIR/$SELF"
-
     mkdir -p "$FFBUILD_PREFIX"/include
     mv amf/public/include "$FFBUILD_PREFIX"/include/AMF
 }
