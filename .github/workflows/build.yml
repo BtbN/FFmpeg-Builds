@@ -169,7 +169,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64] #[win64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.1,gpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.1,nonfree,nonfree-shared,nonfree 4.4, nonfree 5.1,nonfree 6.1,nonfree-shared 4.4, nonfree-shared 5.1,nonfree-shared 6.1]
+        variant: [gpl,lgpl,nonfree,nonfree-shared,nonfree 6.1,nonfree-shared 6.1] #[gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.1,gpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.1,nonfree,nonfree-shared,nonfree 4.4, nonfree 5.1,nonfree 6.1,nonfree-shared 4.4, nonfree-shared 5.1,nonfree-shared 6.1]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
