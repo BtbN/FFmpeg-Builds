@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/libsdl-org/SDL.git"
 SCRIPT_COMMIT="5773c347d58d07a45b33ac4ecc93fd3e6a86d483"

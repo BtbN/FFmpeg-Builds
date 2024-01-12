@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://code.videolan.org/rist/librist.git"
 SCRIPT_COMMIT="1e805500dc14a507598cebdd49557c32e514899f"

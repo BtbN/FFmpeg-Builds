@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/AviSynth/AviSynthPlus.git"
 SCRIPT_COMMIT="eb3c433031b180e97632ff32c199ccf980416bfc"

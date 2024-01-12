@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/freetype/freetype.git"
 SCRIPT_COMMIT="ca76683b781db5d06ef1a0e2cb62a767e7dbe626"

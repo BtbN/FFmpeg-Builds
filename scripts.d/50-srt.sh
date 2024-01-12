@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/Haivision/srt.git"
 SCRIPT_COMMIT="5f57dde37fcaaa79f972162ccc4bba79e6b95996"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ $# -lt 2 ]]; then
     echo "Invalid Arguments"

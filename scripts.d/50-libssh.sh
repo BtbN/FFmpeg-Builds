@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://git.libssh.org/projects/libssh.git"
 SCRIPT_COMMIT="b3de3a33352a78214a534005e3e4f0576dcc9e17"

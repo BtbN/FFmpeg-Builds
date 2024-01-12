@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://aomedia.googlesource.com/aom"
 SCRIPT_COMMIT="7a2afe7f16eef73d1d79954c2704c8d7ab4772b9"

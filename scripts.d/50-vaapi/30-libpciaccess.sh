@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git"
 SCRIPT_COMMIT="c74d0a4b630f115e797cbb159ac13e0dc78f31f5"

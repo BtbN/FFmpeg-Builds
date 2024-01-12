@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/glvnd/libglvnd.git"
 SCRIPT_COMMIT="908086d22dc307d17d0eb35c522c35fd190718cc"

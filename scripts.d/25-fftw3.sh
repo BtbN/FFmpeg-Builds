@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/FFTW/fftw3.git"
 SCRIPT_COMMIT="d0ce926f1523d95daed48cd7c69572e068dbbfb3"

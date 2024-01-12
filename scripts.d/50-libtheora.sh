@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/xiph/theora.git"
 SCRIPT_COMMIT="7180717276af1ebc7da15c83162d6c5d6203aabf"

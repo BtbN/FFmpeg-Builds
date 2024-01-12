@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/uavs3/uavs3d.git"
 SCRIPT_COMMIT="1fd04917cff50fac72ae23e45f82ca6fd9130bd8"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/oneapi-src/oneVPL.git"
 SCRIPT_COMMIT="2274efcd3672b43297ef774f332e1fed6781381c"

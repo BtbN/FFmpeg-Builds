@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrandr.git"
 SCRIPT_COMMIT="512bf0b15b5597c721ff8c61083616ca9040fa72"

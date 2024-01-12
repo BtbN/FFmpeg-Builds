@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://chromium.googlesource.com/webm/libvpx"
 SCRIPT_COMMIT="41ced868a69625372c95ff0b2bd5f90987516c3b"

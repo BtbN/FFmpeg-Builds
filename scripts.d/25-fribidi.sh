@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/fribidi/fribidi.git"
 SCRIPT_COMMIT="5b9a242cbbb0cf27d20da9941667abfc63808c19"

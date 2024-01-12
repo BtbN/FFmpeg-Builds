@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/xiph/rav1e.git"
 SCRIPT_COMMIT="b9f4275e0da18fe81c314831bfcb39867b47df14"

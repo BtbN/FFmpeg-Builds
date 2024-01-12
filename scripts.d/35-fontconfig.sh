@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/fontconfig/fontconfig.git"
 SCRIPT_COMMIT="91a57074652872353ded6aa74fe54213056daf40"

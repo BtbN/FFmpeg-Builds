@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/mesa/drm.git"
 SCRIPT_COMMIT="02a41cf302a69f0cd94aae96ec01d98b9398076e"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
 SCRIPT_COMMIT="cf67786bd63070bd06e76cc73caa4baca128ce1f"

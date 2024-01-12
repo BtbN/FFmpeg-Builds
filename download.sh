@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xe
 cd "$(dirname "$0")"
 source util/vars.sh dl only

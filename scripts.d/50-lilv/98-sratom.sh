@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/lv2/sratom.git"
 SCRIPT_COMMIT="19a670806390d1980f3471710ba3a5af3d0bd64b"

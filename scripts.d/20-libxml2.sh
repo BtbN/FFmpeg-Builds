@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/GNOME/libxml2.git"
 SCRIPT_COMMIT="355fbe3ab7277cd5f21a41fcb81be69ad438c5eb"

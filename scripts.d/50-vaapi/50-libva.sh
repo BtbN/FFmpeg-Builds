@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/intel/libva.git"
 SCRIPT_COMMIT="181964965d0ab11d5fd680b722d4845fbc89f5a5"

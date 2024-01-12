@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 FF_CONFIGURE="$FF_CONFIGURE --enable-lto"
 
 ffbuild_dockeraddin() {

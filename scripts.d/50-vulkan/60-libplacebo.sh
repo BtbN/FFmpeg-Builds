@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libplacebo.git"
 SCRIPT_COMMIT="52314e0e435fbcb731e326815d4091ed0ba27475"

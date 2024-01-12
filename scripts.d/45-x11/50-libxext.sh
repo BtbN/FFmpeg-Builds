@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxext.git"
 SCRIPT_COMMIT="6cb21433d745abea3a161a6fc8e141f7e08b2c27"

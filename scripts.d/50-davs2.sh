@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/pkuvcl/davs2.git"
 SCRIPT_COMMIT="b41cf117452e2d73d827f02d3e30aa20f1c721ac"

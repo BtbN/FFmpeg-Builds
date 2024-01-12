@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/util/macros.git"
 SCRIPT_COMMIT="cb147377e9341af05232f95814022abdecf14024"

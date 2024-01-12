@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git"
 SCRIPT_COMMIT="c48e50ad6c8723c006b2c145d8fa49ecc0651022"

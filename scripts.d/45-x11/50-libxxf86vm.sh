@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxxf86vm.git"
 SCRIPT_COMMIT="cfda59347e3a04415340a99f925a9cd85c0531b2"

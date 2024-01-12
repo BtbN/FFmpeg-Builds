@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 if [[ $# != 2 ]]; then
     echo "Invalid arguments"

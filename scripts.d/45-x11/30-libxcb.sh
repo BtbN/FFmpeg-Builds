@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcb.git"
 SCRIPT_COMMIT="3c946010c8521497b0fba2c8bc9bde184622345a"

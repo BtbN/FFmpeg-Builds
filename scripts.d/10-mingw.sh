@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
 SCRIPT_COMMIT="f2653dd9150006ded8026631bb7b85695edf6127"

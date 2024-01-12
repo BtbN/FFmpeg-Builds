@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
 SCRIPT_COMMIT="v3.5.1"

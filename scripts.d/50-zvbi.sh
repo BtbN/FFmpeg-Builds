@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://svn.code.sf.net/p/zapping/svn/trunk/vbi"
 SCRIPT_REV="4270"

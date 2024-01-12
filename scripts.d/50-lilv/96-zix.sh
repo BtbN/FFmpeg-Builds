@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/drobilla/zix.git"
 SCRIPT_COMMIT="08954c900820320064d2e33445858e1ef5024a0b"

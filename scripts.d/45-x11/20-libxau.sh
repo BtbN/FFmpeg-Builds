@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxau.git"
 SCRIPT_COMMIT="f4fc44202b554e68093828b556f8c7fd9644ddb0"

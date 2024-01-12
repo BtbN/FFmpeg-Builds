@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/dyne/frei0r.git"
 SCRIPT_COMMIT="a303b82f34feb39aa400bd1b67fd8158a179368e"

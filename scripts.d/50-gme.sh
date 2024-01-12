@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/libgme/game-music-emu.git"
 SCRIPT_COMMIT="6880d46552919f95604c87e5df14c13216927418"

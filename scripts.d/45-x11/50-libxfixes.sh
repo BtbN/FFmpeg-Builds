@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxfixes.git"
 SCRIPT_COMMIT="c1cab28e27dd1c5a81394965248b57e490ccf2ca"

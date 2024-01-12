@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/harfbuzz/harfbuzz.git"
 SCRIPT_COMMIT="f3efa6f6e54740214739ba8b00e777111e781882"

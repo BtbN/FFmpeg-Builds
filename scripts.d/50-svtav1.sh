@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
 SCRIPT_COMMIT="59645eea34e2815b627b8293aa3af254eddd0d69"

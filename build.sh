@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xe
 shopt -s globstar
 cd "$(dirname "$0")"

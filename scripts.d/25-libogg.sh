@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/xiph/ogg.git"
 SCRIPT_COMMIT="db5c7a49ce7ebda47b15b78471e78fb7f2483e22"

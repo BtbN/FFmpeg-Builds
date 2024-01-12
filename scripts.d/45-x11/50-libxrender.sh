@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrender.git"
 SCRIPT_COMMIT="01e754610df2195536c5b31c1e8df756480599d1"

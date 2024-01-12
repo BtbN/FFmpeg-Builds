@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/KhronosGroup/SPIRV-Cross.git"
 SCRIPT_COMMIT="f349c91274b91c1a7c173f2df70ec53080076191"

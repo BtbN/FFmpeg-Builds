@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/KhronosGroup/OpenCL-Headers.git"
 SCRIPT_COMMIT="2368105c0531069fe927989505de7d125ec58c55"

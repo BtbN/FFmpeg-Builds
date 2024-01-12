@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/cisco/openh264.git"
 SCRIPT_COMMIT="cfbd5896606b91638c8871ee91776dee31625bd5"
