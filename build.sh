@@ -2,6 +2,7 @@
 set -xe
 shopt -s globstar
 cd "$(dirname "$0")"
+export SYSTEM_NAME="$(uname -s)"
 source util/vars.sh
 
 get_output() {
@@ -43,7 +44,13 @@ FF_LIBS="$(xargs <<< "$FF_LIBS")"
 TESTFILE="uidtestfile"
 rm -f "$TESTFILE"
 docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
+
+if [[ "$SYSTEM_NAME" = "Darwin" ]]; then
+    DOCKERUID="$(stat -f "%u" "$TESTFILE")"
+else
+    DOCKERUID="$(stat -c "%u" "$TESTFILE")"
+fi
+
 rm -f "$TESTFILE"
 [[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
 unset TESTFILE
