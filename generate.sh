@@ -39,8 +39,7 @@ exec_dockerstage() {
         STG="$(ffbuild_dockerdl)"
         if [[ -n "$STG" ]]; then
             HASH="$(sha256sum <<<"$STG" | cut -d" " -f1)"
-            to_df "ADD .cache/downloads/${STAGENAME}_${HASH}.tar.xz /${STAGENAME}"
-            to_df "WORKDIR /${STAGENAME}"
+            export SELFCACHE=".cache/downloads/${STAGENAME}_${HASH}.tar.xz"
         fi
 
         ffbuild_dockerstage || exit $?

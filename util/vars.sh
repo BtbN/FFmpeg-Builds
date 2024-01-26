@@ -38,7 +38,11 @@ TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh"
+    if [[ -n "$SELFCACHE" ]]; then
+        to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=${SELFCACHE},dst=/cache.tar.xz run_stage /stage.sh"
+    else
+        to_df "RUN --mount=src=${SELF},dst=/stage.sh run_stage /stage.sh"
+    fi
 }
 
 ffbuild_dockerlayer() {

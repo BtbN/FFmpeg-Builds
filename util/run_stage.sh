@@ -8,6 +8,15 @@ export RAW_LDFLAGS="$LDFLAGS"
 [[ -n "$STAGE_CXXFLAGS" ]] && export CXXFLAGS="$CXXFLAGS $STAGE_CXXFLAGS"
 [[ -n "$STAGE_LDFLAGS" ]] && export LDFLAGS="$LDFLAGS $STAGE_LDFLAGS"
 
+if [[ -n "$STAGENAME" && -f /cache.tar.xz ]]; then
+    mkdir -p "/$STAGENAME"
+    tar xaf /cache.tar.xz -C "/$STAGENAME"
+    cd "/$STAGENAME"
+elif [[ -n "$STAGENAME" ]]; then
+    mkdir -p "/$STAGENAME"
+    cd "/$STAGENAME"
+fi
+
 git config --global --add safe.directory "$PWD"
 
 source "$1"

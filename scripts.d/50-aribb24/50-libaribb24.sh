@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerstage() {
-    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=patches/aribb24,dst=/patches run_stage /stage.sh"
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=${SELFCACHE},dst=/cache.tar.xz --mount=src=patches/aribb24,dst=/patches run_stage /stage.sh"
 }
 
 ffbuild_dockerbuild() {
