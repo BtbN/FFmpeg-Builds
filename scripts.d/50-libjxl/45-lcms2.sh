@@ -14,7 +14,6 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         -Ddefault_library=static
         -Dutils=false
-        -Dsamples=false
         -Dfastfloat=true
         -Dthreaded=true
     )
