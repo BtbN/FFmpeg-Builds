@@ -7,6 +7,11 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "rm -rf .git Thirdparty"
+}
+
 ffbuild_dockerbuild() {
     mkdir -p "$FFBUILD_PREFIX"/include
     mv amf/public/include "$FFBUILD_PREFIX"/include/AMF
