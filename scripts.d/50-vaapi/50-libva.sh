@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/intel/libva.git"
-SCRIPT_COMMIT="181964965d0ab11d5fd680b722d4845fbc89f5a5"
+SCRIPT_COMMIT="b8c7eed68846a8b9cdf1040be414880a4e0924a8"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* && $TARGET == win* ]] && return -1
