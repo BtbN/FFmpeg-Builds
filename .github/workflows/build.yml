@@ -251,10 +251,16 @@ jobs:
         run: |
           T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
           ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+      - name: Replace spaces in string
+        id: strs
+        run: |
+          SLUG="${{ matrix.target }}-${{ matrix.variant }}"
+          echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ffmpeg
+          name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
+          overwrite: true
           path: artifacts/*
   publish_release:
     name: Publish release
@@ -267,9 +273,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ffmpeg
+          pattern: ffmpeg-*
+          merge-multiple: true
           path: artifacts
       - name: Create release
         id: create_release
