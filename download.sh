@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xe
 cd "$(dirname "$0")"
 source util/vars.sh dl only
@@ -6,7 +6,13 @@ source util/vars.sh dl only
 TESTFILE="uidtestfile"
 rm -f "$TESTFILE"
 docker run --rm -v "$PWD:/uidtestdir" "${REGISTRY}/${REPO}/base:latest" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
+
+if [[ "$SYSTEM_NAME" = "Darwin" ]]; then
+    DOCKERUID="$(stat -f "%u" "$TESTFILE")"
+else
+    DOCKERUID="$(stat -c "%u" "$TESTFILE")"
+fi
+
 rm -f "$TESTFILE"
 [[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
 unset TESTFILE

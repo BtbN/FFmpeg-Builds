@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="http://svn.xvid.org/trunk/xvidcore"
 SCRIPT_REV="2198"

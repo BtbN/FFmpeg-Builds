@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/glennrp/libpng.git"
 SCRIPT_COMMIT="0fa3c0f698c2ca618a0fa44e10a822678df85373"

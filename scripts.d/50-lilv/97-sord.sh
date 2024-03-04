@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/drobilla/sord.git"
 SCRIPT_COMMIT="40e41b28e69313844492cfd605cdfa93a819cf7d"

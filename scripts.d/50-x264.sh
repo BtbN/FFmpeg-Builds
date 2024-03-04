@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/x264.git"
 SCRIPT_COMMIT="4815ccadb1890572f2bf8b9d9553d56f6c9122ad"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/dav1d.git"
 SCRIPT_COMMIT="0d69f6f9fd7a96ca14298c975974effde8e7062c"

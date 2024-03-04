@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/georgmartius/vid.stab.git"
 SCRIPT_COMMIT="c8caf90e07da847f3d9e108807f96512af46025e"

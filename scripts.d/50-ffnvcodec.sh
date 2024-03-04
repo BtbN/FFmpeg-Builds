@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/FFmpeg/nv-codec-headers.git"
 SCRIPT_COMMIT="22441b505d9d9afc1e3002290820909846c24bdc"

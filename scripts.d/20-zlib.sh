@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/madler/zlib.git"
 SCRIPT_COMMIT="5c42a230b7b468dff011f444161c0145b5efae59"

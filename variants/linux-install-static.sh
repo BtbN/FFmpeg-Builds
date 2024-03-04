@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 package_variant() {
     IN="$1"

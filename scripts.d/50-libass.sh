@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/libass/libass.git"
 SCRIPT_COMMIT="58a8f09cccb4829239855791a305d1336d8ee773"

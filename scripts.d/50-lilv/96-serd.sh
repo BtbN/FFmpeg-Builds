@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/drobilla/serd.git"
 SCRIPT_COMMIT="9caf3ec7c867795c475a42c72c6a4aa3f41104b7"

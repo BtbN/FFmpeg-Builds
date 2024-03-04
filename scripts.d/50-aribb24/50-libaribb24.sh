@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/nkoriyama/aribb24.git"
 SCRIPT_COMMIT="5e9be272f96e00f15a2f3c5f8ba7e124862aec38"

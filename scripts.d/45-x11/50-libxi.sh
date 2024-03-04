@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxi.git"
 SCRIPT_COMMIT="57ce2e8ba4c1f1bc5792e14bc7082f3ebd0915be"

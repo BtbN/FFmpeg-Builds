@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/mstorsjo/fdk-aac.git"
 SCRIPT_COMMIT="716f4394641d53f0d79c9ddac3fa93b03a49f278"

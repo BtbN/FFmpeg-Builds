@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxv.git"
 SCRIPT_COMMIT="b022c9cf7004fe6f794c4c00dd519a2e4c74eca0"

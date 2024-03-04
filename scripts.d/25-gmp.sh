@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/BtbN/gmplib.git"
 SCRIPT_COMMIT="3a45726646652d4fddce687eb9c1383457600945"

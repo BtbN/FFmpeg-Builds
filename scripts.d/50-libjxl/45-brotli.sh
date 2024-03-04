@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/google/brotli.git"
 SCRIPT_COMMIT="c1362a7903dd6360228d27b703227e20723cf051"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/libsndfile/libsamplerate.git"
 SCRIPT_COMMIT="20819b6d31907b402d33c30e4a0295ce439c06e6"

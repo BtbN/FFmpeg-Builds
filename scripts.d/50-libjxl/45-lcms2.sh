@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/mm2/Little-CMS.git"
 SCRIPT_COMMIT="f6b092b36254487312fd47a30a81fa703f006152"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/xqq/libaribcaption.git"
 SCRIPT_COMMIT="41a014d245adf66f425a8317a031477dd1f80c67"

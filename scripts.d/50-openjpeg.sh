@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/uclouvain/openjpeg.git"
 SCRIPT_COMMIT="0e3b3bd716f2b5178d981b17de9505f94ddfff58"

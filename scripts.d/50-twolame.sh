@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/njh/twolame.git"
 SCRIPT_COMMIT="90b694b6125dbe23a346bd5607a7fb63ad2785dc"

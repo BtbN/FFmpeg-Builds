@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xe -o pipefail
 
 RETRY_COUNTER=0

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 cd "$(dirname "$0")"
 source util/vars.sh
@@ -60,7 +60,7 @@ for addin in "${ADDINS[@]}"; do
 done
 
 PREVLAYER="base"
-for ID in $(ls -1d scripts.d/??-* | sed -s 's|^.*/\(..\).*|\1|' | sort -u); do
+for ID in $(ls -1d scripts.d/??-* | sed 's|^.*/\(..\).*|\1|' | sort -u); do
     LAYER="layer-$ID"
 
     for STAGE in scripts.d/$ID-*; do

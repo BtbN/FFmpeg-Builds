@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/lv2/lilv.git"
 SCRIPT_COMMIT="b6496d8b5d109d8fd1268a917eb70a447868bef3"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
 SCRIPT_COMMIT="ef9a6fb4db5b3c6b71bae0c18faae0973a6c8340"

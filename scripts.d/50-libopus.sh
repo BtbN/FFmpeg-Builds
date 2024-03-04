@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/xiph/opus.git"
 SCRIPT_COMMIT="a97151d390978d93b4311ef8794bd3af23703355"

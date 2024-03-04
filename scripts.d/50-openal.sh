@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/kcat/openal-soft.git"
 SCRIPT_COMMIT="50c906f1318f0865fb6875ade35657ef6a2acc3f"

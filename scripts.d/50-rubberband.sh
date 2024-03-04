@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://github.com/breakfastquay/rubberband.git"
 SCRIPT_COMMIT="f0d702e15d78d08a0a9b54e0a3a6a0443ad9187a"

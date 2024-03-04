@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git"
 SCRIPT_COMMIT="26ccd1167a6188fb28745f3f5c9940657f64343c"

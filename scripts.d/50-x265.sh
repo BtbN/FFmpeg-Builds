@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://bitbucket.org/multicoreware/x265_git.git"
 SCRIPT_COMMIT="74abf80c70a3969fca2e112691cecfb50c0c2259"

@@ -1,9 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xe
 cd "$(dirname "$0")"
 source util/vars.sh
 
-TMPCFG="$(mktemp --suffix=.toml)"
+export SYSTEM_NAME="$(uname -s)"
+
+if [[ "$SYSTEM_NAME" = "Darwin" ]]; then
+  TMPCFG="$(mktemp -t temp.XXXXXX.toml)"
+else
+  TMPCFG="$(mktemp --suffix=.toml)"
+fi
 cat <<EOF >"$TMPCFG"
 [worker.oci]
   max-parallelism = 4

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcursor.git"
 SCRIPT_COMMIT="3783190da9aaa5ddd23aad6060469fd3f3ebece9"

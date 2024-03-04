@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/proto/xorgproto.git"
 SCRIPT_COMMIT="db56b508f25629ab1022038131758ce48e6daf82"
