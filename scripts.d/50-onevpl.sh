@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/oneapi-src/oneVPL.git"
+SCRIPT_REPO="https://github.com/intel/libvpl.git"
 SCRIPT_COMMIT="18e890e7a5d6355306b8f1046b46c378ced453ff"
 
 ffbuild_enabled() {
