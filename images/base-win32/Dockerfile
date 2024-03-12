@@ -19,16 +19,19 @@ RUN \
         -delete && \
     mkdir /opt/ffbuild
 
-RUN rustup target add i686-pc-windows-gnu
+ENV FFBUILD_TOOLCHAIN=i686-w64-mingw32 \
+    FFBUILD_RUST_TARGET=i686-pc-windows-gnu
+
+RUN \
+    rustup target add "$FFBUILD_RUST_TARGET" && \
+    echo "[target.$FFBUILD_RUST_TARGET]\nlinker = \"${FFBUILD_TOOLCHAIN}-gcc\"\nar = \"${FFBUILD_TOOLCHAIN}-gcc-ar\"\n" > "$CARGO_HOME"/config.toml
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
 
-ENV FFBUILD_TOOLCHAIN=i686-w64-mingw32
 ENV PATH="/opt/ct-ng/bin:${PATH}" \
     FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=i686 --target-os=mingw32" \
     FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
-    FFBUILD_RUST_TARGET=i686-pc-windows-gnu \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG=pkg-config \

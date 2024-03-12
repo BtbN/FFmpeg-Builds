@@ -33,7 +33,12 @@ RUN \
         -delete && \
     mkdir /opt/ffbuild
 
-RUN rustup target add aarch64-unknown-linux-gnu
+ENV FFBUILD_TOOLCHAIN=aarch64-ffbuild-linux-gnu \
+    FFBUILD_RUST_TARGET="aarch64-unknown-linux-gnu"
+
+RUN \
+    rustup target add "$FFBUILD_RUST_TARGET" && \
+    echo "[target.$FFBUILD_RUST_TARGET]\nlinker = \"${FFBUILD_TOOLCHAIN}-gcc\"\nar = \"${FFBUILD_TOOLCHAIN}-gcc-ar\"\n" > "$CARGO_HOME"/config.toml
 
 ADD toolchain.cmake /toolchain.cmake
 ADD cross.meson /cross.meson
@@ -41,11 +46,9 @@ ADD cross.meson /cross.meson
 ADD gen-implib.sh /usr/bin/gen-implib
 RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib
 
-ENV FFBUILD_TOOLCHAIN=aarch64-ffbuild-linux-gnu
 ENV PATH="/opt/ct-ng/bin:${PATH}" \
     FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=aarch64 --target-os=linux" \
     FFBUILD_CROSS_PREFIX="${FFBUILD_TOOLCHAIN}-" \
-    FFBUILD_RUST_TARGET="aarch64-unknown-linux-gnu" \
     FFBUILD_PREFIX=/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG=pkg-config \
