@@ -1,14 +1,14 @@
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
     apt-get -y update && \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
-        xxd pkgconf curl wget unzip zip git subversion mercurial \
+        xxd pkgconf curl wget unzip zip git subversion mercurial rsync \
         autoconf automake libtool libtool-bin autopoint gettext cmake clang meson ninja-build \
         texinfo texi2html help2man flex bison groff \
-        gperf itstool ragel libc6-dev libssl-dev \
+        gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
         ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full \
         python3-distutils python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \

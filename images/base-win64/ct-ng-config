@@ -1,12 +1,13 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.25.0.232_c175b21 Configuration
+# crosstool-NG 1.26.0.65_ecc5e41 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
 CT_CONFIGURE_has_wget=y
 CT_CONFIGURE_has_curl=y
-CT_CONFIGURE_has_rsync=y
+CT_CONFIGURE_has_meson=y
+CT_CONFIGURE_has_ninja=y
 CT_CONFIGURE_has_make_3_81_or_newer=y
 CT_CONFIGURE_has_make_4_0_or_newer=y
 CT_CONFIGURE_has_libtool_2_4_or_newer=y
@@ -26,7 +27,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.25.0.232_c175b21"
+CT_VERSION="1.26.0.65_ecc5e41"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -145,6 +146,7 @@ CT_LOG_LEVEL_MAX="DEBUG"
 # CT_ARCH_MOXIE is not set
 # CT_ARCH_MSP430 is not set
 # CT_ARCH_NIOS2 is not set
+# CT_ARCH_PARISC is not set
 # CT_ARCH_POWERPC is not set
 # CT_ARCH_PRU is not set
 # CT_ARCH_RISCV is not set
@@ -163,7 +165,7 @@ CT_ARCH_X86_SHOW=y
 # Options for x86
 #
 CT_ARCH_X86_PKG_KSYM=""
-CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
+CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 PARISC POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
 CT_ARCH_SUFFIX=""
 # CT_OMIT_TARGET_VENDOR is not set
 
@@ -293,7 +295,9 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_40=y
+CT_BINUTILS_V_2_42=y
+# CT_BINUTILS_V_2_41 is not set
+# CT_BINUTILS_V_2_40 is not set
 # CT_BINUTILS_V_2_39 is not set
 # CT_BINUTILS_V_2_38 is not set
 # CT_BINUTILS_V_2_37 is not set
@@ -308,7 +312,7 @@ CT_BINUTILS_V_2_40=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.40"
+CT_BINUTILS_VERSION="2.42"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -366,14 +370,15 @@ CT_MINGW_W64_PATCH_GLOBAL=y
 # CT_MINGW_W64_PATCH_LOCAL_BUNDLED is not set
 # CT_MINGW_W64_PATCH_NONE is not set
 CT_MINGW_W64_PATCH_ORDER="global"
-CT_MINGW_W64_V_V10_0=y
+CT_MINGW_W64_V_V11_0=y
+# CT_MINGW_W64_V_V10_0 is not set
 # CT_MINGW_W64_V_V9_0 is not set
 # CT_MINGW_W64_V_V8_0 is not set
 # CT_MINGW_W64_V_V7_0 is not set
 # CT_MINGW_W64_V_V6_0 is not set
 # CT_MINGW_W64_V_V5_0 is not set
 # CT_MINGW_W64_V_V4_0 is not set
-CT_MINGW_W64_VERSION="v10.0.0"
+CT_MINGW_W64_VERSION="v11.0.1"
 CT_MINGW_W64_MIRRORS="http://downloads.sourceforge.net/sourceforge/mingw-w64 https://downloads.sourceforge.net/project/mingw-w64/mingw-w64/mingw-w64-release/"
 CT_MINGW_W64_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -664,8 +669,8 @@ CT_MPC_PATCH_GLOBAL=y
 # CT_MPC_PATCH_LOCAL_BUNDLED is not set
 # CT_MPC_PATCH_NONE is not set
 CT_MPC_PATCH_ORDER="global"
-CT_MPC_V_1_2=y
-CT_MPC_VERSION="1.2.1"
+CT_MPC_V_1_3=y
+CT_MPC_VERSION="1.3.1"
 CT_MPC_MIRRORS="https://www.multiprecision.org/downloads $(CT_Mirrors GNU mpc)"
 CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -711,8 +716,9 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_2_13=y
-CT_ZLIB_VERSION="1.2.13"
+CT_ZLIB_V_1_3=y
+# CT_ZLIB_V_1_2_13 is not set
+CT_ZLIB_VERSION="1.3"
 CT_ZLIB_MIRRORS="https://github.com/madler/zlib/releases/download/v${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"

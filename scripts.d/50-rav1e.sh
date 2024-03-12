@@ -18,25 +18,26 @@ ffbuild_dockerbuild() {
 
     if [[ -n "$FFBUILD_RUST_TARGET" ]]; then
         unset PKG_CONFIG_LIBDIR
-
-        export CC="gcc"
-        export CXX="g++"
-        export TARGET_CC="${FFBUILD_CROSS_PREFIX}gcc"
-        export TARGET_CXX="${FFBUILD_CROSS_PREFIX}g++"
         export CROSS_COMPILE=1
+
+        export TARGET_CC="$CC"
+        export TARGET_CXX="$CXX"
         export TARGET_CFLAGS="$CFLAGS"
-        export TARGET_CXXFLAGS="$CFLAGS"
+        export TARGET_CXXFLAGS="$CXXFLAGS"
         unset CFLAGS
         unset CXXFLAGS
+        export CC="gcc"
+        export CXX="g++"
 
         myconf+=(
-            --target="$FFBUILD_RUST_TARGET"
+            --target="${FFBUILD_RUST_TARGET}"
+            --config="target.${FFBUILD_RUST_TARGET}.linker=\"${TARGET_CC}\""
+            --config="target.${FFBUILD_RUST_TARGET}.ar=\"${AR}\""
+            # This is a horrible hack to work around cargo being too stupid for cross-builds to the same target.
+            # When building for Linux, it will try to build a build-time tool with the target-linker, which fails horribly.
+            # Since we are only creating a static lib, the linker is never actually used. So just always force it to host gcc.
+            --config="target.x86_64-unknown-linux-gnu.linker=\"gcc\""
         )
-        cat <<EOF >$CARGO_HOME/config.toml
-[target.$FFBUILD_RUST_TARGET]
-linker = "${FFBUILD_CROSS_PREFIX}gcc"
-ar = "${FFBUILD_CROSS_PREFIX}ar"
-EOF
     fi
 
     cargo cinstall -v "${myconf[@]}"

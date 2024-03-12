@@ -4,9 +4,7 @@ Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest re
 
 Windows builds are targetting Windows 7 and newer.
 
-Linux (x86_64) builds are targetting Ubuntu 16.04 (glibc-2.23 + linux-4.4) and anything more recent.
-
-Linux (arm64) builds are targetting Ubuntu 18.04 (glibc-2.27 + linux-4.15) and anything more recent.
+Linux builds are targetting RHEL/CentOS 8 (glibc-2.28 + linux-4.18) and anything more recent.
 
 ## Auto-Builds
 
@@ -47,8 +45,8 @@ On success, the resulting zip file will be in the `artifacts` subdir.
 Available targets:
 * `win64` (x86_64 Windows)
 * `win32` (x86 Windows)
-* `linux64` (x86_64 Linux, glibc>=2.23, linux>=4.4)
-* `linuxarm64` (arm64 (aarch64) Linux, glibc>=2.27, linux>=4.15)
+* `linux64` (x86_64 Linux, glibc>=2.28, linux>=4.18)
+* `linuxarm64` (arm64 (aarch64) Linux, glibc>=2.28, linux>=4.18)
 
 The linuxarm64 target will not build some dependencies due to lack of arm64 (aarch64) architecture support or cross-compiling restrictions.
 
