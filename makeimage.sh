@@ -19,25 +19,29 @@ docker buildx inspect ffbuilder &>/dev/null || docker buildx create \
     --driver-opt env.BUILDKIT_STEP_LOG_MAX_SPEED=-1
 
 if [[ -z "$QUICKBUILD" ]]; then
-    docker buildx --builder ffbuilder build \
-        --cache-from=type=local,src=.cache/"${BASE_IMAGE/:/_}" \
-        --cache-to=type=local,mode=max,dest=.cache/"${BASE_IMAGE/:/_}" \
-        --load --tag "${BASE_IMAGE}" \
-        "images/base"
     BASE_IMAGE_TARGET="${PWD}/.cache/images/base"
-    rm -rf "${BASE_IMAGE_TARGET}" && mkdir -p "${BASE_IMAGE_TARGET}"
-    docker image save "${BASE_IMAGE}" | tar -x -C "${BASE_IMAGE_TARGET}"
+    if [[ ! -d "${BASE_IMAGE_TARGET}" ]]; then
+        docker buildx --builder ffbuilder build \
+            --cache-from=type=local,src=.cache/"${BASE_IMAGE/:/_}" \
+            --cache-to=type=local,mode=max,dest=.cache/"${BASE_IMAGE/:/_}" \
+            --load --tag "${BASE_IMAGE}" \
+            "images/base"
+        mkdir -p "${BASE_IMAGE_TARGET}"
+        docker image save "${BASE_IMAGE}" | tar -x -C "${BASE_IMAGE_TARGET}"
+    fi
 
-    docker buildx --builder ffbuilder build \
-        --cache-from=type=local,src=.cache/"${TARGET_IMAGE/:/_}" \
-        --cache-to=type=local,mode=max,dest=.cache/"${TARGET_IMAGE/:/_}" \
-        --build-arg GH_REPO="${REGISTRY}/${REPO}" \
-        --build-context "${BASE_IMAGE}=oci-layout://${BASE_IMAGE_TARGET}" \
-        --load --tag "${TARGET_IMAGE}" \
-        "images/base-${TARGET}"
     IMAGE_TARGET="${PWD}/.cache/images/base-${TARGET}"
-    rm -rf "${IMAGE_TARGET}" && mkdir -p "${IMAGE_TARGET}"
-    docker image save "${TARGET_IMAGE}" | tar -x -C "${IMAGE_TARGET}"
+    if [[ ! -d "${IMAGE_TARGET}" ]]; then
+        docker buildx --builder ffbuilder build \
+            --cache-from=type=local,src=.cache/"${TARGET_IMAGE/:/_}" \
+            --cache-to=type=local,mode=max,dest=.cache/"${TARGET_IMAGE/:/_}" \
+            --build-arg GH_REPO="${REGISTRY}/${REPO}" \
+            --build-context "${BASE_IMAGE}=oci-layout://${BASE_IMAGE_TARGET}" \
+            --load --tag "${TARGET_IMAGE}" \
+            "images/base-${TARGET}"
+        mkdir -p "${IMAGE_TARGET}"
+        docker image save "${TARGET_IMAGE}" | tar -x -C "${IMAGE_TARGET}"
+    fi
 
     CONTEXT_SRC="oci-layout://${IMAGE_TARGET}"
 else
