@@ -33,6 +33,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CPPFLAGS="${CPPFLAGS} -Ddec_init=libbr_dec_init"
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
