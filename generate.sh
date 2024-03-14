@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+shopt -s globstar
 cd "$(dirname "$0")"
 source util/vars.sh
 
@@ -33,8 +34,6 @@ exec_dockerstage() {
         ffbuild_enabled || exit 0
 
         to_df "ENV SELF=\"$SELF\" STAGENAME=\"$STAGENAME\""
-
-        set -x
 
         STG="$(ffbuild_dockerdl)"
         if [[ -n "$STG" ]]; then
@@ -101,3 +100,51 @@ done
 to_df "FROM base"
 sed "s/__PREVLAYER__/$PREVLAYER/g" Dockerfile.final | sort -u >> Dockerfile
 rm Dockerfile.final
+
+###
+### Compile list of configure arguments and add them to the final Dockerfile
+###
+
+get_output() {
+    (
+        SELF="$1"
+        source $1
+        if ffbuild_enabled; then
+            ffbuild_$2 || exit 0
+        else
+            ffbuild_un$2 || exit 0
+        fi
+    )
+}
+
+source "variants/${TARGET}-${VARIANT}.sh"
+
+for addin in ${ADDINS[*]}; do
+    source "addins/${addin}.sh"
+done
+
+export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"
+
+for script in scripts.d/**/*.sh; do
+    FF_CONFIGURE+=" $(get_output $script configure)"
+    FF_CFLAGS+=" $(get_output $script cflags)"
+    FF_CXXFLAGS+=" $(get_output $script cxxflags)"
+    FF_LDFLAGS+=" $(get_output $script ldflags)"
+    FF_LDEXEFLAGS+=" $(get_output $script ldexeflags)"
+    FF_LIBS+=" $(get_output $script libs)"
+done
+
+FF_CONFIGURE="$(xargs <<< "$FF_CONFIGURE")"
+FF_CFLAGS="$(xargs <<< "$FF_CFLAGS")"
+FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
+FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
+FF_LDEXEFLAGS="$(xargs <<< "$FF_LDEXEFLAGS")"
+FF_LIBS="$(xargs <<< "$FF_LIBS")"
+
+to_df "ENV \\"
+to_df "    FF_CONFIGURE=\"$FF_CONFIGURE\" \\"
+to_df "    FF_CFLAGS=\"$FF_CFLAGS\" \\"
+to_df "    FF_CXXFLAGS=\"$FF_CXXFLAGS\" \\"
+to_df "    FF_LDFLAGS=\"$FF_LDFLAGS\" \\"
+to_df "    FF_LDEXEFLAGS=\"$FF_LDEXEFLAGS\" \\"
+to_df "    FF_LIBS=\"$FF_LIBS\""
