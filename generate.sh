@@ -123,8 +123,6 @@ for addin in ${ADDINS[*]}; do
     source "addins/${addin}.sh"
 done
 
-export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"
-
 for script in scripts.d/**/*.sh; do
     FF_CONFIGURE+=" $(get_output $script configure)"
     FF_CFLAGS+=" $(get_output $script cflags)"
