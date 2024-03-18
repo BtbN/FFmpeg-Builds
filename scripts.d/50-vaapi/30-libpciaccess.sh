@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git"
-SCRIPT_COMMIT="04271a93ed65bfde82469509120214424eb918d0"
+SCRIPT_COMMIT="ad7e9cb4b291a46812eea321f0634cfc46fb94e2"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
