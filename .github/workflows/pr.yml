@@ -38,7 +38,7 @@ jobs:
       - name: Install buildx
         uses: docker/setup-buildx-action@v3
         with:
-          config: .github/buildkit.toml
+          buildkitd-config: .github/buildkit.toml
           driver: docker
       - name: Get download cache key
         id: dl_cache

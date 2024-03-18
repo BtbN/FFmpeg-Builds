@@ -51,7 +51,7 @@ jobs:
       - name: Install buildx
         uses: docker/setup-buildx-action@v3
         with:
-          config: .github/buildkit.toml
+          buildkitd-config: .github/buildkit.toml
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
@@ -119,7 +119,7 @@ jobs:
       - name: Install buildx
         uses: docker/setup-buildx-action@v3
         with:
-          config: .github/buildkit.toml
+          buildkitd-config: .github/buildkit.toml
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
@@ -175,7 +175,7 @@ jobs:
       - name: Install buildx
         uses: docker/setup-buildx-action@v3
         with:
-          config: .github/buildkit.toml
+          buildkitd-config: .github/buildkit.toml
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
