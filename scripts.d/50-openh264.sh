@@ -14,9 +14,9 @@ ffbuild_dockerbuild() {
         BUILDTYPE=Release
         DEBUGSYMBOLS=False
         LIBDIR_NAME=lib
-        CC="$FFBUILD_CROSS_PREFIX"gcc
-        CXX="$FFBUILD_CROSS_PREFIX"g++
-        AR="$FFBUILD_CROSS_PREFIX"ar
+        CC="$CC"
+        CXX="$CXX"
+        AR="$AR"
     )
 
     if [[ $TARGET == win32 ]]; then
@@ -28,6 +28,11 @@ ffbuild_dockerbuild() {
         myconf+=(
             OS=mingw_nt
             ARCH=x86_64
+        )
+    elif [[ $TARGET == winarm64 ]]; then
+        myconf+=(
+            OS=mingw_nt
+            ARCH=aarch64
         )
     elif [[ $TARGET == linux64 ]]; then
         myconf+=(

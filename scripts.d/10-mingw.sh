@@ -9,11 +9,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerlayer() {
+    [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --from=${SELFLAYER} /opt/mingw/. /"
     to_df "COPY --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 
 ffbuild_dockerfinal() {
+    [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --from=${PREVLAYER} /opt/mingw/. /"
 }
 
@@ -22,6 +24,8 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    [[ $TARGET == winarm* ]] && return 0
+
     cd mingw-w64-headers
 
     unset CFLAGS
@@ -29,10 +33,12 @@ ffbuild_dockerbuild() {
     unset LDFLAGS
     unset PKG_CONFIG_LIBDIR
 
-    GCC_SYSROOT="$(${FFBUILD_CROSS_PREFIX}gcc -print-sysroot)"
+    if [[ -z "$COMPILER_SYSROOT" ]]; then
+        COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr"
+    fi
 
     local myconf=(
-        --prefix="$GCC_SYSROOT/usr/$FFBUILD_TOOLCHAIN"
+        --prefix="$COMPILER_SYSROOT"
         --host="$FFBUILD_TOOLCHAIN"
         --with-default-win32-winnt="0x601"
         --with-default-msvcrt=ucrt
@@ -46,7 +52,7 @@ ffbuild_dockerbuild() {
     cd ../mingw-w64-libraries/winpthreads
 
     local myconf=(
-        --prefix="$GCC_SYSROOT/usr/$FFBUILD_TOOLCHAIN"
+        --prefix="$COMPILER_SYSROOT"
         --host="$FFBUILD_TOOLCHAIN"
         --with-pic
         --disable-shared

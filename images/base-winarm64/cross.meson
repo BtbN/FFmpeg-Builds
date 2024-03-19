@@ -1,0 +1,18 @@
+[binaries]
+c = 'aarch64-w64-mingw32-clang'
+cpp = 'aarch64-w64-mingw32-clang++'
+ar = 'aarch64-w64-mingw32-llvm-ar'
+ranlib = 'aarch64-w64-mingw32-llvm-ranlib'
+strip = 'aarch64-w64-mingw32-strip'
+windres = 'aarch64-w64-mingw32-windres'
+dlltool = 'aarch64-w64-mingw32-dlltool'
+exe_wrapper = ['wine']
+
+[properties]
+needs_exe_wrapper = true
+
+[host_machine]
+system = 'windows'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'

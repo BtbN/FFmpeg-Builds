@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/openssl/openssl.git"
-SCRIPT_COMMIT="openssl-3.0.13"
-SCRIPT_TAGFILTER="openssl-3.0.*"
+SCRIPT_COMMIT="openssl-3.2.1"
+SCRIPT_TAGFILTER="openssl-3.2.*"
 
 ffbuild_enabled() {
     return 0
@@ -40,6 +40,27 @@ ffbuild_dockerbuild() {
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             mingw
         )
+    elif [[ $TARGET == winarm64 ]]; then
+        myconf+=(
+            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
+            mingwarm64
+        )
+
+        cat <<EOF >Configurations/50-win-arm-mingw.conf
+my %targets = (
+    "mingwarm64" => {
+        inherit_from     => [ "mingw-common" ],
+        cflags           => "",
+        sys_id           => "MINGWARM64",
+        bn_ops           => add("SIXTY_FOUR_BIT"),
+        asm_arch         => 'aarch64',
+        uplink_arch      => 'armv8',
+        perlasm_scheme   => "win64",
+        shared_rcflag    => "",
+        multilib         => "-arm64",
+    },
+);
+EOF
     elif [[ $TARGET == linux64 ]]; then
         myconf+=(
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
@@ -63,9 +84,6 @@ ffbuild_dockerbuild() {
     export CXX="${CXX/${FFBUILD_CROSS_PREFIX}/}"
     export AR="${AR/${FFBUILD_CROSS_PREFIX}/}"
     export RANLIB="${RANLIB/${FFBUILD_CROSS_PREFIX}/}"
-
-    # Actually allow Configure to disable apps
-    sed -i '/^my @disablables =/ s/$/"apps",/' Configure
 
     ./Configure "${myconf[@]}"
 

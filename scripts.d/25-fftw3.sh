@@ -38,6 +38,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    sed -i 's/windows.h/process.h/' configure.ac
+
     ./bootstrap.sh "${myconf[@]}"
     make -j$(nproc)
     make install

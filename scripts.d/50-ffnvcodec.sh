@@ -9,6 +9,7 @@ SCRIPT_COMMIT2="18c24977c67a94d1969993444cf06ff91b0068a7"
 SCRIPT_BRANCH2="sdk/11.1"
 
 ffbuild_enabled() {
+    [[ $TARGET == winarm64 ]] && return -1
     return 0
 }
 
