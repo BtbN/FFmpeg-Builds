@@ -34,7 +34,7 @@ ffbuild_dockerbuild() {
     unset PKG_CONFIG_LIBDIR
 
     if [[ -z "$COMPILER_SYSROOT" ]]; then
-        COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr"
+        COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr/${FFBUILD_TOOLCHAIN}"
     fi
 
     local myconf=(
