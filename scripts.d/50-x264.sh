@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/x264.git"
-SCRIPT_COMMIT="585e01997f0c7e6d72c8ca466406d955c07de912"
+SCRIPT_COMMIT="7ed753b10a61d0be95f683289dfb925b800b0676"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
