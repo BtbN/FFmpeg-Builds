@@ -166,7 +166,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.1,lgpl 4.4,lgpl 5.1,lgpl 6.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.1,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.1]
+        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -231,7 +231,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 4.4,gpl 5.1,gpl 6.1,lgpl 4.4,lgpl 5.1,lgpl 6.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,gpl-shared 6.1,lgpl-shared 4.4,lgpl-shared 5.1,lgpl-shared 6.1]
+        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
