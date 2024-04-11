@@ -11,7 +11,7 @@ RUN \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
         ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full \
-        python3-distutils python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
+        python3-setuptools python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
     apt-get -y clean && \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
