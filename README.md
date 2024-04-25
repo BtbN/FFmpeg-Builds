@@ -1,3 +1,4 @@
+#### Language: English | [简体中文](./README_CN.md)
 # FFmpeg Static Auto-Builds
 
 Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest release branch.
