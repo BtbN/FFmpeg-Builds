@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN \
-    apt-get -y update && \
+    apt-get -y update && true && \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
