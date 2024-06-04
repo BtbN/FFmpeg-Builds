@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/intel/libvpl.git"
-SCRIPT_COMMIT="11a9bbda5b22ac1c544da59b4007bb57f737b487"
+SCRIPT_COMMIT="e71b1efc1263ae216569f62d018033ab5a850e00"
 
 ffbuild_enabled() {
     [[ $TARGET == *arm64 ]] && return -1
