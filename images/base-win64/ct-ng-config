@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.26.0.65_ecc5e41 Configuration
+# crosstool-NG 1.26.0.93_a87bf7f Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -10,6 +10,7 @@ CT_CONFIGURE_has_meson=y
 CT_CONFIGURE_has_ninja=y
 CT_CONFIGURE_has_make_3_81_or_newer=y
 CT_CONFIGURE_has_make_4_0_or_newer=y
+CT_CONFIGURE_has_make_4_4_or_newer=y
 CT_CONFIGURE_has_libtool_2_4_or_newer=y
 CT_CONFIGURE_has_libtoolize_2_4_or_newer=y
 CT_CONFIGURE_has_autoconf_2_65_or_newer=y
@@ -20,6 +21,7 @@ CT_CONFIGURE_has_python_3_4_or_newer=y
 CT_CONFIGURE_has_bison_2_7_or_newer=y
 CT_CONFIGURE_has_bison_3_0_4_or_newer=y
 CT_CONFIGURE_has_python=y
+CT_CONFIGURE_has_dtc=y
 CT_CONFIGURE_has_svn=y
 CT_CONFIGURE_has_git=y
 CT_CONFIGURE_has_md5sum=y
@@ -27,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.26.0.65_ecc5e41"
+CT_VERSION="1.26.0.93_a87bf7f"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -370,7 +372,8 @@ CT_MINGW_W64_PATCH_GLOBAL=y
 # CT_MINGW_W64_PATCH_LOCAL_BUNDLED is not set
 # CT_MINGW_W64_PATCH_NONE is not set
 CT_MINGW_W64_PATCH_ORDER="global"
-CT_MINGW_W64_V_V11_0=y
+CT_MINGW_W64_V_V12_0=y
+# CT_MINGW_W64_V_V11_0 is not set
 # CT_MINGW_W64_V_V10_0 is not set
 # CT_MINGW_W64_V_V9_0 is not set
 # CT_MINGW_W64_V_V8_0 is not set
@@ -378,7 +381,7 @@ CT_MINGW_W64_V_V11_0=y
 # CT_MINGW_W64_V_V6_0 is not set
 # CT_MINGW_W64_V_V5_0 is not set
 # CT_MINGW_W64_V_V4_0 is not set
-CT_MINGW_W64_VERSION="v11.0.1"
+CT_MINGW_W64_VERSION="v12.0.0"
 CT_MINGW_W64_MIRRORS="http://downloads.sourceforge.net/sourceforge/mingw-w64 https://downloads.sourceforge.net/project/mingw-w64/mingw-w64/mingw-w64-release/"
 CT_MINGW_W64_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -444,7 +447,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_13=y
+CT_GCC_V_14=y
+# CT_GCC_V_13 is not set
 # CT_GCC_V_12 is not set
 # CT_GCC_V_11 is not set
 # CT_GCC_V_10 is not set
@@ -454,12 +458,14 @@ CT_GCC_V_13=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="13.2.0"
+CT_GCC_VERSION="14.1.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_14=y
+CT_GCC_14_or_later=y
 CT_GCC_later_than_13=y
 CT_GCC_13_or_later=y
 CT_GCC_later_than_12=y
@@ -542,6 +548,17 @@ CT_CC_LANG_OTHERS=""
 # end of C compiler
 
 #
+# Linkers
+#
+
+#
+# BFD enabled in binutils
+#
+# CT_LINKER_MOLD is not set
+CT_ALL_LINKER_CHOICES="MOLD"
+# end of Linkers
+
+#
 # Debug facilities
 #
 # CT_DEBUG_DUMA is not set
@@ -571,17 +588,18 @@ CT_GETTEXT_PATCH_GLOBAL=y
 # CT_GETTEXT_PATCH_LOCAL_BUNDLED is not set
 # CT_GETTEXT_PATCH_NONE is not set
 CT_GETTEXT_PATCH_ORDER="global"
-CT_GETTEXT_V_0_21=y
+CT_GETTEXT_V_0_22_5=y
+# CT_GETTEXT_V_0_21 is not set
 # CT_GETTEXT_V_0_20_1 is not set
 # CT_GETTEXT_V_0_19_8_1 is not set
-CT_GETTEXT_VERSION="0.21"
+CT_GETTEXT_VERSION="0.22.5"
 CT_GETTEXT_MIRRORS="$(CT_Mirrors GNU gettext)"
 CT_GETTEXT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GETTEXT_SIGNATURE_FORMAT="packed/.sig"
+CT_GETTEXT_later_than_0_21=y
 CT_GETTEXT_0_21_or_later=y
-CT_GETTEXT_0_21_or_older=y
 CT_GETTEXT_INCOMPATIBLE_WITH_UCLIBC_NG=y
 
 #
@@ -738,9 +756,10 @@ CT_ZSTD_PATCH_GLOBAL=y
 # CT_ZSTD_PATCH_LOCAL_BUNDLED is not set
 # CT_ZSTD_PATCH_NONE is not set
 CT_ZSTD_PATCH_ORDER="global"
-CT_ZSTD_V_1_5_5=y
+CT_ZSTD_V_1_5_6=y
+# CT_ZSTD_V_1_5_5 is not set
 # CT_ZSTD_V_1_5_2 is not set
-CT_ZSTD_VERSION="1.5.5"
+CT_ZSTD_VERSION="1.5.6"
 CT_ZSTD_MIRRORS="https://github.com/facebook/zstd/releases/download/v${CT_ZSTD_VERSION} https://www.zstd.net/"
 CT_ZSTD_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZSTD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
