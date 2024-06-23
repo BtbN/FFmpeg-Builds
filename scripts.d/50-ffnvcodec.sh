@@ -8,7 +8,7 @@ SCRIPT_COMMIT2="22441b505d9d9afc1e3002290820909846c24bdc"
 SCRIPT_BRANCH2="sdk/12.0"
 
 SCRIPT_REPO3="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT3="1889e62e2d35ff7aa9baca2bceb14f053785e6f1"
+SCRIPT_COMMIT3="75f032b24263c2b684b9921755cafc1c08e41b9d"
 SCRIPT_BRANCH3="sdk/12.1"
 
 ffbuild_enabled() {
