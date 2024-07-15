@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/georgmartius/vid.stab.git"
-SCRIPT_COMMIT="c8caf90e07da847f3d9e108807f96512af46025e"
+SCRIPT_COMMIT="8dff7ad3c10ac663745f2263037f6e42b993519c"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
