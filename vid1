@@ -1,0 +1,1 @@
+ffmpeg -i "https://vz-7df561f9-69e.b-cdn.net/2b62662d-b249-420a-8cb8-c5155f6fc3bd/playlist.m3u8" -c copy output.mp4
