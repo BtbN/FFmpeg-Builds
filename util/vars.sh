@@ -37,6 +37,33 @@ BASE_IMAGE="${REGISTRY}/${REPO}/base:latest"
 TARGET_IMAGE="${REGISTRY}/${REPO}/base-${TARGET}:latest"
 IMAGE="${REGISTRY}/${REPO}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}:latest"
 
+ffbuild_ffver() {
+    case "$ADDINS_STR" in
+    *4.4*)
+        echo 404
+        ;;
+    *5.0*)
+        echo 500
+        ;;
+    *5.1*)
+        echo 501
+        ;;
+    *6.0*)
+        echo 600
+        ;;
+    *6.1*)
+        echo 601
+        ;;
+    *7.0*)
+        echo 700
+        ;;
+    *)
+        echo 99999999
+        ;;
+    esac
+}
+
+
 ffbuild_dockerstage() {
     if [[ -n "$SELFCACHE" ]]; then
         to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=${SELFCACHE},dst=/cache.tar.xz run_stage /stage.sh"
