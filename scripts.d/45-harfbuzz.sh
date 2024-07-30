@@ -8,35 +8,39 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    mkdir build && cd build
+
     local myconf=(
+        --cross-file=/cross.meson
         --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
+        --buildtype=release
+        --default-library=static
+        -Dfreetype=enabled
+        -Dglib=disabled
+        -Dgobject=disabled
+        -Dcairo=disabled
+        -Dchafa=disabled
+        -Dtests=disabled
+        -Dintrospection=disabled
+        -Ddocs=disabled
+        -Ddoc_tests=false
+        -Dutilities=disabled
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
+    if [[ $TARGET == win* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            -Dgdi=enabled
         )
-    else
-        echo "Unknown target"
-        return -1
     fi
 
-    export LIBS="-lpthread"
-
-    ./autogen.sh "${myconf[@]}"
-    make -j$(nproc)
-    make install
+    meson setup "${myconf[@]}" ..
+    ninja -j"$(nproc)"
+    ninja install
 
     echo "Libs.private: -lpthread" >> "$FFBUILD_PREFIX"/lib/pkgconfig/harfbuzz.pc
 }
 
 ffbuild_configure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
-    [[ $ADDINS_STR == *5.0* ]] && return 0
-    [[ $ADDINS_STR == *5.1* ]] && return 0
-    [[ $ADDINS_STR == *6.0* ]] && return 0
+    (( $(ffbuild_ffver) > 600 )) || return 0
     echo --enable-libharfbuzz
 }
