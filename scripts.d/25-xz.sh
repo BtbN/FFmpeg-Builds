@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/tukaani-project/xz.git"
-SCRIPT_COMMIT="6e8732c5a317a349986a4078718f1d95b67072c5"
+SCRIPT_COMMIT="bf901dee5d4c46609645e50311c0cb2dfdcf9738"
 
 ffbuild_enabled() {
     return 0
