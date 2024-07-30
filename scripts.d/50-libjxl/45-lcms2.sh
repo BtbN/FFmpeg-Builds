@@ -27,7 +27,9 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    meson "${myconf[@]}" ..
+    export CFLAGS="$CFLAGS -fpermissive"
+
+    meson setup "${myconf[@]}" ..
     ninja -j$(nproc)
     ninja install
 }
