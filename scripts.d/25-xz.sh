@@ -1,17 +1,18 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/ultravideo/kvazaar.git"
-SCRIPT_COMMIT="a7aeb2361f8d1e5dc575d05c9ab563f47bdcd235"
+SCRIPT_REPO="https://github.com/tukaani-project/xz.git"
+SCRIPT_COMMIT="bf901dee5d4c46609645e50311c0cb2dfdcf9738"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
+    ./autogen.sh --no-po4a --no-doxygen
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --disable-symbol-versions
         --disable-shared
         --enable-static
         --with-pic
@@ -29,15 +30,12 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
-
-    echo "Cflags.private: -DKVZ_STATIC_LIB" >> "$FFBUILD_PREFIX"/lib/pkgconfig/kvazaar.pc
-    echo "Libs.private: -lpthread" >> "$FFBUILD_PREFIX"/lib/pkgconfig/kvazaar.pc
 }
 
 ffbuild_configure() {
-    echo --enable-libkvazaar
+    echo --enable-lzma
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libkvazaar
+    echo --disable-lzma
 }
