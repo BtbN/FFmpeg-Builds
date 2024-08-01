@@ -37,8 +37,10 @@ cat <<EOF >"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
-    git apply "../../fuze/0008-Add-eval-functions.patch"  # fuze: add our capabilities 1
-    # git apply "../../fuze/0006-Add-glsl-and-gltransition-filters.patch"  # fuze: add our capabilities 2
+    git apply "../../medal/0008-Add-eval-functions.patch"  # fuze capabilities 1
+    # git apply "../../medal/0006-Add-glsl-and-gltransition-filters.patch"  # fuze capabilities 2
+
+    git apply "../../medal/0001-avfilter-select-Add-option-to-accumulate-MAFD.patch"
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \
@@ -51,7 +53,7 @@ EOF
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
-docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh -v "$PWD/patches/fuze":/fuze "$IMAGE" bash /build.sh
+docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh -v "$PWD/patches/medal":/medal "$IMAGE" bash /build.sh
 
 mkdir -p artifacts
 ARTIFACTS_PATH="$PWD/artifacts"

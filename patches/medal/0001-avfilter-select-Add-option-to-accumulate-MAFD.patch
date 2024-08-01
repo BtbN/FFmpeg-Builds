@@ -1,0 +1,56 @@
+diff --git a/libavfilter/f_select.c b/libavfilter/f_select.c
+index 7402d3169f..c989674d1f 100644
+--- a/libavfilter/f_select.c
++++ b/libavfilter/f_select.c
+@@ -166,9 +166,11 @@ typedef struct SelectContext {
+     ff_scene_sad_fn sad;            ///< Sum of the absolute difference function (scene detect only)
+     double prev_mafd;               ///< previous MAFD                           (scene detect only)
+     AVFrame *prev_picref;           ///< previous frame                          (scene detect only)
++    double total_mafd;              ///< total MAFD                              (scene detect only)
+     double select;
+     int select_out;                 ///< mark the selected output pad index
+     int nb_outputs;
++    int accumulate_mafd;
+ } SelectContext;
+ 
+ #define OFFSET(x) offsetof(SelectContext, x)
+@@ -178,6 +180,7 @@ static const AVOption filt_name##_options[] = {                     \
+     { "e",    "set an expression to use for selecting frames", OFFSET(expr_str), AV_OPT_TYPE_STRING, { .str = "1" }, .flags=FLAGS }, \
+     { "outputs", "set the number of outputs", OFFSET(nb_outputs), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, .flags=FLAGS }, \
+     { "n",       "set the number of outputs", OFFSET(nb_outputs), AV_OPT_TYPE_INT, {.i64 = 1}, 1, INT_MAX, .flags=FLAGS }, \
++    { "accumulate_mafd", "Accumulate the mafd to decide scene change", OFFSET(accumulate_mafd), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, .flags=FLAGS }, \
+     { NULL }                                                            \
+ }
+ 
+@@ -307,9 +310,17 @@ static double get_scene_score(AVFilterContext *ctx, AVFrame *frame)
+         }
+ 
+         mafd = (double)sad / count / (1ULL << (select->bitdepth - 8));
+-        diff = fabs(mafd - select->prev_mafd);
+-        ret  = av_clipf(FFMIN(mafd, diff) / 100., 0, 1);
+-        select->prev_mafd = mafd;
++        if (select->accumulate_mafd)
++        {
++            select->total_mafd += (mafd / 100.0);
++            ret = select->total_mafd;
++        }
++        else
++        {
++            diff = fabs(mafd - select->prev_mafd);
++            ret  = av_clipf(FFMIN(mafd, diff) / 100., 0, 1);
++            select->prev_mafd = mafd;
++        }
+         av_frame_free(&prev_picref);
+     }
+     select->prev_picref = av_frame_clone(frame);
+@@ -410,8 +421,10 @@ FF_ENABLE_DEPRECATION_WARNINGS
+         select->select_out = -1; /* drop */
+     } else if (isnan(res) || res < 0) {
+         select->select_out = 0; /* first output */
++        select->total_mafd = 0;
+     } else {
+         select->select_out = FFMIN(ceilf(res)-1, select->nb_outputs-1); /* other outputs */
++        select->total_mafd = 0;
+     }
+ 
+     av_log(inlink->dst, AV_LOG_DEBUG, " -> select:%f select_out:%d\n", res, select->select_out);
