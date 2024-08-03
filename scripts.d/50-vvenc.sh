@@ -4,6 +4,7 @@ SCRIPT_REPO="https://github.com/fraunhoferhhi/vvenc.git"
 SCRIPT_COMMIT="c306b2cfaca7a4da50b6d6195f277430524b1a7d"
 
 ffbuild_enabled() {
+    [[ $TARGET != *32 ]] || return -1
     (( $(ffbuild_ffver) > 700 )) || return -1
     return 0
 }
