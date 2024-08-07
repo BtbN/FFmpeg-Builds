@@ -1,10 +1,6 @@
 name: Build FFmpeg
 
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
   workflow_dispatch:
     inputs:
       doRelease:
@@ -108,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,winarm64,linux64,linuxarm64]
+        target: [win64] # Choose targets here if you want specific ones
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -163,8 +159,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
+        target: [win64] # Choose targets here if you want specific ones
+        variant: [lgpl-shared 7.0] # Only build this variant
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -228,8 +224,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
+        target: [win64] # Choose targets here if you want specific ones
+        variant: [lgpl-shared 7.0] # Only build this variant
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -258,7 +254,7 @@ jobs:
           path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
+    if: ${{ !cancelled() && github.event.inputs.doRelease == 'true' && needs.build_ffmpeg.result == 'success' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
