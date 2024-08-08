@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/libgme/game-music-emu.git"
 SCRIPT_COMMIT="b667f79dcee5c380541dc90630bb33931be378c7"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

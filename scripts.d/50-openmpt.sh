@@ -4,8 +4,9 @@ SCRIPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
 SCRIPT_REV="21309"
 
 ffbuild_enabled() {
-    [[ $TARGET == winarm64 ]] && return -1
-    return 0
+    return -1
+    # [[ $TARGET == winarm64 ]] && return -1
+    # return 0
 }
 
 ffbuild_dockerdl() {

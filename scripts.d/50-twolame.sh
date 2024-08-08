@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/njh/twolame.git"
 SCRIPT_COMMIT="90b694b6125dbe23a346bd5607a7fb63ad2785dc"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

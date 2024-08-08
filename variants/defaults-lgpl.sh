@@ -1,4 +1,4 @@
-FF_CONFIGURE="--enable-version3 --disable-debug"
+FF_CONFIGURE="--enable-version3 --disable-debug --enable-gray --enable-gnutls --enable-opengl"
 FF_CFLAGS=""
 FF_CXXFLAGS=""
 FF_LDFLAGS=""

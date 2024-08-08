@@ -4,7 +4,7 @@ SCRIPT_REPO="https://code.videolan.org/videolan/libbluray.git"
 SCRIPT_COMMIT="bb5bc108ec695889855f06df338958004ff289ef"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/libass/libass.git"
 SCRIPT_COMMIT="c5bb87e2f5d6c18763b4614817c206a4f4d2332a"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
