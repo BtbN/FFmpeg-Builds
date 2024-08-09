@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.26.0.93_a87bf7f Configuration
+# crosstool-NG 1.26.0.106_ed12fa6 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.26.0.93_a87bf7f"
+CT_VERSION="1.26.0.106_ed12fa6"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -275,6 +275,7 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_6_10 is not set
 # CT_LINUX_V_6_9 is not set
 # CT_LINUX_V_6_8 is not set
 # CT_LINUX_V_6_7 is not set
@@ -468,6 +469,7 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
+# CT_GLIBC_V_2_40 is not set
 # CT_GLIBC_V_2_39 is not set
 # CT_GLIBC_V_2_38 is not set
 # CT_GLIBC_V_2_37 is not set
@@ -619,7 +621,7 @@ CT_GCC_V_14=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="14.1.0"
+CT_GCC_VERSION="14.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
