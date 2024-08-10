@@ -35,7 +35,7 @@ ffbuild_dockerbuild() {
 
     {
         echo "Cflags.private: -DZMQ_NO_EXPORT -DZMQ_STATIC"
-        echo "Libs.private: -lws2_32 -liphlpapi"
+        [[ $TARGET != win* ]] || echo "Libs.private: -lws2_32 -liphlpapi"
     } >> "$FFBUILD_PREFIX"/lib/pkgconfig/libzmq.pc
 }
 
