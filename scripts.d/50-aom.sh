@@ -5,6 +5,8 @@ SCRIPT_COMMIT="5632ebed19fc472dae0cbe26a89552af0ee814dd"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
+    # GCC segfaults, remove when fixed
+    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
