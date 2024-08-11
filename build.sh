@@ -10,6 +10,8 @@ for addin in ${ADDINS[*]}; do
     source "addins/${addin}.sh"
 done
 
+ffmpeg_ver=$(ffbuild_ffver)
+
 TESTFILE="uidtestfile"
 rm -f "$TESTFILE"
 docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" touch "/uidtestdir/$TESTFILE"
@@ -37,7 +39,7 @@ cat <<EOF >"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
-    if (( \$(ffbuild_ffver) >= 700 )); then
+    if (( $ffmpeg_ver >= 700 )); then
         git apply "../../medal/0008-Add-eval-functions.patch"  # fuze capabilities 1
         # git apply "../../medal/0006-Add-glsl-and-gltransition-filters.patch"  # fuze capabilities 2
 
