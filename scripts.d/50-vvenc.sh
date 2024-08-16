@@ -4,6 +4,7 @@ SCRIPT_REPO="https://github.com/fraunhoferhhi/vvenc.git"
 SCRIPT_COMMIT="c306b2cfaca7a4da50b6d6195f277430524b1a7d"
 
 ffbuild_enabled() {
+    [[ $TARGET != *32 ]] || return -1
     (( $(ffbuild_ffver) > 700 )) || return -1
     return 0
 }
@@ -15,8 +16,10 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == *arm* ]]; then
         armsimd+=( -DVVENC_ENABLE_ARM_SIMD=ON )
 
-        export CFLAGS="$CFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
-        export CXXFLAGS="$CXXFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
+        if [[ "$CC" != *clang* ]]; then
+            export CFLAGS="$CFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
+            export CXXFLAGS="$CXXFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
+        fi
     fi
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_BUILD_TYPE=Release \
