@@ -2,11 +2,11 @@
 
 Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest release branch.
 
-Windows builds are targetting Windows 7* and newer.
+Windows builds are targetting Windows 10 22H2* and newer.
 
 Linux builds are targetting RHEL/CentOS 8 (glibc-2.28 + linux-4.18) and anything more recent.
 
-*Notice: Currently, People are experiencing issues with Windows 7. The cause of this is under investigation.
+*Windows 7 is still supported, however I do not provide builds for windows 7.
 ## Auto-Builds
 
 Builds run daily at 12:00 UTC (or GitHubs idea of that time) and are automatically released on success.
