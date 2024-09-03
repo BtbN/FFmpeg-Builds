@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-SCRIPT_COMMIT="576d31d5eb4012f2feb9cc0fef25be0d3a5f45c4"
+SCRIPT_COMMIT="0d94621c1e182f5a13a9504523afcb01ec546b37"
 
 ffbuild_enabled() {
     return 0
