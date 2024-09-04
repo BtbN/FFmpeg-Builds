@@ -38,13 +38,15 @@ cat <<EOF >"$BUILD_SCRIPT"
 
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
-
-    if (( $ffmpeg_ver >= 700 )); then
-        git apply "../../medal/0008-Add-eval-functions.patch"  # fuze capabilities 1
-        # git apply "../../medal/0006-Add-glsl-and-gltransition-filters.patch"  # fuze capabilities 2
-
-        git apply "../../medal/0001-avfilter-select-Add-option-to-accumulate-MAFD.patch"
+    if (( $ffmpeg_ver >= 710 )); then
+        git apply "../../medal/0008-Add-eval-functions-71.patch"
+    elif (( $ffmpeg_ver >= 700 )); then
+        git apply "../../medal/0008-Add-eval-functions-70.patch"
     fi
+
+    git apply "../../medal/0001-avfilter-select-Add-option-to-accumulate-MAFD.patch"
+    git apply "../../medal/0002-avformat-mov-read-track-title.patch"
+    git apply "../../medal/0003-avformat-read-udta-in-track-boxes.patch"
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \

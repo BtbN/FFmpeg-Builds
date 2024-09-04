@@ -1,0 +1,23 @@
+diff --git a/libavformat/mov.c b/libavformat/mov.c
+index 0f7b910a79..a72b481b72 100644
+--- a/libavformat/mov.c
++++ b/libavformat/mov.c
+@@ -555,7 +555,17 @@ retry:
+             str[str_size] = 0;
+         }
+         c->fc->event_flags |= AVFMT_EVENT_FLAG_METADATA_UPDATED;
+-        av_dict_set(&c->fc->metadata, key, str, 0);
++
++        if (c->trak_index >= 0) {
++            if (c->trak_index < c->fc->nb_streams) {
++                av_dict_set(&c->fc->streams[c->trak_index]->metadata, key, str, 0);
++            } else {
++                av_log(c->fc, AV_LOG_DEBUG, "current trck idx=%d > streams=%d\n", c->trak_index, c->fc->nb_streams);
++            }
++        } else {
++            av_dict_set(&c->fc->metadata, key, str, 0);
++        }
++
+         if (*language && strcmp(language, "und")) {
+             snprintf(key2, sizeof(key2), "%s-%s", key, language);
+             av_dict_set(&c->fc->metadata, key2, str, 0);
