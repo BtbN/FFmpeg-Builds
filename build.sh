@@ -10,13 +10,11 @@ for addin in ${ADDINS[*]}; do
     source "addins/${addin}.sh"
 done
 
-TESTFILE="uidtestfile"
-rm -f "$TESTFILE"
-docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
-rm -f "$TESTFILE"
-[[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
-unset TESTFILE
+if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
+    UIDARGS=()
+else
+    UIDARGS=( -u "$(id -u):$(id -g)" )
+fi
 
 rm -rf ffbuild
 mkdir ffbuild
