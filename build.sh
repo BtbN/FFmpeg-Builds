@@ -46,6 +46,7 @@ cat <<EOF >"$BUILD_SCRIPT"
 
     git apply "../../medal/0001-avfilter-select-Add-option-to-accumulate-MAFD.patch"
     git apply "../../medal/0002-avformat-mov-read-track-title.patch"
+    git apply "../../medal/0003-avformat-read-udta-in-track-boxes.patch"
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \
