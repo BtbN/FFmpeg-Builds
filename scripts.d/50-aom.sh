@@ -5,7 +5,7 @@ SCRIPT_COMMIT="a42ea198de1e1438f5ee462bd599d082c924bc35"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
-    return 0
+    return -1 # using SVT-AV1 and dav1d
 }
 
 ffbuild_dockerstage() {

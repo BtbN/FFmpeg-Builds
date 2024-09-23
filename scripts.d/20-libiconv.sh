@@ -7,7 +7,7 @@ SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
 SCRIPT_COMMIT2="cc292ecda26359d5a80989bdbd1633f2f0721628"
 
 ffbuild_enabled() {
-    return 0
+    return -1 # unused by Medal
 }
 
 ffbuild_dockerdl() {

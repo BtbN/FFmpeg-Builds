@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/GNOME/libxml2.git"
 SCRIPT_COMMIT="d67833a3c5db7999820a73e356327d47ec76bea9"
 
 ffbuild_enabled() {
-    return 0
+    return -1 # unused by Medal
 }
 
 ffbuild_dockerbuild() {
