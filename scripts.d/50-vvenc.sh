@@ -6,7 +6,7 @@ SCRIPT_COMMIT="0e7d4d34b00eedfccc79a3014f9701ae3599dcc0"
 ffbuild_enabled() {
     [[ $TARGET != *32 ]] || return -1
     (( $(ffbuild_ffver) > 700 )) || return -1
-    return 0
+    return -1 # unused by Medal
 }
 
 ffbuild_dockerbuild() {

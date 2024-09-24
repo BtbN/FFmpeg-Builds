@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/Haivision/srt.git"
 SCRIPT_COMMIT="a7b3711a8a862e697f641b296743cc7c921f5fba"
 
 ffbuild_enabled() {
-    return 0
+    return -1 # unused by Medal
 }
 
 ffbuild_dockerbuild() {
