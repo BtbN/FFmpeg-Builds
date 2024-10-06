@@ -21,7 +21,6 @@ ffbuild_dockerbuild() {
         no-tests
         no-apps
         no-legacy
-        no-ssl2
         no-ssl3
         enable-camellia
         enable-ec
