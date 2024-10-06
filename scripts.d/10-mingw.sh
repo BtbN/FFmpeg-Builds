@@ -10,8 +10,8 @@ ffbuild_enabled() {
 
 ffbuild_dockerlayer() {
     [[ $TARGET == winarm* ]] && return 0
-    to_df "COPY --from=${SELFLAYER} /opt/mingw/. /"
-    to_df "COPY --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
+    to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /"
+    to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 
 ffbuild_dockerfinal() {
