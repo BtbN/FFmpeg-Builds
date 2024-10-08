@@ -13,14 +13,16 @@ To build `win32` target, comparing to `https://github.com/BtbN/FFmpeg-Builds`, t
 
     ```YAML
     # SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-    # SCRIPT_COMMIT="14315e632e362c6925737ccdf62eb11af63e2ef6"
+    # SCRIPT_COMMIT="8f7b5ce363fbfa9d66a38034525cf0fdae4385a3"
     SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"
     # 11.0.0
     # SCRIPT_COMMIT="f9500e2d85b9400c0982518663660a127e1dc61a"
     # 11.0.1
     # SCRIPT_COMMIT="c3e587c067a00a561899d49d3e63a659e38802ec"
+    # 12.0.0
+    SCRIPT_COMMIT="819a6ec2ea87c19814b287e21d65e0dc7f05abba"
     # Latest
-    SCRIPT_COMMIT="257321cea601182e515d4ba9e04309bc5152360c"
+    # SCRIPT_COMMIT="8700091928df67b2ee69ec46ac6f2c369a3e8c21"
     ```
 
 ## Permission
