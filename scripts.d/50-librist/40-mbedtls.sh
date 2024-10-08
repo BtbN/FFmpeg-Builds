@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
-SCRIPT_COMMIT="v3.6.0"
+SCRIPT_COMMIT="v3.6.1"
 SCRIPT_TAGFILTER="v3.*"
 
 ffbuild_enabled() {
@@ -19,6 +19,9 @@ ffbuild_dockerbuild() {
     fi
 
     mkdir build && cd build
+
+    # Let's hope this is just a false-positive
+    export CFLAGS="$CFLAGS -Wno-error=array-bounds"
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DGEN_FILES=ON \

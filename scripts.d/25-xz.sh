@@ -1,28 +1,21 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://svn.code.sf.net/p/lame/svn/trunk/lame"
-SCRIPT_REV="6531"
+SCRIPT_REPO="https://github.com/tukaani-project/xz.git"
+SCRIPT_COMMIT="dbca3d078ec581600600abebbb18769d3d713914"
 
 ffbuild_enabled() {
     return 0
 }
 
-ffbuild_dockerdl() {
-    echo "retry-tool sh -c \"rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\" && cd lame"
-}
-
 ffbuild_dockerbuild() {
-    autoreconf -i
+    ./autogen.sh --no-po4a --no-doxygen
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
+        --disable-symbol-versions
         --disable-shared
         --enable-static
-        --enable-nasm
-        --disable-gtktest
-        --disable-cpml
-        --disable-frontend
-        --disable-decoder
+        --with-pic
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
@@ -34,17 +27,15 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export CFLAGS="$CFLAGS -DNDEBUG -Wno-error=incompatible-pointer-types"
-
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
 }
 
 ffbuild_configure() {
-    echo --enable-libmp3lame
+    echo --enable-lzma
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libmp3lame
+    echo --disable-lzma
 }

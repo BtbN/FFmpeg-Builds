@@ -1,5 +1,6 @@
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_SYSTEM_VERSION 10.0.22621.2428)
 
 set(triple aarch64-w64-mingw32)
 

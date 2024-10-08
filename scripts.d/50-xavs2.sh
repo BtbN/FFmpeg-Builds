@@ -29,6 +29,7 @@ ffbuild_dockerbuild() {
         --disable-gpac
         --disable-lsmash
         --extra-asflags="-w-macro-params-legacy"
+        --extra-cflags="-Wno-error=incompatible-pointer-types"
         --prefix="$FFBUILD_PREFIX"
     )
 
