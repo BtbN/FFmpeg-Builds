@@ -4,7 +4,7 @@
 # SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
 # SCRIPT_COMMIT="8f7b5ce363fbfa9d66a38034525cf0fdae4385a3"
 # Mirror
-# SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"
+SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"
 # 11.0.0
 # SCRIPT_COMMIT="f9500e2d85b9400c0982518663660a127e1dc61a"
 # 11.0.1
