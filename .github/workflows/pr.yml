@@ -17,19 +17,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [lgpl,gpl 6.1,gpl 5.1,lgpl 6.1,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 5.1]
+        target: [linux64]
+        variant: [gpl 6.1]
         quickbuild: [1]
         include:
-          - target: win64
-            variant: gpl
-            quickbuild: ''
+#          - target: win64
+#            variant: gpl
+#            quickbuild: ''
           - target: linux64
             variant: gpl
             quickbuild: ''
-          - target: linuxarm64
-            variant: gpl
-            quickbuild: ''
+#          - target: linuxarm64
+#            variant: gpl
+#            quickbuild: ''
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
