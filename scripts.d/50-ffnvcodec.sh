@@ -35,11 +35,11 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-ffnvcodec --enable-cuda-llvm
+    echo --enable-ffnvcodec --enable-cuda-llvm --enable-cuda --enable-libnpp
 }
 
 ffbuild_unconfigure() {
-    echo --disable-ffnvcodec --disable-cuda-llvm
+    echo --disable-ffnvcodec --disable-cuda-llvm --disable-cuda --disable-libnpp
 }
 
 ffbuild_cflags() {
