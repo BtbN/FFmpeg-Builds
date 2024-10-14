@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'LICENSE'
+      - '11'
 
 env:
   DOCKER_BUILDKIT: 1
