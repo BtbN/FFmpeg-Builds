@@ -3,13 +3,11 @@ set -xe
 cd "$(dirname "$0")"
 source util/vars.sh dl only
 
-TESTFILE="uidtestfile"
-rm -f "$TESTFILE"
-docker run --rm -v "$PWD:/uidtestdir" "${REGISTRY}/${REPO}/base:latest" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
-rm -f "$TESTFILE"
-[[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
-unset TESTFILE
+if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
+    UIDARGS=()
+else
+    UIDARGS=( -u "$(id -u):$(id -g)" )
+fi
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 

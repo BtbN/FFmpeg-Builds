@@ -2,8 +2,7 @@ ARG GH_REPO=ghcr.io/btbn/ffmpeg-builds
 FROM $GH_REPO/base:latest
 
 RUN --mount=src=ct-ng-config,dst=/.config \
-    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && git checkout 5a1dc8d95d29f23f346625dec690ae0eb229d560 && \
-    curl "https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=747c4b58573ea00419f64293a61537eb69f43307" > packages/gcc/14.1.0/9999-fix-inline.patch && \
+    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
     ./bootstrap && \
     ./configure --enable-local && \
     make -j$(nproc) && \

@@ -2,7 +2,8 @@
 
 Static Windows (x86_64) and Linux (x86_64) Builds of ffmpeg master and latest release branch.
 
-Windows builds are targetting Windows 7 and newer.
+Windows builds are targetting Windows 7 and newer, provided UCRT is installed.
+The minimum supported version is Windows 10 22H2, no guarantees on anything older.
 
 Linux builds are targetting RHEL/CentOS 8 (glibc-2.28 + linux-4.18) and anything more recent.
 

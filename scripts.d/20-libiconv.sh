@@ -1,7 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-SCRIPT_COMMIT="576d31d5eb4012f2feb9cc0fef25be0d3a5f45c4"
+SCRIPT_COMMIT="eed6782cbb4651876e3c8b27ea53273f230ee8e2"
+
+SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
+SCRIPT_COMMIT2="cc292ecda26359d5a80989bdbd1633f2f0721628"
 
 ffbuild_enabled() {
     return 0
@@ -9,7 +12,7 @@ ffbuild_enabled() {
 
 ffbuild_dockerdl() {
     echo "retry-tool sh -c \"rm -rf iconv && git clone '$SCRIPT_REPO' iconv\" && git -C iconv checkout \"$SCRIPT_COMMIT\""
-    echo "cd iconv && retry-tool ./autopull.sh --one-time"
+    echo "cd iconv && retry-tool sh -c \"rm -rf gnulib && git clone '$SCRIPT_REPO2' gnulib\" && git -C gnulib checkout \"$SCRIPT_COMMIT2\" && rm -rf gnulib/.git"
 }
 
 ffbuild_dockerbuild() {
