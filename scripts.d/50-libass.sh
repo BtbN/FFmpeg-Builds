@@ -1,10 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libass/libass.git"
-SCRIPT_COMMIT="c5bb87e2f5d6c18763b4614817c206a4f4d2332a"
+SCRIPT_COMMIT="5298859c298d3c570d8d7e3b883a0d63490659b8"
 
 ffbuild_enabled() {
-    return -1
+    return -1 # unused
 }
 
 ffbuild_dockerbuild() {

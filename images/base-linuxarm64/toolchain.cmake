@@ -1,5 +1,6 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_SYSTEM_VERSION 4.18.20)
 
 set(triple aarch64-ffbuild-linux-gnu)
 

@@ -12,13 +12,11 @@ done
 
 ffmpeg_ver=$(ffbuild_ffver)
 
-TESTFILE="uidtestfile"
-rm -f "$TESTFILE"
-docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
-rm -f "$TESTFILE"
-[[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
-unset TESTFILE
+if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
+    UIDARGS=()
+else
+    UIDARGS=( -u "$(id -u):$(id -g)" )
+fi
 
 rm -rf ffbuild
 mkdir ffbuild
@@ -42,6 +40,8 @@ cat <<EOF >"$BUILD_SCRIPT"
         git apply "../../medal/0008-Add-eval-functions-71.patch"
     elif (( $ffmpeg_ver >= 700 )); then
         git apply "../../medal/0008-Add-eval-functions-70.patch"
+    else
+        git apply "../../medal/0007-Add-eval-functions-original.patch"
     fi
 
     git apply "../../medal/0001-avfilter-select-Add-option-to-accumulate-MAFD.patch"

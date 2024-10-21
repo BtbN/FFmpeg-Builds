@@ -1,10 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/dav1d.git"
-SCRIPT_COMMIT="2355eeb8f254a1c34dbb0241be5c70cdf6ed46d1"
+SCRIPT_COMMIT="21d9f29d388c230a7fe4e964397399247162bd5e"
 
 ffbuild_enabled() {
-    return -1
+    return -1 # unused
 }
 
 ffbuild_dockerbuild() {
