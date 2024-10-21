@@ -5,7 +5,7 @@ SCRIPT_COMMIT="v3.6.1"
 SCRIPT_TAGFILTER="v3.*"
 
 ffbuild_enabled() {
-    return -1
+    return -1 # unused
 }
 
 ffbuild_dockerdl() {

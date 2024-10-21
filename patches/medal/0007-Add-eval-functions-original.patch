@@ -1,0 +1,348 @@
+diff --git a/libavfilter/boxblur.c b/libavfilter/boxblur.c
+index 2287396f2e..8ae9612c75 100644
+--- a/libavfilter/boxblur.c
++++ b/libavfilter/boxblur.c
+@@ -29,6 +29,9 @@ static const char *const var_names[] = {
+     "ch",
+     "hsub",
+     "vsub",
++    "n",
++    "pos",
++    "t",
+     NULL
+ };
+
+@@ -39,14 +42,19 @@ enum var_name {
+     VAR_CH,
+     VAR_HSUB,
+     VAR_VSUB,
++    VAR_N,
++    VAR_POS,
++    VAR_T,
+     VARS_NB
+ };
+
+
+ int ff_boxblur_eval_filter_params(AVFilterLink *inlink,
++                                  AVFrame      *in,
+                                   FilterParam *luma_param,
+                                   FilterParam *chroma_param,
+-                                  FilterParam *alpha_param)
++                                  FilterParam *alpha_param,
++                                  int         *hasTemporalExpressions)
+ {
+     const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(inlink->format);
+     AVFilterContext *ctx = inlink->dst;
+@@ -55,6 +63,7 @@ int ff_boxblur_eval_filter_params(AVFilterLink *inlink,
+     double var_values[VARS_NB], res;
+     char *expr;
+     int ret;
++    int64_t pos;
+
+     if (!luma_param->radius_expr) {
+         av_log(ctx, AV_LOG_ERROR, "Luma radius expression is not set.\n");
+@@ -85,8 +94,22 @@ int ff_boxblur_eval_filter_params(AVFilterLink *inlink,
+     var_values[VAR_HSUB]    = 1<<(desc->log2_chroma_w);
+     var_values[VAR_VSUB]    = 1<<(desc->log2_chroma_h);
+
++    if (in){
++        pos = in->pkt_pos;
++        var_values[VAR_N] = inlink->frame_count_out;
++        var_values[VAR_T] = in->pts == AV_NOPTS_VALUE ? NAN : in->pts * av_q2d(inlink->time_base);
++        var_values[VAR_POS] = pos == -1 ? NAN : pos;
++    } else {
++        var_values[VAR_N] = inlink->frame_count_out;
++        var_values[VAR_T] = 0;
++        var_values[VAR_POS] = NAN;
++    }
++
+ #define EVAL_RADIUS_EXPR(comp)                                          \
+     expr = comp->radius_expr;                                           \
++    if (!in && strchr(expr, 't')){                                      \
++        *hasTemporalExpressions = 1;                                    \
++    }                                                                   \
+     ret = av_expr_parse_and_eval(&res, expr, var_names, var_values,     \
+                                  NULL, NULL, NULL, NULL, NULL, 0, ctx); \
+     comp->radius = res;                                                 \
+diff --git a/libavfilter/boxblur.h b/libavfilter/boxblur.h
+index 214d4e0c93..340a7ef8dd 100644
+--- a/libavfilter/boxblur.h
++++ b/libavfilter/boxblur.h
+@@ -25,6 +25,7 @@
+
+ #include "libavutil/eval.h"
+ #include "libavutil/pixdesc.h"
++#include "libavutil/mathematics.h"
+
+ #include "avfilter.h"
+
+@@ -40,8 +41,10 @@ typedef struct FilterParam {
+ #define A 3
+
+ int ff_boxblur_eval_filter_params(AVFilterLink *inlink,
++                                  AVFrame      *in,
+                                   FilterParam *luma_param,
+                                   FilterParam *chroma_param,
+-                                  FilterParam *alpha_param);
++                                  FilterParam *alpha_param,
++                                  int *hasTemporalExpressions);
+
+ #endif // AVFILTER_BOXBLUR_H
+
+diff --git a/libavfilter/vf_avgblur_opencl.c b/libavfilter/vf_avgblur_opencl.c
+index 53cd1b8f48..e685d46907 100644
+--- a/libavfilter/vf_avgblur_opencl.c
++++ b/libavfilter/vf_avgblur_opencl.c
+@@ -113,9 +113,11 @@ static int boxblur_opencl_make_filter_params(AVFilterLink *inlink)
+     int err, i;
+
+     err = ff_boxblur_eval_filter_params(inlink,
++                                        (AVFrame *)0,
+                                         &s->luma_param,
+                                         &s->chroma_param,
+-                                        &s->alpha_param);
++                                        &s->alpha_param,
++                                        (int *)0);
+
+     if (err != 0) {
+         av_log(ctx, AV_LOG_ERROR, "Failed to evaluate "
+
+diff --git a/libavfilter/vf_boxblur.c b/libavfilter/vf_boxblur.c
+index e13c2472b3..02b79a83c6 100644
+--- a/libavfilter/vf_boxblur.c
++++ b/libavfilter/vf_boxblur.c
+@@ -45,6 +45,7 @@ typedef struct BoxBlurContext {
+     int radius[4];
+     int power[4];
+     uint8_t *temp[2]; ///< temporary buffer used in blur_power()
++    int hasTemporalExpressions;
+ } BoxBlurContext;
+
+ static av_cold void uninit(AVFilterContext *ctx)
+@@ -88,9 +89,11 @@ static int config_input(AVFilterLink *inlink)
+     s->vsub = desc->log2_chroma_h;
+
+     ret = ff_boxblur_eval_filter_params(inlink,
++                                        (AVFrame *)0,
+                                         &s->luma_param,
+                                         &s->chroma_param,
+-                                        &s->alpha_param);
++                                        &s->alpha_param,
++                                        &s->hasTemporalExpressions);
+
+     if (ret != 0) {
+         av_log(ctx, AV_LOG_ERROR, "Failed to evaluate "
+@@ -231,6 +234,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
+     AVFilterLink *outlink = inlink->dst->outputs[0];
+     AVFrame *out;
+     int plane;
++    int ret;
+     int cw = AV_CEIL_RSHIFT(inlink->w, s->hsub), ch = AV_CEIL_RSHIFT(in->height, s->vsub);
+     int w[4] = { inlink->w, cw, cw, inlink->w };
+     int h[4] = { in->height, ch, ch, in->height };
+@@ -244,6 +248,27 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
+         return AVERROR(ENOMEM);
+     }
+     av_frame_copy_props(out, in);
++    if (s->hasTemporalExpressions){
++        ret = ff_boxblur_eval_filter_params(inlink,
++                                      in,
++                                      &s->luma_param,
++                                      &s->chroma_param,
++                                      &s->alpha_param,
++                                      &s->hasTemporalExpressions);
++        if (ret != 0) {
++            av_log(ctx, AV_LOG_ERROR, "Failed to evaluate "
++                   "filter params: %d.\n", ret);
++            return ret;
++        }
++
++        s->radius[Y] = s->luma_param.radius;
++        s->radius[U] = s->radius[V] = s->chroma_param.radius;
++        s->radius[A] = s->alpha_param.radius;
++
++        s->power[Y] = s->luma_param.power;
++        s->power[U] = s->power[V] = s->chroma_param.power;
++        s->power[A] = s->alpha_param.power;
++    }
+
+     for (plane = 0; plane < 4 && in->data[plane] && in->linesize[plane]; plane++)
+         hblur(out->data[plane], out->linesize[plane],
+
+
+diff --git a/libavutil/eval.c b/libavutil/eval.c
+index d0bada9b31..7dd49de0e7 100644
+--- a/libavutil/eval.c
++++ b/libavutil/eval.c
+@@ -162,8 +162,9 @@ struct AVExpr {
+         e_pow, e_mul, e_div, e_add,
+         e_last, e_st, e_while, e_taylor, e_root, e_floor, e_ceil, e_trunc, e_round,
+         e_sqrt, e_not, e_random, e_hypot, e_gcd,
+-        e_if, e_ifnot, e_print, e_bitand, e_bitor, e_between, e_clip, e_atan2, e_lerp,
+-        e_sgn,
++        e_if, e_ifnot, e_print, e_bitand, e_bitor, e_between, e_between2, e_between3, e_clip, e_atan2, e_lerp,
++        e_sgn, e_easein_sine, e_easeout_sine, e_easeinout_sine,
++        e_easein_quart, e_easeout_quart, e_easeinout_quart,
+     } type;
+     double value; // is sign in other types
+     int const_index;
+@@ -172,7 +173,7 @@ struct AVExpr {
+         double (*func1)(void *, double);
+         double (*func2)(void *, double, double);
+     } a;
+-    struct AVExpr *param[3];
++    struct AVExpr *param[4];
+     double *var;
+ };
+
+@@ -217,11 +218,70 @@ static double eval_expr(Parser *p, AVExpr *e)
+             return e->value * (d >= eval_expr(p, e->param[1]) &&
+                                d <= eval_expr(p, e->param[2]));
+         }
++        case e_between2: {
++            double d = eval_expr(p, e->param[0]);
++            return e->value * (d >= eval_expr(p, e->param[1]) &&
++                               d <  eval_expr(p, e->param[2]));
++        }
++        case e_between3: {
++            double d = eval_expr(p, e->param[0]);
++            return e->value * (d >  eval_expr(p, e->param[1]) &&
++                               d <= eval_expr(p, e->param[2]));
++        }
+         case e_lerp: {
+             double v0 = eval_expr(p, e->param[0]);
+-            double v1 = eval_expr(p, e->param[1]);
+             double f  = eval_expr(p, e->param[2]);
+-            return v0 + (v1 - v0) * f;
++			double v1 = (f == 0)? 0: eval_expr(p, e->param[1]);
++			return v0 + f * (v1 - v0);
++        }
++        case e_easein_sine: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            return -c * cos(t/d * (M_PI/2)) + c + b;
++        }
++        case e_easeout_sine: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            return c * sin(t/d * (M_PI/2)) + b;
++        }
++        case e_easeinout_sine: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            return -c/2 * (cos(M_PI*t/d) - 1) + b;
++        }
++        case e_easein_quart: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            t /= d;
++            return c*t*t*t*t + b;
++        }
++        case e_easeout_quart: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            t /= d;
++            t--;
++            return -c * (t*t*t*t - 1) + b;
++        }
++        case e_easeinout_quart: {
++            double t = eval_expr(p, e->param[0]);
++            double b = eval_expr(p, e->param[1]);
++            double c  = eval_expr(p, e->param[2]);
++            double d  = eval_expr(p, e->param[3]);
++            t /= d/2;
++            if (t < 1)
++                return c/2*t*t*t*t + b;
++            t -= 2;
++            return -c/2 * (t*t*t*t - 2) + b;
+         }
+         case e_print: {
+             double x = eval_expr(p, e->param[0]);
+@@ -302,6 +362,14 @@ static double eval_expr(Parser *p, AVExpr *e)
+             p->var[0] = var0;
+             return -low_v<high_v ? low : high;
+         }
++		case e_mul:
++		case e_div: {
++			double d = eval_expr(p, e->param[0]);
++			double d2 = (d == 0)? 1: eval_expr(p, e->param[1]);
++			return e->type == e_mul?
++				e->value * (d * d2):
++				e->value * (d2 ? (d / d2) : d * INFINITY);
++		}
+         default: {
+             double d = eval_expr(p, e->param[0]);
+             double d2 = eval_expr(p, e->param[1]);
+@@ -316,8 +384,6 @@ static double eval_expr(Parser *p, AVExpr *e)
+                 case e_lt:  return e->value * (d <  d2 ? 1.0 : 0.0);
+                 case e_lte: return e->value * (d <= d2 ? 1.0 : 0.0);
+                 case e_pow: return e->value * pow(d, d2);
+-                case e_mul: return e->value * (d * d2);
+-                case e_div: return e->value * (d2 ? (d / d2) : d * INFINITY);
+                 case e_add: return e->value * (d + d2);
+                 case e_last:return e->value * d2;
+                 case e_st : return e->value * (p->var[av_clip(d, 0, VARS-1)]= d2);
+@@ -415,6 +481,10 @@ static int parse_primary(AVExpr **e, Parser *p)
+         p->s++; // ","
+         parse_expr(&d->param[2], p);
+     }
++    if (p->s[0]== ',') {
++        p->s++; // ","
++        parse_expr(&d->param[3], p);
++    }
+     if (p->s[0] != ')') {
+         av_log(p, AV_LOG_ERROR, "Missing ')' or too many args in '%s'\n", s0);
+         av_expr_free(d);
+@@ -469,10 +539,18 @@ static int parse_primary(AVExpr **e, Parser *p)
+     else if (strmatch(next, "bitand")) d->type = e_bitand;
+     else if (strmatch(next, "bitor" )) d->type = e_bitor;
+     else if (strmatch(next, "between"))d->type = e_between;
++    else if (strmatch(next, "gtelt" )) d->type = e_between2;
++    else if (strmatch(next, "gtlte" )) d->type = e_between3;
+     else if (strmatch(next, "clip"  )) d->type = e_clip;
+     else if (strmatch(next, "atan2" )) d->type = e_atan2;
+     else if (strmatch(next, "lerp"  )) d->type = e_lerp;
+     else if (strmatch(next, "sgn"   )) d->type = e_sgn;
++    else if (strmatch(next, "ease_is"  )) d->type = e_easein_sine;
++    else if (strmatch(next, "ease_os"  )) d->type = e_easeout_sine;
++    else if (strmatch(next, "ease_ios" )) d->type = e_easeinout_sine;
++    else if (strmatch(next, "ease_iq"  )) d->type = e_easein_quart;
++    else if (strmatch(next, "ease_oq"  )) d->type = e_easeout_quart;
++    else if (strmatch(next, "ease_ioq" )) d->type = e_easeinout_quart;
+     else {
+         for (i=0; p->func1_names && p->func1_names[i]; i++) {
+             if (strmatch(next, p->func1_names[i])) {
+@@ -673,11 +751,23 @@ static int verify_expr(AVExpr *e)
+             return verify_expr(e->param[0]) && verify_expr(e->param[1])
+                    && (!e->param[2] || verify_expr(e->param[2]));
+         case e_between:
++        case e_between2:
++        case e_between3:
+         case e_clip:
+         case e_lerp:
+             return verify_expr(e->param[0]) &&
+                    verify_expr(e->param[1]) &&
+                    verify_expr(e->param[2]);
++        case e_easein_sine:
++        case e_easeout_sine:
++        case e_easeinout_sine:
++        case e_easein_quart:
++        case e_easeout_quart:
++        case e_easeinout_quart:
++            return verify_expr(e->param[0]) &&
++                   verify_expr(e->param[1]) &&
++                   verify_expr(e->param[2]) &&
++                   verify_expr(e->param[3]);
+         default: return verify_expr(e->param[0]) && verify_expr(e->param[1]) && !e->param[2];
+     }
+ }
