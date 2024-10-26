@@ -227,6 +227,8 @@ jobs:
     if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || success() }}
     needs: build_targets
     runs-on: ubuntu-latest
+    outputs:
+        build_result: ${{ steps.set-output.outputs.success }}
     strategy:
       fail-fast: false
       matrix:
@@ -247,6 +249,7 @@ jobs:
         run: |
           T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
           ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+        continue-on-error: true
       - name: Replace spaces in string
         id: strs
         run: |
@@ -258,9 +261,14 @@ jobs:
           name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
           overwrite: true
           path: artifacts/*
+      - name: Set output
+        if: ${{ success() }}
+        id: set-output
+        run: echo "::set-output name=success::true"
   publish_release:
     name: Publish release
-    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
+    # if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
+    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.outputs.build_result == 'true' }}
     needs: build_ffmpeg
     runs-on: ubuntu-latest
     steps:
