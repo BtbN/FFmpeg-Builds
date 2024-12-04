@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_REPO="http://svn.xvid.org/trunk/xvidcore"
+SCRIPT_REPO="https://svn.xvid.org/trunk/xvidcore"
 SCRIPT_REV="2200"
 
 ffbuild_enabled() {
