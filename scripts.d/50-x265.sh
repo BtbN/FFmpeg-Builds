@@ -20,6 +20,7 @@ ffbuild_dockerbuild() {
         -DENABLE_SHARED=OFF
         -DENABLE_CLI=OFF
         -DCMAKE_ASM_NASM_FLAGS=-w-macro-params-legacy
+        -DENABLE_ALPHA=ON
     )
 
     if [[ $TARGET != *32 ]]; then
