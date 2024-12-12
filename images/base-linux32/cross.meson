@@ -1,0 +1,13 @@
+[binaries]
+c = 'i686-ffbuild-linux-gnu-gcc'
+cpp = 'i686-ffbuild-linux-gnu-g++'
+ld = 'i686-ffbuild-linux-gnu-ld'
+ar = 'i686-ffbuild-linux-gnu-gcc-ar'
+ranlib = 'i686-ffbuild-linux-gnu-gcc-ranlib'
+strip = 'i686-ffbuild-linux-gnu-strip'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'x86'
+cpu = 'i686'
+endian = 'little'
