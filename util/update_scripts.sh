@@ -40,7 +40,7 @@ echo "Processing ${scr}"
 
         if [[ -n "${CUR_REV}" ]]; then # SVN
             echo "Checking svn rev for ${CUR_REPO}..."
-            NEW_REV="$(svn info --password="" "${CUR_REPO}" | grep ^Revision: | cut -d" " -f2 | xargs)"
+            NEW_REV="$(svn --non-interactive info --username "anonymous" --password="" "${CUR_REPO}" | grep ^Revision: | cut -d" " -f2 | xargs)"
             echo "Got ${NEW_REV} (current: ${CUR_REV})"
 
             if [[ "${NEW_REV}" != "${CUR_REV}" ]]; then
