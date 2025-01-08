@@ -1,10 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-SCRIPT_COMMIT="f017cafc5e65de591d76c9cbd4e2298c42b042a3"
+SCRIPT_COMMIT="bc17565f9a4caca27161609c526b776287a8270e"
 
 SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
-SCRIPT_COMMIT2="108fd1f92a42c424685f3cb7937bb323b9795263"
+SCRIPT_COMMIT2="e9c1d94f58eaacee919bb2015da490b980a5eedf"
 
 ffbuild_enabled() {
     return 0
@@ -16,6 +16,9 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    # No automake 1.17 packaged anywhere yet.
+    sed -i 's/-1.17/-1.16/' Makefile.devel
+
     (unset CC CFLAGS GMAKE && ./autogen.sh)
 
     local myconf=(

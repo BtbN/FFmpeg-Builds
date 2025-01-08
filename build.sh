@@ -48,6 +48,13 @@ EOF
 
 docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
 
+if [[ -n "$FFBUILD_OUTPUT_DIR" ]]; then
+    mkdir -p "$FFBUILD_OUTPUT_DIR"
+    package_variant ffbuild/prefix "$FFBUILD_OUTPUT_DIR"
+    rm -rf ffbuild
+    exit 0
+fi
+
 mkdir -p artifacts
 ARTIFACTS_PATH="$PWD/artifacts"
 BUILD_NAME="ffmpeg-$(./ffbuild/ffmpeg/ffbuild/version.sh ffbuild/ffmpeg)-${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}"

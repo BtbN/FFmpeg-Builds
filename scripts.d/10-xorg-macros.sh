@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/util/macros.git"
-SCRIPT_COMMIT="b9f5184ed2e9c019d867ced99020e22abb7c2e53"
+SCRIPT_COMMIT="a9d71e3fd8e6758b70be31c586921bbbcd2a8449"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
