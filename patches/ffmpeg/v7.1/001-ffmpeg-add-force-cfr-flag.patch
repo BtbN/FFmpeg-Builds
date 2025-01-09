@@ -1,0 +1,106 @@
+diff --git a/fftools/ffmpeg.h b/fftools/ffmpeg.h
+index 733d551fa4..06474f1b3c 100644
+--- a/fftools/ffmpeg.h
++++ b/fftools/ffmpeg.h
+@@ -176,6 +176,7 @@ typedef struct OptionsContext {
+     SpecifierOptList hwaccel_output_formats;
+     SpecifierOptList autorotate;
+     SpecifierOptList apply_cropping;
++    SpecifierOptList force_cfr;
+ 
+     /* output options */
+     StreamMap *stream_maps;
+@@ -276,6 +277,9 @@ typedef struct InputFilterOptions {
+      * accurate */
+     AVRational          framerate;
+ 
++    /* convert input stream to CFR at this framerate before inserting additional filters */
++    AVRational                force_cfr;
++
+     unsigned            crop_top;
+     unsigned            crop_bottom;
+     unsigned            crop_left;
+@@ -451,6 +455,9 @@ typedef struct InputStream {
+ 
+     /* framerate forced with -r */
+     AVRational            framerate;
++
++    /* convert input stream to CFR at this framerate before inserting additional filters */
++    AVRational                force_cfr;
+ #if FFMPEG_OPT_TOP
+     int                   top_field_first;
+ #endif
+diff --git a/fftools/ffmpeg_demux.c b/fftools/ffmpeg_demux.c
+index 13aef15eab..9c500b7936 100644
+--- a/fftools/ffmpeg_demux.c
++++ b/fftools/ffmpeg_demux.c
+@@ -1032,6 +1032,10 @@ int ist_filter_add(InputStream *ist, InputFilter *ifilter, int is_simple,
+                 (opts->crop_top | opts->crop_bottom | opts->crop_left | opts->crop_right))
+                 opts->flags |= IFILTER_FLAG_CROP;
+         }
++        if (ist->force_cfr.num > 0 && ist->force_cfr.den > 0) {
++            opts->force_cfr = ist->force_cfr;
++            opts->flags |= IFILTER_FLAG_CFR;
++        }
+     } else if (ist->par->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+         /* Compute the size of the canvas for the subtitles stream.
+            If the subtitles codecpar has set a size, use it. Otherwise use the
+@@ -1241,7 +1245,7 @@ static int ist_add(const OptionsContext *o, Demuxer *d, AVStream *st, AVDictiona
+     AVCodecParameters *par = st->codecpar;
+     DemuxStream *ds;
+     InputStream *ist;
+-    const char *framerate = NULL, *hwaccel_device = NULL;
++    const char *framerate = NULL, *hwaccel_device = NULL, *forcecfr = NULL;
+     const char *hwaccel = NULL;
+     const char *apply_cropping = NULL;
+     const char *hwaccel_output_format = NULL;
+@@ -1437,6 +1441,15 @@ static int ist_add(const OptionsContext *o, Demuxer *d, AVStream *st, AVDictiona
+             }
+         }
+ 
++        opt_match_per_stream_str(ist, &o->force_cfr, ic, st, &forcecfr);
++        if (forcecfr) {
++            ret = av_parse_video_rate(&ist->force_cfr, forcecfr);
++            if (ret < 0) {
++                av_log(ist, AV_LOG_ERROR, "Error parsing framerate %s.\n", forcecfr);
++                return ret;
++            }
++        }
++
+ #if FFMPEG_OPT_TOP
+         ist->top_field_first = -1;
+         opt_match_per_stream_int(ist, &o->top_field_first, ic, st, &ist->top_field_first);
+diff --git a/fftools/ffmpeg_filter.c b/fftools/ffmpeg_filter.c
+index 38c7676a7e..62dd23ebe4 100644
+--- a/fftools/ffmpeg_filter.c
++++ b/fftools/ffmpeg_filter.c
+@@ -1781,6 +1781,15 @@ static int configure_input_video_filter(FilterGraph *fg, AVFilterGraph *graph,
+         ifp->displaymatrix_applied = 1;
+     }
+ 
++    if (ifp->opts.force_cfr.num > 0 && ifp->opts.force_cfr.den > 0) {
++        char force_cfr_buf[64];
++        snprintf(force_cfr_buf, sizeof(force_cfr_buf), "%d/%d",
++                 ifp->opts.force_cfr.num, ifp->opts.force_cfr.den);
++        ret = insert_filter(&last_filter, &pad_idx, "fps", force_cfr_buf);
++        if (ret < 0)
++            return ret;
++    }
++
+     snprintf(name, sizeof(name), "trim_in_%s", ifp->opts.name);
+     ret = insert_trim(ifp->opts.trim_start_us, ifp->opts.trim_end_us,
+                       &last_filter, &pad_idx, name);
+diff --git a/fftools/ffmpeg_opt.c b/fftools/ffmpeg_opt.c
+index f639a1cf0a..ce5aabcb59 100644
+--- a/fftools/ffmpeg_opt.c
++++ b/fftools/ffmpeg_opt.c
+@@ -2033,5 +2033,9 @@ const OptionDef options[] = {
+         "set video sync method globally; deprecated, use -fps_mode", "" },
+ #endif
+ 
++    { "force_cfr", OPT_TYPE_STRING, OPT_VIDEO | OPT_EXPERT | OPT_PERSTREAM | OPT_INPUT,
++        { .off = OFFSET(force_cfr) },
++        "set frame rate (Hz value, fraction or abbreviation)", "force_cfr" },
++
+     { NULL, },
+ };
