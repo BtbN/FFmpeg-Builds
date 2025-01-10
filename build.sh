@@ -78,10 +78,10 @@ rm -rf ffbuild
 
 cd "${ARTIFACTS_PATH}" &&
 (
-    for bits in 512 256; do
+    for bits in 512 384 256; do
         ext="sha${bits}"
-        ${ext}sum --binary "${OUTPUT_FNAME}" >| "${OUTPUT_FNAME}.${ext}"
-    done
+        ${ext}sum --binary --tag "${OUTPUT_FNAME}"
+    done >| "${OUTPUT_FNAME}.sums"
 )
 
 if [[ -n "$GITHUB_ACTIONS" ]]; then
