@@ -1,45 +1,47 @@
 diff --git a/libavformat/mov.c b/libavformat/mov.c
-index c016ce8e41..115a101499 100644
+index ff32d4160e..38109d8eb5 100644
 --- a/libavformat/mov.c
 +++ b/libavformat/mov.c
-@@ -87,6 +87,7 @@ typedef struct MOVParseTableEntry {
- static int mov_read_default(MOVContext *c, AVIOContext *pb, MOVAtom atom);
- static int mov_read_mfra(MOVContext *c, AVIOContext *f);
+@@ -87,6 +87,7 @@ static int mov_read_mfra(MOVContext *c, AVIOContext *f);
  static void mov_free_stream_context(AVFormatContext *s, AVStream *st);
+ static int64_t add_ctts_entry(MOVCtts** ctts_data, unsigned int* ctts_count, unsigned int* allocated_size,
+                               int count, int duration);
 +static int mov_switch_root(AVFormatContext *s, int64_t target, int index);
  
  static int mov_metadata_track_or_disc_number(MOVContext *c, AVIOContext *pb,
                                               unsigned len, const char *key)
-@@ -1680,6 +1681,31 @@ static int64_t get_frag_time(AVFormatContext *s, AVStream *dst_st,
+@@ -1638,6 +1639,7 @@ static int64_t get_frag_time(AVFormatContext *s, AVStream *dst_st,
+     MOVFragmentStreamInfo * frag_stream_info;
+     MOVStreamContext *sc = dst_st->priv_data;
+     int64_t timestamp;
++    int stream_present;
+     int i, j;
+ 
+     // If the stream is referenced by any sidx, limit the search
+@@ -1653,6 +1655,26 @@ static int64_t get_frag_time(AVFormatContext *s, AVStream *dst_st,
          return frag_stream_info->sidx_pts;
      }
  
-+
 +    // Check if the requested stream is present in the fragment
-+    int exists = 0;
++    stream_present = 0;
 +    for (i = 0; i < frag_index->item[index].nb_stream_info; i++) {
-+        if (dst_st->id != frag_index->item[index].stream_info[i].id) {
-+            continue;
-+        }
-+
++        if (dst_st->id != frag_index->item[index].stream_info[i].id)
++                continue;
 +        if ( get_stream_info_time(&frag_index->item[index].stream_info[i]) != AV_NOPTS_VALUE) {
-+            exists = 1;
-+            break;
++                stream_present = 1;
++                break;
 +        }
 +        if ( mov_switch_root(s,-1,index) < 0)
 +            return AV_NOPTS_VALUE;
-+
 +        if ( get_stream_info_time(&frag_index->item[index].stream_info[i]) != AV_NOPTS_VALUE) {
-+            exists = 1;
++            stream_present = 1;
 +            break;
 +        }
 +    }
 +
-+    if (!exists)
++    if (!stream_present)
 +        return AV_NOPTS_VALUE;
-+
 +
      for (i = 0; i < frag_index->item[index].nb_stream_info; i++) {
          AVStream *frag_stream = NULL;
          frag_stream_info = &frag_index->item[index].stream_info[i];
-
