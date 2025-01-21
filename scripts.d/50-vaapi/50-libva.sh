@@ -9,7 +9,7 @@ ffbuild_enabled() {
     [[ $ADDINS_STR == *5.1* && $TARGET == win* ]] && return -1
     [[ $ADDINS_STR == *6.0* && $TARGET == win* ]] && return -1
     [[ $TARGET == linuxarm64 ]] && return -1
-    return 0
+    return -1 # unused by Medal
 }
 
 ffbuild_dockerbuild() {
