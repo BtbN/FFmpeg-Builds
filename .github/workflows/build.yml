@@ -66,7 +66,7 @@ jobs:
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: images/base
           pull: true
@@ -135,7 +135,7 @@ jobs:
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: images/base-${{ matrix.target }}
           pull: true
@@ -202,7 +202,7 @@ jobs:
           key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
           fail-on-cache-miss: true
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           pull: true
@@ -281,7 +281,8 @@ jobs:
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz}
+          (cd artifacts && sha256sum *.{zip,tar.xz} > checksums.sha256)
+          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz} artifacts/checksums.*
           echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
           echo "rel_date=${RELDATE}" >> $GITHUB_OUTPUT
         env:
@@ -292,6 +293,7 @@ jobs:
           shopt -s nullglob
           mkdir latest_artifacts
           ./util/repack_latest.sh latest_artifacts artifacts/*.{zip,tar.xz}
+          (cd latest_artifacts && sha256sum *.{zip,tar.xz} > checksums.sha256)
           NAME="Latest Auto-Build (${{ steps.create_release.outputs.rel_date }})"
           TAGNAME="latest"
           gh release delete --cleanup-tag --yes "$TAGNAME" || true

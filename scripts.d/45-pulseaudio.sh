@@ -51,8 +51,8 @@ ffbuild_dockerbuild() {
 
     rm -r "$FFBUILD_PREFIX"/share
 
-    echo "Libs.private: -ldl -lrt" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libpulse.pc
-    echo "Libs.private: -ldl -lrt" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libpulse-simple.pc
+    echo "Libs.private: -ldl -lrt -liconv" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libpulse.pc
+    echo "Libs.private: -ldl -lrt -liconv" >> "$FFBUILD_PREFIX"/lib/pkgconfig/libpulse-simple.pc
 }
 
 ffbuild_configure() {
