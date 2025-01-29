@@ -109,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64] # Choose targets here if you want specific ones
+        target: [win64, winarm64] # Choose targets here if you want specific ones
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -164,7 +164,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64] # Choose targets here if you want specific ones
+        target: [win64, winarm64] # Choose targets here if you want specific ones
         variant: [lgpl-shared, lgpl-shared 7.0, lgpl-shared 7.1, gpl, gpl 7.0, gpl 7.1] # Only build this variant
     steps:
       - name: Free Disk-Space
@@ -229,7 +229,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64] # Choose targets here if you want specific ones
+        target: [win64, winarm64] # Choose targets here if you want specific ones
         variant: [lgpl-shared, lgpl-shared 7.0, lgpl-shared 7.1, gpl, gpl 7.0, gpl 7.1] # Only build this variant
     steps:
       - name: Free Disk-Space
