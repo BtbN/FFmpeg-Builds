@@ -1,10 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-SCRIPT_COMMIT="eed6782cbb4651876e3c8b27ea53273f230ee8e2"
+SCRIPT_COMMIT="bc17565f9a4caca27161609c526b776287a8270e"
 
 SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
-SCRIPT_COMMIT2="cc292ecda26359d5a80989bdbd1633f2f0721628"
+SCRIPT_COMMIT2="e9c1d94f58eaacee919bb2015da490b980a5eedf"
 
 ffbuild_enabled() {
     return -1 # unused by Medal
@@ -16,6 +16,9 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    # No automake 1.17 packaged anywhere yet.
+    sed -i 's/-1.17/-1.16/' Makefile.devel
+
     (unset CC CFLAGS GMAKE && ./autogen.sh)
 
     local myconf=(

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/Haivision/srt.git"
-SCRIPT_COMMIT="a7b3711a8a862e697f641b296743cc7c921f5fba"
+SCRIPT_COMMIT="8a89a3abbf4d3a2f7869d535349a474607ea0214"
 
 ffbuild_enabled() {
     return -1 # unused by Medal

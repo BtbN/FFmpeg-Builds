@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.com/libssh/libssh-mirror.git"
-SCRIPT_COMMIT="48d474f78c5f68471bf412a7dbf508ef52f77664"
+SCRIPT_COMMIT="49b0c859f92bb9474412933e450da26d0410fe08"
 
 ffbuild_enabled() {
     return -1 # unused by Medal
