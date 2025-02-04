@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/madler/zlib.git"
-SCRIPT_COMMIT="ef24c4c7502169f016dcd2a26923dbaf3216748c"
+SCRIPT_COMMIT="ed1610791c0c681ee562bb3997e0f29bfae11b2d"
 
 ffbuild_enabled() {
     return 0
