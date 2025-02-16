@@ -77,9 +77,9 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+          tags: ${{ steps.imagename.outputs.name }}:latest${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
       - name: Get download cache key
         if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         id: dl_cache
@@ -100,7 +100,6 @@ jobs:
           ./download.sh
           ./util/clean_cache.sh
       - name: Cleanup
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
