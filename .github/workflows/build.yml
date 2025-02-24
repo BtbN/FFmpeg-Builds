@@ -42,11 +42,7 @@ jobs:
     name: Build base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: pre_check
-    strategy:
-      fail-fast: false
-      matrix:
-        runner: [ubuntu-latest,ubuntu-24.04-arm]
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -77,16 +73,16 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
       - name: Get download cache key
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
+        if: ${{ !cancelled() }}
         id: dl_cache
         run: |
           echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Cache
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
+        if: ${{ !cancelled() }}
         uses: actions/cache@v4
         with:
           path: .cache/downloads
@@ -94,7 +90,7 @@ jobs:
           restore-keys: |
             download-cache-
       - name: Update Cache
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
+        if: ${{ !cancelled() }}
         run: |
           set -e
           ./download.sh
