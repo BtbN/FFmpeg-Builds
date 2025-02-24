@@ -2,7 +2,7 @@
 
 # Source
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-SCRIPT_COMMIT="c0313ec3381521db6c5e3aca746ff1e3e29208d7"
+SCRIPT_COMMIT="6cda373a9ee66f3c26ca96198e68a9e33d58dea8"
 
 # Mirror
 # SCRIPT_REPO="https://github.com/mingw-w64/mingw-w64.git"

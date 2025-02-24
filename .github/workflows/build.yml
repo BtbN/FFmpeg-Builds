@@ -42,7 +42,11 @@ jobs:
     name: Build base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: pre_check
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest,ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -67,20 +71,22 @@ jobs:
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: images/base
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+          tags: ${{ steps.imagename.outputs.name }}:latest${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
       - name: Get download cache key
+        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         id: dl_cache
         run: |
           echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Cache
+        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         uses: actions/cache@v4
         with:
           path: .cache/downloads
@@ -88,6 +94,7 @@ jobs:
           restore-keys: |
             download-cache-
       - name: Update Cache
+        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         run: |
           set -e
           ./download.sh
@@ -136,7 +143,7 @@ jobs:
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: images/base-${{ matrix.target }}
           pull: true
@@ -203,7 +210,7 @@ jobs:
           key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
           fail-on-cache-miss: true
       - name: Build target base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           pull: true
@@ -290,7 +297,8 @@ jobs:
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
           NAME="Auto-Build $RELDATE"
           TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz}
+          (cd artifacts && sha256sum *.{zip,tar.xz} > checksums.sha256)
+          gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz} artifacts/checksums.*
           echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
           echo "rel_date=${RELDATE}" >> $GITHUB_OUTPUT
         env:
@@ -301,6 +309,7 @@ jobs:
           shopt -s nullglob
           mkdir latest_artifacts
           ./util/repack_latest.sh latest_artifacts artifacts/*.{zip,tar.xz}
+          (cd latest_artifacts && sha256sum *.{zip,tar.xz} > checksums.sha256)
           NAME="Latest Auto-Build (${{ steps.create_release.outputs.rel_date }})"
           TAGNAME="latest"
           gh release delete --cleanup-tag --yes "$TAGNAME" || true

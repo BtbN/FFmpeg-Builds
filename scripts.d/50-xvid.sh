@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://svn.xvid.org/trunk/xvidcore"
-SCRIPT_REV="2200"
+SCRIPT_REV="2202"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
