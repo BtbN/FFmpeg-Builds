@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.26.0.120_4d36f27 Configuration
+# crosstool-NG 1.27.0.18_7458341 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.26.0.120_4d36f27"
+CT_VERSION="1.27.0.18_7458341"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -141,6 +141,7 @@ CT_LOG_LEVEL_MAX="DEBUG"
 # CT_ARCH_AVR is not set
 # CT_ARCH_BPF is not set
 # CT_ARCH_C6X is not set
+# CT_ARCH_LM32 is not set
 # CT_ARCH_LOONGARCH is not set
 # CT_ARCH_M68K is not set
 # CT_ARCH_MICROBLAZE is not set
@@ -148,6 +149,7 @@ CT_LOG_LEVEL_MAX="DEBUG"
 # CT_ARCH_MOXIE is not set
 # CT_ARCH_MSP430 is not set
 # CT_ARCH_NIOS2 is not set
+# CT_ARCH_OPENRISC is not set
 # CT_ARCH_PARISC is not set
 # CT_ARCH_POWERPC is not set
 # CT_ARCH_PRU is not set
@@ -155,6 +157,7 @@ CT_LOG_LEVEL_MAX="DEBUG"
 # CT_ARCH_S390 is not set
 # CT_ARCH_SH is not set
 # CT_ARCH_SPARC is not set
+# CT_ARCH_TRICORE is not set
 CT_ARCH_X86=y
 # CT_ARCH_XTENSA is not set
 CT_ARCH="x86"
@@ -167,7 +170,7 @@ CT_ARCH_X86_SHOW=y
 # Options for x86
 #
 CT_ARCH_X86_PKG_KSYM=""
-CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 PARISC POWERPC PRU RISCV S390 SH SPARC X86 XTENSA"
+CT_ALL_ARCH_CHOICES="ALPHA ARC ARM AVR BPF C6X LM32 LOONGARCH M68K MICROBLAZE MIPS MOXIE MSP430 NIOS2 OPENRISC PARISC POWERPC PRU RISCV S390 SH SPARC TRICORE X86 XTENSA"
 CT_ARCH_SUFFIX=""
 # CT_OMIT_TARGET_VENDOR is not set
 
@@ -321,6 +324,8 @@ CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_later_than_2_41=y
+CT_BINUTILS_2_41_or_later=y
 CT_BINUTILS_later_than_2_39=y
 CT_BINUTILS_2_39_or_later=y
 CT_BINUTILS_later_than_2_30=y
@@ -507,6 +512,8 @@ CT_CC_GCC_LTO_ZSTD=m
 # Settings for libraries running on target
 #
 # CT_CC_GCC_ENABLE_TARGET_OPTSPACE is not set
+CT_CC_GCC_LIBSTDCXX=m
+# CT_CC_GCC_LIBSTDCXX_HOSTED_DISABLE is not set
 # CT_CC_GCC_LIBMUDFLAP is not set
 CT_CC_GCC_LIBGOMP=y
 CT_CC_GCC_LIBSSP=m
@@ -589,16 +596,19 @@ CT_GETTEXT_PATCH_GLOBAL=y
 # CT_GETTEXT_PATCH_LOCAL_BUNDLED is not set
 # CT_GETTEXT_PATCH_NONE is not set
 CT_GETTEXT_PATCH_ORDER="global"
-CT_GETTEXT_V_0_22_5=y
+CT_GETTEXT_V_0_23_1=y
+# CT_GETTEXT_V_0_22_5 is not set
 # CT_GETTEXT_V_0_21 is not set
 # CT_GETTEXT_V_0_20_1 is not set
 # CT_GETTEXT_V_0_19_8_1 is not set
-CT_GETTEXT_VERSION="0.22.5"
+CT_GETTEXT_VERSION="0.23.1"
 CT_GETTEXT_MIRRORS="$(CT_Mirrors GNU gettext)"
 CT_GETTEXT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GETTEXT_SIGNATURE_FORMAT="packed/.sig"
+CT_GETTEXT_later_than_0_23=y
+CT_GETTEXT_0_23_or_later=y
 CT_GETTEXT_later_than_0_21=y
 CT_GETTEXT_0_21_or_later=y
 CT_GETTEXT_INCOMPATIBLE_WITH_UCLIBC_NG=y
@@ -628,9 +638,10 @@ CT_GMP_PATCH_GLOBAL=y
 # CT_GMP_PATCH_LOCAL_BUNDLED is not set
 # CT_GMP_PATCH_NONE is not set
 CT_GMP_PATCH_ORDER="global"
-CT_GMP_V_6_2=y
+CT_GMP_V_6_3=y
+# CT_GMP_V_6_2 is not set
 # CT_GMP_V_6_1 is not set
-CT_GMP_VERSION="6.2.1"
+CT_GMP_VERSION="6.3.0"
 CT_GMP_MIRRORS="https://gmplib.org/download/gmp https://gmplib.org/download/gmp/archive $(CT_Mirrors GNU gmp)"
 CT_GMP_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -695,8 +706,6 @@ CT_MPC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPC_ARCHIVE_FORMATS=".tar.gz"
 CT_MPC_SIGNATURE_FORMAT="packed/.sig"
-CT_MPC_later_than_1_1_0=y
-CT_MPC_1_1_0_or_later=y
 CT_COMP_LIBS_MPFR=y
 CT_COMP_LIBS_MPFR_PKG_KSYM="MPFR"
 CT_MPFR_DIR_NAME="mpfr"
@@ -718,8 +727,6 @@ CT_MPFR_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz .zip"
 CT_MPFR_SIGNATURE_FORMAT="packed/.asc"
-CT_MPFR_later_than_4_0_0=y
-CT_MPFR_4_0_0_or_later=y
 # CT_COMP_LIBS_NCURSES is not set
 CT_COMP_LIBS_ZLIB=y
 CT_COMP_LIBS_ZLIB_PKG_KSYM="ZLIB"
@@ -735,9 +742,9 @@ CT_ZLIB_PATCH_GLOBAL=y
 # CT_ZLIB_PATCH_LOCAL_BUNDLED is not set
 # CT_ZLIB_PATCH_NONE is not set
 CT_ZLIB_PATCH_ORDER="global"
-CT_ZLIB_V_1_3=y
+CT_ZLIB_V_1_3_1=y
 # CT_ZLIB_V_1_2_13 is not set
-CT_ZLIB_VERSION="1.3"
+CT_ZLIB_VERSION="1.3.1"
 CT_ZLIB_MIRRORS="https://github.com/madler/zlib/releases/download/v${CT_ZLIB_VERSION} https://www.zlib.net/"
 CT_ZLIB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZLIB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
