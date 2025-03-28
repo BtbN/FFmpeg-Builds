@@ -19,6 +19,9 @@ ffbuild_dockerbuild() {
         if [[ "$CC" != *clang* ]]; then
             export CFLAGS="$CFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
             export CXXFLAGS="$CXXFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
+        else
+            export CFLAGS="$CFLAGS -Wno-error=deprecated-literal-operator"
+            export CXXFLAGS="$CXXFLAGS -Wno-error=deprecated-literal-operator"
         fi
     fi
 
