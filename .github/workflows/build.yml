@@ -18,7 +18,7 @@ on:
         default: false
         required: false
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '30 8 * * *'
 
 env:
   DOCKER_BUILDKIT: 1
@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Repo Check
         run: |
-          if [[ "$GITHUB_REPOSITORY" != "BtbN/FFmpeg-Builds" ]]; then
+          if [[ "$GITHUB_REPOSITORY" != "bai0012/FFmpeg-Builds" ]]; then
             echo "When forking this repository to make your own builds, you have to adjust this check."
             echo "When doing so make sure to randomize the scheduled cron time above, in order to spread out the various build times as much as possible."
             echo "This has been put in place due to the enormous amounts of traffic hundreds/thousands of parallel builds can cause on external infrastructure."
@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-latest,ubuntu-24.04-arm]
+        runner: [ubuntu-latest]
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Free Disk-Space
@@ -117,7 +117,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,winarm64,linux64,linuxarm64]
+        target: [win64,linux64]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -172,8 +172,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,winarm64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 6.1,gpl 7.1,lgpl 6.1,lgpl 7.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,lgpl-shared 6.1,lgpl-shared 7.1]
+        target: [win64,linux64]
+        variant: [nonfree,nonfree-shared,nonfree 7.1,nonfree-shared 7.1]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -237,8 +237,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,winarm64,linux64,linuxarm64]
-        variant: [gpl,lgpl,gpl 6.1,gpl 7.1,lgpl 6.1,lgpl 7.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,lgpl-shared 6.1,lgpl-shared 7.1]
+        target: [win64,linux64]
+        variant: [nonfree,nonfree-shared,nonfree 7.1,nonfree-shared 7.1]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
