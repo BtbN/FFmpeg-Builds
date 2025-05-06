@@ -8,6 +8,11 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerdl() {
+    default_dl .
+    echo "git fetch --unshallow --filter=blob:none"
+}
+
 ffbuild_dockerbuild() {
     # No need to build this
     echo > app/CMakeLists.txt
