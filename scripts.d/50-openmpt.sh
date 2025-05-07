@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://source.openmpt.org/svn/openmpt/trunk/OpenMPT"
-SCRIPT_REV="23127"
+SCRIPT_REV="23161"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
