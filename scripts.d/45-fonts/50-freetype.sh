@@ -28,6 +28,8 @@ ffbuild_dockerbuild() {
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
+
+    echo "Libs.private: -lharfbuzz" >> "$FFBUILD_PREFIX"/lib/pkgconfig/freetype2.pc
 }
 
 ffbuild_configure() {

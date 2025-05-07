@@ -44,3 +44,8 @@ ffbuild_configure() {
     (( $(ffbuild_ffver) > 600 )) || return 0
     echo --enable-libharfbuzz
 }
+
+ffbuild_unconfigure() {
+    (( $(ffbuild_ffver) > 600 )) || return 0
+    echo --disable-libharfbuzz
+}
