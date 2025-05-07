@@ -16,7 +16,7 @@ ffbuild_dockerlayer() {
 
 ffbuild_dockerfinal() {
     [[ $TARGET == winarm* ]] && return 0
-    to_df "COPY --from=${PREVLAYER} /opt/mingw/. /"
+    to_df "COPY --link --from=${PREVLAYER} /opt/mingw/. /"
 }
 
 ffbuild_dockerdl() {
@@ -26,42 +26,75 @@ ffbuild_dockerdl() {
 ffbuild_dockerbuild() {
     [[ $TARGET == winarm* ]] && return 0
 
-    cd mingw-w64-headers
-
-    unset CFLAGS
-    unset CXXFLAGS
-    unset LDFLAGS
-    unset PKG_CONFIG_LIBDIR
-
     if [[ -z "$COMPILER_SYSROOT" ]]; then
         COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr/${FFBUILD_TOOLCHAIN}"
     fi
 
-    local myconf=(
-        --prefix="$COMPILER_SYSROOT"
-        --host="$FFBUILD_TOOLCHAIN"
-        --with-default-win32-winnt="0x601"
-        --with-default-msvcrt=ucrt
-        --enable-idl
+    unset CC CXX LD AR CPP LIBS CCAS
+    unset CFLAGS CXXFLAGS LDFLAGS CPPFLAGS CCASFLAGS
+    unset PKG_CONFIG_LIBDIR
+
+    ###
+    ### mingw-w64-headers
+    ###
+    (
+        cd mingw-w64-headers
+
+        local myconf=(
+            --prefix="$COMPILER_SYSROOT"
+            --host="$FFBUILD_TOOLCHAIN"
+            --with-default-win32-winnt="0x601"
+            --with-default-msvcrt=ucrt
+            --enable-idl
+            --enable-sdk=all
+            --enable-secure-api
+        )
+
+        ./configure "${myconf[@]}"
+        make -j$(nproc)
+        make install DESTDIR="/opt/mingw"
     )
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="/opt/mingw"
+    cp -a /opt/mingw/. /
 
-    cd ../mingw-w64-libraries/winpthreads
+    ###
+    ### mingw-w64-crt
+    ###
+    (
+        cd mingw-w64-crt
 
-    local myconf=(
-        --prefix="$COMPILER_SYSROOT"
-        --host="$FFBUILD_TOOLCHAIN"
-        --with-pic
-        --disable-shared
-        --enable-static
+        local myconf=(
+            --prefix="$COMPILER_SYSROOT"
+            --host="$FFBUILD_TOOLCHAIN"
+            --with-default-msvcrt=ucrt
+            --enable-wildcard
+        )
+
+        ./configure "${myconf[@]}"
+        make -j$(nproc)
+        make install DESTDIR="/opt/mingw"
     )
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="/opt/mingw"
+    cp -a /opt/mingw/. /
+
+    ###
+    ### mingw-w64-libraries/winpthreads
+    ###
+    (
+        cd mingw-w64-libraries/winpthreads
+
+        local myconf=(
+            --prefix="$COMPILER_SYSROOT"
+            --host="$FFBUILD_TOOLCHAIN"
+            --with-pic
+            --disable-shared
+            --enable-static
+        )
+
+        ./configure "${myconf[@]}"
+        make -j$(nproc)
+        make install DESTDIR="/opt/mingw"
+    )
 }
 
 ffbuild_configure() {
