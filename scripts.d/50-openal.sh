@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/kcat/openal-soft.git"
-SCRIPT_COMMIT="481c9e0b461a2256212c5c40153509f935268c8d"
+SCRIPT_COMMIT="98d2afe8522db77048e3041c342063a9c29c4704"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
