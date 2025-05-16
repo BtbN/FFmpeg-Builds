@@ -21,7 +21,7 @@ ffbuild_dockerbuild() {
     mkdir build && cd build
 
     # Let's hope this is just a false-positive
-    export CFLAGS="$CFLAGS -Wno-error=array-bounds"
+    export CFLAGS="$CFLAGS -Wno-error=array-bounds -Wno-error=unterminated-string-initialization"
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DGEN_FILES=ON \
