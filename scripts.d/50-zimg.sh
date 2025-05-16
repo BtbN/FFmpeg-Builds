@@ -13,6 +13,8 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    sed -i '1i#include <cstdint>' src/zimg/graph/filtergraph.cpp
+
     ./autogen.sh
 
     local myconf=(
