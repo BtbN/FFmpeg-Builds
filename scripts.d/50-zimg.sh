@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/sekrit-twc/zimg.git"
-SCRIPT_COMMIT="2a1c3e2e4590fa3ca03f5a0835054012218536d9"
+SCRIPT_COMMIT="39270722912e3953d8dc37a92c200b5158054ff1"
 
 ffbuild_enabled() {
     return 0
@@ -13,8 +13,6 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    sed -i '1i#include <cstdint>' src/zimg/graph/filtergraph.cpp
-
     ./autogen.sh
 
     local myconf=(
