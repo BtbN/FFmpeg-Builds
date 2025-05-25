@@ -22,6 +22,9 @@ ffbuild_dockerbuild() {
 
     # Let's hope this is just a false-positive
     export CFLAGS="$CFLAGS -Wno-error=array-bounds"
+    if [[ $CC != *clang* ]]; then
+        export CFLAGS="$CFLAGS -Wno-error=unterminated-string-initialization"
+    fi
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DGEN_FILES=ON \
