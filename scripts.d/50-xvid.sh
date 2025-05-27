@@ -36,6 +36,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CFLAGS="$CFLAGS -std=gnu99"
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
