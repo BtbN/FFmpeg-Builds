@@ -30,11 +30,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repo Check
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           if [[ "$GITHUB_REPOSITORY" != "defisym/FFmpeg-Builds-Win32" ]]; then
             echo "When forking this repository to make your own builds, you have to adjust this check."
             echo "When doing so make sure to randomize the scheduled cron time above, in order to spread out the various build times as much as possible."
             echo "This has been put in place due to the enormous amounts of traffic hundreds/thousands of parallel builds can cause on external infrastructure."
+            # Set Github job summary (see https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#adding-a-job-summary):
+            echo "# To enable scheduled builds, please make the following 2 edits to [.github/workflows/build.yml](https://github.com/$GITHUB_REPOSITORY/edit/$GITHUB_REF_NAME/.github/workflows/build.yml):" >> "$GITHUB_STEP_SUMMARY"
+            echo '1. **IMPORTANT:** Change the 2 numbers on the `cron:` line. The first number must be between 0 and 59, and the second must be between 0 and 23.' >> "$GITHUB_STEP_SUMMARY"
+            echo '2. Use `find and replace` (ctrl+f) to replace `BtbN/FFmpeg-Builds` with your repository name' >> "$GITHUB_STEP_SUMMARY"
+            echo  >> "$GITHUB_STEP_SUMMARY" # adds blank line to markdown
+            echo "This safeguard exists to  avoid overwhelming important open-source infrastructure (see https://github.com/BtbN/FFmpeg-Builds/issues/278)" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
           exit 0
