@@ -38,6 +38,8 @@ ffbuild_dockerbuild() {
     meson "${myconf[@]}" ..
     ninja -j"$(nproc)"
     ninja install
+
+    echo "Requires: mbedcrypto" >> "$FFBUILD_PREFIX"/lib/pkgconfig/librist.pc
 }
 
 ffbuild_configure() {
