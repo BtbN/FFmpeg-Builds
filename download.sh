@@ -50,7 +50,7 @@ for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
 		trap "rm -rf -- '\$WORKDIR'" EXIT
 		cd "\$WORKDIR"
 
-		eval "\$STG"
+		eval "set -e; \$STG"
 
 		tar cpJf "\$TGT.tmp" .
 		mv "\$TGT.tmp" "\$TGT"
