@@ -106,6 +106,14 @@ jobs:
           set -e
           ./download.sh
           ./util/clean_cache.sh
+          tar czf .cache/cache.tar.gz .cache/downloads/*
+      - name: Upload cache artifact
+        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: download-cache
+          overwrite: true
+          path: .cache/cache.tar.gz
       - name: Cleanup
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/AcademySoftwareFoundation/openapv.git"
-SCRIPT_COMMIT="e0ec2e872e74f892b279c307c4061f1cebb1f95f"
+SCRIPT_COMMIT="ab235995e732402318922c77cfd965c540c67519"
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) > 701 )) || return -1
@@ -18,6 +18,11 @@ ffbuild_dockerbuild() {
     echo > app/CMakeLists.txt
 
     mkdir build && cd build
+
+    if [[ $TARGET == *32 ]]; then
+        export CFLAGS="$CFLAGS -msse -msse2"
+        export CXXFLAGS="$CXXFLAGS -msse -msse2"
+    fi
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_BUILD_TYPE=Release \
         -DOAPV_APP_STATIC_BUILD=ON -DENABLE_TESTS=OFF ..

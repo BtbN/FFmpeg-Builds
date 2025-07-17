@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/acoustid/chromaprint.git"
-SCRIPT_COMMIT="56002095f2c4d7557b63f37c551f0dc445cf3202"
+SCRIPT_COMMIT="ac31acc8431defbb134ec54eb11daf9146c74170"
 
 ffbuild_enabled() {
     # pkg-config check is currently only available in master
