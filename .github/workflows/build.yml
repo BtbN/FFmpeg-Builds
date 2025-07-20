@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repo Check
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           if [[ "$GITHUB_REPOSITORY" != "BtbN/FFmpeg-Builds" ]]; then
             echo "When forking this repository to make your own builds, you have to adjust this check."
