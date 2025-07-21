@@ -104,7 +104,7 @@ jobs:
           ./util/clean_cache.sh
           tar czf .cache/cache.tar.gz .cache/downloads/*
       - name: Upload cache artifact
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: download-cache
