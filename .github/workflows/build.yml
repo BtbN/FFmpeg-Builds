@@ -1,4 +1,4 @@
-⁹name: Build FFmpeg
+name: Build FFmpeg
 
 on:
   push:
