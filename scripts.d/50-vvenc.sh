@@ -17,8 +17,8 @@ ffbuild_dockerbuild() {
         armsimd+=( -DVVENC_ENABLE_ARM_SIMD=ON )
 
         if [[ "$CC" != *clang* ]]; then
-            export CFLAGS="$CFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
-            export CXXFLAGS="$CXXFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized"
+            export CFLAGS="$CFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized -Wno-error=invalid-noreturn"
+            export CXXFLAGS="$CXXFLAGS -fpermissive -Wno-error=uninitialized -Wno-error=maybe-uninitialized -Wno-error=invalid-noreturn"
         else
             export CFLAGS="$CFLAGS -Wno-error=deprecated-literal-operator"
             export CXXFLAGS="$CXXFLAGS -Wno-error=deprecated-literal-operator"
