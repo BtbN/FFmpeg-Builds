@@ -5,6 +5,7 @@ SCRIPT_COMMIT="3d433fcbca16af3e8f9525020383880d1808ee52"
 
 ffbuild_enabled() {
     [[ $TARGET != *32 ]] || return -1
+    [[ $TARGET != *winarm* ]] || return -1
     (( $(ffbuild_ffver) > 700 )) || return -1
     return 0
 }
