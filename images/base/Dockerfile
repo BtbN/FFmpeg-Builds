@@ -6,7 +6,7 @@ RUN \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
-        autoconf automake libtool libtool-bin autopoint gettext cmake clang meson ninja-build \
+        autoconf automake libtool libtool-bin autopoint gettext cmake clang lld meson ninja-build \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
