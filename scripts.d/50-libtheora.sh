@@ -31,6 +31,12 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    if [[ $TARGET == win64 ]]; then
+        myconf+=(
+            --disable-asm
+        )
+    fi
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install
