@@ -9,10 +9,15 @@ ffbuild_enabled() {
 
 ffbuild_dockerdl() {
     default_dl .
+
+    # This is where they decided to put downloads for external dependencies, so it needs to run here
     echo "./autogen.sh"
 }
 
 ffbuild_dockerbuild() {
+    # re-run autoreconf explicitly because tools versions might have changed since it generared the dl cache
+    autoreconf -isf
+
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --host="$FFBUILD_TOOLCHAIN"

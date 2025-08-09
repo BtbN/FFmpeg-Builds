@@ -8,6 +8,10 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    # libtoolize version detection is broken, disable it, we got the right versions
+    printf 'print "999999\\n"\n' > autogen-get-version-mock.pl
+    sed -i -e 's|/autogen-get-version.pl|/autogen-get-version-mock.pl|g' ./autogen.sh
+
     NOCONFIGURE=1 ./autogen.sh
     touch doc/twolame.1
 

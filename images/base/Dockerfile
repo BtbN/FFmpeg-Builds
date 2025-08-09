@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:25.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN \
@@ -14,7 +14,9 @@ RUN \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get -y install nodejs && \
-    apt-get -y clean && \
+    apt-get -y autoremove && \
+    apt-get -y clean autoclean && \
+    rm -rf /var/lib/apt/lists/* && \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
     git config --global advice.detachedHead false
