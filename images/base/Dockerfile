@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:25.10
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN \
@@ -6,15 +6,17 @@ RUN \
     apt-get -y dist-upgrade && \
     apt-get -y install build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
-        autoconf automake libtool libtool-bin autopoint gettext cmake clang meson ninja-build \
+        autoconf automake libtool libtool-bin autopoint gettext cmake clang lld meson ninja-build \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
         ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get -y install nodejs && \
-    apt-get -y clean && \
+    apt-get -y autoremove && \
+    apt-get -y clean autoclean && \
+    rm -rf /var/lib/apt/lists/* && \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
     git config --global advice.detachedHead false
