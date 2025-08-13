@@ -7,6 +7,11 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerlayer() {
+    to_df "COPY --link --from=${SELFLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
+    to_df "COPY --link --from=${SELFLAYER} /opt/glslc /usr/bin/glslc"
+}
+
 ffbuild_dockerdl() {
     true
 }
