@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXinerama.so.1,libXinerama.a}
-    rm "$FFBUILD_PREFIX"/lib/libXinerama{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXinerama.so.1,libXinerama.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXinerama{.so*,.la}
 }

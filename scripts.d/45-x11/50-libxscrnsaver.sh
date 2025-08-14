@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXss.so.1,libXss.a}
-    rm "$FFBUILD_PREFIX"/lib/libXss{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXss.so.1,libXss.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXss{.so*,.la}
 }

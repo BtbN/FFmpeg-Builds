@@ -15,24 +15,24 @@ ffbuild_dockerbuild() {
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_TESTS=OFF -DBUILD_WERROR=OFF -DLOADER_CODEGEN=ON -DUSE_GAS=ON ..
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
     if [[ $TARGET == win* ]]; then
         if [[ $CC == *clang* ]]; then
-            echo 'Libs.private: -Wl,-delayload,vulkan-1.dll' >> "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
+            echo 'Libs.private: -Wl,-delayload,vulkan-1.dll' >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/vulkan.pc
         else
-            rm "$FFBUILD_PREFIX"/lib/libvulkan-1.dll.a
-            "$GENDEF" "$FFBUILD_PREFIX"/bin/vulkan-1.dll
-            "$DLLTOOL" -d vulkan-1.def --output-delaylib "$FFBUILD_PREFIX"/lib/libvulkan-1.a
-            rm "$FFBUILD_PREFIX"/bin/vulkan-1.dll
+            rm "$FFBUILD_DESTPREFIX"/lib/libvulkan-1.dll.a
+            "$GENDEF" "$FFBUILD_DESTPREFIX"/bin/vulkan-1.dll
+            "$DLLTOOL" -d vulkan-1.def --output-delaylib "$FFBUILD_DESTPREFIX"/lib/libvulkan-1.a
+            rm "$FFBUILD_DESTPREFIX"/bin/vulkan-1.dll
         fi
 
-        sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
+        sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/vulkan.pc
     elif [[ $TARGET == linux* ]]; then
-        gen-implib "$FFBUILD_PREFIX"/lib/libvulkan{.so.1,.a}
-        rm "$FFBUILD_PREFIX"/lib/libvulkan.so*
+        gen-implib "$FFBUILD_DESTPREFIX"/lib/libvulkan{.so.1,.a}
+        rm "$FFBUILD_DESTPREFIX"/lib/libvulkan.so*
 
-        sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan/' "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
+        sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/vulkan.pc
     else
         echo "Unsupported target"
         exit 1

@@ -32,8 +32,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXau.so.6,libXau.a}
-    rm "$FFBUILD_PREFIX"/lib/libXau{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXau.so.6,libXau.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXau{.so*,.la}
 }

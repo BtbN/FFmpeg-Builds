@@ -17,18 +17,18 @@ ffbuild_dockerbuild() {
         -DGGML_NATIVE=OFF -DGGML_SSE42=ON -DGGML_AVX=ON -DGGML_F16C=ON -DGGML_AVX2=ON -DGGML_BMI2=ON -DGGML_FMA=ON ..
 
     ninja -j$(nproc)
-    ninja install
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     # For some reason, these lack the lib prefix on Windows
     shopt -s nullglob
-    for libfile in "$FFBUILD_PREFIX"/lib/ggml*.a; do
+    for libfile in "$FFBUILD_DESTPREFIX"/lib/ggml*.a; do
         mv "${libfile}" "$(dirname "${libfile}")/lib$(basename "${libfile}")"
     done
 
     # Linking order is all wrong
-    sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lwhisper/' "$FFBUILD_PREFIX"/lib/pkgconfig/whisper.pc
-    echo "Libs.private: -lggml -lggml-base -lggml-cpu -lggml-vulkan -lggml-opencl -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/whisper.pc
-    echo "Requires: vulkan OpenCL" >> "$FFBUILD_PREFIX"/lib/pkgconfig/whisper.pc
+    sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lwhisper/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/whisper.pc
+    echo "Libs.private: -lggml -lggml-base -lggml-cpu -lggml-vulkan -lggml-opencl -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/whisper.pc
+    echo "Requires: vulkan OpenCL" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/whisper.pc
 }
 
 ffbuild_configure() {

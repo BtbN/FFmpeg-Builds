@@ -22,28 +22,29 @@ ffbuild_dockerbuild() {
         -DSPIRV_TOOLS_BUILD_STATIC=ON -DBUILD_SHARED_LIBS=OFF ..
     ninja -j$(nproc)
 
-    export DESTDIR="/tmp/staging"
+    export DESTDIR="/tmp/staging$FFBUILD_DESTDIR"
     ninja install
 
     if [[ $TARGET == win* ]]; then
-        rm -r "$DESTDIR/$FFBUILD_PREFIX"/bin "$DESTDIR/$FFBUILD_PREFIX"/lib/*.dll.a
+        rm -r "${DESTDIR}${FFBUILD_PREFIX}"/bin "${DESTDIR}${FFBUILD_PREFIX}"/lib/*.dll.a
     elif [[ $TARGET == linux* ]]; then
-        rm -r "$DESTDIR/$FFBUILD_PREFIX"/bin "$DESTDIR/$FFBUILD_PREFIX"/lib/*.so*
+        rm -r "${DESTDIR}${FFBUILD_PREFIX}"/bin "${DESTDIR}${FFBUILD_PREFIX}"/lib/*.so*
     else
         echo "Unknown target"
         return -1
     fi
 
-    cp -a "$DESTDIR"/. /
+    cp -al "$DESTDIR"/. "$FFBUILD_DESTDIR"
+    rm -rf "$DESTDIR"
     unset DESTDIR
 
     # for some reason, this does not get installed...
-    cp libshaderc_util/libshaderc_util.a "$FFBUILD_PREFIX"/lib
+    cp libshaderc_util/libshaderc_util.a "$FFBUILD_DESTPREFIX"/lib
 
-    echo "Libs: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/shaderc_combined.pc
-    echo "Libs: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/shaderc_static.pc
+    echo "Libs: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/shaderc_combined.pc
+    echo "Libs: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/shaderc_static.pc
 
-    cp "$FFBUILD_PREFIX"/lib/pkgconfig/{shaderc_combined,shaderc}.pc
+    cp "$FFBUILD_DESTPREFIX"/lib/pkgconfig/{shaderc_combined,shaderc}.pc
 
     mkdir ../native_build && cd ../native_build
 

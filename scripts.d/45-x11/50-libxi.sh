@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXi.so.6,libXi.a}
-    rm "$FFBUILD_PREFIX"/lib/libXi{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXi.so.6,libXi.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXi{.so*,.la}
 }

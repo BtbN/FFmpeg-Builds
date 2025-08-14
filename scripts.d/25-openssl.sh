@@ -89,7 +89,7 @@ EOF
     sed -i -e "/^CFLAGS=/s|=.*|=${CFLAGS}|" -e "/^LDFLAGS=/s|=[[:space:]]*$|=${LDFLAGS}|" Makefile
 
     make -j$(nproc) build_sw
-    make install_sw
+    make install_sw DESTDIR="$FFBUILD_DESTDIR"
 }
 
 ffbuild_configure() {
