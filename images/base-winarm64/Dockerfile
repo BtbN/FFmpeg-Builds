@@ -44,6 +44,7 @@ ENV PATH="/opt/llvm-mingw/bin:${PATH}" \
     RANLIB="${FFBUILD_TOOLCHAIN}-llvm-ranlib" \
     NM="${FFBUILD_TOOLCHAIN}-nm" \
     DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
+    GENDEF="gendef" \
     CFLAGS="-I/opt/ffbuild/include -O2 -pipe -march=armv8-a -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-I/opt/ffbuild/include -O2 -pipe -march=armv8-a -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     LDFLAGS="-L/opt/ffbuild/lib -O2 -pipe -march=armv8-a -fstack-protector-strong" \

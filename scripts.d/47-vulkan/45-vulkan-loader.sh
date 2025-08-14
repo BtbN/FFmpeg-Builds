@@ -19,8 +19,8 @@ ffbuild_dockerbuild() {
 
     if [[ $TARGET == win* ]]; then
         rm "$FFBUILD_PREFIX"/lib/libvulkan-1.dll.a
-        "${FFBUILD_CROSS_PREFIX}"gendef "$FFBUILD_PREFIX"/bin/vulkan-1.dll
-        "${FFBUILD_CROSS_PREFIX}"dlltool -d vulkan-1.def --output-delaylib "$FFBUILD_PREFIX"/lib/libvulkan-1.a
+        "$GENDEF" "$FFBUILD_PREFIX"/bin/vulkan-1.dll
+        "$DLLTOOL" -d vulkan-1.def --output-delaylib "$FFBUILD_PREFIX"/lib/libvulkan-1.a
         rm "$FFBUILD_PREFIX"/bin/vulkan-1.dll
 
         sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
