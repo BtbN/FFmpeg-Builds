@@ -19,7 +19,8 @@ ffbuild_dockerbuild() {
     ninja -j$(nproc)
     ninja install
 
-    # For some reason, these lack the lib prefix
+    # For some reason, these lack the lib prefix on Windows
+    shopt -s nullglob
     for libfile in "$FFBUILD_PREFIX"/lib/ggml*.a; do
         mv "${libfile}" "$(dirname "${libfile}")/lib$(basename "${libfile}")"
     done
