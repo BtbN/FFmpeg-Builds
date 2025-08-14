@@ -25,9 +25,9 @@ ffbuild_dockerbuild() {
             "$GENDEF" "$FFBUILD_PREFIX"/bin/vulkan-1.dll
             "$DLLTOOL" -d vulkan-1.def --output-delaylib "$FFBUILD_PREFIX"/lib/libvulkan-1.a
             rm "$FFBUILD_PREFIX"/bin/vulkan-1.dll
-
-            sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
         fi
+
+        sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_PREFIX"/lib/pkgconfig/vulkan.pc
     elif [[ $TARGET == linux* ]]; then
         gen-implib "$FFBUILD_PREFIX"/lib/libvulkan{.so.1,.a}
         rm "$FFBUILD_PREFIX"/lib/libvulkan.so*
