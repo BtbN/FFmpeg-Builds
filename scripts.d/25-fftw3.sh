@@ -42,5 +42,5 @@ ffbuild_dockerbuild() {
 
     ./bootstrap.sh "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 }

@@ -32,8 +32,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXfixes.so.3,libXfixes.a}
-    rm "$FFBUILD_PREFIX"/lib/libXfixes{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXfixes.so.3,libXfixes.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXfixes{.so*,.la}
 }

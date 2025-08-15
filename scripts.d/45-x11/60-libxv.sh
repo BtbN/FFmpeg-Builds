@@ -40,10 +40,10 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXv.so.1,libXv.a}
-    rm "$FFBUILD_PREFIX"/lib/libXv{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXv.so.1,libXv.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXv{.so*,.la}
 }
 
 ffbuild_configure() {

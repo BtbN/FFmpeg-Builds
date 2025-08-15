@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXrender.so.1,libXrender.a}
-    rm "$FFBUILD_PREFIX"/lib/libXrender{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXrender.so.1,libXrender.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXrender{.so*,.la}
 }

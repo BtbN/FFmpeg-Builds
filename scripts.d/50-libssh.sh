@@ -15,7 +15,7 @@ ffbuild_dockerbuild() {
         ..
 
     ninja -j$(nproc)
-    ninja install
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     {
         echo "Requires.private: libssl libcrypto zlib"
@@ -24,7 +24,7 @@ ffbuild_dockerbuild() {
             echo "Libs.private: -liphlpapi -lws2_32"
         fi
         echo "Libs.private: -lpthread"
-    } >> "$FFBUILD_PREFIX"/lib/pkgconfig/libssh.pc
+    } >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libssh.pc
 }
 
 ffbuild_configure() {

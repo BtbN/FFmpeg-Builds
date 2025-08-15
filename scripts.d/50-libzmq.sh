@@ -31,12 +31,12 @@ ffbuild_dockerbuild() {
 
     cmake "${myconf[@]}" ..
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
     {
         echo "Cflags.private: -DZMQ_NO_EXPORT -DZMQ_STATIC"
         [[ $TARGET != win* ]] || echo "Libs.private: -lws2_32 -liphlpapi"
-    } >> "$FFBUILD_PREFIX"/lib/pkgconfig/libzmq.pc
+    } >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libzmq.pc
 }
 
 ffbuild_configure() {

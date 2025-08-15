@@ -53,10 +53,10 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
     # Work around strip breaking LTO symbol index
-    "$RANLIB" "$FFBUILD_PREFIX"/lib/libvpx.a
+    "$RANLIB" "$FFBUILD_DESTPREFIX"/lib/libvpx.a
 }
 
 ffbuild_configure() {

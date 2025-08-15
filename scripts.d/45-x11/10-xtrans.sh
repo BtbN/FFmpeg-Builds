@@ -29,7 +29,7 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    cp -r "$FFBUILD_PREFIX"/share/aclocal/. /usr/share/aclocal
+    cp -r "$FFBUILD_DESTPREFIX"/share/aclocal/. /usr/share/aclocal
 }

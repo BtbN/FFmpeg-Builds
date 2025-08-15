@@ -13,8 +13,8 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir -p "$FFBUILD_PREFIX"/include
-    mv amf/public/include "$FFBUILD_PREFIX"/include/AMF
+    mkdir -p "$FFBUILD_DESTPREFIX"/include
+    mv amf/public/include "$FFBUILD_DESTPREFIX"/include/AMF
 }
 
 ffbuild_configure() {

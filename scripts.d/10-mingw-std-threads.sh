@@ -9,6 +9,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir -p "$FFBUILD_PREFIX"/include
-    cp *.h "$FFBUILD_PREFIX"/include
+    mkdir -p "$FFBUILD_DESTPREFIX"/include
+    cp *.h "$FFBUILD_DESTPREFIX"/include
 }

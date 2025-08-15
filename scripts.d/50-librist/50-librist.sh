@@ -37,9 +37,9 @@ ffbuild_dockerbuild() {
 
     meson "${myconf[@]}" ..
     ninja -j"$(nproc)"
-    ninja install
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
-    echo "Requires: mbedcrypto" >> "$FFBUILD_PREFIX"/lib/pkgconfig/librist.pc
+    echo "Requires: mbedcrypto" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/librist.pc
 }
 
 ffbuild_configure() {

@@ -11,6 +11,7 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     local myconf=(
         --prefix="${FFBUILD_PREFIX}"
+        --destdir="${FFBUILD_DESTDIR}"
         --target="${FFBUILD_RUST_TARGET}"
         --library-type=staticlib
         --crt-static
@@ -38,7 +39,7 @@ ffbuild_dockerbuild() {
 
     cargo cinstall -v "${myconf[@]}"
 
-    chmod 644 "${FFBUILD_PREFIX}"/lib/*rav1e*
+    chmod 644 "${FFBUILD_DESTPREFIX}"/lib/*rav1e*
 }
 
 ffbuild_configure() {

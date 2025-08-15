@@ -42,8 +42,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXext.so.6,libXext.a}
-    rm "$FFBUILD_PREFIX"/lib/libXext{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXext.so.6,libXext.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXext{.so*,.la}
 }
