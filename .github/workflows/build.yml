@@ -56,7 +56,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -135,7 +135,7 @@ jobs:
         target: [win64,winarm64,linux64,linuxarm64]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -191,7 +191,7 @@ jobs:
         variant: [gpl,lgpl,gpl 6.1,gpl 7.1,lgpl 6.1,lgpl 7.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,lgpl-shared 6.1,lgpl-shared 7.1]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -256,7 +256,7 @@ jobs:
         variant: [gpl,lgpl,gpl 6.1,gpl 7.1,lgpl 6.1,lgpl 7.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,lgpl-shared 6.1,lgpl-shared 7.1]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Login to Docker
@@ -287,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download artifacts
