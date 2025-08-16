@@ -73,8 +73,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -152,8 +153,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
           echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
@@ -208,8 +210,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Get download cache key
         id: dl_cache
         run: |
