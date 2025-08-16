@@ -12,4 +12,7 @@ package_variant() {
 
     mkdir -p "$OUT/man"
     cp -r "$IN"/share/man/* "$OUT"/man
+
+    mkdir -p "$OUT/presets"
+    cp "$IN"/share/ffmpeg/*.ffpreset "$OUT"/presets
 }
