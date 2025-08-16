@@ -51,7 +51,7 @@ docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUIL
 if [[ -n "$FFBUILD_OUTPUT_DIR" ]]; then
     mkdir -p "$FFBUILD_OUTPUT_DIR"
     package_variant ffbuild/prefix "$FFBUILD_OUTPUT_DIR"
-    [[ -n "$LICENSE_FILE" ]] && cp "ffbuild/ffmpeg/$LICENSE_FILE" "$FFBUILD_OUTPUT_DIR/LICENSE"
+    [[ -n "$LICENSE_FILE" ]] && cp "ffbuild/ffmpeg/$LICENSE_FILE" "$FFBUILD_OUTPUT_DIR/LICENSE.txt"
     rm -rf ffbuild
     exit 0
 fi
@@ -62,7 +62,7 @@ BUILD_NAME="ffmpeg-$(./ffbuild/ffmpeg/ffbuild/version.sh ffbuild/ffmpeg)-${TARGE
 
 mkdir -p "ffbuild/pkgroot/$BUILD_NAME"
 package_variant ffbuild/prefix "ffbuild/pkgroot/$BUILD_NAME"
-[[ -n "$LICENSE_FILE" ]] && cp "ffbuild/ffmpeg/$LICENSE_FILE" "ffbuild/pkgroot/$BUILD_NAME/LICENSE"
+[[ -n "$LICENSE_FILE" ]] && cp "ffbuild/ffmpeg/$LICENSE_FILE" "ffbuild/pkgroot/$BUILD_NAME/LICENSE.txt"
 cd ffbuild/pkgroot
 if [[ "${TARGET}" == win* ]]; then
     OUTPUT_FNAME="${BUILD_NAME}.zip"
