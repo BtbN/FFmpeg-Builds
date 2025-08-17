@@ -4,6 +4,7 @@ SCRIPT_REPO="https://github.com/ggml-org/whisper.cpp.git"
 SCRIPT_COMMIT="5527454cdb3e15d7e2b8a6e2afcb58cb61651fd2"
 
 ffbuild_enabled() {
+    [[ $TARGET != *32 ]] || return -1
     (( $(ffbuild_ffver) >= 800 )) || return -1
     return 0
 }
