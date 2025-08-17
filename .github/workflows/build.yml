@@ -56,7 +56,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -73,8 +73,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -135,7 +136,7 @@ jobs:
         target: [win64,linux64]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -152,8 +153,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
           echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
@@ -191,7 +193,7 @@ jobs:
         variant: [nonfree,nonfree-shared,nonfree 7.1,nonfree-shared 7.1]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -208,8 +210,9 @@ jobs:
         id: imagename
         run: |
           IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "name=ghcr.io/${IMG/ /-}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG/ /-}" >> $GITHUB_OUTPUT
+          IMG="${IMG/ /-}"
+          echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
+          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Get download cache key
         id: dl_cache
         run: |
@@ -256,7 +259,7 @@ jobs:
         variant: [nonfree,nonfree-shared,nonfree 7.1,nonfree-shared 7.1]
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Login to Docker
@@ -287,7 +290,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
+        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download artifacts

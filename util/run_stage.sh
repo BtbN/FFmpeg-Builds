@@ -28,7 +28,7 @@ fi
 
 # If this is a sub-stage, hardlink-copy the DESTDIR into the PREFIX.
 # So the following layers can actually use the installed stuff.
-if [[ "$SELF" == */??-*/??-*.sh ]]; then
+if [[ "$SELF" == */??-*/??-*.sh && -d "$FFBUILD_DESTDIR" ]]; then
     cp -al "$FFBUILD_DESTDIR"/. /
 fi
 

@@ -13,7 +13,7 @@ ffbuild_dockerbuild() {
     mkdir build && cd build
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_TESTS=OFF -DBUILD_WERROR=OFF -DLOADER_CODEGEN=ON -DUSE_GAS=ON ..
+        -DBUILD_TESTS=OFF -DBUILD_WERROR=OFF -DLOADER_CODEGEN=ON -DUSE_GAS=OFF -DUSE_MASM=OFF ..
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
 
@@ -24,9 +24,9 @@ ffbuild_dockerbuild() {
             rm "$FFBUILD_DESTPREFIX"/lib/libvulkan-1.dll.a
             "$GENDEF" "$FFBUILD_DESTPREFIX"/bin/vulkan-1.dll
             "$DLLTOOL" -d vulkan-1.def --output-delaylib "$FFBUILD_DESTPREFIX"/lib/libvulkan-1.a
-            rm "$FFBUILD_DESTPREFIX"/bin/vulkan-1.dll
         fi
 
+        rm "$FFBUILD_DESTPREFIX"/bin/vulkan-1.dll
         sed -i -e 's/^\(Libs:\).*$/\1 -L${libdir} -lvulkan-1/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/vulkan.pc
     elif [[ $TARGET == linux* ]]; then
         gen-implib "$FFBUILD_DESTPREFIX"/lib/libvulkan{.so.1,.a}
