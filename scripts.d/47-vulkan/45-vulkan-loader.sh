@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/BtbN/Vulkan-Shim-Loader.git"
-SCRIPT_COMMIT="2e50a8582a2ce974f5d6545582d2c36094dd45c3"
+SCRIPT_COMMIT="9657ca8e395ef16c79b57c8bd3f4c1aebb319137"
 
 SCRIPT_REPO2="https://github.com/KhronosGroup/Vulkan-Headers.git"
 SCRIPT_COMMIT2="v1.4.325"
