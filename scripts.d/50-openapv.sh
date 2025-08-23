@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/AcademySoftwareFoundation/openapv.git"
-SCRIPT_COMMIT="ab235995e732402318922c77cfd965c540c67519"
+SCRIPT_COMMIT="99e80816893e4b6c5fc57a2dda1141f037dd446c"
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) > 701 )) || return -1
@@ -28,15 +28,15 @@ ffbuild_dockerbuild() {
         -DOAPV_APP_STATIC_BUILD=ON -DENABLE_TESTS=OFF ..
 
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    mv "$FFBUILD_PREFIX"/lib{/oapv/liboapv.a,}
-    rm -rf "$FFBUILD_PREFIX"/{bin,lib/oapv,include/oapv/oapv_exports.h,lib/liboapv.so*}
+    mv "$FFBUILD_DESTPREFIX"/lib{/oapv/liboapv.a,}
+    rm -rf "$FFBUILD_DESTPREFIX"/{bin,lib/oapv,include/oapv/oapv_exports.h,lib/liboapv.so*}
 
     {
         echo "Libs.private: -lm"
         echo "Cflags.private: -DOAPV_STATIC_DEFINE"
-    } >> "$FFBUILD_PREFIX"/lib/pkgconfig/oapv.pc
+    } >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/oapv.pc
 }
 
 ffbuild_configure() {

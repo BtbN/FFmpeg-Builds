@@ -9,13 +9,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerlayer() {
-    to_df "COPY --link --from=${SELFLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
-    to_df "COPY --link --from=${SELFLAYER} \$FFBUILD_PREFIX/share/aclocal/. /usr/share/aclocal"
+    to_df "COPY --link --from=${SELFLAYER} \$FFBUILD_DESTPREFIX/. \$FFBUILD_PREFIX"
+    to_df "COPY --link --from=${SELFLAYER} \$FFBUILD_DESTPREFIX/share/aclocal/. /usr/share/aclocal"
 }
 
 ffbuild_dockerbuild() {
     autoreconf -i
     ./configure --prefix="$FFBUILD_PREFIX"
     make -j"$(nproc)"
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 }

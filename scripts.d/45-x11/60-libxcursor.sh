@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxcursor.git"
-SCRIPT_COMMIT="f9a2078c0f192b7bc072b4f15ddee7977efc7600"
+SCRIPT_COMMIT="2197ca8cbb743d2fcc43c155396a724cad8f26f3"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -32,8 +32,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXcursor.so.1,libXcursor.a}
-    rm "$FFBUILD_PREFIX"/lib/libXcursor{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXcursor.so.1,libXcursor.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXcursor{.so*,.la}
 }

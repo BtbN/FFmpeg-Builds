@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxrandr.git"
-SCRIPT_COMMIT="8bf72e84e3cf0106532c5c7b8b30154ce48c70e0"
+SCRIPT_COMMIT="242fae8378b213f8e477bde1c4be2fb654201b3d"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXrandr.so.2,libXrandr.a}
-    rm "$FFBUILD_PREFIX"/lib/libXrandr{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXrandr.so.2,libXrandr.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXrandr{.so*,.la}
 }

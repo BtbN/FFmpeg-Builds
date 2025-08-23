@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.com/libssh/libssh-mirror.git"
-SCRIPT_COMMIT="7a2a743a39fab3c044343b036560008f3e00e955"
+SCRIPT_COMMIT="ef50a3c0f0686d708f08ee4754e80d68569831b7"
 
 ffbuild_enabled() {
     return 0
@@ -15,7 +15,7 @@ ffbuild_dockerbuild() {
         ..
 
     ninja -j$(nproc)
-    ninja install
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     {
         echo "Requires.private: libssl libcrypto zlib"
@@ -24,7 +24,7 @@ ffbuild_dockerbuild() {
             echo "Libs.private: -liphlpapi -lws2_32"
         fi
         echo "Libs.private: -lpthread"
-    } >> "$FFBUILD_PREFIX"/lib/pkgconfig/libssh.pc
+    } >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libssh.pc
 }
 
 ffbuild_configure() {

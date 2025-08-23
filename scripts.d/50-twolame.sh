@@ -8,6 +8,10 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    # libtoolize version detection is broken, disable it, we got the right versions
+    printf 'print "999999\\n"\n' > autogen-get-version-mock.pl
+    sed -i -e 's|/autogen-get-version.pl|/autogen-get-version-mock.pl|g' ./autogen.sh
+
     NOCONFIGURE=1 ./autogen.sh
     touch doc/twolame.1
 
@@ -30,9 +34,9 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    sed -i 's/Cflags:/Cflags: -DLIBTWOLAME_STATIC/' "$FFBUILD_PREFIX"/lib/pkgconfig/twolame.pc
+    sed -i 's/Cflags:/Cflags: -DLIBTWOLAME_STATIC/' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/twolame.pc
 }
 
 ffbuild_configure() {

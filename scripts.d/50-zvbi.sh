@@ -34,8 +34,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -C src -j$(nproc)
-    make -C src install
-    make SUBDIRS=. install
+    make -C src install DESTDIR="$FFBUILD_DESTDIR"
+    make SUBDIRS=. install DESTDIR="$FFBUILD_DESTDIR"
 }
 
 ffbuild_configure() {
