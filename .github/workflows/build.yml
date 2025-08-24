@@ -186,7 +186,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.1,gpl 8.0,lgpl 5.1,lgpl 6.1,lgpl 7.1,lgpl 8.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.1,gpl-shared 8.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.1,lgpl-shared 8.0]
+        variant: [gpl,lgpl,gpl 6.1,gpl 7.1,gpl 8.0,lgpl 6.1,lgpl 7.1,lgpl 8.0,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,gpl-shared 8.0,lgpl-shared 6.1,lgpl-shared 7.1,lgpl-shared 8.0]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
@@ -254,7 +254,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win32]
-        variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.1,gpl 8.0,lgpl 5.1,lgpl 6.1,lgpl 7.1,lgpl 8.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.1,gpl-shared 8.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.1,lgpl-shared 8.0]
+        variant: [gpl,lgpl,gpl 6.1,gpl 7.1,gpl 8.0,lgpl 6.1,lgpl 7.1,lgpl 8.0,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 7.1,gpl-shared 8.0,lgpl-shared 6.1,lgpl-shared 7.1,lgpl-shared 8.0]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
