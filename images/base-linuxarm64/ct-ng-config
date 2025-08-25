@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.27.0.42_35c1e72 Configuration
+# crosstool-NG 1.27.0.79_8f49ec5 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.27.0.42_35c1e72"
+CT_VERSION="1.27.0.79_8f49ec5"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -279,6 +279,7 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_LOCAL_BUNDLED is not set
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
+# CT_LINUX_V_6_14 is not set
 # CT_LINUX_V_6_13 is not set
 # CT_LINUX_V_6_12 is not set
 # CT_LINUX_V_6_11 is not set
@@ -397,7 +398,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_44=y
+CT_BINUTILS_V_2_45=y
+# CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
 # CT_BINUTILS_V_2_42 is not set
 # CT_BINUTILS_V_2_41 is not set
@@ -416,14 +418,16 @@ CT_BINUTILS_V_2_44=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.44"
+CT_BINUTILS_VERSION="2.45"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_45_or_later=y
+CT_BINUTILS_2_45_or_older=y
+CT_BINUTILS_later_than_2_44=y
 CT_BINUTILS_2_44_or_later=y
-CT_BINUTILS_2_44_or_older=y
 CT_BINUTILS_later_than_2_41=y
 CT_BINUTILS_2_41_or_later=y
 CT_BINUTILS_later_than_2_39=y
@@ -480,6 +484,7 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
+# CT_GLIBC_V_2_42 is not set
 # CT_GLIBC_V_2_41 is not set
 # CT_GLIBC_V_2_40 is not set
 # CT_GLIBC_V_2_39 is not set
@@ -507,6 +512,8 @@ CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_GLIBC_SIGNATURE_FORMAT="packed/.sig"
+CT_GLIBC_2_42_or_older=y
+CT_GLIBC_older_than_2_42=y
 CT_GLIBC_2_41_or_older=y
 CT_GLIBC_older_than_2_41=y
 CT_GLIBC_2_38_or_older=y
@@ -740,7 +747,35 @@ CT_CC_LANG_OTHERS=""
 #
 # BFD enabled in binutils
 #
-# CT_LINKER_MOLD is not set
+CT_LINKER_MOLD=y
+CT_LINKER_MOLD_PKG_KSYM="MOLD"
+CT_MOLD_DIR_NAME="mold"
+CT_MOLD_PKG_NAME="mold"
+CT_MOLD_SRC_RELEASE=y
+# CT_MOLD_SRC_DEVEL is not set
+# CT_MOLD_SRC_CUSTOM is not set
+CT_MOLD_PATCH_GLOBAL=y
+# CT_MOLD_PATCH_BUNDLED is not set
+# CT_MOLD_PATCH_LOCAL is not set
+# CT_MOLD_PATCH_BUNDLED_LOCAL is not set
+# CT_MOLD_PATCH_LOCAL_BUNDLED is not set
+# CT_MOLD_PATCH_NONE is not set
+CT_MOLD_PATCH_ORDER="global"
+CT_MOLD_V_2_40_1=y
+# CT_MOLD_V_2_39_1 is not set
+# CT_MOLD_V_2_38_1 is not set
+# CT_MOLD_V_2_37_1 is not set
+# CT_MOLD_V_2_36_0 is not set
+# CT_MOLD_V_2_33_0 is not set
+# CT_MOLD_V_2_32_0 is not set
+# CT_MOLD_V_2_31_0 is not set
+CT_MOLD_VERSION="2.40.3"
+CT_MOLD_MIRRORS="https://github.com/rui314/mold/archive/refs/tags"
+CT_MOLD_ARCHIVE_FILENAME="v@{version}"
+CT_MOLD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_MOLD_ARCHIVE_FORMATS=".tar.gz"
+CT_MOLD_SIGNATURE_FORMAT=""
+CT_LINKER_MOLD_has_cmake=y
 CT_ALL_LINKER_CHOICES="MOLD"
 # end of Linkers
 
@@ -825,6 +860,7 @@ CT_GMP_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2"
 CT_GMP_SIGNATURE_FORMAT="packed/.sig"
+CT_GMP_EXTRA_CFLAGS="-std=gnu17"
 CT_COMP_LIBS_ISL=y
 CT_COMP_LIBS_ISL_PKG_KSYM="ISL"
 CT_ISL_DIR_NAME="isl"
@@ -952,7 +988,7 @@ CT_NCURSES_MIRRORS="https://invisible-mirror.net/archives/ncurses $(CT_Mirrors G
 CT_NCURSES_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_NCURSES_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_NCURSES_ARCHIVE_FORMATS=".tar.gz"
-CT_NCURSES_SIGNATURE_FORMAT="packed/.sig"
+CT_NCURSES_SIGNATURE_FORMAT="packed/.asc"
 # CT_NCURSES_NEW_ABI is not set
 CT_NCURSES_HOST_CONFIG_ARGS=""
 CT_NCURSES_HOST_DISABLE_DB=y
@@ -960,6 +996,7 @@ CT_NCURSES_HOST_FALLBACKS="linux,xterm,xterm-color,xterm-256color,vt100"
 CT_NCURSES_TARGET_CONFIG_ARGS=""
 # CT_NCURSES_TARGET_DISABLE_DB is not set
 CT_NCURSES_TARGET_FALLBACKS=""
+CT_NCURSES_EXTRA_CFLAGS="-std=gnu17"
 CT_COMP_LIBS_ZLIB=y
 CT_COMP_LIBS_ZLIB_PKG_KSYM="ZLIB"
 CT_ZLIB_DIR_NAME="zlib"
@@ -996,11 +1033,12 @@ CT_ZSTD_PATCH_GLOBAL=y
 # CT_ZSTD_PATCH_LOCAL_BUNDLED is not set
 # CT_ZSTD_PATCH_NONE is not set
 CT_ZSTD_PATCH_ORDER="global"
-CT_ZSTD_V_1_5_6=y
+CT_ZSTD_V_1_5_7=y
+# CT_ZSTD_V_1_5_6 is not set
 # CT_ZSTD_V_1_5_5 is not set
 # CT_ZSTD_V_1_5_2 is not set
-CT_ZSTD_VERSION="1.5.6"
-CT_ZSTD_MIRRORS="https://github.com/facebook/zstd/releases/download/v${CT_ZSTD_VERSION} https://www.zstd.net/"
+CT_ZSTD_VERSION="1.5.7"
+CT_ZSTD_MIRRORS="https://github.com/facebook/zstd/releases/download/v${CT_ZSTD_VERSION} https://downloads.sourceforge.net/project/zstandard.mirror/v${CT_ZSTD_VERSION}"
 CT_ZSTD_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ZSTD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_ZSTD_ARCHIVE_FORMATS=".tar.gz"

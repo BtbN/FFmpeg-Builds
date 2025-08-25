@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
-SCRIPT_COMMIT="24357f189c233c03fb46368a142a0b2c1a949f9d"
+SCRIPT_COMMIT="1a9611d3162b44ec2207d825808e234119b6e88b"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
@@ -34,17 +34,17 @@ ffbuild_dockerbuild() {
         -DJPEGXL_ENABLE_JPEGLI=OFF -DBUILD_TESTING=OFF -DJPEGXL_ENABLE_EXAMPLES=OFF -DJPEGXL_ENABLE_MANPAGES=OFF -DJPEGXL_ENABLE_JNI=OFF -DJPEGXL_ENABLE_PLUGINS=OFF \
         -DJPEGXL_ENABLE_DEVTOOLS=OFF -DJPEGXL_ENABLE_BENCHMARK=OFF -DJPEGXL_BUNDLE_LIBPNG=OFF -DJPEGXL_ENABLE_SJPEG=OFF -DJPEGXL_FORCE_SYSTEM_BROTLI=ON ..
     ninja -j$(nproc)
-    ninja install
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     if [[ $TARGET == win* ]]; then
-        echo "Libs.private: -lstdc++ -ladvapi32" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl.pc
-        echo "Libs.private: -lstdc++ -ladvapi32" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl_threads.pc
+        echo "Libs.private: -lstdc++ -ladvapi32" >> "${FFBUILD_DESTPREFIX}"/lib/pkgconfig/libjxl.pc
+        echo "Libs.private: -lstdc++ -ladvapi32" >> "${FFBUILD_DESTPREFIX}"/lib/pkgconfig/libjxl_threads.pc
     else
-        echo "Libs.private: -lstdc++" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl.pc
-        echo "Libs.private: -lstdc++" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl_threads.pc
+        echo "Libs.private: -lstdc++" >> "${FFBUILD_DESTPREFIX}"/lib/pkgconfig/libjxl.pc
+        echo "Libs.private: -lstdc++" >> "${FFBUILD_DESTPREFIX}"/lib/pkgconfig/libjxl_threads.pc
     fi
 
-    echo "Requires.private: lcms2" >> "${FFBUILD_PREFIX}"/lib/pkgconfig/libjxl_cms.pc
+    echo "Requires.private: lcms2" >> "${FFBUILD_DESTPREFIX}"/lib/pkgconfig/libjxl_cms.pc
 }
 
 ffbuild_configure() {

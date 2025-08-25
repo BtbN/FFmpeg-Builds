@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/freetype/freetype.git"
-SCRIPT_COMMIT="b04db3872cfac5ee4fd4f895933cebce3576fbf0"
+SCRIPT_COMMIT="aa2ee67b3d95585a0bfc56a834544a502853f584"
 
 ffbuild_enabled() {
     return 0
@@ -27,9 +27,9 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    echo "Libs.private: -lharfbuzz" >> "$FFBUILD_PREFIX"/lib/pkgconfig/freetype2.pc
+    echo "Libs.private: -lharfbuzz" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/freetype2.pc
 }
 
 ffbuild_configure() {

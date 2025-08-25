@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
-SCRIPT_COMMIT="0d70de3201a000fe9b0d4a04d1c424df8e7e543f"
+SCRIPT_COMMIT="737ff69e5370eaeff83c05cf94e6b199776ec216"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -38,8 +38,8 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libXss.so.1,libXss.a}
-    rm "$FFBUILD_PREFIX"/lib/libXss{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libXss.so.1,libXss.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libXss{.so*,.la}
 }

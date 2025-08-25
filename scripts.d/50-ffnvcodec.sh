@@ -38,7 +38,7 @@ ffbuild_dockerbuild() {
         cd ffnvcodec
     fi
 
-    make PREFIX="$FFBUILD_PREFIX" install
+    make PREFIX="$FFBUILD_PREFIX" DESTDIR="$FFBUILD_DESTDIR" install
 }
 
 ffbuild_configure() {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libx11.git"
-SCRIPT_COMMIT="8a32fad341512c8ff2e771a14a3dc78bf9e6a49f"
+SCRIPT_COMMIT="e003f52661679e95b51ff24e317af6178fe2a73c"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -44,11 +44,11 @@ ffbuild_dockerbuild() {
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
-    make install
+    make install DESTDIR="$FFBUILD_DESTDIR"
 
-    echo "Libs: -ldl" >> "$FFBUILD_PREFIX"/lib/pkgconfig/x11.pc
+    echo "Libs: -ldl" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/x11.pc
 
-    gen-implib "$FFBUILD_PREFIX"/lib/{libX11-xcb.so.1,libX11-xcb.a}
-    gen-implib "$FFBUILD_PREFIX"/lib/{libX11.so.6,libX11.a}
-    rm "$FFBUILD_PREFIX"/lib/libX11{,-xcb}{.so*,.la}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libX11-xcb.so.1,libX11-xcb.a}
+    gen-implib "$FFBUILD_DESTPREFIX"/lib/{libX11.so.6,libX11.a}
+    rm "$FFBUILD_DESTPREFIX"/lib/libX11{,-xcb}{.so*,.la}
 }

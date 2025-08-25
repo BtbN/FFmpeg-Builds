@@ -33,6 +33,8 @@ ENV PATH="/opt/llvm-mingw/bin:${PATH}" \
     FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=aarch64 --cpu=armv8-a --target-os=mingw32" \
     FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
     FFBUILD_PREFIX=/opt/ffbuild \
+    FFBUILD_DESTDIR=/opt/ffdest \
+    FFBUILD_DESTPREFIX=/opt/ffdest/opt/ffbuild \
     FFBUILD_CMAKE_TOOLCHAIN=/toolchain.cmake \
     PKG_CONFIG=pkg-config \
     PKG_CONFIG_LIBDIR=/opt/ffbuild/lib/pkgconfig:/opt/ffbuild/share/pkgconfig \
@@ -44,6 +46,7 @@ ENV PATH="/opt/llvm-mingw/bin:${PATH}" \
     RANLIB="${FFBUILD_TOOLCHAIN}-llvm-ranlib" \
     NM="${FFBUILD_TOOLCHAIN}-nm" \
     DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
+    GENDEF="gendef" \
     CFLAGS="-I/opt/ffbuild/include -O2 -pipe -march=armv8-a -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     CXXFLAGS="-I/opt/ffbuild/include -O2 -pipe -march=armv8-a -D_FORTIFY_SOURCE=2 -fstack-protector-strong" \
     LDFLAGS="-L/opt/ffbuild/lib -O2 -pipe -march=armv8-a -fstack-protector-strong" \
