@@ -1,16 +1,21 @@
 FROM ubuntu:25.10
 
+ARG TARGETPLATFORM
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN \
     apt-get -y update && \
     apt-get -y dist-upgrade && \
-    apt-get -y install build-essential yasm nasm \
+    apt-get -y install --no-install-recommends \
+        $([ "$TARGETPLATFORM" != "linux/amd64" ] || echo gcc-multilib g++-multilib) \
+        build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
-        autoconf automake libtool libtool-bin autopoint gettext cmake clang lld meson ninja-build \
+        autoconf automake libtool libtool-bin autopoint gettext cmake meson ninja-build \
+        clang llvm lcov lld \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
-        ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full \
+        ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full zstd \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get -y install nodejs && \
