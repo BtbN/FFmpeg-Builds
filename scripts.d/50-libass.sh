@@ -3,6 +3,13 @@
 SCRIPT_REPO="https://github.com/libass/libass.git"
 SCRIPT_COMMIT="338fd2cea8ac156a910b04838b5f40b868e41160"
 
+ffbuild_depends() {
+    echo base
+    echo fonts
+    echo fribidi
+    echo libiconv
+}
+
 ffbuild_enabled() {
     return 0
 }

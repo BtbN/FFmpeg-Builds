@@ -3,6 +3,11 @@
 SCRIPT_REPO="https://github.com/xiph/theora.git"
 SCRIPT_COMMIT="23161c4a63fd9f9d09b9e972f95def2d56c777af"
 
+ffbuild_depends() {
+    echo base
+    echo libogg
+}
+
 ffbuild_enabled() {
     return 0
 }

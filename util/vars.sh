@@ -70,6 +70,10 @@ ffbuild_ffver() {
 }
 
 
+ffbuild_depends() {
+    echo base
+}
+
 ffbuild_dockerstage() {
     if [[ -n "$SELFCACHE" ]]; then
         to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=${SELFCACHE},dst=/cache.tar.xz run_stage /stage.sh"

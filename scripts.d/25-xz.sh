@@ -3,6 +3,11 @@
 SCRIPT_REPO="https://github.com/tukaani-project/xz.git"
 SCRIPT_COMMIT="dd4a1b259936880e04669b43e778828b60619860"
 
+ffbuild_depends() {
+    echo base
+    echo libiconv
+}
+
 ffbuild_enabled() {
     return 0
 }
