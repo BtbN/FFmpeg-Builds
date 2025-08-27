@@ -7,6 +7,9 @@ SCRIPT_BRANCH="SDL2"
 ffbuild_depends() {
     echo base
     echo libiconv
+    echo x11
+    echo pulseaudio
+    echo libsamplerate
 }
 
 ffbuild_enabled() {
@@ -21,6 +24,10 @@ ffbuild_dockerbuild() {
         -DSDL_STATIC=ON
         -DSDL_STATIC_PIC=ON
         -DSDL_TEST=OFF
+        -DSDL_CCACHE=OFF
+
+        -DSDL_LIBSAMPLERATE=ON
+        -DSDL_LIBSAMPLERATE_SHARED=OFF
     )
 
     if [[ $TARGET == linux* ]]; then

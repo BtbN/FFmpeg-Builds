@@ -6,6 +6,9 @@ SCRIPT_COMMIT="98c7c9eafb148c6e66e5fe178fc156b00f3bf51a"
 ffbuild_depends() {
     echo base
     echo libiconv
+    echo libsamplerate
+    echo soxr
+    echo openssl
 }
 
 ffbuild_enabled() {
@@ -50,7 +53,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    meson "${myconf[@]}" ..
+    meson setup "${myconf[@]}" ..
     ninja -j"$(nproc)"
     DESTDIR="$FFBUILD_DESTDIR" ninja install
 
