@@ -3,6 +3,10 @@
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
 SCRIPT_COMMIT="4ade15926ba7512b2d53949225e94049b899a8d4"
 
+ffbuild_depends() {
+    return 0
+}
+
 ffbuild_enabled() {
     [[ $TARGET == win* ]] || return -1
     return 0
@@ -11,6 +15,7 @@ ffbuild_enabled() {
 ffbuild_dockerlayer() {
     [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /"
+    [[ -n "$COMBINING" ]] || return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 

@@ -3,6 +3,11 @@
 SCRIPT_REPO="https://svn.code.sf.net/p/lame/svn/trunk/lame"
 SCRIPT_REV="6531"
 
+ffbuild_depends() {
+    echo base
+    echo libiconv
+}
+
 ffbuild_enabled() {
     return 0
 }

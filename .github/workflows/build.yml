@@ -57,6 +57,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           buildkitd-config: .github/buildkit.toml
+          driver-opts: image=ghcr.io/btbn/buildkit:master
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
@@ -137,6 +138,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           buildkitd-config: .github/buildkit.toml
+          driver-opts: image=ghcr.io/btbn/buildkit:master
       - name: Login to Docker
         uses: docker/login-action@v3
         with:
@@ -194,6 +196,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           buildkitd-config: .github/buildkit.toml
+          driver-opts: image=ghcr.io/btbn/buildkit:master
       - name: Login to Docker
         uses: docker/login-action@v3
         with:

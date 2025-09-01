@@ -4,6 +4,14 @@ SCRIPT_REPO="https://github.com/libsdl-org/SDL.git"
 SCRIPT_COMMIT="272b0733237555c749bc6dd82a8dd0211ab2e22d"
 SCRIPT_BRANCH="SDL2"
 
+ffbuild_depends() {
+    echo base
+    echo libiconv
+    echo x11
+    echo pulseaudio
+    echo libsamplerate
+}
+
 ffbuild_enabled() {
     return 0
 }
@@ -16,6 +24,10 @@ ffbuild_dockerbuild() {
         -DSDL_STATIC=ON
         -DSDL_STATIC_PIC=ON
         -DSDL_TEST=OFF
+        -DSDL_CCACHE=OFF
+
+        -DSDL_LIBSAMPLERATE=ON
+        -DSDL_LIBSAMPLERATE_SHARED=OFF
     )
 
     if [[ $TARGET == linux* ]]; then

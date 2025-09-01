@@ -3,6 +3,11 @@
 SCRIPT_REPO="https://aomedia.googlesource.com/aom"
 SCRIPT_COMMIT="10aece4157eb79315da205f39e19bf6ab3ee30d0"
 
+ffbuild_depends() {
+    echo base
+    echo vmaf
+}
+
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && return -1
     return 0

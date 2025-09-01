@@ -3,6 +3,12 @@
 SCRIPT_REPO="https://gitlab.freedesktop.org/fontconfig/fontconfig.git"
 SCRIPT_COMMIT="22cbfff10da57dc56a497387d16478db064eb210"
 
+ffbuild_depends() {
+    echo base
+    echo libxml2
+    echo libiconv
+}
+
 ffbuild_enabled() {
     return 0
 }
