@@ -2,7 +2,7 @@ ARG GH_REPO=ghcr.io/btbn/ffmpeg-builds
 FROM $GH_REPO/base:latest
 
 RUN \
-    git-mini-clone https://github.com/mstorsjo/llvm-mingw.git 9abe6a8f316329f025468158bcd1e4d42d9d6967 /llvm-mingw && cd /llvm-mingw && \
+    git clone --filter=blob:none https://github.com/mstorsjo/llvm-mingw /llvm-mingw && cd /llvm-mingw && \
     ./build-all.sh --disable-lldb --disable-lldb-mi /opt/llvm-mingw && \
     cd / && \
     rm -rf llvm-mingw
