@@ -8,27 +8,29 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./bootstrap
+    # stop the static library from exporting symbols when linked into a shared lib
+    sed -i 's/-DUDFREAD_API_EXPORT//g' src/meson.build
+
+    mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
+        -Ddefault_library=static
+        -Denable_examples=false
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"
         return -1
     fi
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    meson setup "${myconf[@]}" ..
+    ninja -j$(nproc)
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     ln -s libudfread.pc "$FFBUILD_DESTPREFIX"/lib/pkgconfig/udfread.pc
 }
