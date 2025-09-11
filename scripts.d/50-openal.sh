@@ -11,6 +11,9 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     mkdir cm_build && cd cm_build
 
+    export CFLAGS="$CFLAGS -include stdlib.h"
+    export CXXFLAGS="$CXXFLAGS -include cstdlib"
+
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DLIBTYPE=STATIC -DALSOFT_UTILS=OFF -DALSOFT_EXAMPLES=OFF  ..
     make -j$(nproc)
