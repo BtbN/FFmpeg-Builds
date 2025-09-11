@@ -15,25 +15,27 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./bootstrap
+    # stop the static library from exporting symbols when linked into a shared lib
+    sed -i 's/-DBLURAY_API_EXPORT//g' src/meson.build
+
+    mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-        --disable-doxygen-doc
-        --disable-doxygen-dot
-        --disable-doxygen-html
-        --disable-doxygen-ps
-        --disable-doxygen-pdf
-        --disable-examples
-        --disable-bdjava-jar
+        -Ddefault_library=static
+        -Denable_docs=false
+        -Denable_tools=false
+        -Denable_devtools=false
+        -Denable_examples=false
+        -Dbdj_jar=disabled
+        -Dfontconfig=enabled
+        -Dfreetype=enabled
+        -Dlibxml2=enabled
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
+            --cross-file=/cross.meson
         )
     else
         echo "Unknown target"
@@ -42,9 +44,9 @@ ffbuild_dockerbuild() {
 
     export CPPFLAGS="${CPPFLAGS} -Ddec_init=libbr_dec_init"
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    meson setup "${myconf[@]}" ..
+    ninja -j$(nproc)
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 }
 
 ffbuild_configure() {
