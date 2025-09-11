@@ -15,7 +15,7 @@ ffbuild_enabled() {
 
 ffbuild_dockerbuild() {
     # stop the static library from exporting symbols when linked into a shared lib
-    sed -i 's/-DDVDREAD_API_EXPORT//g' src/meson.build
+    sed -i 's/-DDVDREAD_API_EXPORT/-DDVDREAD_API_EXPORT_DISABLED/g' src/meson.build
 
     mkdir build && cd build
 
