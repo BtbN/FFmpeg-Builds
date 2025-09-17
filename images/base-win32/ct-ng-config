@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.27.0.79_8f49ec5 Configuration
+# crosstool-NG 1.28.0.1_403899e Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.27.0.79_8f49ec5"
+CT_VERSION="1.28.0.1_403899e"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -246,6 +246,7 @@ CT_BUILD_SUFFIX=""
 # Misc options
 #
 # CT_TOOLCHAIN_ENABLE_NLS is not set
+CT_TOOLCHAIN_CMAKE_TOOLCHAIN_FILE=y
 # end of Toolchain options
 
 #
@@ -355,6 +356,7 @@ CT_BINUTILS_RELRO=m
 CT_BINUTILS_DETERMINISTIC_ARCHIVES=y
 CT_BINUTILS_EXTRA_CONFIG_ARRAY=""
 # CT_BINUTILS_FOR_TARGET is not set
+# CT_BINUTILS_GPROFNG is not set
 CT_ALL_BINUTILS_CHOICES="BINUTILS"
 # end of Binary utilities
 
@@ -471,7 +473,7 @@ CT_GCC_V_15=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="15.1.0"
+CT_GCC_VERSION="15.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -586,12 +588,12 @@ CT_MOLD_PATCH_GLOBAL=y
 # CT_MOLD_PATCH_LOCAL_BUNDLED is not set
 # CT_MOLD_PATCH_NONE is not set
 CT_MOLD_PATCH_ORDER="global"
-CT_MOLD_V_2_40_1=y
+CT_MOLD_V_2_40_4=y
 # CT_MOLD_V_2_39_1 is not set
 # CT_MOLD_V_2_38_1 is not set
 # CT_MOLD_V_2_37_1 is not set
 # CT_MOLD_V_2_36_0 is not set
-CT_MOLD_VERSION="2.40.3"
+CT_MOLD_VERSION="2.40.4"
 CT_MOLD_MIRRORS="https://github.com/rui314/mold/archive/refs/tags"
 CT_MOLD_ARCHIVE_FILENAME="v@{version}"
 CT_MOLD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -631,12 +633,13 @@ CT_GETTEXT_PATCH_GLOBAL=y
 # CT_GETTEXT_PATCH_LOCAL_BUNDLED is not set
 # CT_GETTEXT_PATCH_NONE is not set
 CT_GETTEXT_PATCH_ORDER="global"
-CT_GETTEXT_V_0_23_1=y
+CT_GETTEXT_V_0_26=y
+# CT_GETTEXT_V_0_23_1 is not set
 # CT_GETTEXT_V_0_22_5 is not set
 # CT_GETTEXT_V_0_21 is not set
 # CT_GETTEXT_V_0_20_1 is not set
 # CT_GETTEXT_V_0_19_8_1 is not set
-CT_GETTEXT_VERSION="0.23.1"
+CT_GETTEXT_VERSION="0.26"
 CT_GETTEXT_MIRRORS="$(CT_Mirrors GNU gettext)"
 CT_GETTEXT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GETTEXT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -697,7 +700,8 @@ CT_ISL_PATCH_GLOBAL=y
 # CT_ISL_PATCH_LOCAL_BUNDLED is not set
 # CT_ISL_PATCH_NONE is not set
 CT_ISL_PATCH_ORDER="global"
-CT_ISL_V_0_26=y
+CT_ISL_V_0_27=y
+# CT_ISL_V_0_26 is not set
 # CT_ISL_V_0_25 is not set
 # CT_ISL_V_0_24 is not set
 # CT_ISL_V_0_23 is not set
@@ -709,7 +713,7 @@ CT_ISL_V_0_26=y
 # CT_ISL_V_0_17 is not set
 # CT_ISL_V_0_16 is not set
 # CT_ISL_V_0_15 is not set
-CT_ISL_VERSION="0.26"
+CT_ISL_VERSION="0.27"
 CT_ISL_MIRRORS="https://libisl.sourceforge.io"
 CT_ISL_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_ISL_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -757,7 +761,7 @@ CT_MPFR_PATCH_GLOBAL=y
 # CT_MPFR_PATCH_NONE is not set
 CT_MPFR_PATCH_ORDER="global"
 CT_MPFR_V_4_2=y
-CT_MPFR_VERSION="4.2.1"
+CT_MPFR_VERSION="4.2.2"
 CT_MPFR_MIRRORS="https://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
 CT_MPFR_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
