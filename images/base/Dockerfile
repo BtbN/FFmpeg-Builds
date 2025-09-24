@@ -15,7 +15,7 @@ RUN \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
-        ocaml ocamlbuild libnum-ocaml-dev indent p7zip-full zstd \
+        ocaml ocaml-findlib ocamlbuild libnum-ocaml-dev indent p7zip-full zstd \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python-is-python3 && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get -y install nodejs && \

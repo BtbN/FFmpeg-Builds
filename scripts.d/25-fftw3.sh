@@ -8,6 +8,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    sed -i 's/-libs unix,nums/-use-ocamlfind -package unix,num/' genfft/Makefile.am
+
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --enable-maintainer-mode
