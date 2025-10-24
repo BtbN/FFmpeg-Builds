@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/intel/libva.git"
-SCRIPT_COMMIT="4c8971cdeb1a9d2243d2a78a7bc0e1a04ec0a8c9"
+SCRIPT_COMMIT="bb8a9ebc68e991c9de714d1960222c19706327a7"
 
 ffbuild_depends() {
     echo base

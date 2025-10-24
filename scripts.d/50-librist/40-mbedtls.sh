@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ARMmbed/mbedtls.git"
-SCRIPT_COMMIT="v3.6.4"
+SCRIPT_COMMIT="v3.6.5"
 SCRIPT_TAGFILTER="v3.*"
 
 ffbuild_enabled() {

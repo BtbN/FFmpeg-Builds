@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/openssl/openssl.git"
-SCRIPT_COMMIT="openssl-3.5.2"
+SCRIPT_COMMIT="openssl-3.5.4"
 SCRIPT_TAGFILTER="openssl-3.5.*"
 
 ffbuild_depends() {
