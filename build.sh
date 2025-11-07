@@ -4,15 +4,13 @@ shopt -s globstar nullglob
 LC_ALL=C LANG=C
 cd "$(dirname "$0")"
 source util/vars.sh
+source util/build_helpers.sh
 source "variants/${TARGET}-${VARIANT}.sh"
 
 for addin in ${ADDINS[*]}; do source "addins/${addin}.sh"; done
 
-if docker info -f "{{println .SecurityOptions}}" | grep rootless &>/dev/null; then
-  UIDARGS=()
-else
-  UIDARGS=( -u "$(id -u):$(id -g)" )
-fi
+# Use shared Docker environment setup
+setup_docker_env
 rm -rf ffbuild && mkdir ffbuild
 
 FFMPEG_REPO="${FFMPEG_REPO:-https://github.com/FFmpeg/FFmpeg.git}"
@@ -40,8 +38,6 @@ cat <<EOF >"$BUILD_SCRIPT"
     make -j\$(nproc) V=1
     make install install-doc
       EOF
-
-[[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
 PATCHES_MOUNT=""
 if [ -d "patches/ffmpeg" ]; then
