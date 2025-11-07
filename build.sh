@@ -1,23 +1,19 @@
 #!/bin/bash
-set -xe
-shopt -s globstar
+set -e
+shopt -s globstar nullglob
+LC_ALL=C LANG=C
 cd "$(dirname "$0")"
 source util/vars.sh
-
 source "variants/${TARGET}-${VARIANT}.sh"
 
-for addin in ${ADDINS[*]}; do
-    source "addins/${addin}.sh"
-done
+for addin in ${ADDINS[*]}; do source "addins/${addin}.sh"; done
 
-if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
-    UIDARGS=()
+if docker info -f "{{println .SecurityOptions}}" | grep rootless &>/dev/null; then
+  UIDARGS=()
 else
-    UIDARGS=( -u "$(id -u):$(id -g)" )
+  UIDARGS=( -u "$(id -u):$(id -g)" )
 fi
-
-rm -rf ffbuild
-mkdir ffbuild
+rm -rf ffbuild && mkdir ffbuild
 
 FFMPEG_REPO="${FFMPEG_REPO:-https://github.com/FFmpeg/FFmpeg.git}"
 FFMPEG_REPO="${FFMPEG_REPO_OVERRIDE:-$FFMPEG_REPO}"
@@ -31,10 +27,11 @@ cat <<EOF >"$BUILD_SCRIPT"
     set -xe
     cd /ffbuild
     rm -rf ffmpeg prefix
-
-    git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
-    cd ffmpeg
-
+    git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg && cd ffmpeg
+    
+    BRANCH_NAME=\$(basename '$GIT_BRANCH')
+    [[ -f "/patches/ffmpeg/\$BRANCH_NAME.patch" ]] && git apply "/patches/ffmpeg/\$BRANCH_NAME.patch"
+    
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \
         --extra-ldflags="\$FF_LDFLAGS" --extra-ldexeflags="\$FF_LDEXEFLAGS" \
@@ -42,11 +39,15 @@ cat <<EOF >"$BUILD_SCRIPT"
         --extra-version="\$(date +%Y%m%d)"
     make -j\$(nproc) V=1
     make install install-doc
-EOF
+      EOF
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
-docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
+PATCHES_MOUNT=""
+if [ -d "patches/ffmpeg" ]; then
+    PATCHES_MOUNT="-v $PWD/patches:/patches"
+fi
+docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild $PATCHES_MOUNT -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
 
 if [[ -n "$FFBUILD_OUTPUT_DIR" ]]; then
     mkdir -p "$FFBUILD_OUTPUT_DIR"
