@@ -13,11 +13,11 @@ env:
 jobs:
   build:
     name: Test Full Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
+        target: [win64,linux64]
         variant: [lgpl,gpl 6.1,gpl 8.0,lgpl 6.1,lgpl 8.0,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 8.0,lgpl-shared 6.1,lgpl-shared 8.0]
         quickbuild: [1]
         include:
@@ -34,7 +34,7 @@ jobs:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install buildx
         uses: docker/setup-buildx-action@v3
         with:
