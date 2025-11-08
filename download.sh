@@ -2,14 +2,10 @@
 set -xe
 cd "$(dirname "$0")"
 source util/vars.sh dl only
+source util/build_helpers.sh
 
-if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
-    UIDARGS=()
-else
-    UIDARGS=( -u "$(id -u):$(id -g)" )
-fi
-
-[[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
+# Use shared Docker environment setup
+setup_docker_env
 
 DL_SCRIPT_DIR="$(mktemp -d)"
 trap "rm -rf -- '$DL_SCRIPT_DIR'" EXIT
@@ -17,7 +13,9 @@ trap "rm -rf -- '$DL_SCRIPT_DIR'" EXIT
 mkdir -p "${PWD}"/.cache/downloads
 
 for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
-	STAGENAME="$(basename "$STAGE" | sed 's/.sh$//')"
+	# Use parameter expansion instead of basename | sed
+	local name="${STAGE##*/}"
+	STAGENAME="${name%.sh}"
 
 	cat <<-EOF >"${DL_SCRIPT_DIR}/${STAGENAME}.sh"
 		set -xe -o pipefail
@@ -31,7 +29,8 @@ for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
 			exit 0
 		fi
 
-		DLHASH="\$(sha256sum <<<"\$STG" | cut -d" " -f1)"
+		# Use read to extract first field instead of cut
+		read -r DLHASH _ < <(sha256sum <<<"\$STG")
 		DLNAME="$STAGENAME"
 
 		if [[ "$1" == "hashonly" ]]; then

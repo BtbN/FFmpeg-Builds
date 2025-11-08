@@ -3,6 +3,7 @@ set -e
 shopt -s globstar
 cd "$(dirname "$0")"
 source util/vars.sh
+source util/build_helpers.sh
 
 export LC_ALL=C.UTF-8
 
@@ -10,7 +11,9 @@ rm -f Dockerfile Dockerfile.{dl,final,dl.final}
 
 layername() {
     printf "layer-"
-    basename "$1" | sed 's/.sh$//'
+    # Use parameter expansion instead of basename | sed
+    local name="${1##*/}"
+    echo "${name%.sh}"
 }
 
 resolvestage() {
@@ -25,7 +28,9 @@ resolvestage() {
 resolvescript() {
     local STAGE="$(resolvestage "$1")"
     if [[ -d "$STAGE" ]]; then
-        ls -1 "$STAGE"/*.sh | tail -n 1
+        # Use bash array instead of ls | tail
+        local scripts=("$STAGE"/*.sh)
+        echo "${scripts[-1]}"
     else
         echo "$STAGE"
     fi
@@ -45,7 +50,9 @@ exec_dockerstage() {
     SCRIPT="$1"
     (
         SELF="$SCRIPT"
-        STAGENAME="$(basename "$SCRIPT" | sed 's/.sh$//')"
+        # Use parameter expansion instead of basename | sed
+        local name="${SCRIPT##*/}"
+        STAGENAME="${name%.sh}"
         source util/dl_functions.sh
         source "$SCRIPT"
 
@@ -55,7 +62,9 @@ exec_dockerstage() {
 
         STG="$(ffbuild_dockerdl)"
         if [[ -n "$STG" ]]; then
-            HASH="$(sha256sum <<<"$STG" | cut -d" " -f1)"
+            # Use read to extract first field instead of cut
+            local HASH
+            read -r HASH _ < <(sha256sum <<<"$STG")
             export SELFCACHE=".cache/downloads/${STAGENAME}_${HASH}.tar.xz"
         fi
 
@@ -76,7 +85,9 @@ get_stagedeps() {
         SCRIPT="${SCRIPT[0]}"
         (
             SELF="$SCRIPT"
-            STAGENAME="$(basename "$SCRIPT" | sed 's/.sh$//')"
+            # Use parameter expansion instead of basename | sed
+            local name="${SCRIPT##*/}"
+            STAGENAME="${name%.sh}"
             source util/dl_functions.sh
             source "$SCRIPT"
 
@@ -86,12 +97,30 @@ get_stagedeps() {
     fi
 }
 
+# Memoization cache for recursive dependency resolution
+declare -A RECURSIVE_DEPS_CACHE
+
 get_stagedeps_recursive_internal() {
-    local CDEPS=($(get_stagedeps "$1"))
+    local key="$1"
+
+    # Check cache first to avoid redundant work
+    if [[ -v RECURSIVE_DEPS_CACHE["$key"] ]]; then
+        echo "${RECURSIVE_DEPS_CACHE[$key]}"
+        return 0
+    fi
+
+    local CDEPS=($(get_stagedeps "$key"))
+    local all_deps=()
+
     for CDEP in "${CDEPS[@]}"; do
-        get_stagedeps_recursive_internal "$CDEP"
+        all_deps+=( $(get_stagedeps_recursive_internal "$CDEP") )
     done
-    printf '%s\n' "${CDEPS[@]}"
+    all_deps+=( "${CDEPS[@]}" )
+
+    # Cache the result
+    local result=$(printf '%s\n' "${all_deps[@]}")
+    RECURSIVE_DEPS_CACHE["$key"]="$result"
+    echo "$result"
 }
 
 get_stagedeps_recursive() {
@@ -119,6 +148,33 @@ get_filled_deps() {
     fi
 }
 
+# Optimized get_output that sources each script only once
+# Usage: get_all_outputs SCRIPT_PATH
+# Returns: Newline-separated values for configure, cflags, cxxflags, ldflags, ldexeflags, libs
+get_all_outputs() {
+    (
+        SELF="$1"
+        source "$1"
+
+        if ffbuild_enabled; then
+            echo "CONFIGURE:$(ffbuild_configure || echo '')"
+            echo "CFLAGS:$(ffbuild_cflags || echo '')"
+            echo "CXXFLAGS:$(ffbuild_cxxflags || echo '')"
+            echo "LDFLAGS:$(ffbuild_ldflags || echo '')"
+            echo "LDEXEFLAGS:$(ffbuild_ldexeflags || echo '')"
+            echo "LIBS:$(ffbuild_libs || echo '')"
+        else
+            echo "CONFIGURE:$(ffbuild_unconfigure || echo '')"
+            echo "CFLAGS:$(ffbuild_uncflags || echo '')"
+            echo "CXXFLAGS:$(ffbuild_uncxxflags || echo '')"
+            echo "LDFLAGS:$(ffbuild_unldflags || echo '')"
+            echo "LDEXEFLAGS:$(ffbuild_unldexeflags || echo '')"
+            echo "LIBS:$(ffbuild_unlibs || echo '')"
+        fi
+    )
+}
+
+# Legacy get_output function for compatibility (kept for other uses in script)
 get_output() {
     (
         SELF="$1"
@@ -145,7 +201,9 @@ for addin in "${ADDINS[@]}"; do
 )
 done
 
-ENTRYSCRIPT="$(ls -1d scripts.d/* | tail -n 1)"
+# Use bash array instead of ls | tail
+ENTRYSCRIPT_ARRAY=(scripts.d/*)
+ENTRYSCRIPT="${ENTRYSCRIPT_ARRAY[-1]}"
 declare -A FILLED_DEPS
 while true; do
     CURDEPS=($(get_filled_deps "$ENTRYSCRIPT" | sort -u))
@@ -209,13 +267,18 @@ for SUBDEP in $(get_stagedeps_recursive "${ENTRYSCRIPT}"); do
             ffbuild_dockerfinal || exit $?
     )
 
+    # Optimized: source each script only once instead of 6 times
     for SCRIPT in "${SCRIPTS[@]}"; do
-        FF_CONFIGURE+=" $(get_output "$SCRIPT" configure)"
-        FF_CFLAGS+=" $(get_output "$SCRIPT" cflags)"
-        FF_CXXFLAGS+=" $(get_output "$SCRIPT" cxxflags)"
-        FF_LDFLAGS+=" $(get_output "$SCRIPT" ldflags)"
-        FF_LDEXEFLAGS+=" $(get_output "$SCRIPT" ldexeflags)"
-        FF_LIBS+=" $(get_output "$SCRIPT" libs)"
+        while IFS=: read -r key value; do
+            case "$key" in
+                CONFIGURE) FF_CONFIGURE+=" $value" ;;
+                CFLAGS) FF_CFLAGS+=" $value" ;;
+                CXXFLAGS) FF_CXXFLAGS+=" $value" ;;
+                LDFLAGS) FF_LDFLAGS+=" $value" ;;
+                LDEXEFLAGS) FF_LDEXEFLAGS+=" $value" ;;
+                LIBS) FF_LIBS+=" $value" ;;
+            esac
+        done < <(get_all_outputs "$SCRIPT")
     done
 done
 
@@ -223,12 +286,13 @@ to_df "FROM ${BASELAYER}"
 sort -u < Dockerfile.final >> Dockerfile
 rm Dockerfile.final
 
-FF_CONFIGURE="$(xargs <<< "$FF_CONFIGURE")"
-FF_CFLAGS="$(xargs <<< "$FF_CFLAGS")"
-FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
-FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
-FF_LDEXEFLAGS="$(xargs <<< "$FF_LDEXEFLAGS")"
-FF_LIBS="$(xargs <<< "$FF_LIBS")"
+# Use helper function to normalize flags (reduces duplication)
+FF_CONFIGURE="$(normalize_flags "$FF_CONFIGURE")"
+FF_CFLAGS="$(normalize_flags "$FF_CFLAGS")"
+FF_CXXFLAGS="$(normalize_flags "$FF_CXXFLAGS")"
+FF_LDFLAGS="$(normalize_flags "$FF_LDFLAGS")"
+FF_LDEXEFLAGS="$(normalize_flags "$FF_LDEXEFLAGS")"
+FF_LIBS="$(normalize_flags "$FF_LIBS")"
 
 to_df "ENV \\"
 to_df "    FF_CONFIGURE=\"$FF_CONFIGURE\" \\"
