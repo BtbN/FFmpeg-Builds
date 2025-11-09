@@ -35,7 +35,7 @@ jobs:
             echo "When doing so make sure to randomize the scheduled cron time above, in order to spread out the various build times as much as possible."
             echo "This has been put in place due to the enormous amounts of traffic hundreds/thousands of parallel builds can cause on external infrastructure."
             # Set Github job summary (see https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#adding-a-job-summary):
-            echo "# To enable scheduled builds, please make the following 2 edits to [.github/workflows/build.yml](https://github.com/$GITHUB_REPOSITORY/edit/$GITHUB_REF_NAME/.github/workflows/build.yml):" >> "$GITHUB_STEP_SUMMARY"
+            echo "# To enable scheduled builds, please make the following 2 edits to [.github/workflows/build.yml](https://github.com/$GITHUB_REPOSITORY/edit/$GITHUB_REF_NAME/.github/workflows/build.y[...]"
             echo '1. **IMPORTANT:** Change the 2 numbers on the `cron:` line. The first number must be between 0 and 59, and the second must be between 0 and 23.' >> "$GITHUB_STEP_SUMMARY"
             echo '2. Use `find and replace` (ctrl+f) to replace `BtbN/FFmpeg-Builds` with your repository name' >> "$GITHUB_STEP_SUMMARY"
             echo  >> "$GITHUB_STEP_SUMMARY" # adds blank line to markdown
@@ -84,16 +84,14 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
       - name: Get download cache key
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         id: dl_cache
         run: |
           echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Cache
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         uses: actions/cache@v4
         with:
           path: .cache/downloads
@@ -101,14 +99,12 @@ jobs:
           restore-keys: |
             download-cache-
       - name: Update Cache
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         run: |
           set -e
           ./download.sh
           ./util/clean_cache.sh
           tar czf .cache/cache.tar.gz .cache/downloads/*
       - name: Upload cache artifact
-        if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         uses: actions/upload-artifact@v4
         with:
           name: download-cache
