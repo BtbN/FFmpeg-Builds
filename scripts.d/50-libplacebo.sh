@@ -21,12 +21,7 @@ ffbuild_dockerdl() {
 ffbuild_dockerbuild() {
     sed -i 's/DPL_EXPORT/DPL_STATIC/' src/meson.build
 
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --buildtype=release
-        --default-library=static
+    local extra_opts=(
         -Dvulkan=enabled
         -Dvk-proc-addr=disabled
         -Dvulkan-registry="$FFBUILD_PREFIX"/share/vulkan/registry/vk.xml
@@ -39,25 +34,12 @@ ffbuild_dockerbuild() {
     )
 
     if [[ $TARGET == win* ]]; then
-        myconf+=(
-            -Dd3d11=enabled
-        )
+        extra_opts+=(-Dd3d11=enabled)
     fi
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
+    build_meson "${extra_opts[@]}"
 
-    meson "${myconf[@]}" ..
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
-
-    echo "Libs.private: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libplacebo.pc
+    add_pkgconfig_libs_private libplacebo stdc++
 }
 
 ffbuild_configure() {

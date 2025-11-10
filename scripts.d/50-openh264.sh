@@ -53,9 +53,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libopenh264
+    echo $(ffbuild_enable libopenh264)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopenh264
+    echo $(ffbuild_disable libopenh264)
 }

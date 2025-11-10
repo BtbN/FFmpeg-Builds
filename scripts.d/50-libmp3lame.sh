@@ -19,37 +19,20 @@ ffbuild_dockerdl() {
 ffbuild_dockerbuild() {
     autoreconf -i
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --enable-nasm
-        --disable-gtktest
-        --disable-cpml
-        --disable-frontend
-        --disable-decoder
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
     export CFLAGS="$CFLAGS -DNDEBUG -Wno-error=incompatible-pointer-types"
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_autotools \
+        --enable-nasm \
+        --disable-gtktest \
+        --disable-cpml \
+        --disable-frontend \
+        --disable-decoder
 }
 
 ffbuild_configure() {
-    echo --enable-libmp3lame
+    echo $(ffbuild_enable libmp3lame)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libmp3lame
+    echo $(ffbuild_disable libmp3lame)
 }

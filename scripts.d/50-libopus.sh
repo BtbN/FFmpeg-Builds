@@ -38,9 +38,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libopus
+    echo $(ffbuild_enable libopus)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopus
+    echo $(ffbuild_disable libopus)
 }

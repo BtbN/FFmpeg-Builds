@@ -13,12 +13,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
+    local extra_opts=(
         --with-pic
         --disable-examples
         --disable-oggtest
@@ -27,30 +22,17 @@ ffbuild_dockerbuild() {
         --disable-doc
     )
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
     if [[ $TARGET == win64 ]]; then
-        myconf+=(
-            --disable-asm
-        )
+        extra_opts+=(--disable-asm)
     fi
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    run_autogen build_autotools "${extra_opts[@]}"
 }
 
 ffbuild_configure() {
-    echo --enable-libtheora
+    echo $(ffbuild_enable libtheora)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libtheora
+    echo $(ffbuild_disable libtheora)
 }

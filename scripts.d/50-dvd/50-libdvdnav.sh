@@ -18,27 +18,7 @@ ffbuild_dockerbuild() {
     sed -i 's/SUPPORT_ATTRIBUTE_VISIBILITY_DEFAULT/SUPPORT_ATTRIBUTE_VISIBILITY_DEFAULT_DISABLED/g' meson.build
     sed -i 's/-DLIBDVDCSS_EXPORTS/-DLIBDVDCSS_EXPORTS_DISABLED/g' src/meson.build
 
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        -Ddefault_library=static
-        -Denable_docs=false
-        -Denable_examples=false
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    meson setup "${myconf[@]}" ..
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson -Denable_docs=false -Denable_examples=false
 }
 
 ffbuild_configure() {

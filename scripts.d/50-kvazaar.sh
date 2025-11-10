@@ -8,36 +8,17 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
+    run_autogen
+    build_autotools
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
-
-    echo "Cflags.private: -DKVZ_STATIC_LIB" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/kvazaar.pc
-    echo "Libs.private: -lpthread" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/kvazaar.pc
+    add_pkgconfig_cflags_private kvazaar "-DKVZ_STATIC_LIB"
+    add_pkgconfig_libs_private kvazaar pthread
 }
 
 ffbuild_configure() {
-    echo --enable-libkvazaar
+    echo $(ffbuild_enable libkvazaar)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libkvazaar
+    echo $(ffbuild_disable libkvazaar)
 }

@@ -60,9 +60,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libvpx
+    echo $(ffbuild_enable libvpx)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libvpx
+    echo $(ffbuild_disable libvpx)
 }

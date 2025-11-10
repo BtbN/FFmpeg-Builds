@@ -17,20 +17,19 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
+    build_cmake \
+        -DBUILD_TOOLS=OFF \
+        -DBUILD_TESTS=OFF \
+        -DFFT_LIB=fftw3
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DBUILD_TOOLS=OFF -DBUILD_TESTS=OFF -DFFT_LIB=fftw3 ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
-
-    echo "Libs.private: -lfftw3 -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libchromaprint.pc
-    echo "Cflags.private: -DCHROMAPRINT_NODLL" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libchromaprint.pc
+    add_pkgconfig_libs_private libchromaprint fftw3 stdc++
+    add_pkgconfig_cflags_private libchromaprint "-DCHROMAPRINT_NODLL"
 }
 
 ffbuild_configure() {
-    echo --enable-chromaprint
+    echo $(ffbuild_enable chromaprint)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-chromaprint
+    echo $(ffbuild_disable chromaprint)
 }

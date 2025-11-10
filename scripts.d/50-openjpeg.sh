@@ -8,17 +8,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DBUILD_PKGCONFIG_FILES=ON -DBUILD_CODEC=OFF -DWITH_ASTYLE=OFF -DBUILD_TESTING=OFF ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_cmake -DBUILD_PKGCONFIG_FILES=ON -DBUILD_CODEC=OFF -DWITH_ASTYLE=OFF -DBUILD_TESTING=OFF
 }
 
 ffbuild_configure() {
-    echo --enable-libopenjpeg
+    echo $(ffbuild_enable libopenjpeg)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopenjpeg
+    echo $(ffbuild_disable libopenjpeg)
 }

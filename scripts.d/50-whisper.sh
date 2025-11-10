@@ -16,15 +16,21 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_SHARED_LIBS=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_SERVER=OFF -DWHISPER_USE_SYSTEM_GGML=OFF \
-        -DGGML_CCACHE=OFF -DGGML_OPENCL=ON -DGGML_VULKAN=ON \
-        -DGGML_NATIVE=OFF -DGGML_SSE42=ON -DGGML_AVX=ON -DGGML_F16C=ON -DGGML_AVX2=ON -DGGML_BMI2=ON -DGGML_FMA=ON ..
-
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_cmake -GNinja \
+        -DWHISPER_BUILD_TESTS=OFF \
+        -DWHISPER_BUILD_EXAMPLES=OFF \
+        -DWHISPER_BUILD_SERVER=OFF \
+        -DWHISPER_USE_SYSTEM_GGML=OFF \
+        -DGGML_CCACHE=OFF \
+        -DGGML_OPENCL=ON \
+        -DGGML_VULKAN=ON \
+        -DGGML_NATIVE=OFF \
+        -DGGML_SSE42=ON \
+        -DGGML_AVX=ON \
+        -DGGML_F16C=ON \
+        -DGGML_AVX2=ON \
+        -DGGML_BMI2=ON \
+        -DGGML_FMA=ON
 
     # For some reason, these lack the lib prefix on Windows
     shopt -s nullglob
@@ -39,10 +45,10 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-whisper
+    echo $(ffbuild_enable whisper)
 }
 
 ffbuild_unconfigure() {
     (( $(ffbuild_ffver) >= 800 )) || return 0
-    echo --disable-whisper
+    echo $(ffbuild_disable whisper)
 }

@@ -43,9 +43,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-librav1e
+    echo $(ffbuild_enable librav1e)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-librav1e
+    echo $(ffbuild_disable librav1e)
 }

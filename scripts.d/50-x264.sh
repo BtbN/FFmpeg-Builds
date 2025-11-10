@@ -34,17 +34,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libx264
+    echo $(ffbuild_enable libx264)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libx264
-}
-
-ffbuild_cflags() {
-    return 0
-}
-
-ffbuild_ldflags() {
-    return 0
+    echo $(ffbuild_disable libx264)
 }

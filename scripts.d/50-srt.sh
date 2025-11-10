@@ -13,20 +13,19 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
+    build_cmake \
+        -DENABLE_CXX_DEPS=ON \
+        -DUSE_STATIC_LIBSTDCXX=ON \
+        -DENABLE_ENCRYPTION=ON \
+        -DENABLE_APPS=OFF
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DENABLE_SHARED=OFF -DENABLE_STATIC=ON -DENABLE_CXX_DEPS=ON -DUSE_STATIC_LIBSTDCXX=ON -DENABLE_ENCRYPTION=ON -DENABLE_APPS=OFF ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
-
-    echo "Libs.private: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/srt.pc
+    add_pkgconfig_libs_private srt stdc++
 }
 
 ffbuild_configure() {
-    echo --enable-libsrt
+    echo $(ffbuild_enable libsrt)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libsrt
+    echo $(ffbuild_disable libsrt)
 }

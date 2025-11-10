@@ -11,26 +11,22 @@ ffbuild_dockerbuild() {
     # Short-circuit the check to generate a .pc file. We always want it.
     sed -i 's/NOT WIN32/1/g' src/CMakeLists.txt
 
-    mkdir build && cd build
-
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
+    build_cmake \
         -DWITH_OPENMP="$([[ $TARGET == winarm64 ]] && echo OFF || echo ON)" \
-        -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=OFF \
-        ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+        -DBUILD_TESTS=OFF \
+        -DBUILD_EXAMPLES=OFF
 
     if [[ $TARGET != winarm64 ]]; then
-        echo "Libs.private: -lgomp" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/soxr.pc
+        add_pkgconfig_libs_private soxr gomp
     fi
 }
 
 ffbuild_configure() {
-    echo --enable-libsoxr
+    echo $(ffbuild_enable libsoxr)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libsoxr
+    echo $(ffbuild_disable libsoxr)
 }
 
 ffbuild_ldflags() {

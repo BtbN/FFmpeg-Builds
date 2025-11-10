@@ -18,18 +18,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build
-    cd build
+    build_cmake -G Ninja \
+        -DARIBCC_SHARED_LIBRARY=OFF \
+        -DARIBCC_BUILD_TESTS=OFF \
+        -DARIBCC_USE_FREETYPE=ON \
+        -DARIBCC_USE_EMBEDDED_FREETYPE=OFF
 
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DARIBCC_SHARED_LIBRARY=OFF -DARIBCC_BUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF \
-        -DARIBCC_USE_FREETYPE=ON -DARIBCC_USE_EMBEDDED_FREETYPE=OFF \
-        ..
-
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
-
-    echo "Libs.private: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libaribcaption.pc
+    add_pkgconfig_libs_private libaribcaption stdc++
 }
 
 ffbuild_configure() {

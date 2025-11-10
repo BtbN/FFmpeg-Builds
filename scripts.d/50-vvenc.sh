@@ -10,8 +10,6 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
     local armsimd=()
     if [[ $TARGET == *arm* ]]; then
         armsimd+=( -DVVENC_ENABLE_ARM_SIMD=ON )
@@ -25,18 +23,19 @@ ffbuild_dockerbuild() {
         fi
     fi
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_SHARED_LIBS=OFF -DVVENC_LIBRARY_ONLY=ON -DVVENC_ENABLE_WERROR=OFF -DVVENC_ENABLE_LINK_TIME_OPT=OFF -DEXTRALIBS="-lstdc++" "${armsimd[@]}" ..
-
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_cmake \
+        -DVVENC_LIBRARY_ONLY=ON \
+        -DVVENC_ENABLE_WERROR=OFF \
+        -DVVENC_ENABLE_LINK_TIME_OPT=OFF \
+        -DEXTRALIBS="-lstdc++" \
+        "${armsimd[@]}"
 }
 
 ffbuild_configure() {
-    echo --enable-libvvenc
+    echo $(ffbuild_enable libvvenc)
 }
 
 ffbuild_unconfigure() {
     (( $(ffbuild_ffver) > 700 )) || return 0
-    echo --disable-libvvenc
+    echo $(ffbuild_disable libvvenc)
 }

@@ -10,34 +10,17 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     autoreconf -i
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-        --enable-amrnb-encoder
-        --enable-amrnb-decoder
+    build_autotools \
+        --with-pic \
+        --enable-amrnb-encoder \
+        --enable-amrnb-decoder \
         --disable-examples
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
 }
 
 ffbuild_configure() {
-    echo --enable-libopencore-amrnb --enable-libopencore-amrwb
+    echo $(ffbuild_enable libopencore-amrnb) $(ffbuild_enable libopencore-amrwb)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopencore-amrnb --disable-libopencore-amrwb
+    echo $(ffbuild_disable libopencore-amrnb) $(ffbuild_disable libopencore-amrwb)
 }
