@@ -14,7 +14,7 @@ mkdir -p "${PWD}"/.cache/downloads
 
 for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
 	# Use parameter expansion instead of basename | sed
-	local name="${STAGE##*/}"
+	name="${STAGE##*/}"
 	STAGENAME="${name%.sh}"
 
 	cat <<-EOF >"${DL_SCRIPT_DIR}/${STAGENAME}.sh"
