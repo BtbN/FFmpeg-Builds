@@ -8,13 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    local myconf=(
-        --cross-file=/cross.meson
-        --prefix="$FFBUILD_PREFIX"
-        --buildtype=release
-        --default-library=static
+    local extra_opts=(
         -Dfreetype=enabled
         -Dglib=disabled
         -Dgobject=disabled
@@ -28,16 +22,12 @@ ffbuild_dockerbuild() {
     )
 
     if [[ $TARGET == win* ]]; then
-        myconf+=(
-            -Dgdi=enabled
-        )
+        extra_opts+=(-Dgdi=enabled)
     fi
 
-    meson setup "${myconf[@]}" ..
-    ninja -j"$(nproc)"
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson "${extra_opts[@]}"
 
-    echo "Libs.private: -lpthread" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/harfbuzz.pc
+    add_pkgconfig_libs_private harfbuzz pthread
 }
 
 ffbuild_configure() {

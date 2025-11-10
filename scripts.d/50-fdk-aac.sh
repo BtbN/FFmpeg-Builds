@@ -9,34 +9,14 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-        --disable-example
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    run_autogen
+    build_autotools --disable-example
 }
 
 ffbuild_configure() {
-    echo --enable-libfdk-aac
+    echo $(ffbuild_enable libfdk-aac)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libfdk-aac
+    echo $(ffbuild_disable libfdk-aac)
 }

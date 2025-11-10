@@ -9,12 +9,10 @@ ffbuild_enabled() {
 
 ffbuild_dockerbuild() {
     sed -i 's/-libs unix,nums/-use-ocamlfind -package unix,num/' genfft/Makefile.am
+    sed -i 's/windows.h/process.h/' configure.ac
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
+    local extra_opts=(
         --enable-maintainer-mode
-        --disable-shared
-        --enable-static
         --disable-fortran
         --disable-doc
         --with-our-malloc
@@ -24,25 +22,14 @@ ffbuild_dockerbuild() {
     )
 
     if [[ $TARGET != *arm64 ]]; then
-        myconf+=(
+        extra_opts+=(
             --enable-sse2
             --enable-avx
             --enable-avx2
         )
     fi
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    sed -i 's/windows.h/process.h/' configure.ac
-
-    ./bootstrap.sh "${myconf[@]}"
+    ./bootstrap.sh "${extra_opts[@]}"
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
 }

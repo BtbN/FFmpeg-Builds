@@ -8,28 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        -Ddefault_library=static
-        -Dutils=false
-        -Dfastfloat=true
-        -Dthreaded=true
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
     export CFLAGS="$CFLAGS -fpermissive"
 
-    meson setup "${myconf[@]}" ..
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson -Dutils=false -Dfastfloat=true -Dthreaded=true
 }

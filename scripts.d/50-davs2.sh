@@ -45,9 +45,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libdavs2
+    echo $(ffbuild_enable libdavs2)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libdavs2
+    echo $(ffbuild_disable libdavs2)
 }

@@ -160,3 +160,62 @@ first_field() {
     local input="$1"
     echo "${input%% *}"
 }
+
+# Generate standard ffbuild_configure function output
+# Usage: ffbuild_configure() { echo $(ffbuild_enable libname); }
+# Or for multiple flags: ffbuild_configure() { echo $(ffbuild_enable libname) --other-flag; }
+ffbuild_enable() {
+    echo "--enable-$1"
+}
+
+# Generate standard ffbuild_unconfigure function output
+# Usage: ffbuild_unconfigure() { echo $(ffbuild_disable libname); }
+ffbuild_disable() {
+    echo "--disable-$1"
+}
+
+# Add libraries to pkg-config Libs.private field
+# Usage: add_pkgconfig_libs_private packagename lib1 lib2 lib3
+add_pkgconfig_libs_private() {
+    local pkgname="$1"
+    shift
+    local libs=""
+    for lib in "$@"; do
+        libs+=" -l$lib"
+    done
+    echo "Libs.private:$libs" >> "$FFBUILD_DESTPREFIX/lib/pkgconfig/${pkgname}.pc"
+}
+
+# Add flags to pkg-config Cflags.private field
+# Usage: add_pkgconfig_cflags_private packagename flag1 flag2
+add_pkgconfig_cflags_private() {
+    local pkgname="$1"
+    shift
+    local flags="$*"
+    echo "Cflags.private: $flags" >> "$FFBUILD_DESTPREFIX/lib/pkgconfig/${pkgname}.pc"
+}
+
+# Add raw line to pkg-config file
+# Usage: add_pkgconfig_line packagename "Requires.private: zlib"
+add_pkgconfig_line() {
+    local pkgname="$1"
+    local line="$2"
+    echo "$line" >> "$FFBUILD_DESTPREFIX/lib/pkgconfig/${pkgname}.pc"
+}
+
+# Standard make build pattern (for projects without autotools/cmake/meson)
+# Usage: build_make [make_options...]
+build_make() {
+    make -j$(nproc) "$@"
+    make install DESTDIR="$FFBUILD_DESTDIR" "$@"
+}
+
+# Run autogen.sh if it exists
+# Usage: run_autogen [autogen_options...]
+run_autogen() {
+    if [[ -f autogen.sh ]]; then
+        ./autogen.sh "$@"
+    elif [[ -f bootstrap ]]; then
+        ./bootstrap "$@"
+    fi
+}

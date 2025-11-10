@@ -23,31 +23,13 @@ ffbuild_dockerbuild() {
 
     autoreconf -i
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-        --with-pic
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_autotools --with-pic
 }
 
 ffbuild_configure() {
-    echo --enable-libaribb24
+    echo $(ffbuild_enable libaribb24)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libaribb24
+    echo $(ffbuild_disable libaribb24)
 }

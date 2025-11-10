@@ -65,21 +65,13 @@ EOF
 
     make install DESTDIR="$FFBUILD_DESTDIR"
 
-    echo "Libs.private: -lstdc++" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/x265.pc
+    add_pkgconfig_libs_private x265 stdc++
 }
 
 ffbuild_configure() {
-    echo --enable-libx265
+    echo $(ffbuild_enable libx265)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libx265
-}
-
-ffbuild_cflags() {
-    return 0
-}
-
-ffbuild_ldflags() {
-    return 0
+    echo $(ffbuild_disable libx265)
 }

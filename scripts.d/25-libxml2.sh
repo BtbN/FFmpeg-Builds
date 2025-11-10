@@ -13,32 +13,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --without-python
-        --disable-maintainer-mode
-        --disable-shared
-        --enable-static
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./autogen.sh "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    run_autogen build_autotools --without-python --disable-maintainer-mode
 }
 
 ffbuild_configure() {
-    echo --enable-libxml2
+    echo $(ffbuild_enable libxml2)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libxml2
+    echo $(ffbuild_disable libxml2)
 }

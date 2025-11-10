@@ -18,22 +18,21 @@ ffbuild_dockerbuild() {
         python3 scripts/config.py unset MBEDTLS_AESNI_C
     fi
 
-    mkdir build && cd build
-
     # Let's hope this is just a false-positive
     export CFLAGS="$CFLAGS -Wno-error=array-bounds"
     if [[ $CC != *clang* ]]; then
         export CFLAGS="$CFLAGS -Wno-error=unterminated-string-initialization"
     fi
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DENABLE_PROGRAMS=OFF -DENABLE_TESTING=OFF -DGEN_FILES=ON \
-        -DUSE_STATIC_MBEDTLS_LIBRARY=ON -DUSE_SHARED_MBEDTLS_LIBRARY=OFF -DINSTALL_MBEDTLS_HEADERS=ON \
-        ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_cmake \
+        -DENABLE_PROGRAMS=OFF \
+        -DENABLE_TESTING=OFF \
+        -DGEN_FILES=ON \
+        -DUSE_STATIC_MBEDTLS_LIBRARY=ON \
+        -DUSE_SHARED_MBEDTLS_LIBRARY=OFF \
+        -DINSTALL_MBEDTLS_HEADERS=ON
 
     if [[ $TARGET == win* ]]; then
-        echo "Libs.private: -lws2_32 -lbcrypt -lwinmm -lgdi32" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/mbedcrypto.pc
+        add_pkgconfig_libs_private mbedcrypto ws2_32 bcrypt winmm gdi32
     fi
 }

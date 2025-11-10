@@ -14,19 +14,16 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build/linux
+    mkdir -p build/linux
     cd build/linux
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DCOMPILE_10BIT=1 -DBUILD_SHARED_LIBS=NO ../..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_cmake -DCOMPILE_10BIT=1 -DBUILD_SHARED_LIBS=NO ../..
 }
 
 ffbuild_configure() {
-    echo --enable-libuavs3d
+    echo $(ffbuild_enable libuavs3d)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libuavs3d
+    echo $(ffbuild_disable libuavs3d)
 }

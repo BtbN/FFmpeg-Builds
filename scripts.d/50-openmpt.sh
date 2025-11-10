@@ -76,9 +76,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libopenmpt
+    echo $(ffbuild_enable libopenmpt)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopenmpt
+    echo $(ffbuild_disable libopenmpt)
 }

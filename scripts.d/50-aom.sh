@@ -23,22 +23,21 @@ ffbuild_dockerbuild() {
         git am < "$patch"
     done
 
-    mkdir cmbuild && cd cmbuild
+    mkdir -p cmbuild
+    cd cmbuild
 
     # Workaround broken build system
     export CFLAGS="$CFLAGS -pthread -I/opt/ffbuild/include/libvmaf"
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" -DBUILD_SHARED_LIBS=OFF -DENABLE_EXAMPLES=NO -DENABLE_TESTS=NO -DENABLE_TOOLS=NO -DCONFIG_TUNE_VMAF=1 ..
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_cmake -DENABLE_EXAMPLES=NO -DENABLE_TESTS=NO -DENABLE_TOOLS=NO -DCONFIG_TUNE_VMAF=1 ..
 
     echo "Requires.private: libvmaf" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/aom.pc
 }
 
 ffbuild_configure() {
-    echo --enable-libaom
+    echo $(ffbuild_enable libaom)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libaom
+    echo $(ffbuild_disable libaom)
 }

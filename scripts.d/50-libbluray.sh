@@ -18,41 +18,23 @@ ffbuild_dockerbuild() {
     # stop the static library from exporting symbols when linked into a shared lib
     sed -i 's/-DBLURAY_API_EXPORT/-DBLURAY_API_EXPORT_DISABLED/g' src/meson.build
 
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        -Ddefault_library=static
-        -Denable_docs=false
-        -Denable_tools=false
-        -Denable_devtools=false
-        -Denable_examples=false
-        -Dbdj_jar=disabled
-        -Dfontconfig=enabled
-        -Dfreetype=enabled
-        -Dlibxml2=enabled
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
     export CPPFLAGS="${CPPFLAGS} -Ddec_init=libbr_dec_init"
 
-    meson setup "${myconf[@]}" ..
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson \
+        -Denable_docs=false \
+        -Denable_tools=false \
+        -Denable_devtools=false \
+        -Denable_examples=false \
+        -Dbdj_jar=disabled \
+        -Dfontconfig=enabled \
+        -Dfreetype=enabled \
+        -Dlibxml2=enabled
 }
 
 ffbuild_configure() {
-    echo --enable-libbluray
+    echo $(ffbuild_enable libbluray)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libbluray
+    echo $(ffbuild_disable libbluray)
 }

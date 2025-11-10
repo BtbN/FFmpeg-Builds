@@ -8,12 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --buildtype=release
-        --default-library=static
+    local extra_opts=(
         -Duse_mbedtls=true
         -Dbuiltin_mbedtls=false
         -Dbuilt_tools=false
@@ -21,31 +16,18 @@ ffbuild_dockerbuild() {
     )
 
     if [[ $TARGET == win* ]]; then
-        myconf+=(
-            -Dhave_mingw_pthreads=true
-        )
+        extra_opts+=(-Dhave_mingw_pthreads=true)
     fi
 
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    meson "${myconf[@]}" ..
-    ninja -j"$(nproc)"
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson "${extra_opts[@]}"
 
     echo "Requires: mbedcrypto" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/librist.pc
 }
 
 ffbuild_configure() {
-    echo --enable-librist
+    echo $(ffbuild_enable librist)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-librist
+    echo $(ffbuild_disable librist)
 }

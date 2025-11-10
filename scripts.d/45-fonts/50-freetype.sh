@@ -8,34 +8,15 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
+    run_autogen build_autotools
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-shared
-        --enable-static
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
-
-    echo "Libs.private: -lharfbuzz" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/freetype2.pc
+    add_pkgconfig_libs_private freetype2 harfbuzz
 }
 
 ffbuild_configure() {
-    echo --enable-libfreetype
+    echo $(ffbuild_enable libfreetype)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libfreetype
+    echo $(ffbuild_disable libfreetype)
 }

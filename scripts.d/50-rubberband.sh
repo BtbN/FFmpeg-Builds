@@ -15,33 +15,13 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    mkdir build && cd build
-
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        -Ddefault_library=static
-        -Dfft=fftw
-        -Dresampler=libsamplerate
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --cross-file=/cross.meson
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    meson setup "${myconf[@]}" ..
-    ninja -j$(nproc)
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    build_meson -Dfft=fftw -Dresampler=libsamplerate
 }
 
 ffbuild_configure() {
-    echo --enable-librubberband
+    echo $(ffbuild_enable librubberband)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-librubberband
+    echo $(ffbuild_disable librubberband)
 }

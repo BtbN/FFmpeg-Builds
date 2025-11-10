@@ -19,41 +19,28 @@ ffbuild_dockerbuild() {
 
     ./autogen.sh --noconf
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
+    local extra_opts=(
         --disable-docs
         --enable-libxml2
         --enable-iconv
-        --disable-shared
-        --enable-static
     )
 
     if [[ $TARGET == linux* ]]; then
-        myconf+=(
+        extra_opts+=(
             --sysconfdir=/etc
             --localstatedir=/var
-            --host="$FFBUILD_TOOLCHAIN"
         )
-    elif [[ $TARGET == win* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
     fi
 
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_autotools "${extra_opts[@]}"
 
     rm -rf "$FFBUILD_DESTDIR"/{var,etc}
 }
 
 ffbuild_configure() {
-    echo --enable-fontconfig
+    echo $(ffbuild_enable fontconfig)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-fontconfig
+    echo $(ffbuild_disable fontconfig)
 }

@@ -15,32 +15,13 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     ./autogen.sh --no-po4a --no-doxygen
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --disable-symbol-versions
-        --disable-shared
-        --enable-static
-        --with-pic
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_autotools --disable-symbol-versions --with-pic
 }
 
 ffbuild_configure() {
-    echo --enable-lzma
+    echo $(ffbuild_enable lzma)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-lzma
+    echo $(ffbuild_disable lzma)
 }

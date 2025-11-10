@@ -10,32 +10,13 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     ./.bootstrap
 
-    local myconf=(
-        --prefix="$FFBUILD_PREFIX"
-        --enable-maintainer-mode
-        --disable-shared
-        --enable-static
-        --with-pic
-    )
-
-    if [[ $TARGET == win* || $TARGET == linux* ]]; then
-        myconf+=(
-            --host="$FFBUILD_TOOLCHAIN"
-        )
-    else
-        echo "Unknown target"
-        return -1
-    fi
-
-    ./configure "${myconf[@]}"
-    make -j$(nproc)
-    make install DESTDIR="$FFBUILD_DESTDIR"
+    build_autotools --enable-maintainer-mode --with-pic
 }
 
 ffbuild_configure() {
-    echo --enable-gmp
+    echo $(ffbuild_enable gmp)
 }
 
 ffbuild_unconfigure() {
-    echo --disable-gmp
+    echo $(ffbuild_disable gmp)
 }
