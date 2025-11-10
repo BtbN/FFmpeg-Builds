@@ -37,7 +37,7 @@ cat <<EOF >"$BUILD_SCRIPT"
         --extra-version="\$(date +%Y%m%d)"
     make -j\$(nproc) V=1
     make install install-doc
-      EOF
+EOF
 
 PATCHES_MOUNT=""
 if [ -d "patches/ffmpeg" ]; then
