@@ -36,10 +36,10 @@ ffbuild_dockerbuild() {
         --default-library=static
         -Ddaemon=false
         -Dclient=true
-        -Ddoxygen=false
+        -Ddoxygen=disabled
         -Dgcov=false
         -Dman=false
-        -Dtests=false
+        -Dtests=disabled
         -Dipv6=true
         -Dopenssl=enabled
     )
