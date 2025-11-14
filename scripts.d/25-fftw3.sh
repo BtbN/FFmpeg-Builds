@@ -8,7 +8,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    sed -i 's/-libs unix,nums/-use-ocamlfind -package unix,num/' genfft/Makefile.am
+    sed -i 's/-libs nums/-use-ocamlfind -package num/' genfft/Makefile.am
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
