@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/lv2/lilv.git"
 SCRIPT_COMMIT="51652d79d998864c94950335ce777a22bf4fb5eb"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

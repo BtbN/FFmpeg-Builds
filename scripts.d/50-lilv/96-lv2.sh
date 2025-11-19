@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/lv2/lv2.git"
 SCRIPT_COMMIT="7cb031f12795a3f4a62428322e30a7ce60358a5c"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -4,7 +4,7 @@ SCRIPT_REPO="https://github.com/drobilla/zix.git"
 SCRIPT_COMMIT="dfa757a80c51e50deb375fd4f1d05948c95dfe0f"
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
