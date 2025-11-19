@@ -10,7 +10,7 @@ ffbuild_depends() {
 }
 
 ffbuild_enabled() {
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

@@ -5,7 +5,7 @@ SCRIPT_COMMIT="b6d79944a59cf066fa00466ee02edb08e3ca214f"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {
