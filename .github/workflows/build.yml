@@ -302,8 +302,8 @@ jobs:
           set -xe
           shopt -s nullglob
           RELDATE="$(date +'%Y-%m-%d %H:%M')"
-          NAME="Auto-Build $RELDATE"
-          TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
+          NAME="FFMPEG $RELDATE"
+          TAGNAME="build-$(date +'%Y-%m-%d-%H-%M')"
           (cd artifacts && sha256sum *.{zip,tar.xz} > checksums.sha256)
           gh release create "$TAGNAME" --target "master" --title "$NAME" artifacts/*.{zip,tar.xz} artifacts/checksums.*
           echo "tag_name=${TAGNAME}" >> $GITHUB_OUTPUT
