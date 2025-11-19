@@ -6,7 +6,7 @@ SCRIPT_COMMIT="45e89ef9f33294d13e7d8d3bef8fdac487e3f2f8"
 ffbuild_enabled() {
     [[ $TARGET != *32 ]] || return -1
     (( $(ffbuild_ffver) > 700 )) || return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerbuild() {

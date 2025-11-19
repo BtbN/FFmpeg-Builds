@@ -9,7 +9,7 @@ SCRIPT_TAGFILTER2="v?.*.*"
 
 ffbuild_enabled() {
     [[ $ADDINS_STR == *4.4* ]] && return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerdl() {

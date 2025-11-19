@@ -42,7 +42,7 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-ffnvcodec --enable-cuda-llvm
+    echo --enable-ffnvcodec
 }
 
 ffbuild_unconfigure() {

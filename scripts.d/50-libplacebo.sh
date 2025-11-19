@@ -10,7 +10,7 @@ ffbuild_depends() {
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) > 600 )) || return -1
-    return 0
+    return -1
 }
 
 ffbuild_dockerdl() {
