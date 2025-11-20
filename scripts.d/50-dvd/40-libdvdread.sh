@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libdvdread.git"
-SCRIPT_COMMIT="e5a227a664ece9be728fd0cf251bb137679d6664"
+SCRIPT_COMMIT="c7f373951bae9642e1ce1fbb2cd02f92c09756e0"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1

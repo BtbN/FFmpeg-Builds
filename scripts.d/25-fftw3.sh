@@ -1,15 +1,21 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/FFTW/fftw3.git"
-SCRIPT_COMMIT="adde9bec41206a3d6bbb02bdbf9f64726d7d2009"
+SCRIPT_COMMIT="7947c101a5b724fe8b9784218388b46d7e247132"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
+<<<<<<< HEAD
     sed -i 's/-libs unix,nums/-use-ocamlfind -package unix,num/' genfft/Makefile.am
     sed -i 's/windows.h/process.h/' configure.ac
+||||||| 73df4cc
+    sed -i 's/-libs unix,nums/-use-ocamlfind -package unix,num/' genfft/Makefile.am
+=======
+    sed -i 's/-libs nums/-use-ocamlfind -package num/' genfft/Makefile.am
+>>>>>>> b3ec4ea53f3aaec7eef1a5bbb8deb8d9a927494a
 
     local extra_opts=(
         --enable-maintainer-mode
