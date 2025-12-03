@@ -11,7 +11,7 @@ Linux builds are targetting RHEL/CentOS 8 (glibc-2.28 + linux-4.18) and anything
 
 Builds run daily at 12:00 UTC (or GitHubs idea of that time) and are automatically released on success.
 
-**Auto-Builds run ONLY for win64 and linux(arm)64. There are no win32/x86 auto-builds, though you can produce win32 builds yourself following the instructions below.**
+**Auto-Builds run ONLY for win(arm)64 and linux(arm)64. There are no win32/x86 auto-builds, though you can produce win32 builds yourself following the instructions below.**
 
 ### Release Retention Policy
 
