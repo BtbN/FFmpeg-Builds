@@ -11,6 +11,7 @@ ffbuild_depends() {
     echo openssl
     echo xz
     echo fonts
+    echo lcevcdec
     echo libvorbis
     echo opencl
     echo pulseaudio
