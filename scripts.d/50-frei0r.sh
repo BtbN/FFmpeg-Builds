@@ -9,16 +9,17 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_dockerfinal() {
+    to_df "COPY --link --from=${PREVLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
+    to_df "ENV FREI0R_PATH=\$FFBUILD_PREFIX/lib/frei0r-1"
+}
+
 ffbuild_dockerbuild() {
     mkdir build && cd build
 
-    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" ..
-
-    mkdir -p "$FFBUILD_DESTPREFIX"/lib/pkgconfig
-    cp frei0r.pc "$FFBUILD_DESTPREFIX"/lib/pkgconfig
-
-    mkdir -p "$FFBUILD_DESTPREFIX"/include
-    cp ../include/frei0r.h "$FFBUILD_DESTPREFIX"/include
+    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" ..
+    ninja -j$(nproc)
+    DESTDIR="$FFBUILD_DESTDIR" ninja install
 }
 
 ffbuild_configure() {
