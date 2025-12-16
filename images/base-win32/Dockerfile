@@ -20,8 +20,9 @@ RUN \
     mkdir /opt/ffbuild
 
 RUN \
+    dpkg --add-architecture i386 && \
     apt-get -y update && \
-    apt-get -y install --no-install-recommends wine-stable && \
+    apt-get -y install --no-install-recommends wine32 wine-stable && \
     apt-get -y clean autoclean && \
     rm -rf /var/lib/apt/lists/*
 
