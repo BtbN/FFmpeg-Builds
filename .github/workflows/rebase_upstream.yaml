@@ -1,0 +1,27 @@
+name: Rebase Upstream
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Rebase with Upstream
+        run: |
+          git remote add upstream https://github.com/BtbN/FFmpeg-Builds.git
+          git fetch upstream
+          git checkout blackbeard
+          git rebase upstream/master
+          git push origin blackbeard --force-with-lease

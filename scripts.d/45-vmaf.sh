@@ -1,5 +1,4 @@
 #!/bin/bash
-
 SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
 SCRIPT_COMMIT="42276bc53e50d9653122cfd0a5b9e5de40649b58"
 
@@ -7,9 +6,21 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_depends() {
+    echo base
+    echo ffnvcodec
+    if [[ "$ADDINS_STR" == *lusoris ]]; then
+        echo level-zero
+    fi
+}
+
+ffbuild_dockerstage() {
+    to_df "RUN --mount=src=${SELF},dst=/stage.sh --mount=src=${SELFCACHE},dst=/cache.tar.xz --mount=src=patches/blackbeard,dst=/patches run_stage /stage.sh"
+}
+
 ffbuild_dockerbuild() {
     # Kill build of unused and broken tools
-    echo > libvmaf/tools/meson.build
+    echo >libvmaf/tools/meson.build
 
     mkdir build && cd build
 
@@ -33,15 +44,16 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    meson "${myconf[@]}" ../libvmaf || cat meson-logs/meson-log.txt
-    ninja -j"$(nproc)"
-    DESTDIR="$FFBUILD_DESTDIR" ninja install
+    source /patches/blackbeard.sh
+    meson "${myconf[@]}" ../libvmaf ../libvmaf/build || cat ../libvmaf/build/meson-logs/meson-log.txt
+    ninja -j"$(nproc)" -C ../libvmaf/build
+    DESTDIR="$FFBUILD_DESTDIR" ninja install -C ../libvmaf/build
 
     sed -i 's/Libs.private:/Libs.private: -lstdc++/; t; $ a Libs.private: -lstdc++' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libvmaf.pc
 }
 
 ffbuild_configure() {
-    (( $(ffbuild_ffver) >= 501 )) || return 0
+    (($(ffbuild_ffver) >= 501)) || return 0
     echo --enable-libvmaf
 }
 

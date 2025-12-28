@@ -1,0 +1,25 @@
+From 931085fe5f88ad63a875ef72bad7f70a5b0e0aac Mon Sep 17 00:00:00 2001
+From: Lawrence Curtis <lawrencecurtis@yellowpad.co.uk>
+Date: Fri, 30 Jan 2026 14:49:12 +0000
+Subject: [PATCH] nvcc sm75...compute120
+
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 747cbe6f40..78d6f6730d 100755
+--- a/configure
++++ b/configure
+@@ -6901,7 +6901,7 @@ else
+ fi
+ 
+ if enabled cuda_nvcc; then
+-    nvccflags="$nvccflags -ptx"
++    nvccflags="--fatbin -gencode=arch=compute_120,code=compute_120 -gencode=arch=compute_120,code=sm_120 -gencode=arch=compute_89,code=sm_89 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_80,code=compute_80 -gencode=arch=compute_75,code=sm_75 -gencode=arch=compute_70,code=compute_70 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_60,code=compute_60 -gencode=arch=compute_52,code=sm_52 -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_50,code=compute_50 -O3"
+ else
+     nvccflags="$nvccflags -S -nocudalib -nocudainc --cuda-device-only -Wno-c++11-narrowing -include ${source_link}/compat/cuda/cuda_runtime.h"
+     check_nvcc cuda_llvm
+-- 
+2.50.1 (Apple Git-155)
+

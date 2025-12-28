@@ -1,0 +1,49 @@
+From 00713637a617aea1813ba7f09f0ba7de414415b9 Mon Sep 17 00:00:00 2001
+From: Paul Zander <negril.nx+gentoo@gmail.com>
+Date: Sun, 10 Aug 2025 12:31:03 +0200
+Subject: [PATCH] Updates headers for glibc-2.42
+
+Match the extern definitions in cuda-crt headers with the changes in glibc-2.42.
+
+/usr/include/bits/mathcalls.h(206): error: exception specification is
+incompatible with that of previous function "rsqrtf" (declared at line 657 of
+/opt/cuda/bin/../targets/x86_64-linux/include/crt/math_functions.h)
+
+extern float rsqrtf (float __x) noexcept (true); extern float __rsqrtf (float
+__x) noexcept (true);
+
+See-Also:
+https://sourceware.org/git/?p=glibc.git;a=commit;h=77261698b4e938020a1b2032709a54d942ba330f
+Signed-off-by: Paul Zander <negril.nx+gentoo@gmail.com>
+
+diff --git a/builds/cuda_crt/targets/x86_64-linux/include/crt/math_functions.h b/builds/cuda_crt/targets/x86_64-linux/include/crt/math_functions.h
+index 50a6646..d525a86 100644
+--- a/builds/cuda_crt/targets/x86_64-linux/include/crt/math_functions.h
++++ b/builds/cuda_crt/targets/x86_64-linux/include/crt/math_functions.h
+@@ -626,7 +626,11 @@ extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ double         __cdecl sqrt(
+  *
+  * \note_accuracy_double
+  */
++#if defined(__GLIBC__) && (__GLIBC__ > 2) || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 42)
++extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ double                 rsqrt(double x) noexcept (true);
++#else
+ extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ double                 rsqrt(double x);
++#endif
+ 
+ /**
+  * \ingroup CUDA_MATH_SINGLE
+@@ -650,7 +654,11 @@ extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ double                 rsqrt
+  *
+  * \note_accuracy_single
+  */
++#if defined(__GLIBC__) && (__GLIBC__ > 2) || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 42)
++extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ float                  rsqrtf(float x) noexcept (true);
++#else
+ extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ float                  rsqrtf(float x);
++#endif
+ 
+ #if defined(__QNX__) && !defined(_LIBCPP_VERSION)
+ namespace std {
+-- 
+2.50.1
+

@@ -13,7 +13,7 @@ done
 if docker info -f "{{println .SecurityOptions}}" | grep rootless >/dev/null 2>&1; then
     UIDARGS=()
 else
-    UIDARGS=( -u "$(id -u):$(id -g)" )
+    UIDARGS=(-u "$(id -u):$(id -g)")
 fi
 
 rm -rf ffbuild
@@ -35,18 +35,20 @@ cat <<EOF >"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
+    source /patches/blackbeard.sh
+
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \
         --extra-ldflags="\$FF_LDFLAGS" --extra-ldexeflags="\$FF_LDEXEFLAGS" \
         --cc="\$CC" --cxx="\$CXX" --ar="\$AR" --ranlib="\$RANLIB" --nm="\$NM" \
-        --extra-version="\$(date +%Y%m%d)"
+        --extra-version="BlackBeard"
     make -j\$(nproc) V=1
     make install install-doc
 EOF
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
-docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
+docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$PWD/patches/blackbeard":/patches -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
 
 if [[ -n "$FFBUILD_OUTPUT_DIR" ]]; then
     mkdir -p "$FFBUILD_OUTPUT_DIR"
@@ -78,6 +80,6 @@ cd -
 rm -rf ffbuild
 
 if [[ -n "$GITHUB_ACTIONS" ]]; then
-    echo "build_name=${BUILD_NAME}" >> "$GITHUB_OUTPUT"
-    echo "${OUTPUT_FNAME}" > "${ARTIFACTS_PATH}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}.txt"
+    echo "build_name=${BUILD_NAME}" >>"$GITHUB_OUTPUT"
+    echo "${OUTPUT_FNAME}" >"${ARTIFACTS_PATH}/${TARGET}-${VARIANT}${ADDINS_STR:+-}${ADDINS_STR}.txt"
 fi

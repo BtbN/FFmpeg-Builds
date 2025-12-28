@@ -1,70 +1,65 @@
 name: Test Full Build
 on:
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
+    pull_request:
+        branches:
+            - blackbeard
+        paths-ignore:
+            - "**.md"
+            - "LICENSE"
 
 env:
-  DOCKER_BUILDKIT: 1
+    DOCKER_BUILDKIT: 1
 
 jobs:
-  build:
-    name: Test Full Build
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [lgpl,gpl 6.1,gpl 8.1,lgpl 6.1,lgpl 8.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 8.1,lgpl-shared 6.1,lgpl-shared 8.1]
-        quickbuild: [1]
-        include:
-          - target: win64
-            variant: gpl
-            quickbuild: ''
-          - target: linux64
-            variant: gpl
-            quickbuild: ''
-          - target: linuxarm64
-            variant: gpl
-            quickbuild: ''
-    steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Install buildx
-        uses: docker/setup-buildx-action@v4
-        with:
-          buildkitd-config: .github/buildkit.toml
-          driver: docker
-      - name: Get download cache key
-        id: dl_cache
-        run: |
-          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
-      - name: Cache
-        uses: actions/cache/restore@v5
-        with:
-          path: .cache/downloads
-          key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
-          restore-keys: |
-            download-cache-
-      - name: Build Image
-        run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
-        env:
-          QUICKBUILD: ${{ matrix.quickbuild }}
-      - name: Build ffmpeg
-        run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
-      - name: Replace spaces in string
-        id: strs
-        run: |
-          SLUG="${{ matrix.target }}-${{ matrix.variant }}"
-          echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
-          overwrite: true
-          path: artifacts/*
+    build:
+        name: Test Full Build
+        runs-on: ubuntu-24.04
+        strategy:
+            fail-fast: false
+            matrix:
+                target: [win64, winarm64, linux64, linuxarm64]
+                variant:
+                    [
+                        nonfree 8.1 blackbeard,
+                        nonfree-shared 8.1 blackbeard,
+                        nonfree-shared 8.1 blackbeard-legacy,
+                    ]
+                quickbuild: [1]
+        steps:
+            - name: Free Disk-Space
+              run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
+            - name: Checkout
+              uses: actions/checkout@v6
+            - name: Install buildx
+              uses: docker/setup-buildx-action@v4
+              with:
+                  buildkitd-config: .github/buildkit.toml
+                  driver: docker
+            - name: Get download cache key
+              id: dl_cache
+              run: |
+                  echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
+            - name: Cache
+              uses: actions/cache/restore@v5
+              with:
+                  path: .cache/downloads
+                  key: download-cache-${{ steps.dl_cache.outputs.dltagname }}
+                  restore-keys: |
+                      download-cache-
+            - name: Build Image
+              run: ./makeimage.sh ${{ matrix.target }} ${{ matrix.variant }}
+              env:
+                  QUICKBUILD: ${{ matrix.quickbuild }}
+            - name: Build ffmpeg
+              run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+            - name: Replace spaces in string
+              id: strs
+              run: |
+                  SLUG="${{ matrix.target }}-${{ matrix.variant }}"
+                  echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
+                  overwrite: true
+                  path: artifacts/*

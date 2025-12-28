@@ -1,0 +1,58 @@
+From b02c64638279179afd629681efd8bb32dd6e4b17 Mon Sep 17 00:00:00 2001
+From: Lawrence Curtis <lawrencecurtis@yellowpad.co.uk>
+Date: Fri, 30 Jan 2026 14:42:52 +0000
+Subject: [PATCH] nvcc sm75...compute120
+
+---
+ libvmaf/src/meson.build | 29 +++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/libvmaf/src/meson.build b/libvmaf/src/meson.build
+index 80a34bc4..c3628c4e 100644
+--- a/libvmaf/src/meson.build
++++ b/libvmaf/src/meson.build
+@@ -35,7 +35,7 @@ is_cuda_enabled = get_option('enable_cuda') == true
+ is_avx512_enabled = get_option('enable_avx512') == true
+ is_nvtx_enabled = get_option('enable_nvtx') == true
+ 
+-if is_nvtx_enabled    
++if is_nvtx_enabled
+     cdata.set10('HAVE_NVTX', is_nvtx_enabled)
+ endif
+ if is_cuda_enabled
+@@ -339,6 +339,33 @@ if is_cuda_enabled
+             gencode += '-gencode=arch=compute_80,code=compute_80'
+         endif
+ 
++        # =============|==============|=================
++        # Generation   | Compute Code | Typical Card
++        # -------------|--------------|-----------------
++        # Maxwell      | 5.0          | GeForce GTX 750
++        # Maxwell      | 5.2          | GeForce GTX 980
++        # Pascal       | 6.1          | GeForce GTX 1080
++        # Turing       | 7.5          | GeForce RTX 2080
++        # Ampere       | 8.6          | GeForce RTX 3080
++        # Ada Lovelace | 8.9          | GeForce RTX 4090
++        # Blackwell    | 12.0         | GeForce RTX 5090
++        # =============|==============|=================
++        gencode = [
++            '--fatbin',
++            '-gencode=arch=compute_120,code=compute_120',
++            '-gencode=arch=compute_120,code=sm_120',
++            '-gencode=arch=compute_89,code=sm_89',
++            '-gencode=arch=compute_86,code=sm_86',
++            '-gencode=arch=compute_80,code=compute_80',
++            '-gencode=arch=compute_75,code=sm_75',
++            '-gencode=arch=compute_70,code=compute_70',
++            '-gencode=arch=compute_61,code=sm_61',
++            '-gencode=arch=compute_60,code=compute_60',
++            '-gencode=arch=compute_52,code=sm_52',
++            '-gencode=arch=compute_50,code=sm_50',
++            '-gencode=arch=compute_50,code=compute_50',
++            '-O3'
++        ]
+     else
+         nvcc_exe = find_program('clang')
+         gencode = [
+-- 
+2.50.1 (Apple Git-155)
