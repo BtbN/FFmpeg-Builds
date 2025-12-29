@@ -20,8 +20,10 @@ RUN \
     mkdir /opt/ffbuild
 
 RUN \
+    wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key - && \
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/questing/winehq-questing.sources && \
     apt-get -y update && \
-    apt-get -y install --no-install-recommends wine-stable && \
+    apt-get -y install winehq-stable && \
     apt-get -y clean autoclean && \
     rm -rf /var/lib/apt/lists/*
 
