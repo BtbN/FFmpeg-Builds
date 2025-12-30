@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/njh/twolame.git"
-SCRIPT_COMMIT="90b694b6125dbe23a346bd5607a7fb63ad2785dc"
+SCRIPT_COMMIT="3c7d49d95be71c26afdbaef14def92f3460c7373"
 
 ffbuild_enabled() {
     return 0

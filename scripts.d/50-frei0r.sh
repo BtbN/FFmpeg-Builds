@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/dyne/frei0r.git"
-SCRIPT_COMMIT="40a50bec63efebdff6cc315ccf9e6b5674cb8c57"
+SCRIPT_COMMIT="6d272815f25baa6daafacdd132a43e36a94ff21c"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
