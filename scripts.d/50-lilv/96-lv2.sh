@@ -15,7 +15,6 @@ ffbuild_dockerbuild() {
         --buildtype=release
         --default-library=static
         -Ddocs=disabled
-        -Dplugins=disabled
         -Dtests=disabled
         -Donline_docs=false
     )
