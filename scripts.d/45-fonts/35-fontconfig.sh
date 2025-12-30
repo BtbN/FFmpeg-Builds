@@ -20,6 +20,7 @@ ffbuild_dockerbuild() {
     ./autogen.sh --noconf
 
     local myconf=(
+        ac_cv_va_copy="C99"
         --prefix="$FFBUILD_PREFIX"
         --disable-docs
         --enable-libxml2
