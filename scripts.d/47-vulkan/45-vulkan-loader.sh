@@ -8,7 +8,7 @@ SCRIPT_COMMIT2="v1.4.337"
 SCRIPT_TAGFILTER2="v?.*.*"
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR == *4.4* ]] && return -1
+    (( $(ffbuild_ffver) > 404 )) || return -1
     return 0
 }
 
@@ -31,5 +31,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
+    (( $(ffbuild_ffver) >= 404 )) || return 0
     echo --disable-vulkan
 }
