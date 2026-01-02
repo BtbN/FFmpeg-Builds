@@ -9,11 +9,7 @@ ffbuild_depends() {
 }
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
-
+    (( $(ffbuild_ffver) > 600 )) || return -1
     return 0
 }
 
@@ -37,10 +33,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
-    [[ $ADDINS_STR == *5.0* ]] && return 0
-    [[ $ADDINS_STR == *5.1* ]] && return 0
-    [[ $ADDINS_STR == *6.0* ]] && return 0
-
+    (( $(ffbuild_ffver) > 600 )) || return 0
     echo --disable-libaribcaption
 }
