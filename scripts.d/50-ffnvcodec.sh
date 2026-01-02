@@ -28,11 +28,11 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    if (( $(ffbuild_ffver) < 700 )); then
+    if (( $FFVER < 700 )); then
         cd ffnvcodec2
-    elif (( $(ffbuild_ffver) < 701 )); then
+    elif (( $FFVER < 701 )); then
         cd ffnvcodec3
-    elif (( $(ffbuild_ffver) < 800 )); then
+    elif (( $FFVER < 800 )); then
         cd ffnvcodec4
     else
         cd ffnvcodec
