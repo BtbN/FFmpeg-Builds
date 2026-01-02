@@ -5,7 +5,7 @@ SCRIPT_COMMIT="6d272815f25baa6daafacdd132a43e36a94ff21c"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    [[ $ADDINS_STR == *4.4* ]] && return -1
+    (( $(ffbuild_ffver) >= 500 )) || return -1
     return 0
 }
 
@@ -27,5 +27,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
+    (( $(ffbuild_ffver) >= 404 )) || return 0
     echo --disable-frei0r
 }
