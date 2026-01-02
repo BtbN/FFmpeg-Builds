@@ -5,11 +5,7 @@ SCRIPT_COMMIT="64ff7c56f0ae4b8a87306a1e6b33ba1327a57e1d"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
-    [[ $ADDINS_STR == *6.1* ]] && return -1
+    (( $(ffbuild_ffver) >= 700 )) || return -1
     return 0
 }
 

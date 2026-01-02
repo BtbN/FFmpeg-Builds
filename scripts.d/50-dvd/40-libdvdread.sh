@@ -5,11 +5,7 @@ SCRIPT_COMMIT="935042af3e7b28f636895a2917307ac6f5931e6c"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
-    [[ $ADDINS_STR == *6.1* ]] && return -1
+    (( $(ffbuild_ffver) >= 700 )) || return -1
     return 0
 }
 
@@ -45,10 +41,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
-    [[ $ADDINS_STR == *5.0* ]] && return 0
-    [[ $ADDINS_STR == *5.1* ]] && return 0
-    [[ $ADDINS_STR == *6.0* ]] && return 0
-    [[ $ADDINS_STR == *6.1* ]] && return 0
+    (( $(ffbuild_ffver) >= 700 )) || return 0
     echo --disable-libdvdread
 }
