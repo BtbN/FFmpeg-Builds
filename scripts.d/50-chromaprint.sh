@@ -9,10 +9,7 @@ ffbuild_depends() {
 }
 
 ffbuild_enabled() {
-    # pkg-config check is currently only available in master
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
+    (( $(ffbuild_ffver) >= 600 )) || return -1
     return 0
 }
 
