@@ -4,10 +4,7 @@ SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
 SCRIPT_COMMIT="53042ec537712e0df08709524f4df097d42174bc"
 
 ffbuild_enabled() {
-    [[ $ADDINS_STR == *4.4* ]] && return -1
-    [[ $ADDINS_STR == *5.0* ]] && return -1
-    [[ $ADDINS_STR == *5.1* ]] && return -1
-    [[ $ADDINS_STR == *6.0* ]] && return -1
+    (( $(ffbuild_ffver) > 600 )) || return -1
     return 0
 }
 
@@ -52,7 +49,6 @@ ffbuild_configure() {
 }
 
 ffbuild_unconfigure() {
-    [[ $ADDINS_STR == *4.4* ]] && return 0
-    [[ $ADDINS_STR == *5.0* ]] && return 0
+    (( $(ffbuild_ffver) > 500 )) || return 0
     echo --disable-libjxl
 }
