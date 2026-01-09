@@ -12,6 +12,11 @@ ffbuild_dockerlayer() {
     to_df "COPY --link --from=${SELFLAYER} /opt/glslc /usr/bin/glslc"
 }
 
+ffbuild_dockerfinal() {
+    to_df "COPY --link --from=${PREVLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
+    to_df "COPY --link --from=${SELFLAYER} /opt/glslc /usr/bin/glslc"
+}
+
 ffbuild_dockerdl() {
     true
 }
