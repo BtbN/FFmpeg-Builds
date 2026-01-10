@@ -367,18 +367,17 @@ jobs:
           echo "FFmpeg version: $(git describe --tags)"
       
       # Configure and build FFmpeg with MSVC toolchain
+      # Note: The ilammy/msvc-dev-cmd action modifies PATH and other environment variables
+      # which are then inherited by subsequent steps, including msys2 shell
       - name: Build FFmpeg
         shell: msys2 {0}
         run: |
           set -xe
           cd ffmpeg
           
-          # Add MSVC tools to PATH within MSYS2
-          # The msvc-dev-cmd action sets these in the outer environment
-          export PATH="$PATH:$(cmd //c 'echo %PATH%' | tr '\\' '/' | tr ';' ':')"
-          
-          # Verify cl.exe is available
-          which cl.exe || (echo "ERROR: cl.exe not found in PATH" && exit 1)
+          # Verify cl.exe is available (should be in PATH from msvc-dev-cmd)
+          which cl.exe || which cl || (echo "ERROR: cl.exe not found in PATH" && exit 1)
+          cl 2>&1 | head -2 || true
           
           # Determine architecture flags
           if [[ "${{ matrix.arch }}" == "win32" ]]; then
