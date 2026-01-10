@@ -329,6 +329,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      # Setup Visual Studio 2019 build tools and add cl.exe to PATH
+      - name: Setup MSVC Environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch == 'win32' && 'x86' || 'x64' }}
+          vsversion: 2019
+          
       # Set up MSYS2 for shell environment and build tools (FFmpeg configure requires POSIX shell)
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
@@ -344,13 +351,6 @@ jobs:
             yasm
             nasm
             zip
-      
-      # Setup Visual Studio 2019 build tools and add cl.exe to PATH
-      - name: Setup MSVC Environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: ${{ matrix.arch == 'win32' && 'x86' || 'x64' }}
-          vsversion: 2019
       
       # Clone FFmpeg source
       - name: Clone FFmpeg
