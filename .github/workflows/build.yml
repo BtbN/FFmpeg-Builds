@@ -310,10 +310,177 @@ jobs:
           name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
           overwrite: true
           path: artifacts/*
+  build_msvc_windows:
+    name: Build ffmpeg (MSVC)
+    # MSVC builds produce true MSVC-compatible libraries (.lib files) for Windows
+    # without the SAFESEH issues that occur when linking MinGW-produced objects with MSVC.
+    # These builds run on native Windows runners using Visual Studio 2019 toolchain.
+    # MSYS2 provides the POSIX shell environment needed for FFmpeg's configure script.
+    if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || ( github.event.inputs.buildOnly != 'true' && success() ) }}
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [win32, win64]
+        license: [lgpl, gpl]
+        linkage: [static, shared]
+        version: [master, '8.0', '7.1']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # Set up MSYS2 for shell environment and build tools (FFmpeg configure requires POSIX shell)
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            base-devel
+            git
+            diffutils
+            make
+            pkg-config
+            yasm
+            nasm
+            zip
+      
+      # Setup Visual Studio 2019 build tools and add cl.exe to PATH
+      - name: Setup MSVC Environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch == 'win32' && 'x86' || 'x64' }}
+          vsversion: 2019
+      
+      # Clone FFmpeg source
+      - name: Clone FFmpeg
+        shell: msys2 {0}
+        run: |
+          set -xe
+          BRANCH="${{ matrix.version }}"
+          if [[ "$BRANCH" == "master" ]]; then
+            BRANCH_ARG="master"
+          else
+            BRANCH_ARG="release/$BRANCH"
+          fi
+          git clone --filter=blob:none --branch="$BRANCH_ARG" https://github.com/FFmpeg/FFmpeg.git ffmpeg
+          cd ffmpeg
+          echo "FFmpeg version: $(git describe --tags)"
+      
+      # Configure and build FFmpeg with MSVC toolchain
+      # Note: The ilammy/msvc-dev-cmd action modifies PATH and other environment variables
+      # which are then inherited by subsequent steps, including msys2 shell
+      - name: Build FFmpeg
+        shell: msys2 {0}
+        run: |
+          set -xe
+          cd ffmpeg
+          
+          # Verify cl.exe is available (should be in PATH from msvc-dev-cmd)
+          which cl.exe || which cl || (echo "ERROR: cl.exe not found in PATH" && exit 1)
+          cl 2>&1 | head -2 || true
+          
+          # Determine architecture flags
+          if [[ "${{ matrix.arch }}" == "win32" ]]; then
+            ARCH_FLAGS="--arch=x86 --target-os=win32"
+          else
+            ARCH_FLAGS="--arch=x86_64 --target-os=win64"
+          fi
+          
+          # Determine license flags
+          if [[ "${{ matrix.license }}" == "gpl" ]]; then
+            LICENSE_FLAGS="--enable-gpl --enable-version3"
+          else
+            LICENSE_FLAGS=""
+          fi
+          
+          # Determine linkage flags
+          if [[ "${{ matrix.linkage }}" == "shared" ]]; then
+            LINK_FLAGS="--enable-shared --disable-static"
+          else
+            LINK_FLAGS="--disable-shared --enable-static"
+          fi
+          
+          # Configure FFmpeg for MSVC
+          # --toolchain=msvc tells configure to use cl.exe, link.exe, lib.exe
+          ./configure \
+            --toolchain=msvc \
+            ${ARCH_FLAGS} \
+            ${LICENSE_FLAGS} \
+            ${LINK_FLAGS} \
+            --prefix=/tmp/ffmpeg-install \
+            --disable-debug \
+            --enable-asm \
+            --enable-x86asm \
+            --extra-version="$(date +%Y%m%d)-msvc"
+          
+          # Build FFmpeg (use NUMBER_OF_PROCESSORS for Windows compatibility)
+          make -j${NUMBER_OF_PROCESSORS:-4} V=1
+          make install
+      
+      # Package the build artifacts
+      - name: Package Artifacts
+        shell: msys2 {0}
+        run: |
+          set -xe
+          
+          # Get FFmpeg version
+          cd ffmpeg
+          VERSION=$(git describe --tags --always)
+          cd ..
+          
+          # Create package directory with descriptive name
+          PACKAGE_NAME="ffmpeg-${VERSION}-${{ matrix.arch }}-${{ matrix.license }}-${{ matrix.linkage }}-msvc"
+          mkdir -p "package/${PACKAGE_NAME}"
+          
+          # Copy binaries
+          if [[ -d /tmp/ffmpeg-install/bin ]]; then
+            mkdir -p "package/${PACKAGE_NAME}/bin"
+            cp -r /tmp/ffmpeg-install/bin/* "package/${PACKAGE_NAME}/bin/" || true
+          fi
+          
+          # Copy libraries
+          if [[ -d /tmp/ffmpeg-install/lib ]]; then
+            mkdir -p "package/${PACKAGE_NAME}/lib"
+            cp -r /tmp/ffmpeg-install/lib/* "package/${PACKAGE_NAME}/lib/" || true
+          fi
+          
+          # Copy headers
+          if [[ -d /tmp/ffmpeg-install/include ]]; then
+            mkdir -p "package/${PACKAGE_NAME}/include"
+            cp -r /tmp/ffmpeg-install/include/* "package/${PACKAGE_NAME}/include/"
+          fi
+          
+          # Copy license
+          if [[ "${{ matrix.license }}" == "gpl" ]]; then
+            cp ffmpeg/COPYING.GPLv3 "package/${PACKAGE_NAME}/LICENSE.txt"
+          else
+            cp ffmpeg/COPYING.LGPLv2.1 "package/${PACKAGE_NAME}/LICENSE.txt"
+          fi
+          
+          # Create artifacts directory and zip
+          mkdir -p artifacts
+          cd package
+          
+          # Create zip file using MSYS2's zip command (safe from injection)
+          zip -9 -r "../artifacts/${PACKAGE_NAME}.zip" "${PACKAGE_NAME}"
+          
+          cd ..
+          
+          # Generate checksums
+          cd artifacts
+          sha256sum "${PACKAGE_NAME}.zip" > "${PACKAGE_NAME}.zip.sha256"
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-msvc-${{ matrix.arch }}-${{ matrix.license }}-${{ matrix.linkage }}-${{ matrix.version }}
+          overwrite: true
+          path: artifacts/*
   publish_release:
     name: Publish release
-    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' }}
-    needs: build_ffmpeg
+    if: ${{ !cancelled() && ( github.event_name == 'schedule' || github.event.inputs.doRelease == 'true' ) && needs.build_ffmpeg.result == 'success' && needs.build_msvc_windows.result == 'success' }}
+    needs: [build_ffmpeg, build_msvc_windows]
     runs-on: ubuntu-latest
     steps:
       - name: Free Disk-Space
