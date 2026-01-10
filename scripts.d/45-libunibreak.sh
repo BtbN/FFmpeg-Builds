@@ -1,29 +1,20 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/libass/libass.git"
-SCRIPT_COMMIT="fadc390583f24eb5cf98f16925fd3adee50bca88"
-
-ffbuild_depends() {
-    echo base
-    echo fonts
-    echo fribidi
-    echo libiconv
-    echo libunibreak
-}
+SCRIPT_REPO="https://github.com/adah1972/libunibreak.git"
+SCRIPT_COMMIT="e8760630e8b73cf0187fc781383c2be136aa462d"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    ./autogen.sh
+    bash ./bootstrap
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --disable-shared
         --enable-static
         --with-pic
-        --enable-libunibreak
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
@@ -35,17 +26,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export CFLAGS="$CFLAGS -Dread_file=libass_internal_read_file"
-
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
-}
-
-ffbuild_configure() {
-    echo --enable-libass
-}
-
-ffbuild_unconfigure() {
-    echo --disable-libass
 }
