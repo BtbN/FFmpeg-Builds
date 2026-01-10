@@ -343,6 +343,7 @@ jobs:
             pkg-config
             yasm
             nasm
+            zip
       
       # Setup Visual Studio 2019 build tools and add cl.exe to PATH
       - name: Setup MSVC Environment
@@ -389,10 +390,8 @@ jobs:
           # Determine license flags
           if [[ "${{ matrix.license }}" == "gpl" ]]; then
             LICENSE_FLAGS="--enable-gpl --enable-version3"
-            LICENSE_FILE="COPYING.GPLv3"
           else
             LICENSE_FLAGS=""
-            LICENSE_FILE="COPYING.LGPLv2.1"
           fi
           
           # Determine linkage flags
@@ -415,8 +414,8 @@ jobs:
             --enable-x86asm \
             --extra-version="$(date +%Y%m%d)-msvc"
           
-          # Build FFmpeg
-          make -j$(nproc) V=1
+          # Build FFmpeg (use NUMBER_OF_PROCESSORS for Windows compatibility)
+          make -j${NUMBER_OF_PROCESSORS:-4} V=1
           make install
       
       # Package the build artifacts
@@ -463,8 +462,8 @@ jobs:
           mkdir -p artifacts
           cd package
           
-          # Create zip file (using PowerShell for better Windows compatibility)
-          powershell -Command "Compress-Archive -Path '${PACKAGE_NAME}' -DestinationPath '../artifacts/${PACKAGE_NAME}.zip' -CompressionLevel Optimal"
+          # Create zip file using MSYS2's zip command (safe from injection)
+          zip -9 -r "../artifacts/${PACKAGE_NAME}.zip" "${PACKAGE_NAME}"
           
           cd ..
           
