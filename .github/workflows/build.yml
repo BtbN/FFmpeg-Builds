@@ -328,7 +328,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+        
+      - name: Setup MSBuild with VS 2019
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '16.0'
       # Setup Visual Studio 2019 build tools and add cl.exe to PATH
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
