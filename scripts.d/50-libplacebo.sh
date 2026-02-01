@@ -28,7 +28,7 @@ ffbuild_dockerbuild() {
         --buildtype=release
         --default-library=static
         -Dvulkan=enabled
-        -Dvk-proc-addr=disabled
+        -Dvk-proc-addr=enabled
         -Dvulkan-registry="$FFBUILD_PREFIX"/share/vulkan/registry/vk.xml
         -Dshaderc=enabled
         -Dglslang=disabled
