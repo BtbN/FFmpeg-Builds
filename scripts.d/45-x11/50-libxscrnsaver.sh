@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git"
-SCRIPT_COMMIT="60c957ba8a727d01b376da0142aef7e18aa86fe1"
+SCRIPT_COMMIT="3f753e7a4050db083474444ae91cc17a849eaa4d"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1

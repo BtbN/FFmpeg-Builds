@@ -1,10 +1,10 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/BtbN/Vulkan-Shim-Loader.git"
-SCRIPT_COMMIT="9657ca8e395ef16c79b57c8bd3f4c1aebb319137"
+SCRIPT_COMMIT="65b3936528cd92eb4ea3de485d03f858a3850484"
 
 SCRIPT_REPO2="https://github.com/KhronosGroup/Vulkan-Headers.git"
-SCRIPT_COMMIT2="v1.4.337"
+SCRIPT_COMMIT2="v1.4.342"
 SCRIPT_TAGFILTER2="v?.*.*"
 
 ffbuild_enabled() {
