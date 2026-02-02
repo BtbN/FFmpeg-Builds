@@ -13,14 +13,12 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerlayer() {
-    [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /"
     [[ -n "$COMBINING" ]] || return 0
     to_df "COPY --link --from=${SELFLAYER} /opt/mingw/. /opt/mingw"
 }
 
 ffbuild_dockerfinal() {
-    [[ $TARGET == winarm* ]] && return 0
     to_df "COPY --link --from=${PREVLAYER} /opt/mingw/. /"
 }
 
@@ -29,8 +27,6 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
-    [[ $TARGET == winarm* ]] && return 0
-
     if [[ -z "$COMPILER_SYSROOT" ]]; then
         COMPILER_SYSROOT="$(${CC} -print-sysroot)/usr/${FFBUILD_TOOLCHAIN}"
     fi
@@ -46,14 +42,21 @@ ffbuild_dockerbuild() {
         cd mingw-w64-headers
 
         local myconf=(
-            --prefix="$COMPILER_SYSROOT"
             --host="$FFBUILD_TOOLCHAIN"
             --with-default-win32-winnt="0x601"
             --with-default-msvcrt=ucrt
             --enable-idl
             --enable-sdk=all
-            --enable-secure-api
         )
+
+        if [[ -L "$COMPILER_SYSROOT"/include ]]; then
+            local target="$(readlink -f "$COMPILER_SYSROOT"/include)"
+            mkdir -p "/opt/mingw$COMPILER_SYSROOT"
+            ln -sfn "$(realpath -s --relative-to="$COMPILER_SYSROOT" "$target")" "/opt/mingw$COMPILER_SYSROOT/include"
+            myconf+=( --prefix="$(realpath "$target"/..)" )
+        else
+            myconf+=( --prefix="$COMPILER_SYSROOT" )
+        fi
 
         ./configure "${myconf[@]}"
         make -j$(nproc)
@@ -74,6 +77,35 @@ ffbuild_dockerbuild() {
             --with-default-msvcrt=ucrt
             --enable-wildcard
         )
+
+        case $TARGET in
+        *arm64)
+            myconf+=(
+                --disable-lib32
+                --disable-lib64
+                --enable-libarm64
+            )
+            ;;
+        *arm32)
+            myconf+=(
+                --disable-lib32
+                --disable-lib64
+                --enable-libarm32
+            )
+            ;;
+        *64)
+            myconf+=(
+                --disable-lib32
+                --enable-lib64
+            )
+            ;;
+        *32)
+            myconf+=(
+                --enable-lib32
+                --disable-lib64
+            )
+            ;;
+        esac
 
         ./configure "${myconf[@]}"
         make -j$(nproc)
