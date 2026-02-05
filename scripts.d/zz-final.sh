@@ -26,6 +26,7 @@ ffbuild_depends() {
     echo dav1d
     echo davs2
     echo dvd
+    echo evc
     echo fdk-aac
     echo ffnvcodec
     echo frei0r
@@ -33,12 +34,17 @@ ffbuild_depends() {
     echo kvazaar
     echo libaribcaption
     echo libass
+    echo libbs2b
     echo libbluray
+    echo libgsm
     echo libjxl
     echo libmp3lame
+    echo libmysofa
     echo libopus
     echo libplacebo
     echo librist
+    echo libshine
+    echo libspeex
     echo libssh
     echo libtheora
     echo libvpx
