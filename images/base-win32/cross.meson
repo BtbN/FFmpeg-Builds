@@ -13,6 +13,6 @@ needs_exe_wrapper = true
 
 [host_machine]
 system = 'windows'
-cpu_family = 'i686'
+cpu_family = 'x86'
 cpu = 'i686'
 endian = 'little'
