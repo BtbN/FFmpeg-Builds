@@ -110,7 +110,7 @@ jobs:
           tar czf .cache/cache.tar.gz .cache/downloads/*
       - name: Upload cache artifact
         if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: download-cache
           overwrite: true
@@ -293,7 +293,7 @@ jobs:
           SLUG="${{ matrix.target }}-${{ matrix.variant }}"
           echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ffmpeg-${{ steps.strs.outputs.artifact_slug }}
           overwrite: true
