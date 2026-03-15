@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.28.0.21_3c5cc17 Configuration
+# crosstool-NG 1.28.0.23_185f348 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,7 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.28.0.21_3c5cc17"
+CT_VERSION="1.28.0.23_185f348"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -409,7 +409,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_45=y
+CT_BINUTILS_V_2_46=y
+# CT_BINUTILS_V_2_45 is not set
 # CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
 # CT_BINUTILS_V_2_42 is not set
@@ -429,14 +430,16 @@ CT_BINUTILS_V_2_45=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.45"
+CT_BINUTILS_VERSION="2.46.0"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_46_0_or_later=y
+CT_BINUTILS_2_46_0_or_older=y
+CT_BINUTILS_later_than_2_45=y
 CT_BINUTILS_2_45_or_later=y
-CT_BINUTILS_2_45_or_older=y
 CT_BINUTILS_later_than_2_44=y
 CT_BINUTILS_2_44_or_later=y
 CT_BINUTILS_later_than_2_41=y
