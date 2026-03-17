@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://git.code.sf.net/p/mingw-w64/mingw-w64.git"
-SCRIPT_COMMIT="3fedac28018c447ccdd9519c9d556340dfa1c87e"
+SCRIPT_COMMIT="59cd5ce805b12cdefced08ce567d3518c6053b40"
 
 ffbuild_depends() {
     return 0

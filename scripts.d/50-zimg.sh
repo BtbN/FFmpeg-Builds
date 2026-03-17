@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/sekrit-twc/zimg.git"
-SCRIPT_COMMIT="df9c1472b9541d0e79c8d02dae37fdf12f189ec2"
+SCRIPT_COMMIT="bf3f425fc758dc8247924e3ea00afc93afd4ed7d"
 
 ffbuild_enabled() {
     return 0

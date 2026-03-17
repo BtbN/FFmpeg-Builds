@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/xiph/vorbis.git"
-SCRIPT_COMMIT="2d79800b6751dddd4b8b4ad50832faa5ae2a00d9"
+SCRIPT_COMMIT="8de7001691d9177e30ff16a98b37b1e6fd15f7af"
 
 ffbuild_depends() {
     echo base
