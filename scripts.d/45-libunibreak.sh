@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/adah1972/libunibreak.git"
-SCRIPT_COMMIT="e8760630e8b73cf0187fc781383c2be136aa462d"
+SCRIPT_COMMIT="3ce4bfa3129ff3738046a44a6db533d2ce25af2b"
 
 ffbuild_enabled() {
     return 0

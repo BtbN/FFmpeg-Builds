@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
-SCRIPT_COMMIT="58e60a059ea5700628585c4ed785e13480065b65"
+SCRIPT_COMMIT="fea2365a03d62597b869786bf7ba1083a9675d88"
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) > 600 )) || return -1
