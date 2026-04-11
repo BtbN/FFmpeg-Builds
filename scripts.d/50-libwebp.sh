@@ -8,6 +8,9 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    # Remove broken internal library that depends on things we disable
+    sed -i '/libanim_util/d' examples/Makefile.am
+
     ./autogen.sh
 
     local myconf=(
@@ -15,7 +18,7 @@ ffbuild_dockerbuild() {
         --disable-shared
         --enable-static
         --with-pic
-        --enable-libwebpmux
+        --disable-libwebpmux
         --disable-libwebpextras
         --disable-libwebpdemux
         --disable-sdl
