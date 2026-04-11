@@ -16,11 +16,16 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     mkdir build && cd build
 
-    export CFLAGS="$CFLAGS -Dmd5=libssh_md5 -std=gnu23 -include string.h"
+    export CFLAGS="$CFLAGS -Dmd5=libssh_md5"
 
     cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_SHARED_LIBS=OFF -DWITH_EXAMPLES=OFF -DWITH_SERVER=OFF -DWITH_SFTP=ON -DWITH_ZLIB=ON \
+        -DHAVE_STRNDUP=YES -DBUILD_SHARED_LIBS=OFF -DWITH_EXAMPLES=OFF -DWITH_SERVER=OFF -DWITH_SFTP=ON -DWITH_ZLIB=ON \
         ..
+
+    # Fix compilation on windows, mingw exports the symbol, but the header only shows it for c23.
+    # Since the cmake script only checks for the symbol, it succeeds. But then fails to build.
+    echo '#include <stddef.h>' >> config.h
+    echo 'char * strndup(const char *s, size_t c);' >> config.h
 
     ninja -j$(nproc)
     DESTDIR="$FFBUILD_DESTDIR" ninja install
