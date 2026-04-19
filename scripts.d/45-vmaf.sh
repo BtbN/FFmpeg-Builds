@@ -1,6 +1,6 @@
 #!/bin/bash
-SCRIPT_REPO="https://github.com/Netflix/vmaf.git"
-SCRIPT_COMMIT="44a92543264b096378ad11b82b458dcf23e8e5dd"
+SCRIPT_REPO="https://github.com/lusoris/vmaf.git"
+SCRIPT_COMMIT="5253af06f852cf34a94d03db56b1f47b2bda1d57"
 
 ffbuild_enabled() {
     return 0
@@ -43,6 +43,8 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
+
+    
 
     source /patches/blackbeard.sh
     meson "${myconf[@]}" ../libvmaf ../libvmaf/build || cat ../libvmaf/build/meson-logs/meson-log.txt

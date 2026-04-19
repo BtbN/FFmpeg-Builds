@@ -8,13 +8,13 @@ if [[ "$TARGET" != "winarm64" && "$STAGENAME" == *vmaf ]]; then
         -Denable_asm=true
         -Denable_nvcc=true
         -Denable_cuda=true
-        -Dc_args="-DVMAF_PICTURE_POOL -DOC_NEW_STYLE_INCLUDES ${CFLAGS}"
+        -Dc_args="-DVMAF_BATCH_THREADING -DVMAF_PICTURE_POOL -DOC_NEW_STYLE_INCLUDES ${CFLAGS}"
     )
 
     if [[ "$ADDINS_STR" == *lusoris* ]]; then
-        myconf+=(
-            -Denable_sycl=true
-        )
+        # myconf+=(
+        #    -Denable_sycl=true
+        #)
         # 1. Get the target triple directly from the compiler
         CTNG_TARGET=$(${CC} -dumpmachine)
 
