@@ -1,3 +1,4 @@
+# Libvmaf patches
 if [[ "$TARGET" != "winarm64" && "$STAGENAME" == *vmaf ]]; then
     sed -i '/exe_wrapper/d' /cross.meson
     sed -i '/^\[binaries\]/a cuda = '"'nvcc'"'' /cross.meson
@@ -10,7 +11,7 @@ if [[ "$TARGET" != "winarm64" && "$STAGENAME" == *vmaf ]]; then
         -Dc_args="-DVMAF_PICTURE_POOL -DOC_NEW_STYLE_INCLUDES ${CFLAGS}"
     )
 
-    if [[ "$ADDINS_STR" == *lusoris ]]; then
+    if [[ "$ADDINS_STR" == *lusoris* ]]; then
         myconf+=(
             -Denable_sycl=true
         )
@@ -30,14 +31,15 @@ if [[ "$TARGET" != "winarm64" && "$STAGENAME" == *vmaf ]]; then
         echo "-static-intel --sysroot $CTNG_SYSROOT --gcc-toolchain=$CTNG_TOOLCHAIN --target=$CTNG_TARGET" >"$ICPXCFG"
     fi
 
-    if [[ "$ADDINS_STR" == *legacy ]]; then
+    if [[ "$ADDINS_STR" == *legacy* ]]; then
         git apply --directory=.. /patches/vmaf-nvcc-legacy.patch
     else
         git apply --directory=.. /patches/vmaf-nvcc.patch
     fi
 
+# FFmpeg patches
 elif [[ -z "$STAGENAME" ]]; then
-    if [[ "$ADDINS_STR" == *jellyfin ]]; then
+    if [[ "$ADDINS_STR" == *jellyfin* ]]; then
         PATCH_REPO="https://github.com/nyanmisaka/jellyfin-ffmpeg.git"
         PATCH_BRANCH="jellyfin-8.1" # branch that contains the patches
         git clone --depth 1 -b "$PATCH_BRANCH" "$PATCH_REPO" "/tmp/jellyfin-ffmpeg"
@@ -49,7 +51,7 @@ elif [[ -z "$STAGENAME" ]]; then
         fi
     fi
 
-    if [[ "$ADDINS_STR" == *lusoris ]]; then
+    if [[ "$ADDINS_STR" == *lusoris* ]]; then
         PATCH_REPO="https://github.com/lusoris/vmaf.git"
         PATCH_BRANCH="master" # branch that contains the patches
         git clone --depth 1 -b "$PATCH_BRANCH" "$PATCH_REPO" "/tmp/vmaf-lusoris"
@@ -60,7 +62,7 @@ elif [[ -z "$STAGENAME" ]]; then
         done
     fi
 
-    if [[ "$ADDINS_STR" == *legacy ]]; then
+    if [[ "$ADDINS_STR" == *legacy* ]]; then
         git apply /patches/ffmpeg-nvcc-legacy.patch
     else
         git apply /patches/ffmpeg-nvcc.patch

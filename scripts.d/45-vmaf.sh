@@ -9,7 +9,7 @@ ffbuild_enabled() {
 ffbuild_depends() {
     echo base
     echo ffnvcodec
-    if [[ "$ADDINS_STR" == *lusoris ]]; then
+    if [[ "$ADDINS_STR" == *lusoris* ]]; then
         echo level-zero
     fi
 }

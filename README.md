@@ -1,8 +1,8 @@
-# FFmpeg with NVCC
+# Blackbeard FFmpeg
 
 <img align="right" width="256" height="256" alt="blackbreard-gold-small" src="https://github.com/user-attachments/assets/c3dc6db2-8c5e-42e9-84a5-5dc5927bd570" />
 
-FFmpeg binaries and static libaries
+FFmpeg binaries and static libaries built using BtBn's build system
 
 ### Release Retention Policy
 
