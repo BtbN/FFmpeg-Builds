@@ -18,7 +18,7 @@ ffbuild_dockeraddin() {
     to_df 'ENV NVCC_PREPEND_FLAGS="-I/opt/ffbuild/include"'
     to_df 'ENV CUDA_PATH="/opt/cuda-${NV_VER}/linux-${NV_ARCH}"'
     to_df 'ENV CUDA_HOME="/opt/cuda-${NV_VER}/linux-${NV_ARCH}"'
-    to_df 'ENV PATH="${PATH}:/opt/cuda-${NV_VER}/linux-${NV_ARCH}/bin:/opt/intel/oneapi/compiler/latest/bin"'
+    to_df 'ENV PATH="${PATH}:/opt/cuda-${NV_VER}/linux-${NV_ARCH}/bin"'
     to_df 'ENV CPLUS_INCLUDE_PATH=/opt/ffbuild/include'
 }
 

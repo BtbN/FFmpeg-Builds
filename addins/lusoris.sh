@@ -9,5 +9,6 @@ ffbuild_dockeraddin() {
         apt-get -y install --no-install-recommends quilt intel-oneapi-compiler-dpcpp-cpp && \
         apt-get -y clean autoclean && \
         rm -rf /var/lib/apt/lists/*'
+        to_df 'ENV PATH="${PATH}:/opt/intel/oneapi/compiler/latest/bin"'
     fi
 }

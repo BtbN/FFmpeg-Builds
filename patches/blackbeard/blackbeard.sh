@@ -1,11 +1,13 @@
 if [[ "$TARGET" != "winarm64" && "$STAGENAME" == *vmaf ]]; then
     sed -i '/exe_wrapper/d' /cross.meson
     sed -i '/^\[binaries\]/a cuda = '"'nvcc'"'' /cross.meson
+
     myconf+=(
         --cross-file=/cross.meson
         -Denable_asm=true
         -Denable_nvcc=true
         -Denable_cuda=true
+        -Dc_args="-DVMAF_PICTURE_POOL -DOC_NEW_STYLE_INCLUDES ${CFLAGS}"
     )
 
     if [[ "$ADDINS_STR" == *lusoris ]]; then
@@ -56,12 +58,6 @@ elif [[ -z "$STAGENAME" ]]; then
         for p in $(grep -v '^\s*#' ${QUILT_PATCHES}/series.txt); do
             git apply --3way ${QUILT_PATCHES}/$p
         done
-
-        quilt push -a
-        if quilt status | grep -q 'Unapplied'; then
-            echo "ERROR: Some patches failed to apply. Check quilt status for details." >&2
-            exit 1
-        fi
     fi
 
     if [[ "$ADDINS_STR" == *legacy ]]; then
@@ -69,10 +65,10 @@ elif [[ -z "$STAGENAME" ]]; then
     else
         git apply /patches/ffmpeg-nvcc.patch
     fi
-    mkdir -p /ffbuild/prefix/lib
 
     if [[ -d "$FFBUILD_PREFIX/level-zero" ]]; then
-        cp -rav $FFBUILD_PREFIX/level-zero/lib/* /ffbuild/prefix/lib
+        mkdir -p /ffbuild/prefix/lib
+        cp -rav $FFBUILD_PREFIX/level-zero/* /ffbuild/prefix/lib
     fi
 
     echo "🩹 All patches applied successfully."

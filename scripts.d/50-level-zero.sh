@@ -32,25 +32,18 @@ ffbuild_dockerbuild() {
 
     echo "📦 Bundling Intel SYCL and Level Zero dynamic libraries..."
 
-    # 1. Define where the final output is being staged (btbn usually uses an 'artifacts' or 'dest' folder)
-    # Adjust FF_STAGE_DIR to match your specific btbn output path before it gets zipped.
-    export FF_STAGE_DIR="ffbuild/pkgroot" # This is btbn's default staging directory name
-    export BUNDLE_DIR="$FFBUILD_DESTPREFIX/level-zero"
-
-    # 2. Create the lib directory next to the bin directory
+    export BUNDLE_DIR="$FFBUILD_DESTPREFIX/level-zero/"
     mkdir -p "$BUNDLE_DIR"
 
-    # 3. Copy the Intel oneAPI shared libraries (preserving symlinks with -a)
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libsycl.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libur_loader.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libsvml.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libintlc.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libirng.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libirc.so* "$BUNDLE_DIR/"
-    cp -a /opt/intel/oneapi/compiler/latest/lib/libimf.so* "$BUNDLE_DIR/"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libsycl.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libur_loader.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libsvml.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libintlc.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libirng.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libirc.so* "$BUNDLE_DIR"
+    cp -a /opt/intel/oneapi/compiler/latest/lib/libimf.so* "$BUNDLE_DIR"
+    cp -a /usr/lib/x86_64-linux-gnu/libz.so* "$BUNDLE_DIR"
 
-    # 4. Copy the compiled Level Zero loader from the cross-compile prefix
-    # (btbn installs intermediate builds to $FFBUILD_PREFIX, which is usually /opt/ffbuild)
     # cp -a "${FFBUILD_DESTPREFIX}"/lib/libze_loader.so* "$BUNDLE_LIB_DIR/"
 
     echo "✅ Dynamic libraries bundled successfully!"
@@ -58,23 +51,23 @@ ffbuild_dockerbuild() {
     sed -i 's/Libs.private:/Libs.private: -lstdc++/; t; $ a Libs.private: -lstdc++' "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libze_loader.pc
 }
 
-# ffbuild_ldflags() {
+ffbuild_ldflags() {
 # 1. Ignore missing transitive shared library symbols (Fixes the zlib/crc32 error instantly!)
-# echo "-Wl,--allow-shlib-undefined"
+echo "-Wl,--allow-shlib-undefined"
 
 # 2. Add Intel's library directory so the cross-linker can find libsycl.so
 # echo "-Wl,-rpath-link=/opt/intel/oneapi/compiler/latest/lib"
 # echo "-L/opt/intel/oneapi/compiler/latest/lib"
-# }
+}
 
 # ffbuild_libs() {
-# echo -lz
+    # echo -lz
 # }
 
-ffbuild_configure() {
-    echo --enable-libvmaf-sycl
-}
+# ffbuild_configure() {
+#     echo --enable-libvmaf-sycl
+# }
 
-ffbuild_unconfigure() {
-    echo --disable-libvmaf-sycl
-}
+# ffbuild_unconfigure() {
+#     echo --disable-libvmaf-sycl
+# }
