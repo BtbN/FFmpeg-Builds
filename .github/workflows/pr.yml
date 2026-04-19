@@ -21,7 +21,7 @@ jobs:
                 variant:
                     [
                         nonfree 8.1 blackbeard,
-                        nonfree-shared 8.1 blackbeard,
+                        nonfree-shared 8.1 blackbeard lusoris,
                         nonfree-shared 8.1 blackbeard-legacy,
                     ]
                 quickbuild: [1]
