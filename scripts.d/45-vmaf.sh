@@ -20,9 +20,14 @@ ffbuild_dockerbuild() {
         -Dbuilt_in_models=true
         -Denable_tests=false
         -Denable_docs=false
-        -Denable_avx512=true
         -Denable_float=true
     )
+
+    if [[ $TARGET != *32 ]]; then
+        myconf+=(
+            -Denable_avx512=true
+        )
+    fi
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
         myconf+=(
