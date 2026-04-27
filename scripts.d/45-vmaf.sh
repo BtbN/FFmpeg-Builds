@@ -26,10 +26,12 @@ ffbuild_dockerbuild() {
     if [[ $TARGET == *32 ]]; then
         myconf+=(
             -Denable_avx512=false
+            -Denable_asm=false
         )
     else
         myconf+=(
             -Denable_avx512=true
+            -Denable_asm=true
         )
     fi
 
