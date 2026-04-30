@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.28.0.23_185f348 Configuration
+# crosstool-NG 1.28.0.35_14025c5 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,8 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.28.0.23_185f348"
+CT_CONFIGURE_has_zstd=y
+CT_VERSION="1.28.0.35_14025c5"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -753,7 +754,8 @@ CT_MOLD_PATCH_GLOBAL=y
 # CT_MOLD_PATCH_LOCAL_BUNDLED is not set
 # CT_MOLD_PATCH_NONE is not set
 CT_MOLD_PATCH_ORDER="global"
-CT_MOLD_V_2_40_4=y
+CT_MOLD_V_2_41_0=y
+# CT_MOLD_V_2_40_4 is not set
 # CT_MOLD_V_2_39_1 is not set
 # CT_MOLD_V_2_38_1 is not set
 # CT_MOLD_V_2_37_1 is not set
@@ -761,7 +763,7 @@ CT_MOLD_V_2_40_4=y
 # CT_MOLD_V_2_33_0 is not set
 # CT_MOLD_V_2_32_0 is not set
 # CT_MOLD_V_2_31_0 is not set
-CT_MOLD_VERSION="2.40.4"
+CT_MOLD_VERSION="2.41.0"
 CT_MOLD_MIRRORS="https://github.com/rui314/mold/archive/refs/tags"
 CT_MOLD_ARCHIVE_FILENAME="v@{version}"
 CT_MOLD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
