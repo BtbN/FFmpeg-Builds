@@ -799,7 +799,64 @@ CT_ALL_LINKER_CHOICES="MOLD"
 # Debug facilities
 #
 # CT_DEBUG_DUMA is not set
-# CT_DEBUG_GDB is not set
+CT_DEBUG_GDB=y
+CT_DEBUG_GDB_PKG_KSYM="GDB"
+CT_GDB_DIR_NAME="gdb"
+CT_GDB_PKG_NAME="gdb"
+CT_GDB_SRC_RELEASE=y
+# CT_GDB_SRC_DEVEL is not set
+# CT_GDB_SRC_CUSTOM is not set
+CT_GDB_PATCH_GLOBAL=y
+# CT_GDB_PATCH_BUNDLED is not set
+# CT_GDB_PATCH_LOCAL is not set
+# CT_GDB_PATCH_BUNDLED_LOCAL is not set
+# CT_GDB_PATCH_LOCAL_BUNDLED is not set
+# CT_GDB_PATCH_NONE is not set
+CT_GDB_PATCH_ORDER="global"
+CT_GDB_V_16=y
+# CT_GDB_V_15 is not set
+# CT_GDB_V_14 is not set
+# CT_GDB_V_13 is not set
+# CT_GDB_V_12 is not set
+# CT_GDB_V_11 is not set
+# CT_GDB_V_10 is not set
+# CT_GDB_V_9 is not set
+# CT_GDB_V_8_3 is not set
+CT_GDB_VERSION="16.3"
+CT_GDB_MIRRORS="$(CT_Mirrors GNU gdb) $(CT_Mirrors sourceware gdb/releases)"
+CT_GDB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_FORMATS=".tar.xz .tar.gz"
+CT_GDB_SIGNATURE_FORMAT=""
+CT_GDB_later_than_16=y
+CT_GDB_16_or_later=y
+CT_GDB_later_than_15=y
+CT_GDB_15_or_later=y
+CT_GDB_later_than_14=y
+CT_GDB_14_or_later=y
+CT_GDB_later_than_13=y
+CT_GDB_13_or_later=y
+CT_GDB_later_than_12=y
+CT_GDB_12_or_later=y
+CT_GDB_later_than_11=y
+CT_GDB_11_or_later=y
+CT_GDB_later_than_10=y
+CT_GDB_10_or_later=y
+CT_GDB_later_than_8_3=y
+CT_GDB_8_3_or_later=y
+CT_GDB_CROSS=y
+# CT_GDB_CROSS_STATIC is not set
+# CT_GDB_CROSS_SIM is not set
+CT_GDB_CROSS_PYTHON=y
+CT_GDB_CROSS_PYTHON_BINARY=""
+CT_GDB_CROSS_EXTRA_CONFIG_ARRAY=""
+# CT_GDB_NATIVE is not set
+CT_GDB_GDBSERVER=y
+# CT_GDB_NATIVE_BUILD_IPA_LIB is not set
+# CT_GDB_NATIVE_STATIC is not set
+# CT_GDB_NATIVE_STATIC_LIBSTDCXX is not set
+CT_GDB_GDBSERVER_TOPLEVEL=y
+CT_GDB_CC_LD_LIBTOOL=y
 # CT_DEBUG_LTRACE is not set
 # CT_DEBUG_STRACE is not set
 CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
@@ -810,7 +867,29 @@ CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
 #
 # CT_COMPLIBS_CHECK is not set
 # CT_COMP_LIBS_CLOOG is not set
-# CT_COMP_LIBS_EXPAT is not set
+CT_COMP_LIBS_EXPAT=y
+CT_COMP_LIBS_EXPAT_PKG_KSYM="EXPAT"
+CT_EXPAT_DIR_NAME="expat"
+CT_EXPAT_PKG_NAME="expat"
+CT_EXPAT_SRC_RELEASE=y
+# CT_EXPAT_SRC_DEVEL is not set
+# CT_EXPAT_SRC_CUSTOM is not set
+CT_EXPAT_PATCH_GLOBAL=y
+# CT_EXPAT_PATCH_BUNDLED is not set
+# CT_EXPAT_PATCH_LOCAL is not set
+# CT_EXPAT_PATCH_BUNDLED_LOCAL is not set
+# CT_EXPAT_PATCH_LOCAL_BUNDLED is not set
+# CT_EXPAT_PATCH_NONE is not set
+CT_EXPAT_PATCH_ORDER="global"
+CT_EXPAT_V_2_7=y
+# CT_EXPAT_V_2_6 is not set
+# CT_EXPAT_V_2_5 is not set
+CT_EXPAT_VERSION="2.7.1"
+CT_EXPAT_MIRRORS="http://downloads.sourceforge.net/project/expat/expat/${CT_EXPAT_VERSION} https://github.com/libexpat/libexpat/releases/download/R_${CT_EXPAT_VERSION//./_}"
+CT_EXPAT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_EXPAT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_EXPAT_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2 .tar.gz"
+CT_EXPAT_SIGNATURE_FORMAT=""
 CT_COMP_LIBS_GETTEXT=y
 CT_COMP_LIBS_GETTEXT_PKG_KSYM="GETTEXT"
 CT_GETTEXT_DIR_NAME="gettext"
@@ -1068,6 +1147,7 @@ CT_GMP_NEEDED=y
 CT_MPFR_NEEDED=y
 CT_ISL_NEEDED=y
 CT_MPC_NEEDED=y
+CT_EXPAT_NEEDED=y
 CT_NCURSES_NEEDED=y
 CT_ZLIB_NEEDED=y
 CT_ZSTD_NEEDED=y
@@ -1077,6 +1157,7 @@ CT_GMP=y
 CT_MPFR=y
 CT_ISL=y
 CT_MPC=y
+CT_EXPAT=y
 CT_NCURSES=y
 CT_ZLIB=y
 CT_ZSTD=y
