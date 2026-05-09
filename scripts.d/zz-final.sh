@@ -34,11 +34,16 @@ ffbuild_depends() {
     echo libaribcaption
     echo libass
     echo libbluray
+    echo libbs2b
+    echo libgsm
     echo libjxl
     echo libmp3lame
+    echo libmysofa
     echo libopus
     echo libplacebo
     echo librist
+    echo libshine
+    echo libspeex
     echo libssh
     echo libtheora
     echo libvpx
@@ -69,6 +74,8 @@ ffbuild_depends() {
     echo x264
     echo x265
     echo xavs2
+    echo xevd
+    echo xeve
     echo xvid
     echo zimg
     echo zvbi
