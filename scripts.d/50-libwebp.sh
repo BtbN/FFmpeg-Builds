@@ -18,9 +18,9 @@ ffbuild_dockerbuild() {
         --disable-shared
         --enable-static
         --with-pic
-        --disable-libwebpmux
+        --enable-libwebpmux
+        --enable-libwebpdemux
         --disable-libwebpextras
-        --disable-libwebpdemux
         --disable-sdl
         --disable-gl
         --disable-png
