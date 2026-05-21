@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/google/snappy.git"
-SCRIPT_COMMIT="6281a07b7e08629884ec93a89fea6e05c62e599c"
+SCRIPT_COMMIT="27ab5f7f518430a021239bc26a5b2fd64affbc7b"
 
 ffbuild_enabled() {
     return 0

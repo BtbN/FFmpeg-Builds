@@ -6,7 +6,7 @@ SCRIPT_COMMIT="9d19c66d0a1768cffcf497b2db70bf4018b578d7"
 
 SCRIPT_REPO2="https://git.savannah.gnu.org/git/gnulib.git"
 SCRIPT_MIRROR2="https://github.com/coreutils/gnulib.git"
-SCRIPT_COMMIT2="b84e952538c2bad5940715a55bcb054907a60541"
+SCRIPT_COMMIT2="3104b047495f948f2e16f85bbfc2f82b9e3f4b7b"
 
 ffbuild_enabled() {
     return 0

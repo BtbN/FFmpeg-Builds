@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/google/shaderc.git"
-SCRIPT_COMMIT="42c364eb27982ecfc9e00e384df205730e65b90c"
+SCRIPT_COMMIT="b16fb67935326f7ea1ead8bd2b131608b4148230"
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) > 404 )) || return -1
