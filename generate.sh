@@ -63,7 +63,7 @@ exec_dockerstage() {
     )
 }
 
-get_stagedeps() {
+get_stagedeps_internal() {
     [[ -d "$1" ]] && local SCRIPTDIR=("$1") || local SCRIPTDIR=(scripts.d/??-"$1")
     if [[ -d "${SCRIPTDIR[0]}" ]]; then
         RESDEPS=()
@@ -86,8 +86,17 @@ get_stagedeps() {
     fi
 }
 
+declare -A STAGEDEPS
+get_stagedeps() {
+    if [[ -v STAGEDEPS["$1"] ]]; then
+        return
+    fi
+    STAGEDEPS["$1"]="$(get_stagedeps_internal "$1")"
+}
+
 get_stagedeps_recursive_internal() {
-    local CDEPS=($(get_stagedeps "$1"))
+    get_stagedeps "$1"
+    local CDEPS=(${STAGEDEPS["$1"]})
     for CDEP in "${CDEPS[@]}"; do
         get_stagedeps_recursive_internal "$CDEP"
     done
@@ -105,7 +114,8 @@ get_stagedeps_recursive() {
 }
 
 get_filled_deps() {
-    local CUR_DEPS=($(get_stagedeps "$1"))
+    get_stagedeps "$1"
+    local CUR_DEPS=(${STAGEDEPS["$1"]})
     local UNFILLED_DEPS=()
     for DEP in "${CUR_DEPS[@]}"; do
         [[ -v FILLED_DEPS["$DEP"] ]] || UNFILLED_DEPS+=("$DEP")
