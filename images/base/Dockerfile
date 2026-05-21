@@ -10,7 +10,7 @@ RUN \
         $([ "$TARGETPLATFORM" != "linux/amd64" ] || echo gcc-multilib g++-multilib) \
         build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
-        autoconf automake libtool libtool-bin autopoint gettext cmake meson ninja-build \
+        autoconf automake libtool libtool-bin autopoint gettext cmake ninja-build \
         clang llvm lcov lld qemu-user \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
@@ -25,6 +25,8 @@ RUN \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
     git config --global advice.detachedHead false
+
+RUN python3 -m pip install --break-system-packages meson
 
 ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
