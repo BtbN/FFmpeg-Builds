@@ -15,6 +15,8 @@ ffbuild_dockerfinal() {
 }
 
 ffbuild_dockerbuild() {
+    echo > test/CMakeLists.txt
+
     mkdir build && cd build
 
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
