@@ -21,7 +21,7 @@ RUN \
 
 RUN \
     apt-get -y update && \
-    apt-get -y install --no-install-recommends wine-stable && \
+    apt-get -y install --no-install-recommends wine && \
     apt-get -y clean autoclean && \
     rm -rf /var/lib/apt/lists/*
 
