@@ -49,22 +49,6 @@ ffbuild_dockerbuild() {
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             mingwarm64
         )
-
-        cat <<EOF >Configurations/50-win-arm-mingw.conf
-my %targets = (
-    "mingwarm64" => {
-        inherit_from     => [ "mingw-common" ],
-        cflags           => "",
-        sys_id           => "MINGWARM64",
-        bn_ops           => add("SIXTY_FOUR_BIT"),
-        asm_arch         => 'aarch64',
-        uplink_arch      => 'armv8',
-        perlasm_scheme   => "win64",
-        shared_rcflag    => "",
-        multilib         => "-arm64",
-    },
-);
-EOF
     elif [[ $TARGET == linux64 ]]; then
         myconf+=(
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
