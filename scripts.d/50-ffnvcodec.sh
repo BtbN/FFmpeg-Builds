@@ -1,19 +1,15 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT="33a9ede8d9914299d9262539c576a15bd0a19621"
+SCRIPT_COMMIT="1b5a81ada8874efb2af0534ffe74049c557e212d"
 
 SCRIPT_REPO2="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT2="fe32761e7a8bc79fcf560f356bf3898271bf4d56"
-SCRIPT_BRANCH2="sdk/12.0"
+SCRIPT_COMMIT2="33a9ede8d9914299d9262539c576a15bd0a19621"
+SCRIPT_BRANCH2="sdk/13.0"
 
 SCRIPT_REPO3="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT3="bafcf66bf6f98eb76ed135a75e78913b989cbc89"
-SCRIPT_BRANCH3="sdk/12.1"
-
-SCRIPT_REPO4="https://github.com/FFmpeg/nv-codec-headers.git"
-SCRIPT_COMMIT4="f8339c06648fb6642aac1261d76e4158dc0b5401"
-SCRIPT_BRANCH4="sdk/12.2"
+SCRIPT_COMMIT3="afae1834257b919848c5deb21a17c7355616b1ee"
+SCRIPT_BRANCH3="sdk/11.1"
 
 ffbuild_enabled() {
     [[ $TARGET == winarm64 ]] && (( $(ffbuild_ffver) <= 801 )) && return -1
@@ -25,16 +21,13 @@ ffbuild_dockerdl() {
     default_dl ffnvcodec
     echo "git-mini-clone \"$SCRIPT_REPO2\" \"$SCRIPT_COMMIT2\" ffnvcodec2"
     echo "git-mini-clone \"$SCRIPT_REPO3\" \"$SCRIPT_COMMIT3\" ffnvcodec3"
-    echo "git-mini-clone \"$SCRIPT_REPO4\" \"$SCRIPT_COMMIT4\" ffnvcodec4"
 }
 
 ffbuild_dockerbuild() {
-    if (( $FFVER < 700 )); then
-        cd ffnvcodec2
-    elif (( $FFVER < 701 )); then
+    if (( $FFVER < 800 )); then
         cd ffnvcodec3
-    elif (( $FFVER < 800 )); then
-        cd ffnvcodec4
+    elif (( $FFVER <= 801 )); then
+        cd ffnvcodec2
     else
         cd ffnvcodec
     fi
