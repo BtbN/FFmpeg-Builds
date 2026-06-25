@@ -52,7 +52,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-latest,ubuntu-24.04-arm]
+        include:
+          - runner: ubuntu-latest
+            tag_suffix: ''
+          - runner: ubuntu-24.04-arm
+            tag_suffix: -arm
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Free Disk-Space
@@ -85,9 +89,9 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ (contains(matrix.runner, 'arm') && '-arm') || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
       - name: Get download cache key
         if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         id: dl_cache
@@ -129,11 +133,16 @@ jobs:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_base
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
+        runner: [ubuntu-latest]
         target: [win32,win64,winarm64,linux32,linux64,linuxarm64,linuxppc64,linuxmips64,linuxriscv64]
+        include:
+          - runner: ubuntu-24.04-arm
+            target: linuxarm64
+            tag_suffix: -arm
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
@@ -166,11 +175,12 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
           build-args: |
             GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
+            BASE_TAG_SUFFIX=${{ matrix.tag_suffix || '' }}
       - name: Cleanup
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
@@ -185,29 +195,42 @@ jobs:
     name: Build target-variant image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_target_bases
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
+        runner: [ubuntu-latest]
         target: [win64,winarm64,linux64,linuxarm64]
         variant: [gpl,lgpl,gpl 8.1,gpl 7.1,lgpl 8.1,lgpl 7.1,gpl-shared,lgpl-shared,gpl-shared 8.1,gpl-shared 7.1,lgpl-shared 8.1,lgpl-shared 7.1]
         include:
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 8.0
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 7.0
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 6.1
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 6.0
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 5.1
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 5.0
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 4.4
-          - target: win64
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 4.3
+          - runner: ubuntu-24.04-arm
+            target: linuxarm64
+            variant: gpl
+            tag_suffix: -arm
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
@@ -233,11 +256,11 @@ jobs:
       - name: Get download cache key
         id: dl_cache
         run: |
-          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
+          echo "dltagname=$(DOCKER_TAG_SUFFIX=${{ matrix.tag_suffix || '' }} ./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Generate Dockerfile
-        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+        run: DOCKER_TAG_SUFFIX=${{ matrix.tag_suffix || '' }} ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Cache
         uses: actions/cache/restore@v5
         with:
@@ -251,9 +274,9 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
+          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
       - name: Cleanup
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
