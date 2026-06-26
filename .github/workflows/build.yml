@@ -205,6 +205,9 @@ jobs:
         include:
           - runner: ubuntu-latest
             target: win64
+            variant: gpl 9.0
+          - runner: ubuntu-latest
+            target: win64
             variant: gpl 8.0
           - runner: ubuntu-latest
             target: win64
