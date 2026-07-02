@@ -67,7 +67,7 @@ echo "Processing ${scr}"
             else
                 if [[ -z "${CUR_BRANCH}" ]]; then
                     # Fetch default branch name
-                    CUR_BRANCH="$(git remote show "${CUR_REPO}" | grep "HEAD branch:" | cut -d":" -f2 | xargs)"
+                    CUR_BRANCH="$(git ls-remote --symref --exit-code "${CUR_REPO}" HEAD | awk '/^ref:/ {print $2}' | sed 's|refs/heads/||')"
                     echo "Found default branch ${CUR_BRANCH}"
                 fi
                 NEW_COMMIT="$(git ls-remote --exit-code --heads --refs "${CUR_REPO}" refs/heads/"${CUR_BRANCH}" | cut -f1)"
