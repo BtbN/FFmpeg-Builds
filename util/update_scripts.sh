@@ -7,6 +7,7 @@ cd "$(dirname "$0")"/..
 
 for scr in scripts.d/**/*.sh; do
 echo "Processing ${scr}"
+for attempt in $(seq 1 3); do
 (
     source "$scr"
 
@@ -86,6 +87,9 @@ echo "Processing ${scr}"
             break
         fi
     done
-)
+) && break
+    echo "Attempt ${attempt}/3 failed for ${scr}, retrying in 5s..."
+    sleep 5
+done
 echo
 done
