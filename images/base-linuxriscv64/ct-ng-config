@@ -77,7 +77,7 @@ CT_DOWNLOAD_AGENT_WGET=y
 # CT_DOWNLOAD_AGENT_NONE is not set
 # CT_FORBID_DOWNLOAD is not set
 # CT_FORCE_DOWNLOAD is not set
-CT_CONNECT_TIMEOUT=10
+CT_CONNECT_TIMEOUT=60
 CT_DOWNLOAD_WGET_OPTIONS="--passive-ftp --tries=3 -nc --progress=dot:binary"
 # CT_ONLY_DOWNLOAD is not set
 # CT_USE_MIRROR is not set
@@ -333,7 +333,7 @@ CT_LINUX_V_6_1=y
 # CT_LINUX_V_3_4 is not set
 # CT_LINUX_V_3_2 is not set
 CT_LINUX_VERSION="6.1.159"
-CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION})"
+CT_LINUX_MIRRORS="$(CT_Mirrors kernel.org linux ${CT_LINUX_VERSION}) https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot"
 CT_LINUX_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_LINUX_ARCHIVE_FORMATS=".tar.xz .tar.gz"
