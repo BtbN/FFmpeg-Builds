@@ -44,6 +44,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CXXFLAGS="$CXXFLAGS -std=gnu++17"
+
     meson "${myconf[@]}" ../libvmaf || cat meson-logs/meson-log.txt
     ninja -j"$(nproc)"
     DESTDIR="$FFBUILD_DESTDIR" ninja install
