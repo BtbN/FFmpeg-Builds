@@ -31,6 +31,8 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CXXFLAGS="$CXXFLAGS -std=gnu++17"
+
     ./configure "${myconf[@]}"
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
