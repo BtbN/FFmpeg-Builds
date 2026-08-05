@@ -13,6 +13,8 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    sed -i '1i #include <exception>' src/zimg/api/zimg.cpp
+
     ./autogen.sh
 
     local myconf=(
@@ -30,8 +32,6 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
-
-    export CXXFLAGS="$CXXFLAGS -std=gnu++17"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
