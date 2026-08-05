@@ -27,11 +27,34 @@ GIT_BRANCH="${GIT_BRANCH_OVERRIDE:-$GIT_BRANCH}"
 BUILD_SCRIPT="$(mktemp)"
 trap "rm -f -- '$BUILD_SCRIPT'" EXIT
 
-cat <<EOF >"$BUILD_SCRIPT"
+cat <<'EOF' >"$BUILD_SCRIPT"
     set -xe
     cd /ffbuild
     rm -rf ffmpeg prefix
+EOF
 
+# Append the $ORIGIN rpath flags here rather than in scripts.d/99-rpath.sh, so
+# the value never has to survive xargs, printf and Dockerfile ENV parsing.
+#
+# Both quotings below are needed:
+#   - the heredoc delimiter is quoted, so the host expands nothing
+#   - the appended fragment is single-quoted and *concatenated*, so the
+#     container's shell performs no substitution on it either
+# Do not switch this to "${FF_LDEXEFLAGS//@PLACEHOLDER@/$var}" -- bash's pattern
+# substitution eats a backslash from the replacement on some bash versions but
+# not others, which silently costs one escaping level.
+#
+# configure must receive exactly  -Wl,-rpath=\\\$\$ORIGIN  because from there:
+#   configure's append() eval  \\\$\$ORIGIN -> \$$ORIGIN  (into config.mak)
+#   make expanding config.mak  \$$ORIGIN    -> \$ORIGIN
+#   the shell running the link \$ORIGIN     -> $ORIGIN
+if [[ $TARGET == linux* && $VARIANT == *shared* ]]; then
+cat <<'EOF' >>"$BUILD_SCRIPT"
+    FF_LDEXEFLAGS="$FF_LDEXEFLAGS "'-Wl,-rpath=\\\$\$ORIGIN -Wl,-rpath=\\\$\$ORIGIN/../lib'
+EOF
+fi
+
+cat <<EOF >>"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
@@ -43,6 +66,19 @@ cat <<EOF >"$BUILD_SCRIPT"
     make -j\$(nproc) V=1
     make install install-doc
 EOF
+
+# A broken $ORIGIN rpath still builds and still runs anywhere ld.so.cache
+# happens to know the libs, so it fails silently - so check and assert.
+if [[ $TARGET == linux* && $VARIANT == *shared* ]]; then
+cat <<'EOF' >>"$BUILD_SCRIPT"
+    readelf -d /ffbuild/prefix/bin/ffmpeg | grep -q ORIGIN || {
+        echo "ERROR: ffmpeg was linked without an \$ORIGIN rpath." >&2
+        echo "       See the FF_LDEXEFLAGS rpath append earlier in build.sh." >&2
+        readelf -d /ffbuild/prefix/bin/ffmpeg | grep -i rpath >&2
+        exit 1
+    }
+EOF
+fi
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
