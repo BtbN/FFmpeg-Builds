@@ -30,8 +30,19 @@ ffbuild_ldexeflags() {
     echo '-pie'
 
     if [[ $VARIANT == *shared* ]]; then
-        # Can't escape escape hell
-        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN'
-        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN/../lib'
+        # Emit a placeholder rather than a pre-escaped $ORIGIN.
+        #
+        # A literal $ORIGIN written here has to survive, in order: xargs and
+        # printf in generate.sh, Dockerfile ENV parsing, ffmpeg configure's
+        # append() eval, make expanding config.mak, and finally the shell that
+        # runs the link. Each strips escapes, and the count is not stable --
+        # the xargs added in 281ab29 (2024-03-14) silently ate one level and
+        # every linux shared build since has shipped RPATH "-Wl:../lib"
+        # instead of "$ORIGIN:$ORIGIN/../lib".
+        #
+        # build.sh substitutes @ORIGIN@ inside the container instead, one
+        # shell layer away from configure, where the escaping is knowable.
+        echo -Wl,-rpath=@ORIGIN@
+        echo -Wl,-rpath=@ORIGIN@/../lib
     fi
 }

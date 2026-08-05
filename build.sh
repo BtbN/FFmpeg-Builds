@@ -27,11 +27,22 @@ GIT_BRANCH="${GIT_BRANCH_OVERRIDE:-$GIT_BRANCH}"
 BUILD_SCRIPT="$(mktemp)"
 trap "rm -f -- '$BUILD_SCRIPT'" EXIT
 
-cat <<EOF >"$BUILD_SCRIPT"
+# Expand the @ORIGIN@ placeholder emitted by scripts.d/99-rpath.sh. Quoted
+# heredoc: nothing below is expanded on the host, it runs in the container.
+# \\\$\$ORIGIN is what configure must receive, because from there:
+#   configure's append() eval  \\\$\$ORIGIN -> \$$ORIGIN  (into config.mak)
+#   make expanding config.mak  \$$ORIGIN    -> \$ORIGIN
+#   the shell running the link \$ORIGIN     -> $ORIGIN
+cat <<'EOF' >"$BUILD_SCRIPT"
     set -xe
     cd /ffbuild
     rm -rf ffmpeg prefix
 
+    RPATH_ORIGIN='\\\$\$ORIGIN'
+    FF_LDEXEFLAGS="${FF_LDEXEFLAGS//@ORIGIN@/$RPATH_ORIGIN}"
+EOF
+
+cat <<EOF >>"$BUILD_SCRIPT"
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
 
@@ -43,6 +54,19 @@ cat <<EOF >"$BUILD_SCRIPT"
     make -j\$(nproc) V=1
     make install install-doc
 EOF
+
+# A broken $ORIGIN rpath still builds and still runs anywhere ld.so.cache
+# happens to know the libs, so it fails silently. Assert it instead.
+if [[ $TARGET == linux* && $VARIANT == *shared* ]]; then
+cat <<'EOF' >>"$BUILD_SCRIPT"
+    readelf -d /ffbuild/prefix/bin/ffmpeg | grep -q ORIGIN || {
+        echo "ERROR: ffmpeg was linked without an \$ORIGIN rpath." >&2
+        echo "       See the @ORIGIN@ handling in build.sh / scripts.d/99-rpath.sh." >&2
+        readelf -d /ffbuild/prefix/bin/ffmpeg | grep -i rpath >&2
+        exit 1
+    }
+EOF
+fi
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
