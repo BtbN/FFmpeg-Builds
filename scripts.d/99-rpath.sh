@@ -29,9 +29,14 @@ ffbuild_dockerbuild() {
 ffbuild_ldexeflags() {
     echo '-pie'
 
-    if [[ $VARIANT == *shared* ]]; then
-        # Can't escape escape hell
-        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN'
-        echo -Wl,-rpath='\\\\\\\$\\\$ORIGIN/../lib'
-    fi
+    # The $ORIGIN rpath flags for shared linux builds are deliberately NOT
+    # emitted here -- build.sh appends them inside the container instead.
+    #
+    # A literal $ORIGIN written here would have to survive, in order: xargs and
+    # printf in generate.sh, Dockerfile ENV parsing, ffmpeg configure's append()
+    # eval, make expanding config.mak, and finally the shell that runs the link.
+    # Each strips escapes and the required count is not stable: the xargs added
+    # in 281ab29 (2024-03-14) silently ate one level, and every linux shared
+    # build since has shipped RPATH "-Wl:../lib" instead of
+    # "$ORIGIN:$ORIGIN/../lib".
 }
