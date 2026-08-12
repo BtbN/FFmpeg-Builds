@@ -14,17 +14,14 @@ ffbuild_enabled() {
 
 ffbuild_dockerdl() {
     echo "retry-tool sh -c \"rm -rf lame && svn checkout '${SCRIPT_REPO}@${SCRIPT_REV}' lame\" && cd lame"
+    echo "autoreconf -i"
 }
 
 ffbuild_dockerbuild() {
-    autoreconf -i
-
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --disable-shared
         --enable-static
-        --enable-nasm
-        --disable-gtktest
         --disable-cpml
         --disable-frontend
         --disable-decoder

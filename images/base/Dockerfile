@@ -26,6 +26,10 @@ RUN \
     git config --global user.name "Builder" && \
     git config --global advice.detachedHead false
 
+RUN wget https://archive.ubuntu.com/ubuntu/pool/main/a/autoconf/autoconf_2.73-2_all.deb -O autoconf.deb && \
+    dpkg -i autoconf.deb && \
+    rm autoconf.deb
+
 RUN python3 -m pip install --break-system-packages meson
 
 ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
