@@ -19,6 +19,10 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
+    export CFLAGS="$RAW_CFLAGS"
+    export CXXFLAGS="$RAW_CXXFLAGS"
+    export LDFLAGS="$RAW_LDFLAGS"
+
     cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DWITHOUT_OPENCV=ON -DWITHOUT_FACERECOGNITION=ON -DWITHOUT_CAIRO=ON -DWITHOUT_GAVL=ON ..
     ninja -j$(nproc)
