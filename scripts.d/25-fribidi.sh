@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/fribidi/fribidi.git"
-SCRIPT_COMMIT="069a7e3d31e6aa74f2068a8e0804106ce7906639"
+SCRIPT_COMMIT="04a8cb7a3674717e509c79cd6ee3e127d0c75f4c"
 
 ffbuild_enabled() {
     return 0

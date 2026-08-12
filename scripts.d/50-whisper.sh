@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ggml-org/whisper.cpp.git"
-SCRIPT_COMMIT="6fc7c33b4c3a2cec83e4b65abd5e96a890480375"
+SCRIPT_COMMIT="592feef04a1802b18cbeffd0fd0eb5d02570c2ec"
 
 ffbuild_depends() {
     echo base
