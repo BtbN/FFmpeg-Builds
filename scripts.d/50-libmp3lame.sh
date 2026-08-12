@@ -39,7 +39,7 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
-    export CFLAGS="$CFLAGS -DNDEBUG -Wno-error=incompatible-pointer-types"
+    export CFLAGS="$CFLAGS -DNDEBUG"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
