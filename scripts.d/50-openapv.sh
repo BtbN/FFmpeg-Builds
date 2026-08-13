@@ -36,6 +36,12 @@ ffbuild_dockerbuild() {
         echo "Libs.private: -lm"
         echo "Cflags.private: -DOAPV_STATIC_DEFINE"
     } >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/oapv.pc
+
+    printf '\n%s\n%s\n%s\n%s\n' \
+        '#ifndef OLD_APV_API_MACRO' \
+        '#define OLD_APV_API_MACRO' \
+        '#define oapvm_create(err) oapvm_create(&(oapvm_cdesc_t){ 0 }, (err))' \
+        '#endif' >> "$FFBUILD_DESTPREFIX"/include/oapv/oapv.h
 }
 
 ffbuild_configure() {
