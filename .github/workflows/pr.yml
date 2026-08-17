@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [win64,linux64,linuxarm64]
-        variant: [lgpl,gpl 6.1,gpl 8.1,lgpl 6.1,lgpl 8.1,gpl-shared,lgpl-shared,gpl-shared 6.1,gpl-shared 8.1,lgpl-shared 6.1,lgpl-shared 8.1]
+        variant: [lgpl,gpl 9.0,gpl 8.1,lgpl 9.0,lgpl 8.1,gpl-shared,lgpl-shared,gpl-shared 9.0,gpl-shared 8.1,lgpl-shared 9.0,lgpl-shared 8.1]
         quickbuild: [1]
         include:
           - target: win64
