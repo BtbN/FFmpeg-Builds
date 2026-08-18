@@ -18,8 +18,19 @@ docker buildx inspect ffbuilder &>/dev/null || docker buildx create \
     --driver-opt env.BUILDKIT_STEP_LOG_MAX_SIZE=-1 \
     --driver-opt env.BUILDKIT_STEP_LOG_MAX_SPEED=-1
 
+hash_stage() {
+    { find "$1" -type f -exec sha256sum {} + ; printf '%s\n' "$@"; } | sha256sum | cut -d" " -f1
+}
+
+prune_cache() {
+    [[ -d "$1" ]] || return 0
+    find "$1" -mindepth 1 -maxdepth 1 ! -name "$2" -exec rm -rf {} +
+}
+
 if [[ -z "$QUICKBUILD" ]]; then
-    BASE_IMAGE_TARGET="${PWD}/.cache/images/base"
+    BASE_HASH="$(hash_stage images/base)"
+    BASE_IMAGE_TARGET="${PWD}/.cache/images/base/${BASE_HASH}"
+    prune_cache .cache/images/base "${BASE_HASH}"
     if [[ ! -d "${BASE_IMAGE_TARGET}" ]]; then
         docker buildx --builder ffbuilder build \
             --cache-from=type=local,src=.cache/"${BASE_IMAGE/:/_}" \
@@ -30,7 +41,9 @@ if [[ -z "$QUICKBUILD" ]]; then
         docker image save "${BASE_IMAGE}" | tar -x -C "${BASE_IMAGE_TARGET}"
     fi
 
-    IMAGE_TARGET="${PWD}/.cache/images/base-${TARGET}"
+    TARGET_HASH="$(hash_stage "images/base-${TARGET}" "${BASE_HASH}" "${REGISTRY}/${REPO}")"
+    IMAGE_TARGET="${PWD}/.cache/images/base-${TARGET}/${TARGET_HASH}"
+    prune_cache .cache/images/base-"${TARGET}" "${TARGET_HASH}"
     if [[ ! -d "${IMAGE_TARGET}" ]]; then
         docker buildx --builder ffbuilder build \
             --cache-from=type=local,src=.cache/"${TARGET_IMAGE/:/_}" \
