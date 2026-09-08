@@ -18,6 +18,9 @@ ffbuild_dockerbuild() {
     # stop the static library from exporting symbols when linked into a shared lib
     sed -i 's/-DBLURAY_API_EXPORT/-DBLURAY_API_EXPORT_DISABLED/g' src/meson.build
 
+    # libssp is gone from a lot of toolchains, and part of the runtime automatically
+    sed -i "/'ssp'/d" meson.build
+
     mkdir build && cd build
 
     local myconf=(
