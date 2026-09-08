@@ -12,7 +12,7 @@ docker buildx inspect ffbuilder &>/dev/null || docker buildx create \
     --driver-opt env.BUILDKIT_STEP_LOG_MAX_SPEED=-1
 
 if [[ -z "$NOCLEAN" ]]; then
-    trap "docker buildx rm -f ffbuilder" EXIT
+    trap 'rc=$?; [[ $rc -eq 0 ]] && docker buildx rm -f ffbuilder; exit $rc' EXIT
 fi
 
 GH_REPO="${REGISTRY}/${REPO}"
