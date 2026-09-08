@@ -12,7 +12,7 @@ ffbuild_depends() {
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) >= 404 )) || return -1
-    return -1
+    return 0
 }
 
 ffbuild_dockerdl() {
