@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# crosstool-NG 1.28.0.23_185f348 Configuration
+# crosstool-NG 1.29.0.7_b1a94f6 Configuration
 #
 CT_CONFIGURE_has_static_link=y
 CT_CONFIGURE_has_cxx11=y
@@ -29,7 +29,8 @@ CT_CONFIGURE_has_sha1sum=y
 CT_CONFIGURE_has_sha256sum=y
 CT_CONFIGURE_has_sha512sum=y
 CT_CONFIGURE_has_install_with_strip_program=y
-CT_VERSION="1.28.0.23_185f348"
+CT_CONFIGURE_has_zstd=y
+CT_VERSION="1.29.0.7_b1a94f6"
 CT_VCHECK=""
 CT_CONFIG_VERSION_ENV="4"
 CT_CONFIG_VERSION_CURRENT="4"
@@ -302,7 +303,8 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_46=y
+CT_BINUTILS_V_2_47=y
+# CT_BINUTILS_V_2_46 is not set
 # CT_BINUTILS_V_2_45 is not set
 # CT_BINUTILS_V_2_44 is not set
 # CT_BINUTILS_V_2_43 is not set
@@ -323,20 +325,24 @@ CT_BINUTILS_V_2_46=y
 # CT_BINUTILS_V_2_28 is not set
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
-CT_BINUTILS_VERSION="2.46.0"
+CT_BINUTILS_VERSION="2.47"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_BINUTILS_SIGNATURE_FORMAT="packed/.sig"
+CT_BINUTILS_2_47_or_later=y
+CT_BINUTILS_2_47_or_older=y
+CT_BINUTILS_later_than_2_46_0=y
 CT_BINUTILS_2_46_0_or_later=y
-CT_BINUTILS_2_46_0_or_older=y
 CT_BINUTILS_later_than_2_45=y
 CT_BINUTILS_2_45_or_later=y
 CT_BINUTILS_later_than_2_44=y
 CT_BINUTILS_2_44_or_later=y
 CT_BINUTILS_later_than_2_41=y
 CT_BINUTILS_2_41_or_later=y
+CT_BINUTILS_later_than_2_40=y
+CT_BINUTILS_2_40_or_later=y
 CT_BINUTILS_later_than_2_39=y
 CT_BINUTILS_2_39_or_later=y
 CT_BINUTILS_later_than_2_30=y
@@ -357,6 +363,7 @@ CT_BINUTILS_LINKER_DEFAULT="bfd"
 CT_BINUTILS_PLUGINS=y
 CT_BINUTILS_RELRO=m
 CT_BINUTILS_DETERMINISTIC_ARCHIVES=y
+CT_BINUTILS_GZ_ZSTD=m
 CT_BINUTILS_EXTRA_CONFIG_ARRAY=""
 # CT_BINUTILS_FOR_TARGET is not set
 # CT_BINUTILS_GPROFNG is not set
@@ -388,7 +395,8 @@ CT_MINGW_W64_PATCH_GLOBAL=y
 # CT_MINGW_W64_PATCH_LOCAL_BUNDLED is not set
 # CT_MINGW_W64_PATCH_NONE is not set
 CT_MINGW_W64_PATCH_ORDER="global"
-CT_MINGW_W64_V_V13_0=y
+CT_MINGW_W64_V_V14_0=y
+# CT_MINGW_W64_V_V13_0 is not set
 # CT_MINGW_W64_V_V12_0 is not set
 # CT_MINGW_W64_V_V11_0 is not set
 # CT_MINGW_W64_V_V10_0 is not set
@@ -398,7 +406,7 @@ CT_MINGW_W64_V_V13_0=y
 # CT_MINGW_W64_V_V6_0 is not set
 # CT_MINGW_W64_V_V5_0 is not set
 # CT_MINGW_W64_V_V4_0 is not set
-CT_MINGW_W64_VERSION="v13.0.0"
+CT_MINGW_W64_VERSION="v14.0.0"
 CT_MINGW_W64_MIRRORS="http://downloads.sourceforge.net/sourceforge/mingw-w64 https://downloads.sourceforge.net/project/mingw-w64/mingw-w64/mingw-w64-release/"
 CT_MINGW_W64_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MINGW_W64_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -464,7 +472,8 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_V_15=y
+CT_GCC_V_16=y
+# CT_GCC_V_15 is not set
 # CT_GCC_V_14 is not set
 # CT_GCC_V_13 is not set
 # CT_GCC_V_12 is not set
@@ -476,12 +485,14 @@ CT_GCC_V_15=y
 # CT_GCC_V_6 is not set
 # CT_GCC_V_5 is not set
 # CT_GCC_V_4_9 is not set
-CT_GCC_VERSION="15.2.0"
+CT_GCC_VERSION="16.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_16=y
+CT_GCC_16_or_later=y
 CT_GCC_later_than_15=y
 CT_GCC_15_or_later=y
 CT_GCC_later_than_14=y
@@ -531,7 +542,7 @@ CT_CC_GCC_LIBSTDCXX=m
 CT_CC_GCC_LIBSTDCXX_TARGET_CXXFLAGS="-O2 -pipe"
 # CT_CC_GCC_LIBMUDFLAP is not set
 CT_CC_GCC_LIBGOMP=y
-CT_CC_GCC_LIBSSP=m
+# CT_CC_GCC_LIBSSP is not set
 # CT_CC_GCC_LIBQUADMATH is not set
 # CT_CC_GCC_LIBSTDCXX_VERBOSE is not set
 
@@ -591,12 +602,14 @@ CT_MOLD_PATCH_GLOBAL=y
 # CT_MOLD_PATCH_LOCAL_BUNDLED is not set
 # CT_MOLD_PATCH_NONE is not set
 CT_MOLD_PATCH_ORDER="global"
-CT_MOLD_V_2_40_4=y
+CT_MOLD_V_2_42_0=y
+# CT_MOLD_V_2_41_0 is not set
+# CT_MOLD_V_2_40_4 is not set
 # CT_MOLD_V_2_39_1 is not set
 # CT_MOLD_V_2_38_1 is not set
 # CT_MOLD_V_2_37_1 is not set
 # CT_MOLD_V_2_36_0 is not set
-CT_MOLD_VERSION="2.40.4"
+CT_MOLD_VERSION="2.42.0"
 CT_MOLD_MIRRORS="https://github.com/rui314/mold/archive/refs/tags"
 CT_MOLD_ARCHIVE_FILENAME="v@{version}"
 CT_MOLD_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
