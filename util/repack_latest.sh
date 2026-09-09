@@ -10,32 +10,25 @@ RELEASE_DIR="$(realpath "$1")"
 shift
 mkdir -p "$RELEASE_DIR"
 
-rm -rf repack_dir
-mkdir repack_dir
-trap "rm -rf repack_dir" EXIT
-
 while [[ $# -gt 0 ]]; do
     INPUT="$1"
     shift
 
     (
         set -e
-        REPACK_DIR="repack_dir/$BASHPID"
-        rm -rf "$REPACK_DIR"
-        mkdir "$REPACK_DIR"
 
         if [[ $INPUT == *.zip ]]; then
-            unzip "$INPUT" -d "$REPACK_DIR"
+            OUTEXT="zip"
+        elif [[ $INPUT == *.7z ]]; then
+            OUTEXT="7z"
         elif [[ $INPUT == *.tar.xz ]]; then
-            tar -I "xz -T0" -xvf "$INPUT" -C "$REPACK_DIR"
+            OUTEXT="tar.xz"
         else
             echo "Unknown input file type: $INPUT"
             exit 1
         fi
 
-        cd "$REPACK_DIR"
-
-        INAME="$(echo ffmpeg-*)"
+        INAME="$(bsdtar -tf "$INPUT" | head -1 | cut -d/ -f1)"
         TAGNAME="$(cut -d- -f2 <<<"$INAME")"
 
         if [[ $TAGNAME == N ]]; then
@@ -50,15 +43,15 @@ while [[ $# -gt 0 ]]; do
             ONAME="ffmpeg-$TAGNAME-latest-$(cut -d- -f3- <<<"$INAME")"
         fi
 
-        mv "$INAME" "$ONAME"
+        OUTPUT="$RELEASE_DIR/$ONAME.$OUTEXT"
 
-        if [[ $INPUT == *.zip ]]; then
-            zip -9 -r "$RELEASE_DIR/$ONAME.zip" "$ONAME"
-        elif [[ $INPUT == *.tar.xz ]]; then
-            tar -I "xz -T0" -cvf "$RELEASE_DIR/$ONAME.tar.xz" "$ONAME"
+        if [[ $OUTEXT == tar.xz ]]; then
+            bsdtar -cf "$OUTPUT" --format gnutar --xz --options xz:threads=0 -s "|^$INAME/|$ONAME/|" "@$INPUT"
+        else
+            cp "$INPUT" "$OUTPUT"
+            7z rn -bso0 -bsp0 "$OUTPUT" "$INAME" "$ONAME"
+            [[ "$(bsdtar -tf "$OUTPUT" | head -1 | cut -d/ -f1)" == "$ONAME" ]]
         fi
-
-        rm -rf "$REPACK_DIR"
     ) &
 
     while [[ $(jobs | wc -l) -gt 3 ]]; do
@@ -69,4 +62,3 @@ done
 while [[ $(jobs | wc -l) -gt 0 ]]; do
     wait %1
 done
-rm -rf repack_dir
