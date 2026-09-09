@@ -22,6 +22,9 @@ ffbuild_dockerdl() {
 }
 
 ffbuild_dockerbuild() {
+    # Skip auto-initialization of GIO appinfo. It's relatively expensive and automatically done on demand when needed.
+    sed -zi 's/[^\n]*gio_win32_appinfo_init[^\n]*\n//g; t; q1' gio/giomodule.c
+
     mkdir build && cd build
 
     local myconf=(
