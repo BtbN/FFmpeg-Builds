@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libdvdread.git"
-SCRIPT_COMMIT="e4d9a039d300069e61918b5ec58322c1b5ba8663"
+SCRIPT_COMMIT="ce9bdb7775601f4e6b95136b875bc72a53c5ba7d"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -31,9 +31,15 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    export CFLAGS="$CFLAGS -Dfile_open_default=libdvdread_file_open_default -Ddir_open_default=libdvdread_dir_open_default"
+
     meson setup "${myconf[@]}" ..
     ninja -j$(nproc)
     DESTDIR="$FFBUILD_DESTDIR" ninja install
+
+    if [[ $TARGET == linux* ]]; then
+        echo 'Cflags: -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE' >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/dvdread.pc
+    fi
 }
 
 ffbuild_configure() {

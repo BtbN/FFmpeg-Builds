@@ -6,6 +6,12 @@ ar = 'powerpc64-ffbuild-linux-gnu-gcc-ar'
 ranlib = 'powerpc64-ffbuild-linux-gnu-gcc-ranlib'
 strip = 'powerpc64-ffbuild-linux-gnu-strip'
 
+[properties]
+needs_exe_wrapper = true
+have_c99_vsnprintf = true
+have_c99_snprintf = true
+have_unix98_printf = true
+
 [host_machine]
 system = 'linux'
 cpu_family = 'ppc64'

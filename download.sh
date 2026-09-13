@@ -52,12 +52,12 @@ for STAGE in scripts.d/*.sh scripts.d/*/*.sh; do
 
 		eval "set -e; \$STG"
 
-		tar cpJf "\$TGT.tmp" .
+		tar -I "xz -T0" -cpf "\$TGT.tmp" .
 		mv "\$TGT.tmp" "\$TGT"
 		rm -f "/dldir/\${DLNAME}.tar.xz"
 		ln -s "\${DLNAME}_\${DLHASH}.tar.xz" "/dldir/\${DLNAME}.tar.xz"
 	EOF
 done
 
-docker run -i $TTY_ARG --rm "${UIDARGS[@]}" -v "${DL_SCRIPT_DIR}":/stages -v "${PWD}/.cache/downloads":/dldir -v "${PWD}/scripts.d":/scripts.d -v "${PWD}/util/dl_functions.sh":/dl_functions.sh "${REGISTRY}/${REPO}/base:latest" \
+docker run -i $TTY_ARG --rm "${UIDARGS[@]}" -v "${DL_SCRIPT_DIR}":/stages -v "${PWD}/.cache/downloads":/dldir -v "${PWD}/scripts.d":/scripts.d -v "${PWD}/util/dl_functions.sh":/dl_functions.sh "${REGISTRY}/${REPO}/base:latest${DOCKER_TAG_SUFFIX:-}" \
 	bash -c 'set -xe && for STAGE in /stages/*.sh; do bash $STAGE; done'

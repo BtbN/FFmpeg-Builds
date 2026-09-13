@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxau.git"
-SCRIPT_COMMIT="3861176ca80013c867b32451075e566caab4d5c2"
+SCRIPT_COMMIT="be1daeb909f1d678e7859ac1555e90b4e768d5c4"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -28,7 +28,7 @@ ffbuild_dockerbuild() {
     fi
 
     export CFLAGS="$RAW_CFLAGS"
-    export LDFLAFS="$RAW_LDFLAGS"
+    export LDFLAGS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)

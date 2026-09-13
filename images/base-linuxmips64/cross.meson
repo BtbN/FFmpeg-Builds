@@ -6,6 +6,12 @@ ar = 'mips64-ffbuild-linux-gnu-gcc-ar'
 ranlib = 'mips64-ffbuild-linux-gnu-gcc-ranlib'
 strip = 'mips64-ffbuild-linux-gnu-strip'
 
+[properties]
+needs_exe_wrapper = true
+have_c99_vsnprintf = true
+have_c99_snprintf = true
+have_unix98_printf = true
+
 [host_machine]
 system = 'linux'
 cpu_family = 'mips64'

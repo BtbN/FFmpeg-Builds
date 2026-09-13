@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/xorg/lib/libxi.git"
-SCRIPT_COMMIT="3103b5849d89335fd57b08b91ad634216ed96073"
+SCRIPT_COMMIT="f00f7e9140b4707775331950dd67851e55058c40"
 
 ffbuild_enabled() {
     [[ $TARGET != linux* ]] && return -1
@@ -34,7 +34,7 @@ ffbuild_dockerbuild() {
     fi
 
     export CFLAGS="$RAW_CFLAGS"
-    export LDFLAFS="$RAW_LDFLAGS"
+    export LDFLAGS="$RAW_LDFLAGS"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)

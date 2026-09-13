@@ -6,10 +6,11 @@ ranlib = 'aarch64-w64-mingw32-llvm-ranlib'
 strip = 'aarch64-w64-mingw32-strip'
 windres = 'aarch64-w64-mingw32-windres'
 dlltool = 'aarch64-w64-mingw32-dlltool'
-exe_wrapper = ['wine']
 
 [properties]
 needs_exe_wrapper = true
+have_c99_vsnprintf = true
+have_c99_snprintf = true
 
 [host_machine]
 system = 'windows'

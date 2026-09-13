@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/acoustid/chromaprint.git"
-SCRIPT_COMMIT="6b13ce3a81ae931e7477c4856a86bece99157cd8"
+SCRIPT_COMMIT="aed8eba2202dd9d7b3b0a56c77904cc805490d72"
 
 ffbuild_depends() {
     echo base

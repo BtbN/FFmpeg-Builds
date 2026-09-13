@@ -1,12 +1,7 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/glennrp/libpng.git"
-SCRIPT_COMMIT="c0ba09ecb44f0962b6532747b09e2f8160e29baf"
-
-ffbuild_depends() {
-    echo base
-    echo zlib
-}
+SCRIPT_REPO="https://github.com/libffi/libffi.git"
+SCRIPT_COMMIT="e044ec8d00631edb77fa072187f2d9c02fb8950d"
 
 ffbuild_enabled() {
     return 0
@@ -20,6 +15,8 @@ ffbuild_dockerbuild() {
         --disable-shared
         --enable-static
         --with-pic
+        --disable-docs
+        --disable-multi-os-directory
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
@@ -30,8 +27,6 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
-
-    export CPPFLAGS="$CPPFLAGS -I$FFBUILD_PREFIX/include"
 
     ./configure "${myconf[@]}"
     make -j$(nproc)

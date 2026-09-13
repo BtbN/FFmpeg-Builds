@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://chromium.googlesource.com/webm/libwebp"
-SCRIPT_COMMIT="080044c7f2754684b37b9abc5d862d3f9757f893"
+SCRIPT_COMMIT="ba8358578ecbc4c75f0723163275de00dec0c704"
 
 ffbuild_enabled() {
     return 0
@@ -18,9 +18,9 @@ ffbuild_dockerbuild() {
         --disable-shared
         --enable-static
         --with-pic
-        --disable-libwebpmux
+        --enable-libwebpmux
+        --enable-libwebpdemux
         --disable-libwebpextras
-        --disable-libwebpdemux
         --disable-sdl
         --disable-gl
         --disable-png

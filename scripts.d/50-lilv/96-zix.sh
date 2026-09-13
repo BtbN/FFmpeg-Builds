@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/drobilla/zix.git"
-SCRIPT_COMMIT="a4fab097251f8b8218d3838b40cce5ef39e56aaf"
+SCRIPT_COMMIT="17d632393f5addb6fa24dda2927b96515407cca7"
 
 ffbuild_enabled() {
     return 0

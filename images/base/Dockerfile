@@ -1,4 +1,4 @@
-FROM ubuntu:25.10
+FROM ubuntu:26.04
 
 ARG TARGETPLATFORM
 
@@ -10,12 +10,12 @@ RUN \
         $([ "$TARGETPLATFORM" != "linux/amd64" ] || echo gcc-multilib g++-multilib) \
         build-essential yasm nasm \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
-        autoconf automake libtool libtool-bin autopoint gettext cmake meson ninja-build \
+        autoconf automake libtool libtool-bin libltdl-dev autopoint gettext cmake ninja-build \
         clang llvm lcov lld qemu-user \
         texinfo texi2html help2man flex bison groff \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
-        ocaml ocaml-findlib ocamlbuild libnum-ocaml-dev indent p7zip-full zstd \
+        ocaml ocaml-findlib ocamlbuild libnum-ocaml-dev indent p7zip-full zstd libarchive-tools \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python3-dev python-is-python3 && \
     curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get -y install nodejs && \
@@ -25,6 +25,12 @@ RUN \
     git config --global user.email "builder@localhost" && \
     git config --global user.name "Builder" && \
     git config --global advice.detachedHead false
+
+RUN wget https://archive.ubuntu.com/ubuntu/pool/main/a/autoconf/autoconf_2.73-2_all.deb -O autoconf.deb && \
+    dpkg -i autoconf.deb && \
+    rm autoconf.deb
+
+RUN python3 -m pip install --break-system-packages meson
 
 ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \

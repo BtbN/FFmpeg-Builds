@@ -10,6 +10,8 @@ exe_wrapper = ['wine']
 
 [properties]
 needs_exe_wrapper = true
+have_c99_vsnprintf = true
+have_c99_snprintf = true
 
 [host_machine]
 system = 'windows'

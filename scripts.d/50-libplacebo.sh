@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libplacebo.git"
-SCRIPT_COMMIT="54e527552fa74467bcc7692e6985d35540861d19"
+SCRIPT_COMMIT="22ee762e8e0890fc54068beb670310f0edce7263"
 
 ffbuild_depends() {
     echo base

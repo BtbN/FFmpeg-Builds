@@ -20,7 +20,6 @@ ffbuild_depends() {
     echo vulkan
     echo amf
     echo aom
-    echo aribb24
     echo avisynth
     echo chromaprint
     echo dav1d
@@ -31,17 +30,21 @@ ffbuild_depends() {
     echo frei0r
     echo gme
     echo kvazaar
+    echo libaribb24
     echo libaribcaption
     echo libass
     echo libbluray
     echo libbs2b
+    echo libcurl
     echo libgsm
     echo libjxl
     echo libmp3lame
     echo libmysofa
     echo libopus
     echo libplacebo
+    echo libpng
     echo librist
+    echo librsvg
     echo libshine
     echo libspeex
     echo libssh
@@ -59,6 +62,7 @@ ffbuild_depends() {
     echo openmpt
     echo rav1e
     echo rubberband
+    echo rustdedup
     echo schannel
     echo sdl
     echo snappy
@@ -79,8 +83,6 @@ ffbuild_depends() {
     echo xvid
     echo zimg
     echo zvbi
-
-    echo rpath
 }
 
 ffbuild_enabled() {

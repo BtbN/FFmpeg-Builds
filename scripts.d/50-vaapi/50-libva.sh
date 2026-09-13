@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/intel/libva.git"
-SCRIPT_COMMIT="72588120f6dbd93e3ac9eb1e228eb63af0a64285"
+SCRIPT_COMMIT="6b07f7100512817f736967e899b8c26313c20623"
 
 ffbuild_depends() {
     echo base
@@ -58,7 +58,7 @@ ffbuild_dockerbuild() {
     fi
 
     export CFLAGS="$RAW_CFLAGS"
-    export LDFLAFS="$RAW_LDFLAGS"
+    export LDFLAGS="$RAW_LDFLAGS"
 
     meson "${myconf[@]}" ..
     ninja -j"$(nproc)"

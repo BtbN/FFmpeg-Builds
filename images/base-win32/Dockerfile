@@ -1,5 +1,6 @@
 ARG GH_REPO=ghcr.io/btbn/ffmpeg-builds
-FROM $GH_REPO/base:latest
+ARG BASE_TAG_SUFFIX=
+FROM $GH_REPO/base:latest${BASE_TAG_SUFFIX}
 
 RUN --mount=src=ct-ng-config,dst=/.config \
     git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
@@ -22,7 +23,7 @@ RUN \
 RUN \
     dpkg --add-architecture i386 && \
     apt-get -y update && \
-    apt-get -y install --no-install-recommends wine32 wine-stable && \
+    apt-get -y install --no-install-recommends wine32 wine && \
     apt-get -y clean autoclean && \
     rm -rf /var/lib/apt/lists/*
 
