@@ -13,7 +13,6 @@ ffbuild_enabled() {
     [[ $ADDINS_STR == *5.0* && $TARGET == win* ]] && return -1
     [[ $ADDINS_STR == *5.1* && $TARGET == win* ]] && return -1
     [[ $ADDINS_STR == *6.0* && $TARGET == win* ]] && return -1
-    [[ $TARGET == linuxarm64 ]] && return -1
     return 0
 }
 
@@ -41,6 +40,17 @@ ffbuild_dockerbuild() {
             --default-library=shared
             --sysconfdir="/etc"
             -Ddriverdir="/usr/lib/x86_64-linux-gnu/dri"
+            -Ddisable_drm=false
+            -Dwith_x11=yes
+            -Dwith_glx=no
+            -Dwith_wayland=no
+        )
+    elif [[ $TARGET == linuxarm64 ]]; then
+        myconf+=(
+            --cross-file=/cross.meson
+            --default-library=shared
+            --sysconfdir="/etc"
+            -Ddriverdir="/usr/lib/aarch64-linux-gnu/dri"
             -Ddisable_drm=false
             -Dwith_x11=yes
             -Dwith_glx=no
