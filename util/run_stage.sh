@@ -27,6 +27,10 @@ else
 fi
 
 if [[ -d "$FFBUILD_DESTDIR" ]]; then
+    # Remove legacy libtool .la files
+    find "$FFBUILD_DESTDIR" -name "*.la" -delete
+
+    # Strip all plain .a archives, but only if they actually shrink
     STRIP_ARGS=( --strip-unneeded )
     [[ "$ADDINS_STR" != *debug* ]] && STRIP_ARGS+=( --strip-debug )
     STRIP_BIN="${STRIP:-${FFBUILD_CROSS_PREFIX}strip}"
