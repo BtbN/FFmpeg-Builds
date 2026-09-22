@@ -26,6 +26,25 @@ else
     "$2"
 fi
 
+if [[ -d "$FFBUILD_DESTDIR" ]]; then
+    STRIP_ARGS=( --strip-unneeded )
+    [[ "$ADDINS_STR" != *debug* ]] && STRIP_ARGS+=( --strip-debug )
+    STRIP_BIN="${STRIP:-${FFBUILD_CROSS_PREFIX}strip}"
+    RANLIB_BIN="${RANLIB:-${FFBUILD_CROSS_PREFIX}ranlib}"
+
+    find "$FFBUILD_DESTDIR" -type f -name '*.a' ! -name '*.dll.a' -print0 | while IFS= read -r -d '' lib; do
+        tmp="${lib}.strip"
+        cp -p "$lib" "$tmp" || continue
+        if "$STRIP_BIN" "${STRIP_ARGS[@]}" "$tmp" \
+            && "$RANLIB_BIN" "$tmp" \
+            && (( $(stat -c %s "$tmp") < $(stat -c %s "$lib") )); then
+            mv -f "$tmp" "$lib"
+        else
+            rm -f "$tmp"
+        fi
+    done
+fi
+
 # If this is a sub-stage, hardlink-copy the DESTDIR into the PREFIX.
 # So the following layers can actually use the installed stuff.
 if [[ "$SELF" == */??-*/??-*.sh && -d "$FFBUILD_DESTDIR" ]]; then
