@@ -22,6 +22,9 @@ ffbuild_dockerdl() {
 
 ffbuild_dockerbuild() {
     export CARGO_NET_OFFLINE=true
+
+    sed -i -e "/'PKG_CONFIG_ALL_STATIC'/d" -e "/'SYSTEM_DEPS_LINK'/d" meson.build
+
     mkdir build && cd build
 
     local myconf=(
