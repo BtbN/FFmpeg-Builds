@@ -27,7 +27,7 @@ jobs:
   pre_check:
     name: Pre Checks
     if: ${{ github.event.inputs.buildOnly != 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Repo Check
         if: ${{ github.event_name == 'schedule' }}
@@ -55,7 +55,7 @@ jobs:
         include:
           - runner: ubuntu-latest
             tag_suffix: ''
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             tag_suffix: -arm
     runs-on: ${{ matrix.runner }}
     steps:
@@ -140,16 +140,16 @@ jobs:
         runner: [ubuntu-latest]
         target: [win32,win64,winarm64,linux32,linux64,linuxarm64,linuxppc64,linuxmips64,linuxriscv64]
         include:
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             target: linuxarm64
             tag_suffix: -arm
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             target: linuxppc64
             tag_suffix: -arm
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             target: linuxmips64
             tag_suffix: -arm
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             target: linuxriscv64
             tag_suffix: -arm
     steps:
@@ -239,7 +239,7 @@ jobs:
           - runner: ubuntu-latest
             target: win64
             variant: gpl 4.3
-          - runner: ubuntu-24.04-arm
+          - runner: ubuntu-26.04-arm
             target: linuxarm64
             variant: gpl
             tag_suffix: -arm
