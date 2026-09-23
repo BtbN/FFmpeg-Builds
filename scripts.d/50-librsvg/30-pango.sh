@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/GNOME/pango.git"
-SCRIPT_COMMIT="2cee650c34bea66edd783c8c1f833d09f29a98db"
+SCRIPT_COMMIT="8e74c27c113c98664b77272d16b14bbce542c184"
 
 ffbuild_depends() {
     echo base

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://code.videolan.org/videolan/libdvdnav.git"
-SCRIPT_COMMIT="2ffc50b5c37a6ddc086829203fc44e95588198dd"
+SCRIPT_COMMIT="8147ccd35e5aae4afdd21171cf7b6b4d8f179d28"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/GNOME/glib.git"
-SCRIPT_COMMIT="6f98b0b8ad9cb7f9be237b4a0dba3833331a8f37"
+SCRIPT_COMMIT="5a124d1e66a6c2dc56989303b4d6d4781c2952ed"
 
 ffbuild_depends() {
     echo base

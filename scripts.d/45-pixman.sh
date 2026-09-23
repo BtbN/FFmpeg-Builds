@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://gitlab.freedesktop.org/pixman/pixman.git"
-SCRIPT_COMMIT="e1f49d9e6665ce354b90a189bf7bb5bbde9a1f20"
+SCRIPT_COMMIT="96c04d1b87934dc4b9396197a2dff737698ab310"
 
 ffbuild_enabled() {
     return 0

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/mstorsjo/fdk-aac.git"
-SCRIPT_COMMIT="d8e6b1a3aa606c450241632b64b703f21ea31ce3"
+SCRIPT_COMMIT="7c83d08002332b2730c845eec3497e6bf585dd28"
 
 ffbuild_enabled() {
     [[ $VARIANT == nonfree* ]] || return -1

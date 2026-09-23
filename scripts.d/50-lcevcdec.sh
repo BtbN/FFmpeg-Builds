@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/v-novaltd/LCEVCdec.git"
-SCRIPT_COMMIT="a254bd474649e5dcd8182689ac414420bfe8d8c3"
+SCRIPT_COMMIT="17804ac54db8fbb42717f3275b1e73f3c0b067d3"
 
 ffbuild_enabled() {
     (( $(ffbuild_ffver) >= 800 )) || return -1
