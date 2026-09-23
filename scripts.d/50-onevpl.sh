@@ -10,6 +10,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
+    curl -fL https://github.com/intel/libvpl/pull/198.patch | git am
+
     mkdir build && cd build
 
     cmake -GNinja -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
