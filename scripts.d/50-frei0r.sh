@@ -9,6 +9,11 @@ ffbuild_enabled() {
     return 0
 }
 
+ffbuild_depends() {
+    echo base
+    echo x11
+}
+
 ffbuild_dockerfinal() {
     to_df "COPY --link --from=${PREVLAYER} \$FFBUILD_PREFIX/. \$FFBUILD_PREFIX"
     to_df "ENV FREI0R_PATH=\$FFBUILD_PREFIX/lib/frei0r-1"
