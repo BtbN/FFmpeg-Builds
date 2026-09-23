@@ -59,10 +59,10 @@ jobs:
             tag_suffix: -arm
     runs-on: ${{ matrix.runner }}
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Install buildx
         uses: docker/setup-buildx-action@v4
         with:
@@ -153,10 +153,10 @@ jobs:
             target: linuxriscv64
             tag_suffix: -arm
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Install buildx
         uses: docker/setup-buildx-action@v4
         with:
@@ -244,10 +244,10 @@ jobs:
             variant: gpl
             tag_suffix: -arm
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Install buildx
         uses: docker/setup-buildx-action@v4
         with:
@@ -310,10 +310,10 @@ jobs:
         target: [win64,winarm64,linux64,linuxarm64]
         variant: [gpl,lgpl,gpl 8.1,gpl 9.0,lgpl 8.1,lgpl 9.0,gpl-shared,lgpl-shared,gpl-shared 8.1,gpl-shared 9.0,lgpl-shared 8.1,lgpl-shared 9.0]
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Login to Docker
         uses: docker/login-action@v4
         with:
@@ -343,10 +343,10 @@ jobs:
     steps:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libarchive-tools p7zip-full
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Download artifacts
         uses: actions/download-artifact@v8
         with:

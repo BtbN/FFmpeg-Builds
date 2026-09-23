@@ -31,10 +31,10 @@ jobs:
             variant: gpl
             quickbuild: ''
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Free Disk-Space
+        run: ./util/free_disk_space.sh
       - name: Install buildx
         uses: docker/setup-buildx-action@v4
         with:
