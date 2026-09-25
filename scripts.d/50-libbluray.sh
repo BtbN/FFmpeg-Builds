@@ -30,7 +30,7 @@ ffbuild_dockerbuild() {
         -Denable_tools=false
         -Denable_devtools=false
         -Denable_examples=false
-        -Dbdj_jar=enabled
+        -Dbdj_jar=disabled
         -Dfontconfig=enabled
         -Dfreetype=enabled
         -Dlibxml2=enabled
