@@ -22,6 +22,7 @@ ffbuild_dockerbuild() {
         -Ddefault_library=static
         -Dfft=fftw
         -Dresampler=libsamplerate
+        -Djni=disabled
     )
 
     if [[ $TARGET == win* || $TARGET == linux* ]]; then
