@@ -35,7 +35,7 @@ ffbuild_dockerbuild() {
         -DCURL_ZLIB=ON
         -DCURL_BROTLI=ON
         -DCURL_ZSTD=ON
-        -DCURL_USE_LIBPSL=OFF
+        -DCURL_USE_LIBPSL=ON
         -DCURL_USE_LIBSSH2=OFF
 
         -DUSE_NGHTTP2=ON
