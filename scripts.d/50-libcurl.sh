@@ -10,7 +10,7 @@ ffbuild_depends() {
 }
 
 ffbuild_enabled() {
-    (( $(ffbuild_ffver) <= 801 )) && return -1
+    (( $(ffbuild_ffver) <= 900 )) && return -1
     return 0
 }
 
@@ -68,4 +68,8 @@ ffbuild_dockerbuild() {
     DESTDIR="$FFBUILD_DESTDIR" ninja install
 
     cat "$FFBUILD_DESTPREFIX"/lib/pkgconfig/libcurl.pc
+}
+
+ffbuild_configure() {
+    echo --enable-libcurl
 }
