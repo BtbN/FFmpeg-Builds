@@ -145,6 +145,17 @@ for addin in "${ADDINS[@]}"; do
 )
 done
 
+# Whenever wine is used it would create new prefix in every stage. While deps
+# stages does not end up in final image layers, they still exist in build cache.
+# Use single shared wine prefix to avoid duplicating both work and layers.
+STAGELAYER="$BASELAYER"
+if [[ $TARGET == win32 || $TARGET == win64 ]]; then
+    STAGELAYER="stage-layer"
+    to_df "FROM ${BASELAYER} AS ${STAGELAYER}"
+    # Wait for wineserver to finish writing the registry after wineboot.
+    to_df "RUN wineboot --init && while pgrep -x wineserver >/dev/null; do sleep 1; done"
+fi
+
 ENTRYSCRIPT="$(ls -1d scripts.d/* | tail -n 1)"
 declare -A FILLED_DEPS
 while true; do
@@ -160,7 +171,7 @@ while true; do
             SELF="$SCRIPT"
             source "$SCRIPT"
             ffbuild_enabled || exit $?
-            to_df "FROM ${BASELAYER} AS ${CURDEP}"
+            to_df "FROM ${STAGELAYER} AS ${CURDEP}"
         ) || continue
 
         for SUBDEP in $(get_stagedeps_recursive "${CURDEP}"); do
