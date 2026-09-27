@@ -6,6 +6,8 @@ SCRIPT_COMMIT="4c67658f953751de9e66bb5f9729af821a641341"
 ffbuild_depends() {
     echo base
     echo zlib
+    echo brotli
+    echo zstd
     [[ $TARGET != win* ]] && echo openssl
 }
 
@@ -27,9 +29,10 @@ ffbuild_dockerbuild() {
         -DENABLE_ARES=OFF
         -DENABLE_THREADED_RESOLVER=ON
 
+        -DCURL_USE_PKGCONFIG=ON
         -DCURL_ZLIB=ON
-        # -DCURL_BROTLI=ON
-        # -DCURL_ZSTD=ON
+        -DCURL_BROTLI=ON
+        -DCURL_ZSTD=ON
         -DCURL_USE_LIBPSL=OFF
         -DCURL_USE_LIBSSH2=OFF
 
