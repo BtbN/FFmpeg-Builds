@@ -37,6 +37,7 @@ ffbuild_dockerbuild() {
         -DCURL_ZSTD=ON
         -DCURL_USE_LIBPSL=ON
         -DCURL_USE_LIBSSH2=OFF
+        -DUSE_LIBIDN2=OFF
 
         -DUSE_NGHTTP2=ON
         -DNGHTTP2_USE_STATIC_LIBS=ON
@@ -66,6 +67,7 @@ ffbuild_dockerbuild() {
             -DCURL_CA_NATIVE=ON
             -DCURL_WINDOWS_SSPI=ON
             -DCURL_DISABLE_OPENSSL_AUTO_LOAD_CONFIG=ON
+            -DUSE_WIN32_IDN=ON
         )
     else
         mycmake+=(
