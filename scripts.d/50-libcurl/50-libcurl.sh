@@ -8,7 +8,7 @@ ffbuild_depends() {
     echo zlib
     echo brotli
     echo zstd
-    [[ $TARGET != win* ]] && echo openssl
+    echo openssl
 }
 
 ffbuild_enabled() {
@@ -30,6 +30,8 @@ ffbuild_dockerbuild() {
         -DENABLE_THREADED_RESOLVER=ON
 
         -DCURL_USE_PKGCONFIG=ON
+        -DCURL_USE_OPENSSL=ON
+        -DOPENSSL_USE_STATIC_LIBS=ON
         -DCURL_ZLIB=ON
         -DCURL_BROTLI=ON
         -DCURL_ZSTD=ON
@@ -58,13 +60,12 @@ ffbuild_dockerbuild() {
 
     if [[ $TARGET == win* ]]; then
         mycmake+=(
-            -DCURL_USE_SCHANNEL=ON
-            -DCURL_USE_OPENSSL=OFF
+            -DCURL_CA_NATIVE=ON
+            -DCURL_WINDOWS_SSPI=ON
+            -DCURL_DISABLE_OPENSSL_AUTO_LOAD_CONFIG=ON
         )
     else
         mycmake+=(
-            -DCURL_USE_OPENSSL=ON
-            -DOPENSSL_USE_STATIC_LIBS=ON
             -DCURL_CA_FALLBACK=ON
         )
     fi
