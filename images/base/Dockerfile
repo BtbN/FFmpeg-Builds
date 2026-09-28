@@ -12,7 +12,7 @@ RUN \
         xxd pkgconf curl wget unzip zip git subversion mercurial rsync jq \
         autoconf automake libtool libtool-bin libltdl-dev autopoint gettext cmake ninja-build \
         clang llvm lcov lld qemu-user \
-        texinfo texi2html help2man flex bison groff \
+        texinfo texi2html help2man flex bison groff libxml2-utils \
         gperf itstool ragel libc6-dev zlib1g-dev libssl-dev \
         gtk-doc-tools gobject-introspection gawk \
         ocaml ocaml-findlib ocamlbuild libnum-ocaml-dev indent p7zip-full zstd libarchive-tools \
