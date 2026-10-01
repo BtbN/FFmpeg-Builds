@@ -7,6 +7,7 @@ ffbuild_depends() {
     echo base
     echo vulkan
     echo lcms2
+    echo xxhash
 }
 
 ffbuild_enabled() {
@@ -32,6 +33,7 @@ ffbuild_dockerbuild() {
         -Dshaderc=enabled
         -Dglslang=disabled
         -Dlcms=enabled
+        -Dxxhash=enabled
         -Ddemos=false
         -Dtests=false
         -Dbench=false
