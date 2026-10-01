@@ -12,6 +12,7 @@ ffbuild_depends() {
     echo xz
     echo fonts
     echo lcevcdec
+    echo lcms2
     echo libvorbis
     echo opencl
     echo pulseaudio
