@@ -6,6 +6,7 @@ SCRIPT_COMMIT="b87738951c1254cd8cccaa6d47712ba735da56d8"
 ffbuild_depends() {
     echo base
     echo brotli
+    echo lcms2
 }
 
 ffbuild_enabled() {
