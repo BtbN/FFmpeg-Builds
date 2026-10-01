@@ -67,6 +67,7 @@ ffbuild_depends() {
     echo twolame
     echo uavs3d
     echo vaapi
+    echo vapoursynth
     echo vidstab
     echo vvenc
     echo whisper
