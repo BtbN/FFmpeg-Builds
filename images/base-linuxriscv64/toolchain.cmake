@@ -1,6 +1,6 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR riscv64)
-set(CMAKE_SYSTEM_VERSION 4.18.20)
+set(CMAKE_SYSTEM_VERSION 6.1.183)
 
 set(triple riscv64-ffbuild-linux-gnu)
 

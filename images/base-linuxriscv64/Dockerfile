@@ -12,7 +12,8 @@ RUN --mount=src=ct-ng-config,dst=/.config \
     cd / && \
     rm -rf ct-ng
 
-# Prepare cross environment to heavily favour static builds
+# Prepare cross environment to heavily favour static builds.
+# Keep glibc's empty libdl/librt compatibility archives for -ldl/-lrt.
 RUN \
     find /opt/ct-ng \( -type l \
         -and -name '*.so' \
@@ -25,11 +26,9 @@ RUN \
         -and -not -name 'libpthread.*' \
         \) -delete && \
     find /opt/ct-ng \( \
-        -name 'libdl.a' \
-        -or -name 'libc.a' \
+        -name 'libc.a' \
         -or -name 'libm.a' \
         -or -name 'libmvec.a' \
-        -or -name 'librt.a' \
         \) -delete && \
     mkdir /opt/ffbuild
 
