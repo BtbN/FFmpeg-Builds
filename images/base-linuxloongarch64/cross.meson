@@ -1,0 +1,19 @@
+[binaries]
+c = 'loongarch64-ffbuild-linux-gnu-gcc'
+cpp = 'loongarch64-ffbuild-linux-gnu-g++'
+ld = 'loongarch64-ffbuild-linux-gnu-ld'
+ar = 'loongarch64-ffbuild-linux-gnu-gcc-ar'
+ranlib = 'loongarch64-ffbuild-linux-gnu-gcc-ranlib'
+strip = 'loongarch64-ffbuild-linux-gnu-strip'
+
+[properties]
+needs_exe_wrapper = true
+have_c99_vsnprintf = true
+have_c99_snprintf = true
+have_unix98_printf = true
+
+[host_machine]
+system = 'linux'
+cpu_family = 'loongarch64'
+cpu = 'loongarch64'
+endian = 'little'
