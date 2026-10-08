@@ -138,7 +138,7 @@ jobs:
       fail-fast: false
       matrix:
         runner: [ubuntu-latest]
-        target: [win32,win64,winarm64,linux32,linux64,linuxarm64,linuxppc64,linuxmips64,linuxriscv64]
+        target: [win32,win64,winarm64,linux32,linux64,linuxarm64,linuxppc64,linuxmips64,linuxriscv64,linuxloongarch64]
         include:
           - runner: ubuntu-26.04-arm
             target: linuxarm64
@@ -151,6 +151,9 @@ jobs:
             tag_suffix: -arm
           - runner: ubuntu-26.04-arm
             target: linuxriscv64
+            tag_suffix: -arm
+          - runner: ubuntu-26.04-arm
+            target: linuxloongarch64
             tag_suffix: -arm
     steps:
       - name: Checkout
