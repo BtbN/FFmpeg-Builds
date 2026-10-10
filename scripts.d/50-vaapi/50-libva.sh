@@ -45,12 +45,12 @@ ffbuild_dockerbuild() {
             -Dwith_glx=no
             -Dwith_wayland=no
         )
-    elif [[ $TARGET == linuxarm64 ]]; then
+    elif [[ $TARGET == linuxarm64 || $TARGET == linuxriscv64 ]]; then
         myconf+=(
             --cross-file=/cross.meson
             --default-library=shared
             --sysconfdir="/etc"
-            -Ddriverdir="/usr/lib/aarch64-linux-gnu/dri"
+            -Ddriverdir="/usr/lib/${FFBUILD_TOOLCHAIN/-ffbuild/}/dri"
             -Ddisable_drm=false
             -Dwith_x11=yes
             -Dwith_glx=no

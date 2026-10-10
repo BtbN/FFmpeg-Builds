@@ -61,6 +61,12 @@ ffbuild_dockerbuild() {
             --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
             linux-aarch64
         )
+    elif [[ $TARGET == linuxriscv64 ]]; then
+        myconf+=(
+            --openssldir=/etc/ssl
+            --cross-compile-prefix="$FFBUILD_CROSS_PREFIX"
+            linux64-riscv64
+        )
     else
         echo "Unknown target"
         return -1
