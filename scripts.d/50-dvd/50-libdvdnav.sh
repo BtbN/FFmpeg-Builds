@@ -14,6 +14,11 @@ ffbuild_dockerbuild() {
     sed -i 's/SUPPORT_ATTRIBUTE_VISIBILITY_DEFAULT/SUPPORT_ATTRIBUTE_VISIBILITY_DEFAULT_DISABLED/g' meson.build
     sed -i 's/-DLIBDVDCSS_EXPORTS/-DLIBDVDCSS_EXPORTS_DISABLED/g' src/meson.build
 
+    # Build with the default bitfield layout like libdvdread, or the packed
+    # structs shared through its headers do not match on Windows.
+    # https://code.videolan.org/videolan/libdvdnav/-/merge_requests/64
+    sed -i "/'-mno-ms-bitfields'/d" meson.build
+
     mkdir build && cd build
 
     local myconf=(
