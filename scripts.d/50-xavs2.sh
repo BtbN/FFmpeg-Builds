@@ -18,6 +18,11 @@ ffbuild_dockerdl() {
 ffbuild_dockerbuild() {
     cd build/linux
 
+    if [[ $TARGET == linuxriscv64 ]]; then
+        # The bundled config.sub predates RISC-V.
+        cp /usr/share/misc/config.{guess,sub} .
+    fi
+
     local myconf=(
         --disable-cli
         --enable-static

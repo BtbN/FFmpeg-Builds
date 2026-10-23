@@ -12,6 +12,8 @@ SCRIPT_COMMIT3="833faee5f7b8d3f56444347c587f4aed11ee213f"
 SCRIPT_BRANCH3="sdk/11.1"
 
 ffbuild_enabled() {
+    # FFmpeg's NVIDIA backends do not support the RISC-V architecture.
+    [[ $TARGET == linuxriscv64 ]] && return -1
     [[ $TARGET == winarm64 ]] && (( $(ffbuild_ffver) <= 801 )) && return -1
     (( $(ffbuild_ffver) >= 404 )) || return -1
     return 0
