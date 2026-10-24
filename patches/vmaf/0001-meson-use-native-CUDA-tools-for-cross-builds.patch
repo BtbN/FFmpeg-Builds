@@ -1,0 +1,31 @@
+From 867b7d1d4e33bddf753127c026d2d7f046092415 Mon Sep 17 00:00:00 2001
+From: AssyMatrix <344224662+AssyMatrix@users.noreply.github.com>
+Date: Fri, 23 Oct 2026 14:45:43 +0000
+Subject: [PATCH] meson: use native CUDA tools for cross builds
+
+When cross-compiling, Meson tries to find a CUDA compiler for the
+target system and test it by running a program. That cannot work when
+the target is a different system, such as Windows.
+
+nvcc is only used here to generate GPU code, and bin2c to turn that
+code into C source. Both run on the build machine, so mark them
+native : true and let Meson use the local CUDA tools.
+---
+ libvmaf/src/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libvmaf/src/meson.build b/libvmaf/src/meson.build
+index f9c27280..2b6761c2 100644
+--- a/libvmaf/src/meson.build
++++ b/libvmaf/src/meson.build
+@@ -384,8 +384,8 @@ if is_cuda_enabled
+     ]
+     gencode = []
+     if get_option('enable_nvcc')
+-        cuda_lang = add_languages('cuda', required : true)
+-        cuda_compiler = meson.get_compiler('cuda')
++        cuda_lang = add_languages('cuda', required : true, native : true)
++        cuda_compiler = meson.get_compiler('cuda', native : true)
+         nvcc_exe = find_program('nvcc')
+ 
+         gencode = [
