@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/Haivision/srt.git"
-SCRIPT_COMMIT="ff8ab25c57aece5b7351defe36dacc94fc28527f"
+SCRIPT_COMMIT="9f2390232a8256ed4c72a5418c2b2777c49ad737"
 
 ffbuild_depends() {
     echo base
