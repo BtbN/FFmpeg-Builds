@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/vapoursynth/vapoursynth.git"
-SCRIPT_COMMIT="R80"
+SCRIPT_COMMIT="R81"
 SCRIPT_TAGFILTER="R[0-9][0-9]"
 
 ffbuild_enabled() {

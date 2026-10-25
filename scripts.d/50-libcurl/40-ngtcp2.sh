@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/ngtcp2/ngtcp2.git"
-SCRIPT_COMMIT="a4925d70647b75286b28c37be260de3729c2de3d"
+SCRIPT_COMMIT="20da63db12a3e7fd2a3ae1a9f15be3cadd3f2695"
 
 ffbuild_depends() {
     echo base

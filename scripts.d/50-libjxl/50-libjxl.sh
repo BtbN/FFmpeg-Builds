@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_REPO="https://github.com/libjxl/libjxl.git"
-SCRIPT_COMMIT="b87738951c1254cd8cccaa6d47712ba735da56d8"
+SCRIPT_COMMIT="e47d2a2b5bb418f2947ce07f36cb048861db3820"
 
 ffbuild_depends() {
     echo base
