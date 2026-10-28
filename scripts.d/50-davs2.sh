@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SCRIPT_REPO="https://github.com/pkuvcl/davs2.git"
-SCRIPT_COMMIT="b41cf117452e2d73d827f02d3e30aa20f1c721ac"
+SCRIPT_REPO="https://github.com/saindriches/davs2.git"
+SCRIPT_COMMIT="f50435051b72c168c2b566c544e27fcff71ba61a"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -22,6 +22,7 @@ ffbuild_dockerbuild() {
     local myconf=(
         --disable-cli
         --enable-pic
+        --bit-depth=10
         --prefix="$FFBUILD_PREFIX"
     )
 
@@ -34,10 +35,6 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
-
-    # Work around configure endian check failing on modern gcc/binutils.
-    # Assumes all supported archs are little endian.
-    sed -i -e 's/EGIB/bss/g' -e 's/naidnePF/bss/g' configure
 
     ./configure "${myconf[@]}"
     make -j$(nproc)
