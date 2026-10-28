@@ -18,8 +18,12 @@ RUN \
         ocaml ocaml-findlib ocamlbuild libnum-ocaml-dev indent p7zip-full zstd libarchive-tools \
         default-jdk-headless ant \
         python3-setuptools python3-pip python3-venv python3-jinja2 python3-jsonschema python3-apt python3-dev python-is-python3 && \
-    curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
-    apt-get -y install nodejs && \
+    if [ "$TARGETPLATFORM" = "linux/riscv64" ]; then \
+        curl -fsSL https://unofficial-builds.nodejs.org/install-node.sh | bash -s -- -l 24 -d /usr; \
+    else \
+        curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
+        apt-get -y install nodejs; \
+    fi && \
     apt-get -y autoremove && \
     apt-get -y clean autoclean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -35,7 +39,8 @@ RUN python3 -m pip install --break-system-packages meson
 
 ENV CARGO_HOME="/opt/cargo" RUSTUP_HOME="/opt/rustup" PATH="/opt/cargo/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --no-modify-path && \
-    cargo install cargo-c && rm -rf "${CARGO_HOME}"/registry "${CARGO_HOME}"/git
+    ( [ "$TARGETPLATFORM" = "linux/riscv64" ] || cargo install cargo-c ) && \
+    rm -rf "${CARGO_HOME}"/registry "${CARGO_HOME}"/git
 
 RUN --mount=src=.,dst=/input \
     for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done
