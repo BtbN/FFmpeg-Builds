@@ -28,6 +28,9 @@ ffbuild_dockerbuild() {
         myconf+=(
             --cross-file=/cross.meson
         )
+        if [[ $TARGET == linuxriscv64 ]]; then
+            myconf+=( -Dasm=disabled )
+        fi
     else
         echo "Unknown target"
         return -1

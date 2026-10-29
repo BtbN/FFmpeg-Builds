@@ -25,6 +25,14 @@ ffbuild_dockerbuild() {
     if [[ $TARGET != winarm64 ]]; then
         echo "Libs.private: -lgomp" >> "$FFBUILD_DESTPREFIX"/lib/pkgconfig/soxr.pc
     fi
+
+    if [[ $TARGET == linuxriscv64 ]]; then
+        # The static RISC-V libgomp archive contains versioned OpenMP aliases.
+        # Define their nodes when linking it into FFmpeg's shared libraries.
+        "$NM" -g --defined-only "$("$CC" -print-file-name=libgomp.a)" |
+            sed -n 's/.*@\([^@ ]*\)$/\1/p' | sort -u | sed 's/$/ {};/' \
+            > "$FFBUILD_DESTPREFIX"/lib/libgomp-versions.map
+    fi
 }
 
 ffbuild_configure() {
@@ -37,6 +45,9 @@ ffbuild_unconfigure() {
 
 ffbuild_ldflags() {
     echo -pthread
+    if [[ $TARGET == linuxriscv64 ]]; then
+        echo '-Wl,--exclude-libs,libgomp.a -Wl,--version-script=$FFBUILD_PREFIX/lib/libgomp-versions.map'
+    fi
 }
 
 ffbuild_libs() {

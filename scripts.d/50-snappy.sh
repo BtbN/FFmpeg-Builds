@@ -10,9 +10,15 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     mkdir build && cd build
 
+    local mycmake=()
+    if [[ $TARGET == linuxriscv64 ]]; then
+        # rv64gc does not include vectors; optimized-away probes can misdetect RVV.
+        mycmake+=( -DSNAPPY_RVV_1=OFF -DSNAPPY_RVV_0_7=OFF )
+    fi
+
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF -DSNAPPY_BUILD_TESTS=OFF -DSNAPPY_BUILD_BENCHMARKS=OFF -DSNAPPY_FUZZING_BUILD=OFF \
-        -DSNAPPY_REQUIRE_AVX=OFF -DSNAPPY_REQUIRE_AVX2=OFF ..
+        -DSNAPPY_REQUIRE_AVX=OFF -DSNAPPY_REQUIRE_AVX2=OFF "${mycmake[@]}" ..
     make -j$(nproc)
     make install DESTDIR="$FFBUILD_DESTDIR"
 }
