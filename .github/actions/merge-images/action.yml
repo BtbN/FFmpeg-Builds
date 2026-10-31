@@ -1,0 +1,39 @@
+name: Merge per-arch images
+description: Combine all per-arch images recorded via record-image into multi-arch tags. Expects to already be logged in to the registry.
+inputs:
+  stage:
+    description: Name of the build stage, must match the one passed to record-image
+    required: true
+  tag:
+    description: Tag to create the multi-arch image under
+    default: latest
+outputs:
+  images:
+    description: Space separated list of merged image names, without tag
+    value: ${{ steps.merge.outputs.images }}
+runs:
+  using: composite
+  steps:
+    - name: Download image references
+      uses: actions/download-artifact@v8
+      with:
+        pattern: imgmerge-${{ inputs.stage }}-*
+        path: ${{ runner.temp }}/imgmerge
+    - name: Merge images
+      id: merge
+      shell: bash
+      env:
+        TAG: ${{ inputs.tag }}
+      run: |
+        set -eo pipefail
+        shopt -s nullglob
+        declare -A SRCS
+        for F in "$RUNNER_TEMP"/imgmerge/*/image; do
+          REF="$(<"$F")"
+          SRCS["${REF%:*}"]+=" ${REF}"
+        done
+        for IMG in "${!SRCS[@]}"; do
+          echo "Merging${SRCS[$IMG]} into ${IMG}:${TAG}"
+          docker buildx imagetools create -t "${IMG}:${TAG}" ${SRCS[$IMG]}
+        done
+        echo "images=${!SRCS[*]}" >> $GITHUB_OUTPUT

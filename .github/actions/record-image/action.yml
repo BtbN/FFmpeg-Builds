@@ -1,0 +1,36 @@
+name: Record per-arch image
+description: Record a freshly pushed per-arch image, so merge-images can combine it into a multi-arch tag
+inputs:
+  image:
+    description: Full image name, without tag
+    required: true
+  arch:
+    description: Arch suffix the image was pushed with (<tag>-<arch>)
+    required: true
+  tag:
+    description: Tag the per-arch suffix is appended to
+    default: latest
+  stage:
+    description: Name of the build stage, must match the one passed to merge-images
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Write image reference
+      id: rec
+      shell: bash
+      env:
+        IMG: ${{ inputs.image }}
+        ARCH: ${{ inputs.arch }}
+        TAG: ${{ inputs.tag }}
+      run: |
+        mkdir -p "$RUNNER_TEMP/imgrecord"
+        echo "${IMG}:${TAG}-${ARCH}" > "$RUNNER_TEMP/imgrecord/image"
+        echo "shortname=${IMG##*/}" >> $GITHUB_OUTPUT
+    - name: Upload image reference
+      uses: actions/upload-artifact@v7
+      with:
+        name: imgmerge-${{ inputs.stage }}-${{ steps.rec.outputs.shortname }}-${{ inputs.arch }}
+        overwrite: true
+        retention-days: 1
+        path: ${{ runner.temp }}/imgrecord/image

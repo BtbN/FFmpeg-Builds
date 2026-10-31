@@ -54,10 +54,12 @@ jobs:
       matrix:
         include:
           - runner: ubuntu-latest
-            tag_suffix: ''
+            arch: x86
           - runner: ubuntu-26.04-arm
-            tag_suffix: -arm
+            arch: arm
     runs-on: ${{ matrix.runner }}
+    env:
+      ARCH: ${{ matrix.arch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -79,7 +81,6 @@ jobs:
           IMG="${GITHUB_REPOSITORY,,}/base"
           IMG="${IMG// /-}"
           echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Build target base image
@@ -89,9 +90,15 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest-${{ env.ARCH }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
+      - name: Record image
+        uses: ./.github/actions/record-image
+        with:
+          image: ${{ steps.imagename.outputs.name }}
+          arch: ${{ env.ARCH }}
+          stage: base
       - name: Get download cache key
         if: ${{ !cancelled() && !contains(matrix.runner, 'arm') }}
         id: dl_cache
@@ -119,12 +126,41 @@ jobs:
           name: download-cache
           overwrite: true
           path: .cache/cache.tar.gz
+  merge_base:
+    name: Merge base image
+    needs: build_base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Login to Docker
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Merge images
+        id: merge
+        uses: ./.github/actions/merge-images
+        with:
+          stage: base
+      - name: Package Names
+        id: pkgs
+        env:
+          IMAGES: ${{ steps.merge.outputs.images }}
+        run: |
+          PKGS=()
+          for IMG in $IMAGES; do
+            PKGS+=("${IMG#ghcr.io/*/}")
+          done
+          echo "names=$(IFS=,; echo "${PKGS[*]}")" >> $GITHUB_OUTPUT
       - name: Cleanup
+        if: ${{ steps.pkgs.outputs.names != '' }}
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ github.token }}
-          package_name: ${{ steps.imagename.outputs.rawname }}
+          package_name: ${{ steps.pkgs.outputs.names }}
           repository_owner: ${{ github.repository_owner }}
           repository: ${{ github.repository }}
           owner_type: user
@@ -132,8 +168,10 @@ jobs:
   build_target_bases:
     name: Build target base image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
-    needs: build_base
+    needs: [build_base, merge_base]
     runs-on: ${{ matrix.runner || 'ubuntu-latest' }}
+    env:
+      ARCH: ${{ matrix.arch || 'x86' }}
     strategy:
       fail-fast: false
       matrix:
@@ -142,19 +180,19 @@ jobs:
         include:
           - runner: ubuntu-26.04-arm
             target: linuxarm64
-            tag_suffix: -arm
+            arch: arm
           - runner: ubuntu-26.04-arm
             target: linuxppc64
-            tag_suffix: -arm
+            arch: arm
           - runner: ubuntu-26.04-arm
             target: linuxmips64
-            tag_suffix: -arm
+            arch: arm
           - runner: ubuntu-26.04-arm
             target: linuxriscv64
-            tag_suffix: -arm
+            arch: arm
           - runner: ubuntu-26.04-arm
             target: linuxloongarch64
-            tag_suffix: -arm
+            arch: arm
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -176,7 +214,6 @@ jobs:
           IMG="${GITHUB_REPOSITORY,,}/base-${{ matrix.target }}"
           IMG="${IMG// /-}"
           echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
           echo "gh_repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
@@ -187,18 +224,52 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest-${{ env.ARCH }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
           build-args: |
             GH_REPO=ghcr.io/${{ steps.imagename.outputs.gh_repo }}
-            BASE_TAG_SUFFIX=${{ matrix.tag_suffix || '' }}
+      - name: Record image
+        uses: ./.github/actions/record-image
+        with:
+          image: ${{ steps.imagename.outputs.name }}
+          arch: ${{ env.ARCH }}
+          stage: targetbase
+  merge_target_bases:
+    name: Merge target base images
+    needs: build_target_bases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Login to Docker
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Merge images
+        id: merge
+        uses: ./.github/actions/merge-images
+        with:
+          stage: targetbase
+      - name: Package Names
+        id: pkgs
+        env:
+          IMAGES: ${{ steps.merge.outputs.images }}
+        run: |
+          PKGS=()
+          for IMG in $IMAGES; do
+            PKGS+=("${IMG#ghcr.io/*/}")
+          done
+          echo "names=$(IFS=,; echo "${PKGS[*]}")" >> $GITHUB_OUTPUT
       - name: Cleanup
+        if: ${{ steps.pkgs.outputs.names != '' }}
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ github.token }}
-          package_name: ${{ steps.imagename.outputs.rawname }}
+          package_name: ${{ steps.pkgs.outputs.names }}
           repository_owner: ${{ github.repository_owner }}
           repository: ${{ github.repository }}
           owner_type: user
@@ -206,8 +277,10 @@ jobs:
   build_targets:
     name: Build target-variant image
     if: ${{ github.event.inputs.buildOnly != 'true' }}
-    needs: build_target_bases
+    needs: [build_target_bases, merge_target_bases]
     runs-on: ${{ matrix.runner || 'ubuntu-latest' }}
+    env:
+      ARCH: ${{ matrix.arch || 'x86' }}
     strategy:
       fail-fast: false
       matrix:
@@ -245,7 +318,7 @@ jobs:
           - runner: ubuntu-26.04-arm
             target: linuxarm64
             variant: gpl
-            tag_suffix: -arm
+            arch: arm
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -267,15 +340,14 @@ jobs:
           IMG="${GITHUB_REPOSITORY,,}/${{ matrix.target }}-${{ matrix.variant }}"
           IMG="${IMG// /-}"
           echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
-          echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
       - name: Get download cache key
         id: dl_cache
         run: |
-          echo "dltagname=$(DOCKER_TAG_SUFFIX=${{ matrix.tag_suffix || '' }} ./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
+          echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ github.token }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Generate Dockerfile
-        run: DOCKER_TAG_SUFFIX=${{ matrix.tag_suffix || '' }} ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
+        run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Cache
         uses: actions/cache/restore@v6
         with:
@@ -289,15 +361,50 @@ jobs:
           pull: true
           push: true
           provenance: false
-          tags: ${{ steps.imagename.outputs.name }}:latest${{ matrix.tag_suffix || '' }}
-          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
-          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache${{ matrix.tag_suffix || '' }}
+          tags: ${{ steps.imagename.outputs.name }}:latest-${{ env.ARCH }}
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache-${{ env.ARCH }}
+      - name: Record image
+        uses: ./.github/actions/record-image
+        with:
+          image: ${{ steps.imagename.outputs.name }}
+          arch: ${{ env.ARCH }}
+          stage: variant
+  merge_targets:
+    name: Merge target-variant images
+    needs: build_targets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Login to Docker
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Merge images
+        id: merge
+        uses: ./.github/actions/merge-images
+        with:
+          stage: variant
+      - name: Package Names
+        id: pkgs
+        env:
+          IMAGES: ${{ steps.merge.outputs.images }}
+        run: |
+          PKGS=()
+          for IMG in $IMAGES; do
+            PKGS+=("${IMG#ghcr.io/*/}")
+          done
+          echo "names=$(IFS=,; echo "${PKGS[*]}")" >> $GITHUB_OUTPUT
       - name: Cleanup
+        if: ${{ steps.pkgs.outputs.names != '' }}
         continue-on-error: true
         uses: BtbN/delete-untagged-ghcr-action@main
         with:
           token: ${{ github.token }}
-          package_name: ${{ steps.imagename.outputs.rawname }}
+          package_name: ${{ steps.pkgs.outputs.names }}
           repository_owner: ${{ github.repository_owner }}
           repository: ${{ github.repository }}
           owner_type: user
@@ -305,7 +412,7 @@ jobs:
   build_ffmpeg:
     name: Build ffmpeg
     if: ${{ ( github.event.inputs.buildOnly == 'true' && !cancelled() ) || success() }}
-    needs: build_targets
+    needs: [build_targets, merge_targets]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
