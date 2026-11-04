@@ -30,6 +30,11 @@ ffbuild_dockerbuild() {
         return -1
     fi
 
+    if [[ $TARGET == linuxriscv64 ]]; then
+        # RVV detection requires kernel headers newer than our Linux 6.1 baseline.
+        myconf+=( -Drvv=disabled )
+    fi
+
     meson setup "${myconf[@]}" ..
     ninja -j$(nproc)
     DESTDIR="$FFBUILD_DESTDIR" ninja install
